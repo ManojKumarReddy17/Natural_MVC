@@ -1,0 +1,80 @@
+﻿@model IEnumerable<NatDMS.Models.CategoryViewModel>
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>GetRetailors</title>
+    <link rel="stylesheet" type="text/css" href="~/css/my.css">
+
+    <link rel="shortcut icon" type="image/favicon" href="image/fevicon.png">
+    <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <!-- simple-line icon -->
+
+    <link rel="stylesheet" type="text/css" href="css/simple-line-icons.css">
+    <!-- font-awesome icon -->
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <!-- themify icon -->
+    <link rel="stylesheet" type="text/css" href="css/themify-icons.css">
+    <!-- ion icon -->
+    <link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
+    <!-- owl slider -->
+    <link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" type="text/css" href="css/owl.theme.default.min.css">
+    <!-- swiper -->
+    <link rel="stylesheet" type="text/css" href="css/swiper.min.css">
+    <!-- animation -->
+    <link rel="stylesheet" type="text/css" href="css/animate.css">
+    <!-- style -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/responsive.css">
+    <link rel="stylesheet" type="text/css" href="~/css/my.css">
+   
+</head>
+
+
+<body>
+    <div class="container">
+        <div class="text-center">
+            <h1 class="my-1"><b>Manage Categories</b></h1>
+        </div>
+        <p>
+            <a asp-action="CreateCategory" class="btn btn-primary">CREATE NEW</a>
+        </p>
+        <table class="table table-bordered table-striped custom-table">
+            <thead>
+                <tr>
+                    <th>
+                    @Html.DisplayNameFor(model => model.CategoryName)
+                    </th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.CategoryName)</td>                   
+                        <td><a asp-action="Edit" class="btn btn-warning btn-sm">EDIT</a></td>
+                        <td><a asp-action="Delete" class="btn btn-danger btn-sm">DELETE</a></td>
+                    </tr>
+                    }
+            </tbody>
+            </table>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>

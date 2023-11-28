@@ -1,0 +1,132 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - NatDMS</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <script src="~/Scripts/umd/popper.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/myboot.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/NatDMS.styles.css" asp-append-version="true" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+    <link rel="shortcut icon" type="image/favicon" href="image/fevicon.png">
+    <link rel="stylesheet" type="text/css" href="css/simple-line-icons.css">
+    <!-- font-awesome icon -->
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <!-- themify icon -->
+    <link rel="stylesheet" type="text/css" href="css/themify-icons.css">
+    <!-- ion icon -->
+    <link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
+    <!-- owl slider -->
+    <link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" type="text/css" href="css/owl.theme.default.min.css">
+    <!-- swiper -->
+    <link rel="stylesheet" type="text/css" href="css/swiper.min.css">
+    <!-- animation -->
+    <link rel="stylesheet" type="text/css" href="css/animate.css">
+    <!-- style -->
+    <link rel="stylesheet" type="text/css" href="~/css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/responsive.css">
+    <link rel="stylesheet" type="text/css" href="css/myboot.css">
+
+    
+
+    <!-- Bootstrap CSS -->
+
+</head>
+<body>
+        <nav class="navbar navbar-expand-lg custom-navbar">
+ 
+        <div class="col-2">
+            <a class="navbar-brand">
+                <img src="~/image/logo1.jpg" alt="Logo" class="img-fluid">
+            </a>
+            
+        </div>
+
+        <div class="col-8">
+            <ul class="navbar-nav">
+                <!-- Move the login link to the end -->
+                <li class="nav-item ml-auto">
+                    <b><a class="nav-link text-dark" href="@Url.Action("Login", "Home", new { area = "",})">LOGIN</a></b>
+                </li>
+
+            </ul>
+        </div>
+        <div class="col-2 text-black">
+            @ViewBag.Message
+        </div>
+    </nav>  
+                <div class="container-fluid">
+                    <div class="row">
+                 <div class="col-2 text-dark min-vh-100 d-flex flex-column">
+
+                            <div class="list-group flex-grow-1 ">
+                                <div class="topnav">
+                                    <strong>
+                                        <!-- Sidebar Options -->
+                                       <a href="/Distributor/DisplayDistributors" class="list-group-item text-black">Manage Distributor</a>
+                                       <a href="/Retailor/DisplayRetailors" class="list-group-item text-black">Manage Retailor</a>
+                                       <a href="/Category/DisplayCategories" class="list-group-item text-black">Manage Categories</a>
+                                        <a href="/Test/ManageProducts" class="list-group-item text-black">Manage Products</a>
+                                        <a href="/Test/DailyDSR" class="list-group-item text-black">Daily DSR</a>
+                                        <a href="/Test/Reports" class="list-group-item text-black">Reports</a>
+                                    </strong>
+                                </div>
+
+                                <!-- Add more options as needed -->
+                                @RenderSection("SideBarOptions", false)
+                            </div>
+                        </div>
+
+                        <div class="col-10 min-vh-100">
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>
+
+  
+
+    <section class="footer-copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <ul class="f-bottom">
+                        <li class="f-c f-copyright">
+                            <p>Copyright <i class="fa fa-copyright"></i> 2023 Natural</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <!-- fontawesome -->
+    <script src="~/js/fontawesome.min.js"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/modernizr-2.8.3.min.js"></script>
+    <script src="~/js/jquery-3.6.4.min.js"></script>
+    <!-- bootstrap -->
+    <script src="~/js/bootstrap.min.js"></script>
+    <!-- popper -->
+    <script src="~/js/popper.min.js"></script>
+    <!-- fontawesome -->
+    <script src="~/js/fontawesome.min.js"></script>
+    <!-- owl carousal -->
+    <script src="~/js/owl.carousel.min.js"></script>
+    <!-- swiper -->
+    <script src="~/js/swiper.min.js"></script>
+    <!-- custom -->
+    <script src="~/js/custom.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+

@@ -1,0 +1,118 @@
+﻿@model NatDMS.Models.DistributorViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Create Distributor</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyYqBSgFfPIpsW0E2rmQQYAyw1pqGtJx" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="~/css/my.css">
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="card form-container">
+            <div class="card-body">
+                <h3 class="card-title text-center">Create Distributor</h3>
+                <hr />
+                <form asp-action="CreateDistributor">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <!-- First Name -->
+                    <b>
+                        <div class="form-group">
+                            <label asp-for="FirstName" class="control-label">First Name</label>
+                            <input asp-for="FirstName" class="form-control" alert="Firstname is Requied" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                    </b>
+
+                    <!-- Last Name -->
+                    <b>
+                        <div class="form-group">
+                            <label asp-for="LastName" class="control-label">Last Name</label>
+                            <input asp-for="LastName" class="form-control" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                    </b>
+
+                    <!-- Email -->
+                    <b>
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label">Email</label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </b>
+
+                    <!-- Mobile Number -->
+                    <b>
+                        <div class="form-group">
+                            <label asp-for="MobileNumber" class="control-label">Mobile Number</label>
+                            <input asp-for="MobileNumber" class="form-control" />
+                            <span asp-validation-for="MobileNumber" class="text-danger"></span>
+                        </div>
+                    </b>
+
+                    <!-- Address -->
+                    <b>
+                        <div class="form-group">
+                            <label asp-for="Address" class="control-label">Address</label>
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                    </b>
+                    <!-- State -->
+                    <b>
+                        <div class="form-group">
+                            <label asp-for="State" class="control-label">State</label>
+                            <select asp-for="State" asp-items="ViewBag.States" class="form-control">
+                                <option value="">Select State</option>
+                            </select>
+                            <span asp-validation-for="State" class="text-danger"></span>
+                        </div>
+                    </b>
+
+                    <!-- City -->
+                    <b>
+                        <div class="form-group">
+                            <label asp-for="City" class="control-label">City</label>
+                            <select asp-for="City" asp-items="ViewBag.Cities" class="form-control">
+                                <option value="">Select City</option>
+                            </select>
+                            <span asp-validation-for="City" class="text-danger"></span>
+                        </div>
+                    </b>
+
+                    <!-- Area -->
+                    <b>
+                        <div class="form-group">
+                            <label asp-for="Area" class="control-label">Area</label>
+                            <select asp-for="Area" asp-items="ViewBag.Areas" class="form-control">
+                                <option value="">Select Area</option>
+                            </select>
+                            <span asp-validation-for="Area" class="text-danger"></span>
+                        </div>
+                    </b>
+
+                    <!-- Submit Button -->
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary btn-block" />
+                    </div>
+                </form>
+
+                <!-- Back to List Button -->
+                <div class="text-center">
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and other scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUcXGw+CA9Kd" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+﻿@model NatDMS.Models.LoginViewModel
+
+
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--------------- title ------------------->
+
+    <title>NATURAL MASALA'S - Shopping In Comfort</title>
+    <meta name="description" content="MyHomeStore - Best Online Grocery Shopping." />
+    <meta name="keywords" content="organic food, vegetables, fruits, grocery, shopping, online, store" />
+    <meta name="author" content="MyHomeStore">
+    <!-- favicon -->
+    <link rel="shortcut icon" type="image/favicon" href="image/fevicon.png">
+    <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <!-- simple-line icon -->
+
+    <link rel="stylesheet" type="text/css" href="css/simple-line-icons.css">
+    <!-- font-awesome icon -->
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <!-- themify icon -->
+    <link rel="stylesheet" type="text/css" href="css/themify-icons.css">
+    <!-- ion icon -->
+    <link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
+    <!-- owl slider -->
+    <link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" type="text/css" href="css/owl.theme.default.min.css">
+    <!-- swiper -->
+    <link rel="stylesheet" type="text/css" href="css/swiper.min.css">
+    <!-- animation -->
+    <link rel="stylesheet" type="text/css" href="css/animate.css">
+    <!-- style -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/responsive.css">
+    <link rel="stylesheet" type="text/css" href="~/css/my.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha384-GLhlTQ8iN17U487F1dXoWSfR5/2Ipxi1RMEYz4J8r59b6EGGoI1Wwx4F7KsWSktQ" crossorigin="anonymous">
+
+    <!-- Bootstrap CSS -->
+
+</head>
+
+<body class="home-1 back">
+
+    <!---------------------------------------TOP NOTIFICATION BAR START ------------------------------------->
+    <section class="top1">
+        <div class="container">
+            <div class="row-1">
+                <div class="col">
+                    <ul class="top-home">
+                        <li class="top-home-li">
+                            <!-- currency start -->
+                            <div class="currency">
+                                <span class="currency-head">NATURAL MASALA'S</span>
+                            </div>
+                        </li>
+                        <li class="top-home-li t-content">
+                            <!-- offer text start -->
+                            <div class="top-content">
+                                <p class="top-slogn"><span class="top-c">free shipping</span> orders from all item</p>
+                            </div>
+                            <!-- offer text end -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+     <!------------------------------------------ TOP NOTIFICATION BAR END -------------------------------------->
+    <!-------------------------------------- --------LOGO AREA START---------------------------------------------->
+
+
+    <div class="header-main">
+        <!-- logo start -->
+        <div class="header-element logo img ">
+            <a>
+                <img src="~/image/logo1.jpg" alt="logo-image" class="img-fluid">
+            </a>
+            <!-- logo End -->
+        </div>
+        </div> 
+    
+    <!---------------------------------------------- LOGO AREA END --------------------------------------------------------->
+    <!-----------------------Header Bottom Area------------------------------>
+    <div class="header-bottom-area">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="main-menu-area">
+                        <div class="main-navigation navbar-expand-xl">
+                            <div class="box-header menu-close">
+                                <button class="close-box" type="button"><i class="ion-close-round"></i></button>
+                            </div>
+
+
+     <!-------------------------------------------------- menu start --------------------------------------------------->
+
+                            <div class="navbar-collapse" id="navbarContent">
+                                <div class="megamenu-content">
+                                    <div class="mainwrap">
+                                        <ul class="main-menu">
+                                            <li class="menu-link parent">
+                                                <a href="Test/ManageCategories" class="link-title">
+                                                    <b><span class="sp-link-title">CATEGORIES</span></b>
+                                                </a>
+                                             
+                                            </li>
+                                            <li class="menu-link parent">
+                                                <a href="Test/ManageProducts" class="link-title">
+                                                    <b><span class="sp-link-title">PRODUCTS</span></b>
+                                                </a>
+
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+     <!------------------------------------------menu end-------------------------------------------------------------------->
+   <!----------------------------------------------------------CONTACT NUMBER ICON----------------------------------------------------------------------->
+
+                            <div class="img-hotline">
+                                <div class="image-content">
+                                    <b><span class="hot-l">Contact</span></b>
+                                    <i class="fa fa-phone hot-l"></i>
+                                    <b><span class="text-dark">0123 456 789</span></b>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mm-fullscreen-bg"></div>
+    <!-------------------------------------------------------------FORM START------------------------------------------------>
+
+    <section class="section-tb-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="login-area">
+                        <div class="login-box bg-light">
+                            <strong>
+                                <h1>ADMIN LOGIN</h1>
+                                <p>Please login below account detail</p>
+                                <form asp-action="Login">
+                                    <label>UserName</label>
+                                    <input type="text" name="UserName" placeholder="User Name">
+                                    <label>Password</label>
+                                    <input type="text" name="password" placeholder="Password">
+                                    <button type="submit" class="btn-style1">SIGN IN</button>
+                                    @Html.ValidationSummary(false,"", new { @class = "text-danger" })
+
+                                </form>
+                            </strong>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-------------------------------------------------FORM END--------------------------------------------------->
+    <!-- footer copyright start -->
+
+    <section class="footer-copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <ul class="f-bottom">
+                        <li class="f-c f-copyright">
+                            <p>Copyright <i class="fa fa-copyright"></i> 2023 Natural</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- footer copyright End -->
+
+
+    <script src="~/js/modernizr-2.8.3.min.js"></script>
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+    <!-- bootstrap -->
+    <script src="~/js/bootstrap.min.js"></script>
+    <!-- popper -->
+    <script src="~/js/popper.min.js"></script>
+    <!-- fontawesome -->
+    <script src="~/js/fontawesome.min.js"></script>
+    <!-- owl carousal -->
+    <script src="~/js/owl.carousel.min.js"></script>
+    <!-- swiper -->
+    <script src="~/js/swiper.min.js"></script>
+    <!-- custom -->
+    <script src="~/js/custom.js"></script>
+</body>
+</html>
+
