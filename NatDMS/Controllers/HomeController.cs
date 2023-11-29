@@ -49,7 +49,7 @@ namespace NatDMS.Controllers
 
                   //  Redirect to the distributor page
 
-                    return RedirectToAction("DisplayDistributors", "Distributor");
+                    return RedirectToAction("DisplayDistributors","Distributor");
                 }
 
                 ModelState.AddModelError(string.Empty, "INVALID CREDENTIALS");

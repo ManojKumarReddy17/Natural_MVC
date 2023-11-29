@@ -30,7 +30,6 @@ namespace NatDMS.Controllers
                 retailors = retailors.Where(r => r.FirstName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
-
             
 
             var mapretailor = _mapper.Map<List<RetailorViewModel>>(retailors);

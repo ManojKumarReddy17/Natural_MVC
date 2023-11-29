@@ -23,13 +23,10 @@ builder.Services.AddScoped<ICityService, CityService>();
 builder.Services.AddScoped<IAreaService, AreaService>();
 
 builder.Services.AddAutoMapper(typeof(Program));
-
-
-
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Home/Login"; // Specify your login page URL
+        options.LoginPath = "/Home/Login"; 
     });
 
 
