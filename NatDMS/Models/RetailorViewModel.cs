@@ -21,5 +21,6 @@ namespace NatDMS.Models
         public string City { get; set; }
         [Required]
         public string Area { get; set; }
+
     }
 }
