@@ -18,6 +18,14 @@
         <p>
             <a asp-action="CreateRetailors" class="btn btn-primary">CREATE NEW</a>
         </p>
+
+        <form asp-action="DisplayRetailors" method="get" class="form-inline mb-2">
+            <div class="form-group mr-2">
+                <label for="searchInput" class="sr-only">Search:</label>
+                <input type="text" class="form-control" id="searchInput" name="searchTerm" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-secondary">Search</button>
+        </form>
         <table class="table table-bordered table-striped custom-table">
             <thead>
                 <tr>
@@ -48,6 +56,7 @@
                     <th>Edit</th>
                     <th>Delete</th>
                     <th>Details</th>
+                </tr>
 
                 </tr>
             </thead>
@@ -65,7 +74,8 @@
                         <td>@Html.DisplayFor(modelItem => item.Area)</td>
                         <td><a asp-action="Edit" class="btn btn-warning btn-sm">EDIT</a></td>
                         <td><a asp-action="Delete" class="btn btn-danger btn-sm">DELETE</a></td>
-                        <td><a asp-action="Delete" class="btn btn-success btn-sm">DETAILS</a></td>
+                        <td><a asp-action="Delete" class="btn btn-success btn-sm">DETAILS</a></td
+                        <td><a asp-action="Details" class="btn btn-green btn-sm">DETAILS</a></td>
 
                     </tr>
                 }
