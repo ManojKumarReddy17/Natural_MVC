@@ -1,21 +1,22 @@
-﻿@model NatDMS.Models.SaveDistributorViewModel
+﻿
+@model NatDMS.Models.SaveDistributorViewModel
 
 @{
-    ViewData["Title"] = "CreateDistributor";
+    ViewData["Title"] = "Create Distributor";
 }
 
-<h1>CreateDistributor</h1>
+<h1>Disttributor</h1>
 
-<h4>SaveDistributorViewModel</h4>
+<h4>CreateDistributorResouce</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Disttributor">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @*    <div class="form-group">
-            <label asp-for="Id" class="control-label"></label>
-            <input asp-for="Id" class="form-control" />
-            <span asp-validation-for="Id" class="text-danger"></span>
+         @*    <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
             </div> *@
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
@@ -42,8 +43,12 @@
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
-          
-
+            <div class="form-group">
+                <label asp-for="AreaId" class="control-label"></label>
+                <input asp-for="AreaId" class="form-control" />
+                <span asp-validation-for="AreaId" class="text-danger"></span>
+            </div>
+           
 
             <div class="form-group">
                 @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -51,19 +56,18 @@
                     @Html.DropDownList("name", new SelectList(ViewBag.State, "Id", "StateName"),new { id = "state", onchange = "statechange()" })
                 </div>
             </div>
-            <div class="form-group">
-                <style>
-                    #city option {
-                        color: burlywood; /* Change this to the desired text color */
-                    }
-                </style>
+            <div class="form-group">   <style>
+        #city option {
+            color:burlywood; /* Change this to the desired text color */
+        }
+    </style>
                 @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class=" col-md-10">
-                    <select id="city" onchange="citychange()">
-                        <option value="select"> </option>
+                    <select id="city"onchange="citychange()"> 
+                        <option value = "select"> </option>
                     </select>
                 </div>
-            </div>
+                </div>
 
             <div class="form-group">
                 <label asp-for="Area" class="control-label"></label>
@@ -74,7 +78,17 @@
                 </div>
                 <span asp-validation-for="Area" class="text-danger"></span>
             </div>
-          
+           @*  <div class="form-group">
+                <label asp-for="CityId" class="control-label"></label>
+                <input asp-for="CityId" class="form-control" />
+                <span asp-validation-for="CityId" class="text-danger"></span>
+            </div> *@
+            
+         @*    <div class="form-group">
+                <label asp-for="StateId" class="control-label"></label>
+                <input asp-for="StateId" class="form-control" />
+                <span asp-validation-for="StateId" class="text-danger"></span>
+            </div> *@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -85,7 +99,7 @@
     </div>
 
     <script src="~/js/jquery-3.6.0.min.js"></script>
-
+    
     <script type="text/javascript">
         function statechange() {
             debugger;
@@ -93,13 +107,13 @@
             var stid = $('#state').val();
             if (stid.trim() != '') {
                 var ddlcity = $('#city');
-
+                
 
                 ddlcity.empty();
 
                 $.ajax(
                     {
-                        url: "/Distributor/cityData",
+                        url: "/Master/cityData",
 
                         type: 'GET',
                         dataType: 'json',
@@ -110,8 +124,8 @@
 
                             ddlcity.append($("<option></option>").val('').html('SelectCity'));
                             $.each(d, function (i, cities) {
-
-                                ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
+                               
+                                ddlcity.append($("<option>"+cities.cityName+"</option>").val(cities.id).html(cities.cityName));
 
                             });
                         },
@@ -135,7 +149,7 @@
 
                 $.ajax(
                     {
-                        url: "/Distributor/GetArea",
+                       url: "/Master/GetArea",
 
                         type: 'GET',
                         dataType: 'json',
@@ -159,32 +173,32 @@
 
         }
 
-                // function CustSave() {
-                //     alert("save")
-                //     var customer = new Object();
-                //     customer.StateId = parseInt($('#state').val())
-                //     customer.Nmae = $('#Nmae').val()
-                //     customer.CityId = parseInt($('#city').val())
-                //     customer.Genderid = parseInt($('#Gender').val())
-                //     customer.OrderDetails = $('#OrderName').val()
+        // function CustSave() {
+        //     alert("save")
+        //     var customer = new Object();
+        //     customer.StateId = parseInt($('#state').val())
+        //     customer.Nmae = $('#Nmae').val()
+        //     customer.CityId = parseInt($('#city').val())
+        //     customer.Genderid = parseInt($('#Gender').val())
+        //     customer.OrderDetails = $('#OrderName').val()
 
-                //     $.ajax({
-                //         url: "/view/Create",
-                //         type: 'POST',
-                //         dataType: 'json',
-                //         data: JSON.stringify(customer),
-                //         /* data: { Nmae:Nmae, CityId:, Genderid:, StateId:}*/
-                //         contentType: 'application/json; charset=utf-8',
-                //         success: function () {
-                //             /*alert ("Succesfully Inserted")*/
-                //             window.location.href = '/view/table';
-                //         },
-                //         //error: function () {
-                //         //    alert('Error!');
-                //         //}
-                //     });
+        //     $.ajax({
+        //         url: "/view/Create",
+        //         type: 'POST',
+        //         dataType: 'json',
+        //         data: JSON.stringify(customer),
+        //         /* data: { Nmae:Nmae, CityId:, Genderid:, StateId:}*/
+        //         contentType: 'application/json; charset=utf-8',
+        //         success: function () {
+        //             /*alert ("Succesfully Inserted")*/
+        //             window.location.href = '/view/table';
+        //         },
+        //         //error: function () {
+        //         //    alert('Error!');
+        //         //}
+        //     });
 
-                // }
+        // }
     </script>
 
 </div>
@@ -194,7 +208,5 @@
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
