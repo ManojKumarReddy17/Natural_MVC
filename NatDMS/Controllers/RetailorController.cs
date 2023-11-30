@@ -20,13 +20,23 @@ namespace NatDMS.Controllers
             _mapper = mapper;
             _locationservice = locationService;
         }
-        public async Task<ActionResult<RetailorModel>> DisplayRetailors()
+        [HttpGet]
+        public async Task<ActionResult<RetailorModel>> DisplayRetailors(string searchTerm)
         {
-            var result = await _retailorService.GetRetailors();
-            var mapped = _mapper.Map<List<RetailorModel>, List<RetailorViewModel>>(result);
+            var retailors = await _retailorService.GetRetailors();
 
-            return View(mapped);
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                retailors = retailors.Where(r => r.FirstName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            }
+
+            
+
+            var mapretailor = _mapper.Map<List<RetailorViewModel>>(retailors);
+            return View(mapretailor);
         }
+
 
         public async Task<ActionResult> CreateRetailors()
         {
@@ -60,5 +70,11 @@ namespace NatDMS.Controllers
                 return BadRequest("Validation failed. Errors: " + string.Join(", ", errors));
             }
         }
+        [HttpGet]
+        public IActionResult Search()
+        {
+            return View();
+        }
+
     }
 }

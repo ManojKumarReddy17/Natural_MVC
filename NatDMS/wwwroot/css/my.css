@@ -32,7 +32,7 @@
 /* Custom CSS for DisplayCategories page */
 
 .custom-table {
-    width: 50%%;
+    width: 50%;
     margin-bottom: 1rem;
     color: black;
     border-collapse: collapse;
@@ -66,42 +66,72 @@
 
 /* Custom CSS for CreateCategories page */
 
-
-.card {
+.custom-box {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
     margin-top: 20px;
-    max-width: 400px; /* Adjust the max-width as needed */
-    margin-left: auto;
-    margin-right: auto;
-    background-color: papayawhip;
-}
-
-.card-header {
-    background-color: burlywood; /* Set the background color for the top of the card */
-}
-.about-back{
-    background-color:burlywood;
-
+    background-color: burlywood;
 }
 /* Custom CSS for CreateRetailor page */
-body {
-    background-color: lightgrey; /* Light gray background color */
-}
-.card-title{
 
-    height:50%;
-    background-color:papayawhip;
-}
- .center {
-    text-align: center;
+
+
+.body {
+    background-color: #f8f9fa; /* Set a background color for the body */
 }
 
 
-.form-container {
-    max-width: 300px; /* Adjust as needed */
-    margin: auto;
-    padding: 20px;
-    background-color: wheat; /* Form background color */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 3px;
-    height: 50%;
+
+.label {
+    font-weight: bold;
+    color: black; /* Set a color for the labels */
+    padding: 1px; /* Add padding to the labels */
+    font-size: 16px; /* Set the font size for the labels */
+    line-height: 5px; /* Set the line height to control the height of the label */
+    margin-bottom: 5px; /* Add margin at the bottom to control the height of the label */
 }
+
+.form-control {
+    border: 1px solid burlywood; /* Set a border color for form controls */
+    border-radius: 10px; /* Add border radius */
+    padding: 5px;
+    width: 500px;
+}
+
+
+.btn-container {
+    margin-top: 10px;
+}
+
+/* Custom CSS for CreateDistributor page */
+
+
+
+.body {
+    background-color: #f8f9fa; /* Set a background color for the body */
+}
+
+
+
+.label {
+    font-weight: bold;
+    color: black; /* Set a color for the labels */
+    padding: 1px; /* Add padding to the labels */
+    font-size: 16px; /* Set the font size for the labels */
+    line-height: 5px; /* Set the line height to control the height of the label */
+    margin-bottom: 5px; /* Add margin at the bottom to control the height of the label */
+}
+
+.form-control {
+    border: 1px solid burlywood; /* Set a border color for form controls */
+    border-radius: 10px; /* Add border radius */
+    padding: 5px;
+    width: 500px;
+}
+
+
+.btn-container {
+    margin-top: 10px;
+}
+

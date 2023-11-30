@@ -16,7 +16,6 @@
     <!-- bootstrap -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <!-- simple-line icon -->
-
     <link rel="stylesheet" type="text/css" href="css/simple-line-icons.css">
     <!-- font-awesome icon -->
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
@@ -77,6 +76,7 @@
                 </th>
                 <th> Edit </th>
                 <th> Delete </th>
+                <th>Details</th>
 
             </tr>
         </thead>
@@ -113,14 +113,14 @@
                     </td>
                         <td><a asp-action="Edit" class="btn btn-warning btn-sm">EDIT</a></td>
                         <td><a asp-action="Delete"class="btn btn-danger btn-sm">DELETE</a></td>
+                        <td><a asp-action="Delete" class="btn btn-success btn-sm">DETAILS</a></td>
+
                 </tr>
             }
         </tbody>
     </table>
     </div>
 
-      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+     
 </body>
 </html>
