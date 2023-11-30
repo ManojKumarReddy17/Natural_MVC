@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<NatDMS.Models.DistributorViewModel>
+@using System.Security.Claims
 
 @{
     ViewData["Title"] = "Index";
@@ -9,7 +10,7 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>GetRetailors</title>
+    <title>GetDistributors</title>
     <link rel="stylesheet" type="text/css" href="~/css/my.css">
 
     <link rel="shortcut icon" type="image/favicon" href="image/fevicon.png">
@@ -43,6 +44,8 @@
         <div class="text-center">
             <h1 class="my-1"><b>Manage Distributors</b></h1>
         </div>
+        <div>Welcome, @User.FindFirst(ClaimTypes.Surname)?.Value @User.FindFirst(ClaimTypes.Name)?.Value!</div>
+
         <p>
             <a asp-action="CreateDistributor" class="btn btn-primary">CREATE NEW</a>
         </p>

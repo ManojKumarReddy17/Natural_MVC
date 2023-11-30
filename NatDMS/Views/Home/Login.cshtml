@@ -154,15 +154,19 @@
                             <strong>
                                 <h1>ADMIN LOGIN</h1>
                                 <p>Please login below account detail</p>
-                                <form asp-action="Login">
-                                    <label>UserName</label>
-                                    <input type="text" name="UserName" placeholder="User Name">
-                                    <label>Password</label>
-                                    <input type="text" name="password" placeholder="Password">
-                                    <button type="submit" class="btn-style1">SIGN IN</button>
-                                    @Html.ValidationSummary(false,"", new { @class = "text-danger" })
+                                <form asp-action="Login" method="post">
+                                   
 
+                                    <label>UserName</label>
+                                    <input asp-for="UserName" placeholder="User Name" />
+
+                                    <label>Password</label>
+                                    <input asp-for="Password" type="password" placeholder="Password" />
+
+                                    <button type="submit" class="btn-style1">SIGN IN</button>
+                                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                                 </form>
+
                             </strong>
                         </div>
 
