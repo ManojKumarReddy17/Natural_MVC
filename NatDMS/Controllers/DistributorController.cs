@@ -7,12 +7,9 @@ using Natural.Core.IServices;
 using Natural.Core.Models;
 using PagedList.Mvc;
 using PagedList;
-<<<<<<< HEAD
 using Naturals.Service.Service;
-=======
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
->>>>>>> de27c2f (initial commit)
 
 namespace NatDMS.Controllers
 {
