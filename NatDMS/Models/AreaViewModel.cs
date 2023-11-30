@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 #nullable disable
-namespace Natural.Core.Models
+
+namespace NatDMS.Models
 {
-    public class AreaModel
+    public partial class AreaViewModel
     {
+      
+
         public string Id { get; set; }
         public string AreaName { get; set; }
         public string CityId { get; set; }
 
+      
     }
 }
