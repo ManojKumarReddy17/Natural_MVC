@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NatDMS.Models;
 using Natural.Core.IServices;
@@ -6,6 +7,8 @@ using Natural.Core.Models;
 
 namespace NatDMS.Controllers
 {
+    [Authorize]
+
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;

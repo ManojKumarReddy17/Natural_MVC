@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NatDMS.Models;
@@ -8,6 +9,8 @@ using Naturals.Service.Service;
 
 namespace NatDMS.Controllers
 {
+    [Authorize]
+
     public class RetailorController : Controller
     {
         private readonly IMapper _mapper;

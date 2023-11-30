@@ -13,8 +13,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace NatDMS.Controllers
 {
-
-   
     public class DistributorController : Controller
     {
 
@@ -37,6 +35,7 @@ namespace NatDMS.Controllers
         }
 
         [HttpGet]
+
         public async Task<ActionResult<DistributorModel>> DisplayDistributors()
         {
             var result = await _distributorservice.GetDistributors();

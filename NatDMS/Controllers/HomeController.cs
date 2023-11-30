@@ -23,12 +23,12 @@ namespace NatDMS.Controllers
 
 
         [HttpGet]
-        public IActionResult Login()
+        public ActionResult Login()
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<ActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {

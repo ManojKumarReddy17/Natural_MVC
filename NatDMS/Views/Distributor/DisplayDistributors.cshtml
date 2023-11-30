@@ -44,7 +44,7 @@
         <div class="text-center">
             <h1 class="my-1"><b>Manage Distributors</b></h1>
         </div>
-        <div>Welcome, @User.FindFirst(ClaimTypes.Surname)?.Value @User.FindFirst(ClaimTypes.Name)?.Value!</div>
+        <div>Hello, @User.FindFirst(ClaimTypes.Surname)?.Value @User.FindFirst(ClaimTypes.Name)?.Value!</div>
 
         <p>
             <a asp-action="CreateDistributor" class="btn btn-primary">CREATE NEW</a>
