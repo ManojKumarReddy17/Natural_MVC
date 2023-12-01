@@ -1,104 +1,220 @@
-﻿@model NatDMS.Models.RetailorViewModel
+﻿@model NatDMS.Models.SaveRetailorViewModel
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Create Retailors</title>
+@{
+    ViewData["Title"] = "CreateRetailors";
+}
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyYqBSgFfPIpsW0E2rmQQYAyw1pqGtJx" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="~/css/my.css">
+<h4>CreateRetailors</h4>
 
-   
-</head>
-<body>
+<hr/>
+<div class="row">
+    <div class="col-md-4">
 
-    <div class="container">
-        <h3 class="text-left">Create Retailor</h3>
-        <hr />
-
-        <form asp-action="CreateRetailors">
+            <form asp-action="CreateRetailors" onsubmit="event.preventDefault();submitForm();">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <td>
+            <div class="form-group">
                 <b>
-                <label asp-for="FirstName" class="control-label">First Name</label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
                 </b>
-            </td>
-            <td>
+            </div>
+
+            <div class="form-group">
                 <b>
-                <label asp-for="LastName" class="control-label">Last Name</label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
                 </b>
-            </td>
-            <tr>
-                <td>
-                    <b>
-                    <label asp-for="Email" class="control-label">Email</label>
+            </div>
+            <div class="form-group">
+                <b>
+                    <label asp-for="Email" class="control-label"></label>
                     <input asp-for="Email" class="form-control" />
                     <span asp-validation-for="Email" class="text-danger"></span>
-                    </b>
-                </td>
+                </b>
+            </div>
+            <div class="form-group">
+                <b>
+                    <label asp-for="MobileNumber" class="control-label"></label>
+                    <input asp-for="MobileNumber" class="form-control" />
+                </b>
+                <span asp-validation-for="MobileNumber" class="text-danger"></span>
+            </div>
 
-                <td>
-                    <b>
-                    <label asp-for="MobileNumber" class="control-label">Mobile Number</label>
-                    <input asp-for="MobileNumber" class="form-control"/>
-                    <span asp-validation-for="MobileNumber"class="text-danger"></span>
-                    </b>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <b>
-                    <label asp-for="Address" class="control-label">Address</label>
+            <div class="form-group">
+                <b>
+                    <label asp-for="Address" class="control-label"></label>
                     <input asp-for="Address" class="form-control" />
                     <span asp-validation-for="Address" class="text-danger"></span>
-                    </b>
-                </td>
-                <td>
-                    <b>
-                    <label asp-for="State" class="control-label">State</label>
-                    <select asp-for="State" asp-items="ViewBag.States" class="form-control" onchange="loadCities()">
-                        <option value="">Select State</option>
-                    </select>
-                    <span asp-validation-for="State" class="text-danger"></span>
-                    </b>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <b>
-                    <label asp-for="City" class="control-label">City</label>
-                    <select asp-for="City" asp-items="ViewBag.Cities" class="form-control">
-                        <option value="">Select City</option>
-                    </select>
-                    <span asp-validation-for="City" class="text-danger"></span>
-                    </b>
-                </td>
-                <td>
-                    <b>
-                    <label asp-for="Area" class="control-label">Area</label>
-                    <select asp-for="Area" asp-items="ViewBag.Areas" class="form-control">
-                        <option value="">Select Area</option>
-                    </select>
-                    <span asp-validation-for="Area" class="text-danger"></span>
-                    </b>
-                </td>
-            </tr>
-
-            <div class="btn-container">
-                <input type="submit" value="Create" class="btn btn-primary btn-block" />
+                </b>
             </div>
+
+
+
+            <div class="form-group">
+                <b>
+                    @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("name", new SelectList(ViewBag.State, "Id", "StateName"),new { id = "state", onchange = "statechange()" })
+                    </div>
+                </b>
+            </div>
+            <div class="form-group">
+                <b>
+                    <style>
+                        #city option {
+                            color: burlywood; /* Change this to the desired text color */
+                        }
+                    </style>
+                    @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+                </b>
+                <div class=" col-md-10">
+                    <select id="city" onchange="citychange()">
+                        <option value="select"> </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <b>
+                    <label asp-for="Area" class="control-label"></label>
+                    <div class="col-md-10">
+                        <select id="area">
+                            <option value="select"> </option>
+                        </select>
+                    </div>
+                    <span asp-validation-for="Area" class="text-danger"></span>
+                </b>
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+
+
         </form>
+
     </div>
 
-    <!-- Bootstrap JS and other scripts -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUcXGw+CA9Kd" crossorigin="anonymous"></script>
-</body>
-</html>
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+
+    <script type="text/javascript">
+        function statechange() {
+            debugger;
+            alert("hello")
+            var stid = $('#state').val();
+            if (stid.trim() != '') {
+                var ddlcity = $('#city');
+                ddlcity.empty();
+
+                $.ajax(
+                    {
+                        url: "/Retailor/cityData",
+
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { Id: stid },
+
+                        success: function (d) {
+                            alert("Success")
+
+                            ddlcity.append($("<option></option>").val('').html('SelectCity'));
+                            $.each(d, function (i, cities) {
+
+                                ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
+
+                            });
+                        },
+                        error: function () {
+                            alert('Error!');
+                        }
+                    });
+            }
+
+        }
+
+        function citychange() {
+            debugger;
+            alert("hello")
+            var stid = $('#city').val();
+            if (stid.trim() != '') {
+                var ddlarea = $('#area');
+                ddlarea.empty();
+
+                $.ajax(
+                    {
+                        url: "/Retailor/GetArea",
+
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { Id: stid },
+
+                        success: function (d) {
+                            alert("Success")
+
+                            ddlarea.append($("<option></option>").val('').html('SelectArea'));
+                            $.each(d, function (i, areas) {
+
+                                ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
+
+                            });
+                        },
+                        error: function () {
+                            alert('Error!');
+                        }
+                    });
+            }
+
+        }
+            function submitForm() {
+                var stateId = $('#state').val();
+                var cityId = $('#city').val();
+                var areaId = $('#area').val();
+
+                var formData = {
+                    FirstName: $('#FirstName').val(),
+                    LastName: $('#LastName').val(),
+                    Email: $('#Email').val(),
+                    MobileNumber: $('#MobileNumber').val(),
+                   Address: $('#Address').val(),
+
+
+                    StateId: stateId,
+                    CityId: cityId,
+                    AreaId: areaId
+                };
+
+            $.ajax({
+                url: "/Retailor/CreateRetailors",
+                type: 'POST',
+                data:{
+                    retailor: formData,
+                    stateId: stateId,
+                    cityId: cityId,
+                    areaId: areaId
+                },
+                success: function (data) {
+                    alert("Form submitted successfully");
+                    // Optionally, redirect or perform additional actions
+                },
+                error: function () {
+                    alert('Error submitting form!');
+                }
+            });
+        }
+    </script>
+
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

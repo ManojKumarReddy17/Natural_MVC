@@ -10,16 +10,42 @@ namespace NatDMS.Controllers
 {
     public class RetailorController : Controller
     {
-        private readonly IMapper _mapper;
+
+        private readonly IRetailorService _retailorservice;
         private readonly ILocationService _locationservice;
+
+        private readonly IStateService _IStateService;
+        private readonly ICityService _ICityService;
+        private readonly IAreaService _IAreaService;
+
+        private readonly IMapper _mapper;
+        public RetailorController(IRetailorService retailorservice, IMapper mapper, ILocationService locationService, IStateService IStateService, ICityService ICityService, IAreaService IAreaService)
+
         private readonly IRetailorService _retailorService;
         private readonly IDistributorService _distributorService;
 
         public RetailorController(IRetailorService retailorService, IMapper mapper, ILocationService locationService, IDistributorService distributorService)
         {
-            _retailorService = retailorService;
-            _mapper = mapper;
+            _retailorservice = retailorservice;
+            _IStateService = IStateService;
+            _ICityService = ICityService;
+            _IAreaService = IAreaService;
             _locationservice = locationService;
+
+            _mapper = mapper;
+        }
+
+
+        public async Task<ActionResult<RetailorModel>> DisplayRetailors()
+        {
+            var result = await _retailorservice.GetRetailors();
+            var mapped = _mapper.Map<List<RetailorModel>, List<RetailorViewModel>>(result);
+
+            return View(mapped);
+        }
+
+
+
             _distributorService = distributorService;
         }
 
@@ -48,8 +74,11 @@ namespace NatDMS.Controllers
                 retailors = retailors.Where(r => r.Area.Equals(selectedArea, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
-            var mapretailor = _mapper.Map<List<RetailorViewModel>>(retailors);
-            return View(mapretailor);
+
+        public async Task<IActionResult> cityData(string Id)
+        {
+            var result = await _ICityService.GetCity(Id);
+            return Json(result);
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<RetailorViewModel>> GetRetailorById(string id)
@@ -59,38 +88,46 @@ namespace NatDMS.Controllers
             return Ok(mapretailor);
         }
 
+        public async Task<JsonResult> GetArea(string Id)
+        {
+            var result = await _IAreaService.GetArea(Id);
+
+            return Json(result);
+        }
+
+
 
         public async Task<ActionResult> CreateRetailors()
         {
-            var states = await _locationservice.GetStates();
-            var cities = await _locationservice.GetCities();
-            var areas = await _locationservice.GetAreas();
-
-            ViewBag.States = new SelectList(states, "Id", "StateName");
-            ViewBag.Cities = new SelectList(cities, "Id", "CityName");
-            ViewBag.Areas = new SelectList(areas, "Id", "AreaName");
-
+            var result = await _IStateService.GetState();
+            var distributo = _mapper.Map<List<StateModel>, List<StateViewModel>>(result);
+            ViewBag.State = distributo;
             return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateRetailors(RetailorViewModel retailorViewModel)
+        public async Task<IActionResult> CreateRetailors(SaveRetailorViewModel retailor)
         {
             if (ModelState.IsValid)
             {
-                var retailors = _mapper.Map<RetailorViewModel, RetailorModel>(retailorViewModel);
-                retailors.State = Request.Form["StateId"];
-                retailors.City = Request.Form["CityId"];
-                retailors.Area = Request.Form["AreaId"];
+                var createretailor = _mapper.Map<SaveRetailorViewModel, RetailorModel>(retailor);
 
-                var createretailor = await _retailorService.CreateRetailors(retailors);
-                return Ok("INSERTED SUCCESSFULLY");
+                createretailor.City = Request.Form["CityId"];
+                createretailor.State = Request.Form["StateId"];
+                createretailor.Area = Request.Form["AreaId"];
+
+                var displayretailor = await _retailorservice.CreateRetailors(createretailor);
+
+                return RedirectToAction("DisplayRetailors", "Retailor");
             }
+
             else
             {
-                var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
-                return BadRequest("Validation failed. Errors: " + string.Join(", ", errors));
+                return View(retailor);
+
             }
+
+
         }
         [HttpGet]
         public IActionResult Search()
@@ -100,5 +137,11 @@ namespace NatDMS.Controllers
        
 
 
+
+
+
+        }
     }
 }
+  
+

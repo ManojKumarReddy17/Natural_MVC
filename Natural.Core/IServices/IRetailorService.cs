@@ -11,6 +11,8 @@ namespace Natural.Core.IServices
     {
         Task<List<RetailorModel>> GetRetailors();
         Task<RetailorModel> CreateRetailors(RetailorModel retailor);
+
+
       Task<RetailorModel> GetRetailorById(string Retailorid);
     }
 }
