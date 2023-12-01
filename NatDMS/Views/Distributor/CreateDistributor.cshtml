@@ -7,16 +7,12 @@
 <h1>CreateDistributor</h1>
 
 <h4>SaveDistributorViewModel</h4>
-<hr />
+<hr/>
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Disttributor">
+        <form asp-action="CreateDistributor" onsubmit="event.preventDefault(); submitForm();">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @*    <div class="form-group">
-            <label asp-for="Id" class="control-label"></label>
-            <input asp-for="Id" class="form-control" />
-            <span asp-validation-for="Id" class="text-danger"></span>
-            </div> *@
+
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
@@ -42,7 +38,7 @@
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
-          
+
 
 
             <div class="form-group">
@@ -74,7 +70,7 @@
                 </div>
                 <span asp-validation-for="Area" class="text-danger"></span>
             </div>
-          
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -93,8 +89,6 @@
             var stid = $('#state').val();
             if (stid.trim() != '') {
                 var ddlcity = $('#city');
-
-
                 ddlcity.empty();
 
                 $.ajax(
@@ -129,8 +123,6 @@
             var stid = $('#city').val();
             if (stid.trim() != '') {
                 var ddlarea = $('#area');
-
-
                 ddlarea.empty();
 
                 $.ajax(
@@ -158,33 +150,42 @@
             }
 
         }
+        function submitForm() {
+            var stateId = $('#state').val();
+            var cityId = $('#city').val();
+            var areaId = $('#area').val();
 
-                // function CustSave() {
-                //     alert("save")
-                //     var customer = new Object();
-                //     customer.StateId = parseInt($('#state').val())
-                //     customer.Nmae = $('#Nmae').val()
-                //     customer.CityId = parseInt($('#city').val())
-                //     customer.Genderid = parseInt($('#Gender').val())
-                //     customer.OrderDetails = $('#OrderName').val()
+            var formData = {
+                FirstName: $('#FirstName').val(),
+                LastName: $('#LastName').val(),
+                Email: $('#Email').val(),
+                MobileNumber: $('#MobileNumber').val(),
+                Address: $('#Address').val(),
 
-                //     $.ajax({
-                //         url: "/view/Create",
-                //         type: 'POST',
-                //         dataType: 'json',
-                //         data: JSON.stringify(customer),
-                //         /* data: { Nmae:Nmae, CityId:, Genderid:, StateId:}*/
-                //         contentType: 'application/json; charset=utf-8',
-                //         success: function () {
-                //             /*alert ("Succesfully Inserted")*/
-                //             window.location.href = '/view/table';
-                //         },
-                //         //error: function () {
-                //         //    alert('Error!');
-                //         //}
-                //     });
 
-                // }
+                StateId: stateId,
+                CityId: cityId,
+                AreaId: areaId
+            };
+
+            $.ajax({
+                url: "/Distributor/CreateDistributor",
+                type: 'POST',
+                data: {
+                    distributorModel: formData,
+                    stateId: stateId,
+                    cityId: cityId,
+                    areaId: areaId
+                },
+                success: function (data) {
+                    alert("Form submitted successfully");
+                    // Optionally, redirect or perform additional actions
+                },
+                error: function () {
+                    alert('Error submitting form!');
+                }
+            });
+        }
     </script>
 
 </div>

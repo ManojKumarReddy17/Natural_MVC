@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<NatDMS.Models.DistributorViewModel>
+
 @using System.Security.Claims
 
 @{
@@ -44,7 +45,7 @@
         <div class="text-center">
             <h1 class="my-1"><b>Manage Distributors</b></h1>
         </div>
-        <div>Hello, @User.FindFirst(ClaimTypes.Surname)?.Value @User.FindFirst(ClaimTypes.Name)?.Value!</div>
+        <div><b>Hello, @User.FindFirst(ClaimTypes.Surname)?.Value @User.FindFirst(ClaimTypes.Name)?.Value!</b></div>
 
         <p>
             <a asp-action="CreateDistributor" class="btn btn-primary">CREATE NEW</a>

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#nullable disable
 
-#nullable disable
 
 namespace NatDMS.Models
 {
@@ -13,7 +11,7 @@ namespace NatDMS.Models
         public string Email { get; set; }
         public string MobileNumber { get; set; }
         public string Address { get; set; }
-      
+
         public string AreaId { get; set; }
 
         public string Area { get; set; }
@@ -25,9 +23,7 @@ namespace NatDMS.Models
 
         public string StateId { get; set; }
 
-            
-        //public DateTime CreateDate { get; set; }
-        //public DateTime ModifiedDate { get; set; }
-       
+
+
     }
 }

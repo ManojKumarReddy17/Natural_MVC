@@ -35,16 +35,13 @@ namespace NatDMS.Controllers
         }
 
         [HttpGet]
-
         public async Task<ActionResult<DistributorModel>> DisplayDistributors()
         {
             var result = await _distributorservice.GetDistributors();
             var mapped = _mapper.Map<List<DistributorModel>,List<DistributorViewModel>>(result);
 
             return View(mapped);
-        }
-
-      
+        }   
 
         public async Task<IActionResult> cityData(string Id)
         {
@@ -59,8 +56,7 @@ namespace NatDMS.Controllers
             return Json(result);
         }
 
-      
-
+     
         public async Task<ActionResult> CreateDistributor()
         {
             var result = await _IStateService.GetState();
@@ -71,13 +67,20 @@ namespace NatDMS.Controllers
       
 
         [HttpPost]
-        public async Task<IActionResult> CreateDistributor(DistributorViewModel distributorModel)
+        public async Task<IActionResult> CreateDistributor(SaveDistributorViewModel distributorModel)
         {
+
             if (ModelState.IsValid)
             {
+                var distributor = _mapper.Map<SaveDistributorViewModel, DistributorModel>(distributorModel);
 
-               
+                // Converting city,state and area names into an id's//
 
+                distributor.City = Request.Form["CityId"];
+                distributor.State = Request.Form["StateId"];
+                distributor.Area = Request.Form["AreaId"];
+
+                var Createldistributor = await _distributorservice.CreateDistributor(distributor);
 
                 return RedirectToAction("DisplayDistributors", "Distributor");
             }
