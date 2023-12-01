@@ -10,6 +10,7 @@ namespace Natural.Core.IServices
    public interface IRetailorService
     {
         Task<List<RetailorModel>> GetRetailors();
-        Task<RetailorModel> CreateRetailors(RetailorModel distributor);
+        Task<RetailorModel> CreateRetailors(RetailorModel retailor);
+      Task<RetailorModel> GetRetailorById(string Retailorid);
     }
 }

@@ -13,28 +13,50 @@ namespace NatDMS.Controllers
         private readonly IMapper _mapper;
         private readonly ILocationService _locationservice;
         private readonly IRetailorService _retailorService;
+        private readonly IDistributorService _distributorService;
 
-        public RetailorController(IRetailorService retailorService, IMapper mapper, ILocationService locationService)
+        public RetailorController(IRetailorService retailorService, IMapper mapper, ILocationService locationService, IDistributorService distributorService)
         {
             _retailorService = retailorService;
             _mapper = mapper;
             _locationservice = locationService;
+            _distributorService = distributorService;
         }
+
         [HttpGet]
-        public async Task<ActionResult<RetailorModel>> DisplayRetailors(string searchTerm)
+        public async Task<ActionResult<RetailorModel>> DisplayRetailors(string searchTerm, string selectedState,string selectedCity,string selectedArea)
         {
+            
             var retailors = await _retailorService.GetRetailors();
 
             if (!string.IsNullOrEmpty(searchTerm))
             {
                 retailors = retailors.Where(r => r.FirstName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
-
+            }
+            if (!string.IsNullOrEmpty(selectedState))
+            {
+                retailors = retailors.Where(r => r.State.Equals(selectedState, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
-            
+            if (!string.IsNullOrEmpty(selectedCity))
+            {
+                retailors = retailors.Where(r => r.City.Equals(selectedCity, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(selectedArea))
+            {
+                retailors = retailors.Where(r => r.Area.Equals(selectedArea, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
 
             var mapretailor = _mapper.Map<List<RetailorViewModel>>(retailors);
             return View(mapretailor);
+        }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<RetailorViewModel>> GetRetailorById(string id)
+        {
+            var retailor = await _retailorService.GetRetailorById(id);
+            var mapretailor = _mapper.Map<List<RetailorViewModel>>(retailor);
+            return Ok(mapretailor);
         }
 
 
@@ -75,6 +97,8 @@ namespace NatDMS.Controllers
         {
             return View();
         }
+       
+
 
     }
 }
