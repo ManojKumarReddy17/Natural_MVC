@@ -17,6 +17,7 @@ namespace NatDMS.Models
         public string MobileNumber { get; set; }
         [Required(ErrorMessage = "Address is required")]
         public string Address { get; set; }
+
         public string StateId { get; set; }
         [Required(ErrorMessage = "State is required")]
 
@@ -30,7 +31,11 @@ namespace NatDMS.Models
         public string AreaId { get; set; }
 
         [Required(ErrorMessage = "Area is required")]
+
+        [Required]
         public string Area { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
 
     }
 }

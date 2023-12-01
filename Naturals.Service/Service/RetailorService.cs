@@ -23,10 +23,18 @@ namespace Naturals.Service.Service
             return getretailor;
 
         }
+        
+
         public async Task<RetailorModel> CreateRetailors(RetailorModel retailors)
         {
             var result = await _HttpCleintWrapper.PostAsync<RetailorModel>("/Retailor/", retailors);
             return result;
+        }
+
+        public async Task<RetailorModel> GetRetailorById(string Retailorid)
+        {
+            var getretailorid = await _HttpCleintWrapper.GetByIdAsync<RetailorModel>("/Retailor", Retailorid);
+            return getretailorid;
         }
     }
    
