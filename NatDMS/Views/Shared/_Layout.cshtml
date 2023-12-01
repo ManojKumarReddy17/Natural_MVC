@@ -34,19 +34,19 @@
     <link rel="stylesheet" type="text/css" href="css/responsive.css">
     <link rel="stylesheet" type="text/css" href="css/myboot.css">
 
-    
+
 
     <!-- Bootstrap CSS -->
 
 </head>
 <body>
-        <nav class="navbar navbar-expand-lg custom-navbar">
- 
+    <nav class="navbar navbar-expand-lg custom-navbar">
+
         <div class="col-2">
             <a class="navbar-brand">
                 <img src="~/image/logo1.jpg" alt="Logo" class="img-fluid">
             </a>
-            
+
         </div>
 
         <div class="col-8">
@@ -61,37 +61,36 @@
         <div class="col-2 text-black">
             @ViewBag.Message
         </div>
-    </nav>  
-                <div class="container-fluid">
-                    <div class="row">
-                 <div class="col-2 text-dark min-vh-100 d-flex flex-column">
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2 text-dark min-vh-100 d-flex flex-column">
 
-                            <div class="list-group flex-grow-1 ">
-                                <div class="topnav">
-                                    <strong>
-                                        <!-- Sidebar Options -->
-                                       <a href="/Distributor/DisplayDistributors" class="list-group-item text-black">Manage Distributor</a>
-                                       <a href="/Retailor/DisplayRetailors" class="list-group-item text-black">Manage Retailor</a>
-                                       <a href="/Category/DisplayCategories" class="list-group-item text-black">Manage Categories</a>
-                                        <a href="/Executive/DisplayExecutive" class="list-group-item text-black">Manage Executive</a>
-                                        <a href="/Test/ManageProducts" class="list-group-item text-black">Manage Products</a>
-                                        <a href="/Test/DailyDSR" class="list-group-item text-black">Daily DSR</a>
-                                        <a href="/Test/Reports" class="list-group-item text-black">Reports</a>
-                                    </strong>
-                                </div>
-
-                                <!-- Add more options as needed -->
-                                @RenderSection("SideBarOptions", false)
-                            </div>
-                        </div>
-
-                        <div class="col-10 min-vh-100">
-                            @RenderBody()
-                        </div>
+                <div class="list-group flex-grow-1 ">
+                    <div class="topnav">
+                        <strong>
+                            <!-- Sidebar Options -->
+                            <a href="/Distributor/DisplayDistributors" class="list-group-item text-black">Manage Distributor</a>
+                            <a href="/Retailor/DisplayRetailors" class="list-group-item text-black">Manage Retailor</a>
+                            <a href="/Category/DisplayCategories" class="list-group-item text-black">Manage Categories</a>
+                            <a href="/Test/ManageProducts" class="list-group-item text-black">Manage Products</a>
+                            <a href="/Test/DailyDSR" class="list-group-item text-black">Daily DSR</a>
+                            <a href="/Test/Reports" class="list-group-item text-black">Reports</a>
+                        </strong>
                     </div>
-                </div>
 
-  
+                    <!-- Add more options as needed -->
+                    @RenderSection("SideBarOptions", false)
+                </div>
+            </div>
+
+            <div class="col-10 min-vh-100">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+
 
     <section class="footer-copyright">
         <div class="container">

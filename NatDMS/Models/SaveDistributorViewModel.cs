@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace NatDMS.Models
 {
-    public partial class SaveDistributorViewModel
+    public  class SaveDistributorViewModel
     {
         public string Id { get; set; }
         public string FirstName { get; set; }

@@ -27,6 +27,7 @@ namespace NatDMS.Mapping
             CreateMap<ExecutiveModel, ExecutiveViewModel>();
             CreateMap<ExecutiveModel, SaveExecutiveViewModel>();
 
+            CreateMap<DistributorModel , SaveDistributorViewModel>();
 
 
 

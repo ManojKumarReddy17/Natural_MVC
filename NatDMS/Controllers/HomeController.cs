@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using NatDMS.Models;
 using Natural.Core.IServices;
 using Natural.Core.Models;
+using System.Security.Claims;
 
 namespace NatDMS.Controllers
 {
@@ -20,34 +23,39 @@ namespace NatDMS.Controllers
 
 
         [HttpGet]
-        public IActionResult Login()
+        public ActionResult Login()
         {
             return View();
         }
-
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<ActionResult> Login(LoginViewModel model)
         {
-            var Create = _mapper.Map<LoginViewModel, LoginModel>(model);
-
             if (ModelState.IsValid)
             {
-                var contents = await _ILoginService.LoginAsync(Create);
+                var create = _mapper.Map<LoginViewModel, LoginModel>(model);
+                var contents = await _ILoginService.LoginAsync(create);
 
                 if (contents.FirstName != null && contents.LastName != null)
                 {
-                   
-                 return RedirectToAction("DisplayExecutive", "Executive", contents);
+                    var claims = new List<Claim>
+                 {
+                new Claim(ClaimTypes.Surname, contents.FirstName),
+                new Claim(ClaimTypes.Name, contents.LastName)
+                };
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(identity);
 
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+                    //  Redirect to the distributor page
+
+                    return RedirectToAction("DisplayDistributors", "Distributor");
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "INVALID CREDENTIALS");
-                    return View(model);
-                }
+
+                ModelState.AddModelError(string.Empty, "INVALID CREDENTIALS");
             }
-            return View();
-        }
 
+            return View(model);
+        }
     }
 }

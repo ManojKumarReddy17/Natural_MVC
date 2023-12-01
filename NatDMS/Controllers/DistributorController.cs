@@ -8,6 +8,8 @@ using Natural.Core.Models;
 using PagedList.Mvc;
 using PagedList;
 using Naturals.Service.Service;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 #nullable disable
 
 namespace NatDMS.Controllers
@@ -31,7 +33,7 @@ namespace NatDMS.Controllers
             _mapper = mapper;
         }
 
-
+        [HttpGet]
         public async Task<ActionResult<DistributorModel>> DisplayDistributors()
         {
             var result = await _distributorservice.GetDistributors();
@@ -63,11 +65,11 @@ namespace NatDMS.Controllers
         public async Task<ActionResult> CreateDistributor()
         {
             var result = await _IStateService.GetState();
-            var distributo = _mapper.Map<List<StateModel>, List<StateViewModel>>(result);
-            ViewBag.State = distributo;
+            var distributor = _mapper.Map<List<StateModel>, List<StateViewModel>>(result);
+            ViewBag.State = distributor;
             return View();
         }
-      
+
 
 
         public async Task<ActionResult<EditViewModel>> Edit(string id)

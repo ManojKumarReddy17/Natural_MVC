@@ -17,11 +17,9 @@ namespace NatDMS.Models
         public string StateId { get; set; }
 
         public string State { get; set; }
-        [Required]
         public string CityId { get; set; }
 
         public string City { get; set; }
-        [Required]
         public string AreaId { get; set; }
 
 

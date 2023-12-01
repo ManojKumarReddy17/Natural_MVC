@@ -13,66 +13,48 @@
 {
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Disttributor">
+        <form asp-action="CreateDistributor" onsubmit="event.preventDefault(); submitForm();">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-           
+
             <div class="form-group">
-                <b>
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" id="FirstName" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
-                </b>
             </div>
-
             <div class="form-group">
-                <b>
                 <label asp-for="LastName" class="control-label"></label>
                 <input asp-for="LastName" class="form-control" id="LastName" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
-                </b>
             </div>
             <div class="form-group">
-                <b>
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
-                </b>
             </div>
             <div class="form-group">
-                <b>
                 <label asp-for="MobileNumber" class="control-label"></label>
                 <input asp-for="MobileNumber" class="form-control" />
-                </b>
                 <span asp-validation-for="MobileNumber" class="text-danger"></span>
             </div>
-
             <div class="form-group">
-                <b>
                 <label asp-for="Address" class="control-label"></label>
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
-                </b>
             </div>
-          
-
 
             <div class="form-group">
-                <b>
                 @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownList("name", new SelectList(ViewBag.State, "Id", "StateName"),new { id = "state", onchange = "statechange()" })
                 </div>
-                </b>
             </div>
             <div class="form-group">
-                <b>
                 <style>
                     #city option {
                         color: burlywood; /* Change this to the desired text color */
                     }
                 </style>
                 @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
-                </b>
                 <div class=" col-md-10">
                     <select id="city" onchange="citychange()">
                         <option value="select"> </option>
@@ -81,7 +63,6 @@
             </div>
 
             <div class="form-group">
-                <b>
                 <label asp-for="Area" class="control-label"></label>
                 <div class="col-md-10">
                     <select id="area">
@@ -89,9 +70,8 @@
                     </select>
                 </div>
                 <span asp-validation-for="Area" class="text-danger"></span>
-                </b>
             </div>
-          
+
             <div class="form-group">
                 <input type="button" value="Create" class="btn btn-primary" onclick="CustSave()" />
             </div>
@@ -110,8 +90,6 @@
             var stid = $('#state').val();
             if (stid.trim() != '') {
                 var ddlcity = $('#city');
-
-
                 ddlcity.empty();
 
                 $.ajax(
@@ -146,8 +124,6 @@
             var stid = $('#city').val();
             if (stid.trim() != '') {
                 var ddlarea = $('#area');
-
-
                 ddlarea.empty();
 
                 $.ajax(
@@ -175,41 +151,39 @@
             }
 
         }
-      function CustSave() {
-                    alert("save")
-          // var Distributor = {
-          //     State : $('#state').val(),
-          //  FirstName : $('#FirstName').val(),
-          //   City : $('#city').val(),
-          //   Area :$('#area').val(),
-          //          LastName  : $('#LastName').val()
-          // };
+        function submitForm() {
+            var stateId = $('#state').val();
+            var cityId = $('#city').val();
+            var areaId = $('#area').val();
 
-          var Distributor = new object();
-            Distributor.FirstName = $('#FirstName').val()
-            Distributor.LastName = $('#LastName').val()
-            Distributor.Area = $('#area').val()
-            Distributor.State = $('#state').val()
-            Distributor.City = $('#city').val()
+            var formData = {
+                FirstName: $('#FirstName').val(),
+                LastName: $('#LastName').val(),
+                Email: $('#Email').val(),
+                MobileNumber: $('#MobileNumber').val(),
+                Address: $('#Address').val(),
+                StateId: stateId,
+                CityId: cityId,
+                AreaId: areaId
+            };
 
-                    $.ajax({
-                url: "/Distributor/result",
-                        type: 'POST',
-                        dataType: 'json',
-                data: JSON.stringify(Distributor),
-                // data: { data: Distributor },
-                       
-                        contentType: 'application/json; charset=utf-8',
-                        success: function () {
-
-                    window.location.href = '/Distributor/DisplayDistributors';
-                        },
-                        error: function () {
-                           alert('Error!');
-                        }
-                    });
-
+            $.ajax({
+                url: "/Distributor/CreateDistributor",
+                type: 'POST',
+                data: {
+                    distributorModel:formData,
+                    stateId: stateId,
+                    cityId: cityId,
+                    areaId: areaId
+                },
+                success: function (data) {
+                    alert("Form submitted successfully");
+                },
+                error: function () {
+                    alert('Error submitting form!');
                 }
+            });
+        }
     </script>
 
 </div>

@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<NatDMS.Models.DistributorViewModel>
+@using System.Security.Claims
 
 @{
     ViewData["Title"] = "Index";
@@ -16,7 +17,7 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>GetRetailors</title>
+    <title>GetDistributors</title>
     <link rel="stylesheet" type="text/css" href="~/css/my.css">
 
     <link rel="shortcut icon" type="image/favicon" href="image/fevicon.png">
@@ -50,6 +51,8 @@
         <div class="text-center">
             <h1 class="my-1"><b>Manage Distributors</b></h1>
         </div>
+@*         <div>Hello, @User.FindFirst(ClaimTypes.Surname)?.Value @User.FindFirst(ClaimTypes.Name)?.Value!</div>
+ *@
         <p>
             <a asp-action="CreateDistributor" class="btn btn-primary">CREATE NEW</a>
         </p>
@@ -94,42 +97,40 @@
                 {
                     <tr>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LastName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MobileNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Address)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.State)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.City)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.State)
-                    </td>
-                        @*<td><a asp-action="Edit" class="btn btn-warning btn-sm" id="@(item.Id.ToString())">EDIT</a></td>*@
-                        <td> @Html.ActionLink("Edit", "Edit", new { id=item.Id.ToString()})</td>
-                        <td><a asp-action="Delete"class="btn btn-danger btn-sm">DELETE</a></td>
-                        @* <td><a asp-action="Details" class="btn btn-success btn-sm" new { id= item.Id})>DETAILS </a></td> *@
-                        <td> @Html.ActionLink("Details", "Details", new { id=item.Id.ToString()})</td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MobileNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.State)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.City)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.State)
+                        </td>
+                        <td><a asp-action="Edit" class="btn btn-warning btn-sm">EDIT</a></td>
+                        <td><a asp-action="Delete" class="btn btn-danger btn-sm">DELETE</a></td>
+                        <td><a asp-action="Delete" class="btn btn-success btn-sm">DETAILS</a></td>
 
-                </tr>
-            }
-        </tbody>
-    </table>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 
-     
+
 </body>
 </html>
