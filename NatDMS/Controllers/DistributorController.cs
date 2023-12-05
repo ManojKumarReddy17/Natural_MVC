@@ -56,7 +56,13 @@ namespace NatDMS.Controllers
             return Json(result);
         }
 
-      
+        public async Task<ActionResult<DistributorViewModel>> DetailsAsync(string id)
+        {
+            var result = await _distributorservice.GetDistributorById(id);
+            var mapped = _mapper.Map<DistributorModel, DistributorViewModel>(result);
+            return View(mapped);
+        }
+
 
         public async Task<ActionResult> CreateDistributor()
         {
@@ -68,22 +74,25 @@ namespace NatDMS.Controllers
       
 
         [HttpPost]
-        public async Task<IActionResult> CreateDistributor(DistributorViewModel distributorModel)
-        {
-            if (ModelState.IsValid)
-            {
+        //public async Task<IActionResult> CreateDistributor(SaveDistributorViewModel data)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
 
                
 
 
-                return RedirectToAction("DisplayDistributors", "Distributor");
-            }
+        //        return RedirectToAction("DisplayDistributors", "Distributor");
+        //    }
 
-            else
-            {
+        //    else
+        //    {
               
-                return View(distributorModel);
-            }
-        }
+        //        return View();
+        //    }
+        //}
+
+        public JsonResult result (SaveDistributorViewModel Distributor)
+        { return Json(Distributor); }
     }
 }

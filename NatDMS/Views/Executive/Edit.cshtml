@@ -1,0 +1,144 @@
+﻿@model NatDMS.Models.EditViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+
+@using (Html.BeginForm())
+{
+ <div class="form-horizontal">
+    <div class="form-group">
+        <label for="FirstName">First Name:</label>
+        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label for="LastName">Last Name:</label>
+        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label for="Email">Email:</label>
+        @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label for="Address">Address:</label>
+        @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label for="MobileNumber">MobileNumber:</label>
+        @Html.TextBoxFor(model => model.MobileNumber, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label for="SelectedState">Select State:</label>
+        @Html.DropDownListFor(model => model.SelectedState, Model.StateList, "-- Select State --", new { @class = "form-control",id = "state", onchange = "statechange()"})
+    </div>
+    <div class="form-group">
+        <label for="SelectedCity">Select City:</label>
+            @Html.DropDownListFor(model => model.SelectedCity, Model.CityList, "-- Select City --", new { @class = "form-control",id="city", onchange="citychange()" })
+    </div>
+
+    <div class="form-group">
+        <label for="SelectedArea">Select Area:</label>
+            @Html.DropDownListFor(model => model.SelectedArea, Model.AreaList, "-- Select Area --", new { @class = "form-control",id="area" })
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+
+        <script src="~/js/jquery-3.6.0.min.js"></script>
+
+        <script type="text/javascript">
+            function statechange() {
+                debugger;
+                alert("hello")
+                var stid = $('#state').val();
+                if (stid.trim() != '') {
+                    var ddlcity = $('#city');
+
+
+                    ddlcity.empty();
+
+                    $.ajax(
+                        {
+                            url: "/Distributor/cityData",
+
+                            type: 'GET',
+                            dataType: 'json',
+                            data: { Id: stid },
+
+                            success: function (d) {
+                                alert("Success")
+
+                                ddlcity.append($("<option></option>").val('').html('SelectCity'));
+                                $.each(d, function (i, cities) {
+
+                                    ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
+
+                                });
+                            },
+                            error: function () {
+                                alert('Error!');
+                            }
+                        });
+                }
+
+            }
+
+            function citychange() {
+                debugger;
+                alert("hello")
+                var stid = $('#city').val();
+                if (stid.trim() != '') {
+                    var ddlarea = $('#area');
+
+
+                    ddlarea.empty();
+
+                    $.ajax(
+                        {
+                            url: "/Distributor/GetArea",
+
+                            type: 'GET',
+                            dataType: 'json',
+                            data: { Id: stid },
+
+                            success: function (d) {
+                                alert("Success")
+
+                                ddlarea.append($("<option></option>").val('').html('SelectArea'));
+                                $.each(d, function (i, areas) {
+
+                                    ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
+
+                                });
+                            },
+                            error: function () {
+                                alert('Error!');
+                            }
+                        });
+                }
+
+            }
+        </script>
+
+
+    </div>
+
+
+}
+
+
+
+
+
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
