@@ -33,16 +33,16 @@
     </div>
     <div class="form-group">
         <label for="SelectedState">Select State:</label>
-        @Html.DropDownListFor(model => model.SelectedState, Model.StateList, "-- Select State --", new { @class = "form-control",id = "state", onchange = "statechange()"})
+        @Html.DropDownListFor(model => model.State, Model.StateList, "-- Select State --", new { @class = "form-control",id = "state", onchange = "statechange()"})
     </div>
     <div class="form-group">
         <label for="SelectedCity">Select City:</label>
-            @Html.DropDownListFor(model => model.SelectedCity, Model.CityList, "-- Select City --", new { @class = "form-control",id="city", onchange="citychange()" })
+            @Html.DropDownListFor(model => model.City, Model.CityList, "-- Select City --", new { @class = "form-control",id="city", onchange="citychange()" })
     </div>
 
     <div class="form-group">
         <label for="SelectedArea">Select Area:</label>
-            @Html.DropDownListFor(model => model.SelectedArea, Model.AreaList, "-- Select Area --", new { @class = "form-control",id="area" })
+            @Html.DropDownListFor(model => model.Area, Model.AreaList, "-- Select Area --", new { @class = "form-control",id="area" })
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 
@@ -88,7 +88,7 @@
 
             function citychange() {
                 debugger;
-                alert("hello")
+                alert("changing city")
                 var stid = $('#city').val();
                 if (stid.trim() != '') {
                     var ddlarea = $('#area');

@@ -87,25 +87,7 @@ namespace NatDMS.Controllers
         public async Task<ActionResult<EditViewModel>> Edit(string id)
         {
 
-            //    var entity = await _executiveService.GetExecutiveById(id);
-            //    var state = _IStateService.GetState();
-
-            //    var model = new EditViewModel
-            //    {
-            //        State = entity.State,
-            //        City = entity.City,
-            //        Area = entity.Area,
-            //        FirstName = entity.FirstName,
-            //        LastName = entity.LastName,
-            //        Email = entity.Email,
-            //        Address = entity.Address,
-
-
-            //    };
-
-            //var result = await   _executiveService.GetExecutiveById(id);
-            //    var mapped = _mapper.Map<ExecutiveModel, ExecutiveViewModel>(result);
-            //    return View(mapped);
+            
             var executive = await _executiveService.GetExecutiveById(id);
             // Get states
             var statesResult = await _IStateService.GetState();
@@ -140,9 +122,9 @@ namespace NatDMS.Controllers
                      Value = area.Id
                 }).AsEnumerable()
             };
-            model.SelectedState = executive.State;// Selected state
-            model.SelectedCity = executive.City; // Selected city, if needed
-            model.SelectedArea = executive.Area;               
+            model.State = executive.State;// Selected state
+            model.City = executive.City; // Selected city, if needed
+            model.Area = executive.Area;               
             return View(model);
         }
 
@@ -153,15 +135,15 @@ namespace NatDMS.Controllers
         {
             try
             {
-                ExecutiveModel model = new ExecutiveModel();
-                //var update = _mapper.Map<EditViewModel,ExecutiveModel>(collection);
-                var update = _mapper.Map(collection, model);
-                update.State = collection.SelectedState;
-                update.City = collection.SelectedCity;
-                update.Area= collection.SelectedArea;
+                //ExecutiveModel model = new ExecutiveModel();
+                var update = _mapper.Map<EditViewModel, ExecutiveModel>(collection);
+                //var update = _mapper.Map(collection, model);
+                //update.State = collection.SelectedState;
+                //update.City = collection.SelectedCity;
+                //update.Area= collection.SelectedArea;
 
                 await _executiveService.UpdateDistributor(id,update);
-                return RedirectToAction(nameof(Edit));
+                return RedirectToAction(nameof(GetState));
             }
             catch
             {
