@@ -133,23 +133,29 @@ namespace NatDMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult<EditViewModel>> Edit(string id, /*IFormCollection*/EditViewModel collection)
         {
-            try
-            {
-                //ExecutiveModel model = new ExecutiveModel();
-                var update = _mapper.Map<EditViewModel, ExecutiveModel>(collection);
-                //var update = _mapper.Map(collection, model);
-                //update.State = collection.SelectedState;
-                //update.City = collection.SelectedCity;
-                //update.Area= collection.SelectedArea;
+            //try
+            //{
+                if (ModelState.IsValid)
+                {
 
-                await _executiveService.UpdateDistributor(id,update);
+
+                    //ExecutiveModel model = new ExecutiveModel();
+                    var update = _mapper.Map<EditViewModel, ExecutiveModel>(collection);
+                    //var update = _mapper.Map(collection, model);`
+                    //update.State = collection.SelectedState;
+                    //update.City = collection.SelectedCity;
+                    //update.Area= collection.SelectedArea;
+
+                    await _executiveService.UpdateDistributor(id, update);
                 return RedirectToAction(nameof(GetState));
+                }
+                else { return View(collection); }
             }
-            catch
-            {
-                return View();
-            }
-        }
+            //catch
+            //{
+            //    return View();
+            //}
+        //}
 
         // GET: HomeController1/Delete/5
         public ActionResult Delete(int id)
