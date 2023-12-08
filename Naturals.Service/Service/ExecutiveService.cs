@@ -21,10 +21,7 @@ namespace Naturals.Service.Service
         {
             string controller = $"/Executive/{Id}";
 
-
             var output = await _httpCleintWrapper.GetAsync<ExecutiveModel>(controller);
-
-
 
             return output;
         }

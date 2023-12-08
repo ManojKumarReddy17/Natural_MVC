@@ -15,20 +15,18 @@ namespace NatDMS.Controllers
     {
 
         private readonly IDistributorService _distributorservice;
-        private readonly ILocationService _locationservice;
+        
         private readonly IStateService _IStateService;
         private readonly ICityService _ICityService;
         private readonly IAreaService _IAreaService;
-
         private readonly IMapper _mapper;
-        public DistributorController(IDistributorService distributorservice, IMapper mapper, ILocationService locationService, IStateService IStateService, ICityService ICityService, IAreaService IAreaService)
+        public DistributorController(IDistributorService distributorservice, IMapper mapper,IStateService IStateService, ICityService ICityService, IAreaService IAreaService)
 
         {
             _distributorservice = distributorservice;
             _IStateService = IStateService;
             _ICityService = ICityService;
             _IAreaService = IAreaService;
-            _locationservice = locationService;
             _mapper = mapper;
         }
 
@@ -74,23 +72,23 @@ namespace NatDMS.Controllers
       
 
         [HttpPost]
-        //public async Task<IActionResult> CreateDistributor(SaveDistributorViewModel data)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-
-               
+        public async Task<IActionResult> CreateDistributor(SaveDistributorViewModel data)
+        {
+            if (ModelState.IsValid)
+            {
 
 
-        //        return RedirectToAction("DisplayDistributors", "Distributor");
-        //    }
 
-        //    else
-        //    {
-              
-        //        return View();
-        //    }
-        //}
+
+                return RedirectToAction("DisplayDistributors", "Distributor");
+            }
+
+            else
+            {
+
+                return View();
+            }
+        }
 
         public JsonResult result (SaveDistributorViewModel Distributor)
         { return Json(Distributor); }

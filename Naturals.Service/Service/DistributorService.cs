@@ -32,11 +32,8 @@ namespace Naturals.Service.Service
         public async Task<DistributorModel> GetDistributorById(string Id)
         {
             string controller = $"/Distributor/{Id}";
-
-            
+      
             var output = await _HttpCleintWrapper.GetAsync<DistributorModel> (controller);
-
-
 
             return output;
 

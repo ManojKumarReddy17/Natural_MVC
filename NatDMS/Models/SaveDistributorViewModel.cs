@@ -26,8 +26,7 @@ namespace NatDMS.Models
         public string StateId { get; set; }
 
             
-        //public DateTime CreateDate { get; set; }
-        //public DateTime ModifiedDate { get; set; }
+        
        
     }
 }

@@ -31,17 +31,9 @@ namespace NatDMS.Controllers
 
             _mapper = mapper;
         }
-        // GET: HomeController1
-        public ActionResult Index()
-        {
-            return View();
-        }
+      
 
-        // GET: HomeController1/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+      
         public async Task<ActionResult> GetState()
         {
             var result = await _IStateService.GetState();
@@ -49,11 +41,7 @@ namespace NatDMS.Controllers
            
             return View(distributo);
         }
-            // GET: HomeController1/Create
-            public ActionResult Create()
-        {
-            return View();
-        }
+       
 
         public async Task<IActionResult> cityData(string Id)
         {
@@ -89,14 +77,13 @@ namespace NatDMS.Controllers
 
             
             var executive = await _executiveService.GetExecutiveById(id);
-            // Get states
+            
             var statesResult = await _IStateService.GetState();
-            // Get cities (assuming you have a service to fetch cities based on state ID)
-            var citiesResult = await _ICityService.GetCity(/*"stn3"*/executive.State);
 
-            // Assuming "stn3" is the selected state ID
+            var citiesResult = await _ICityService.GetCity(executive.State);
 
-            var AreaResult = await _IAreaService.GetArea(/*"ctn15"*/executive.City);
+            var AreaResult = await _IAreaService.GetArea(executive.City);
+
             var model = new EditViewModel
             {
 
@@ -122,8 +109,8 @@ namespace NatDMS.Controllers
                      Value = area.Id
                 }).AsEnumerable()
             };
-            model.State = executive.State;// Selected state
-            model.City = executive.City; // Selected city, if needed
+            model.State = executive.State;
+            model.City = executive.City; 
             model.Area = executive.Area;               
             return View(model);
         }
@@ -131,31 +118,21 @@ namespace NatDMS.Controllers
         // POST: HomeController1/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult<EditViewModel>> Edit(string id, /*IFormCollection*/EditViewModel collection)
+        public async Task<ActionResult<EditViewModel>> Edit(string id, EditViewModel collection)
         {
-            //try
-            //{
+            
                 if (ModelState.IsValid)
                 {
-
-
-                    //ExecutiveModel model = new ExecutiveModel();
-                    var update = _mapper.Map<EditViewModel, ExecutiveModel>(collection);
-                    //var update = _mapper.Map(collection, model);`
-                    //update.State = collection.SelectedState;
-                    //update.City = collection.SelectedCity;
-                    //update.Area= collection.SelectedArea;
+ 
+                    var update = _mapper.Map<EditViewModel, ExecutiveModel>(collection); 
 
                     await _executiveService.UpdateDistributor(id, update);
+
                 return RedirectToAction(nameof(GetState));
                 }
                 else { return View(collection); }
-            }
-            //catch
-            //{
-            //    return View();
-            //}
-        //}
+            
+         }
 
         // GET: HomeController1/Delete/5
         public ActionResult Delete(int id)
