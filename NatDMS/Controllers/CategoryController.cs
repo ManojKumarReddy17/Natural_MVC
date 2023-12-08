@@ -62,7 +62,6 @@ namespace NatDMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                //var category = await _categoryService.GetCategoryById(categoryModel.Id);
 
                 var updatedCategory = await _categoryService.UpdateCategory(Id, categoryModel);
 
