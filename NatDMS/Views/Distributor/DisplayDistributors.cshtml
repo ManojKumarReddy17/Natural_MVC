@@ -111,7 +111,8 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.State)
                     </td>
-                        <td><a asp-action="Edit" class="btn btn-warning btn-sm">EDIT</a></td>
+                        @*<td><a asp-action="Edit" class="btn btn-warning btn-sm" id="@(item.Id.ToString())">EDIT</a></td>*@
+                        <td> @Html.ActionLink("Edit", "Edit", new { id=item.Id.ToString()})</td>
                         <td><a asp-action="Delete"class="btn btn-danger btn-sm">DELETE</a></td>
                 </tr>
             }

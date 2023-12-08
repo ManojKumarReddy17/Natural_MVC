@@ -11,6 +11,9 @@ namespace NatDMS.Mapping
             // Domain to Resource
 
             CreateMap<LoginModel, LoginViewModel>();
+            CreateMap<StateModel, StateViewModel>();
+            CreateMap<CityModel, CityViewModel>();
+            CreateMap<AreaModel, AreaViewModel>();
 
             CreateMap<LoginModel , LoginResultModel>();
             CreateMap<DistributorModel, DistributorViewModel>();
@@ -26,6 +29,7 @@ namespace NatDMS.Mapping
             CreateMap<DistributorViewModel,DistributorModel>();
             CreateMap<CategoryViewModel, CategoryModel>();
             CreateMap<RetailorViewModel, RetailorModel>();
+            CreateMap<EditViewModel, DistributorModel>();
 
         }
     }

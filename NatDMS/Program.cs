@@ -17,6 +17,9 @@ builder.Services.AddScoped<IRetailorService , RetailorService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.Configure<ApiDetails>(builder.Configuration.GetSection("ApiUrlDetails"));
 builder.Services.AddHttpClient<IHttpClientWrapper, HttpClientWrapper>();
+builder.Services.AddScoped<IStateService, StateService>();
+builder.Services.AddScoped<ICityService, CityService>();
+builder.Services.AddScoped<IAreaService, AreaService>();
 
 builder.Services.AddAutoMapper(typeof(Program)); 
 
