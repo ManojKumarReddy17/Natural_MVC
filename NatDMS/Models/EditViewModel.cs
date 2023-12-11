@@ -34,10 +34,13 @@ namespace NatDMS.Models
 
         [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Selecting state  is required.")]
         public string? State { get; set; }
-        
+
+        public string? UserName { get; set; }
+        public string? Password { get; set; }
+
 
         public IEnumerable<SelectListItem>? StateList { get; set; }
-        
+
         public IEnumerable<SelectListItem>? CityList { get; set; }
 
         public IEnumerable<SelectListItem>? AreaList { get; set; }

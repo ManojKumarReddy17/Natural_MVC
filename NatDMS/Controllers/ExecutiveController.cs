@@ -108,6 +108,63 @@ namespace NatDMS.Controllers
             return View(map);
         }
 
+        // GET: HomeController1/Edit/5
+        public async Task<ActionResult<EditViewModel>> Edit(string id)
+        {
 
+
+            var executive = await _Service.GetExecutiveById(id);
+            var statesResult = await _state.GetState();
+            var citiesResult = await _city.GetCity(executive.State);
+            var AreaResult = await _area.GetArea(executive.City);
+            var model = new EditViewModel
+            {
+
+                FirstName = executive.FirstName,
+                LastName = executive.LastName,
+                Email = executive.Email,
+                MobileNumber = executive.MobileNumber,
+                Address = executive.Address,
+                StateList = statesResult.Select(state => new SelectListItem
+                {
+                    Text = state.StateName,
+                    Value = state.Id
+                }).AsEnumerable(),
+                CityList = citiesResult.Select(city => new SelectListItem
+                {
+                    Text = city.CityName,
+                    Value = city.Id
+                }).AsEnumerable(),
+
+                AreaList = AreaResult.Select(area => new SelectListItem
+                {
+                    Text = area.AreaName,
+                    Value = area.Id
+                }).AsEnumerable()
+            };
+            model.State = executive.State;
+            model.City = executive.City; 
+            model.Area = executive.Area;
+            return View(model);
+        }
+
+        // POST: HomeController1/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult<EditViewModel>> Edit(string id, EditViewModel collection)
+        {
+           
+            if (ModelState.IsValid)
+            {
+                var update = _mapper.Map<EditViewModel, ExecutiveModel>(collection);
+                await _Service.UpdateDistributor(id, update);
+                return RedirectToAction(nameof(DisplayExecutive));
+            }
+            else 
+            {
+
+                return View(collection);
+            }
+        }
     }
 }

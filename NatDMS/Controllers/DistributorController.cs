@@ -21,8 +21,8 @@ namespace NatDMS.Controllers
         private readonly ICityService _ICityService;
         private readonly IAreaService _IAreaService;
         private readonly IMapper _mapper;
-        
-        public DistributorController(IDistributorService distributorservice, IMapper mapper,IStateService IStateService, ICityService ICityService, IAreaService IAreaService)
+
+        public DistributorController(IDistributorService distributorservice, IMapper mapper, IStateService IStateService, ICityService ICityService, IAreaService IAreaService)
         {
             _distributorservice = distributorservice;
             _IStateService = IStateService;
@@ -35,7 +35,7 @@ namespace NatDMS.Controllers
         public async Task<ActionResult<DistributorModel>> DisplayDistributors()
         {
             var result = await _distributorservice.GetDistributors();
-            var mapped = _mapper.Map<List<DistributorModel>,List<DistributorViewModel>>(result);
+            var mapped = _mapper.Map<List<DistributorModel>, List<DistributorViewModel>>(result);
 
             return View(mapped);
         }
@@ -77,9 +77,9 @@ namespace NatDMS.Controllers
 
 
             var distributer = await _distributorservice.GetDistributorById(id);
-           
+
             var statesResult = await _IStateService.GetState();
-           
+
             var citiesResult = await _ICityService.GetCity(distributer.State);
 
             var AreaResult = await _IAreaService.GetArea(distributer.City);
@@ -109,7 +109,7 @@ namespace NatDMS.Controllers
                 }).AsEnumerable()
             };
             model.State = distributer.State;
-            model.City = distributer.City; 
+            model.City = distributer.City;
             model.Area = distributer.Area;
             return View(model);
         }

@@ -62,9 +62,16 @@ namespace Naturals.Service.Service
 
         }
 
-        public Task<ExecutiveModel> GetExecutiveById(string Id)
+        public async Task<ExecutiveModel> GetExecutiveById(string Id)
         {
-            throw new NotImplementedException();
+            //string controller = $"/Executive/{Id}";
+
+
+            var output = await _httpClient.GetByIdAsync<ExecutiveModel>("/Executive",Id);
+
+
+
+            return output;
         }
     }
     }
