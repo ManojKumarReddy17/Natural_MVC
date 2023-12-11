@@ -17,60 +17,76 @@
 
 @using (Html.BeginForm())
 {
- <div class="container">
+ <div class="form-horizontal">
      <div class ="row">
-         <div class="col-md-3">
+         <div class="col-md-5">
     <div class="form-group">
             <label class="required" for="FirstName">First Name:</label>
         @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
             <span style="color: red;"> @Html.ValidationMessageFor(m => m.FirstName)</span>
     </div>
-
-                <div class="form-group">
-                    <label class="required" for="MobileNumber">MobileNumber:</label>
-    @Html.TextBoxFor(model => model.MobileNumber, new { @class = "form-control" })
-                    <span style="color: red;">@Html.ValidationMessageFor(m => m.MobileNumber)</span>
-                </div>
-                @* <div class="form-group"> *@
-                    <label for="Address">Address:</label>
-    @Html.TextAreaFor(model => model.Address, new { @class = "form-control",rows = 3 })
-                    <span style="color: red;">  @Html.ValidationMessageFor(m => m.Address)</span>
-                @* </div> *@
             </div>
-            <div class="col-md-3">
+            <div class="col-md-5">
 
     <div class="form-group">
             <label class="required"  for="LastName">Last Name:</label>
         @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
             <span style="color: red;">  @Html.ValidationMessageFor(m => m.LastName)</span>
     </div>
-            
+            </div>
+        </div>
 
+<div class ="row">
+    <div class="col-md-5">
     <div class="form-group">
         <label for="Email">Email:</label>
         @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
             <span style="color: red;">  @Html.ValidationMessageFor(m => m.Email)</span>
     </div>
-                <div class="form-group">
-                    <label class="required" for="State">State:</label>
-    @Html.DropDownListFor(model => model.State, Model.StateList, "-- Select State --", new { @class = "form-control",id = "state", onchange = "statechange()"})
-                    <span style="color: red;"> @Html.ValidationMessageFor(m => m.State)</span>
-                </div>
-                <div class="form-group">
-                    <label class="required" for="SelectedCity">Select City:</label>
-    @Html.DropDownListFor(model => model.City, Model.CityList, "-- Select City --", new { @class = "form-control",id="city", onchange="citychange()" })
-                    <span style="color: red;"> @Html.ValidationMessageFor(m => m.City)</span>
-                </div>
-                <div class="form-group">
-                    <label class="required" for="SelectedArea">Select Area:</label>
-    @Html.DropDownListFor(model => model.Area, Model.AreaList, "-- Select Area --", new { @class = "form-control",id="area" })
-                    <span style="color: red;"> @Html.ValidationMessageFor(m => m.Area)</span>
-                </div>
-            
+            </div>
+
+            <div class="col-md-5">
+    <div class="form-group">
+            <label class="required" for="MobileNumber">MobileNumber:</label>
+        @Html.TextBoxFor(model => model.MobileNumber, new { @class = "form-control" })
+            <span style="color: red;">@Html.ValidationMessageFor(m => m.MobileNumber)</span>
+    </div>
             </div>
     </div>
-   
 
+    <div class="row">
+        <div class="col-md-10">
+        <div class="form-group">
+            <label for="Address">Address:</label>
+            @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
+            <span style="color: red;">  @Html.ValidationMessageFor(m => m.Address)</span>
+        </div>
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-md-3">
+    <div class="form-group">
+            <label class="required" for="State">State:</label>
+        @Html.DropDownListFor(model => model.State, Model.StateList, "-- Select State --", new { @class = "form-control",id = "state", onchange = "statechange()"})
+            <span style="color: red;"> @Html.ValidationMessageFor(m => m.State)</span>
+                </div>
+    </div>
+            <div class="col-md-3">
+    <div class="form-group">
+            <label class="required" for="SelectedCity">Select City:</label>
+            @Html.DropDownListFor(model => model.City, Model.CityList, "-- Select City --", new { @class = "form-control",id="city", onchange="citychange()" })
+            <span style="color: red;"> @Html.ValidationMessageFor(m => m.City)</span>
+        </div>
+            </div>
+            <div class="col-md-3">
+    <div class="form-group">
+            <label class="required" for="SelectedArea">Select Area:</label>
+            @Html.DropDownListFor(model => model.Area, Model.AreaList, "-- Select Area --", new { @class = "form-control",id="area" })
+            <span style="color: red;"> @Html.ValidationMessageFor(m => m.Area)</span>
+        </div>
+            </div>
+        </div>
 
         <div class="d-flex justify-content-between">
             <button type="submit" class="btn btn-primary">Submit</button>
