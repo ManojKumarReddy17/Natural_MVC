@@ -157,8 +157,8 @@
                                 <form asp-action="Login">
                                     <label>UserName</label>
                                     <input type="text" name="UserName" placeholder="User Name">
-                                    <label>Password</label>
-                                    <input type="text" name="password" placeholder="Password">
+                                    <label for="password">Password</label>
+                                    <input type="password" id="password" name="password">
                                     <button type="submit" class="btn-style1">SIGN IN</button>
                                     @Html.ValidationSummary(false,"", new { @class = "text-danger" })
 

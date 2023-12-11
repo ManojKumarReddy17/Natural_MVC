@@ -8,6 +8,7 @@ using Natural.Core.Models;
 using PagedList.Mvc;
 using PagedList;
 using Naturals.Service.Service;
+#nullable disable
 
 namespace NatDMS.Controllers
 {
@@ -21,13 +22,13 @@ namespace NatDMS.Controllers
         private readonly IAreaService _IAreaService;
 
         private readonly IMapper _mapper;
-        public DistributorController(IDistributorService distributorservice, IMapper mapper, ILocationService locationService, IStateService IStateService, ICityService ICityService, IAreaService IAreaService)
+        public DistributorController(IDistributorService distributorservice, IMapper mapper, ILocationService locationService, IStateService StateService, ICityService CityService, IAreaService AreaService)
 
         {
             _distributorservice = distributorservice;
-            _IStateService = IStateService;
-            _ICityService = ICityService;
-            _IAreaService = IAreaService;
+            _IStateService = StateService;
+            _ICityService = CityService;
+            _IAreaService = AreaService;
             _locationservice = locationService;
             _mapper = mapper;
         }
