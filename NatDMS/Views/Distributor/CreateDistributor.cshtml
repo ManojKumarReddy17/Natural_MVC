@@ -15,52 +15,64 @@
     <div class="col-md-4">
         <form asp-action="Disttributor">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @*    <div class="form-group">
-            <label asp-for="Id" class="control-label"></label>
-            <input asp-for="Id" class="form-control" />
-            <span asp-validation-for="Id" class="text-danger"></span>
-            </div> *@
+           
             <div class="form-group">
+                <b>
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" id="FirstName" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
+                </b>
             </div>
+
             <div class="form-group">
+                <b>
                 <label asp-for="LastName" class="control-label"></label>
                 <input asp-for="LastName" class="form-control" id="LastName" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
+                </b>
             </div>
             <div class="form-group">
+                <b>
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
+                </b>
             </div>
             <div class="form-group">
+                <b>
                 <label asp-for="MobileNumber" class="control-label"></label>
                 <input asp-for="MobileNumber" class="form-control" />
+                </b>
                 <span asp-validation-for="MobileNumber" class="text-danger"></span>
             </div>
+
             <div class="form-group">
+                <b>
                 <label asp-for="Address" class="control-label"></label>
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
+                </b>
             </div>
           
 
 
             <div class="form-group">
+                <b>
                 @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownList("name", new SelectList(ViewBag.State, "Id", "StateName"),new { id = "state", onchange = "statechange()" })
                 </div>
+                </b>
             </div>
             <div class="form-group">
+                <b>
                 <style>
                     #city option {
                         color: burlywood; /* Change this to the desired text color */
                     }
                 </style>
                 @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+                </b>
                 <div class=" col-md-10">
                     <select id="city" onchange="citychange()">
                         <option value="select"> </option>
@@ -69,6 +81,7 @@
             </div>
 
             <div class="form-group">
+                <b>
                 <label asp-for="Area" class="control-label"></label>
                 <div class="col-md-10">
                     <select id="area">
@@ -76,6 +89,7 @@
                     </select>
                 </div>
                 <span asp-validation-for="Area" class="text-danger"></span>
+                </b>
             </div>
           
             <div class="form-group">
@@ -161,7 +175,6 @@
             }
 
         }
-
       function CustSave() {
                     alert("save")
           // var Distributor = {

@@ -28,7 +28,6 @@
     margin: 0 auto; /* Center the box-header */
 }
 
-
 /* Custom CSS for DisplayCategories page */
 
 .custom-table {
@@ -72,66 +71,5 @@
     border-radius: 5px;
     margin-top: 20px;
     background-color: burlywood;
-}
-/* Custom CSS for CreateRetailor page */
-
-
-
-.body {
-    background-color: #f8f9fa; /* Set a background color for the body */
-}
-
-
-
-.label {
-    font-weight: bold;
-    color: black; /* Set a color for the labels */
-    padding: 1px; /* Add padding to the labels */
-    font-size: 16px; /* Set the font size for the labels */
-    line-height: 5px; /* Set the line height to control the height of the label */
-    margin-bottom: 5px; /* Add margin at the bottom to control the height of the label */
-}
-
-.form-control {
-    border: 1px solid burlywood; /* Set a border color for form controls */
-    border-radius: 10px; /* Add border radius */
-    padding: 5px;
-    width: 500px;
-}
-
-
-.btn-container {
-    margin-top: 10px;
-}
-
-/* Custom CSS for CreateDistributor page */
-
-
-
-.body {
-    background-color: #f8f9fa; /* Set a background color for the body */
-}
-
-
-
-.label {
-    font-weight: bold;
-    color: black; /* Set a color for the labels */
-    padding: 1px; /* Add padding to the labels */
-    font-size: 16px; /* Set the font size for the labels */
-    line-height: 5px; /* Set the line height to control the height of the label */
-    margin-bottom: 5px; /* Add margin at the bottom to control the height of the label */
-}
-
-.form-control {
-    border: 1px solid burlywood; /* Set a border color for form controls */
-    border-radius: 10px; /* Add border radius */
-    padding: 5px;
-    width: 500px;
-}
-
-
-.btn-container {
-    margin-top: 10px;
 }
 

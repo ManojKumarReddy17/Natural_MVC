@@ -77,9 +77,6 @@ namespace NatDMS.Controllers
             if (ModelState.IsValid)
             {
 
-
-
-
                 return RedirectToAction("DisplayDistributors", "Distributor");
             }
 

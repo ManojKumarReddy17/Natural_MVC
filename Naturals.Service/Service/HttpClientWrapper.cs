@@ -4,6 +4,7 @@ using Natural.Core.IServices;
 using Natural.Core.Models;
 
 using Newtonsoft.Json;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 
@@ -57,5 +58,15 @@ namespace Naturals.Service.Service
         {
             _httpClient.Dispose();
         }
+
+        public async Task<T> GetByIdAsync<T>(string endpoint, string id)
+        {
+            var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}{endpoint}/{id}");
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<T>(responseContent);
+        }
+
     }
 }
