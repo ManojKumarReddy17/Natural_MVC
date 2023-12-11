@@ -92,7 +92,9 @@ namespace NatDMS.Controllers
                 Email = executive.Email,
                 MobileNumber = executive.MobileNumber,
                 Address= executive.Address,
-                StateList = statesResult.Select(state => new SelectListItem
+                  UserName =executive.UserName,
+         Password = executive.Password,
+        StateList = statesResult.Select(state => new SelectListItem
                 {
                     Text = state.StateName,
                     Value = state.Id
