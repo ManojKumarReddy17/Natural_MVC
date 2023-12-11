@@ -37,7 +37,7 @@ namespace NatDMS.Controllers
                 if (contents.FirstName != null && contents.LastName != null)
                 {
                    
-                 return RedirectToAction("DisplayDistributors", "Distributor", contents);
+                 return RedirectToAction("DisplayExecutive", "Executive", contents);
 
                 }
                 else

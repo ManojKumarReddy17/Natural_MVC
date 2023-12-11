@@ -6,6 +6,7 @@ namespace NatDMS.Models
 {
     public class DistributorViewModel
     {
+        public string Id { get; set; }
         [Required]
         public string FirstName { get; set; }
         [Required]

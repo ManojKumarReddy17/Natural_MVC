@@ -5,9 +5,9 @@ VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NatDMS", "NatDMS.csproj", "{E552A999-2B4E-4183-A157-453763068A6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natural.Core", "..\Natural.Core\Natural.Core.csproj", "{90423407-5782-4940-A690-59255F575DEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natural.Core", "..\Natural.Core\Natural.Core.csproj", "{90423407-5782-4940-A690-59255F575DEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Naturals.Service", "..\Naturals.Service\Naturals.Service.csproj", "{2FCE71E9-CC3E-431B-932F-DD054D00D199}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Naturals.Service", "..\Naturals.Service\Naturals.Service.csproj", "{2FCE71E9-CC3E-431B-932F-DD054D00D199}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

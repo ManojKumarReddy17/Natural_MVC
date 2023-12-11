@@ -13,18 +13,17 @@ namespace NatDMS.Controllers
 
         private readonly IRetailorService _retailorservice;
         private readonly ILocationService _locationservice;
-        private readonly IStateService _IStateService;
-        private readonly ICityService _ICityService;
-        private readonly IAreaService _IAreaService;
-
+        private readonly IStateService _stateService;
+        private readonly ICityService _cityService;
+        private readonly IAreaService _areaService;
         private readonly IMapper _mapper;
-        public RetailorController(IRetailorService retailorservice, IMapper mapper, ILocationService locationService, IStateService IStateService, ICityService ICityService, IAreaService IAreaService)
+        public RetailorController(IRetailorService retailorservice, IMapper mapper, ILocationService locationService, IStateService StateService, ICityService CityService, IAreaService AreaService)
 
         {
             _retailorservice = retailorservice;
-            _IStateService = IStateService;
-            _ICityService = ICityService;
-            _IAreaService = IAreaService;
+            _stateService = StateService;
+            _cityService = CityService;
+            _areaService = AreaService;
             _locationservice = locationService;
             _mapper = mapper;
         }
@@ -40,25 +39,23 @@ namespace NatDMS.Controllers
 
 
 
-        public async Task<IActionResult> cityData(string Id)
+        public async Task<ActionResult> cityData(string Id)
         {
-            var result = await _ICityService.GetCity(Id);
+            var result = await _cityService.GetCity(Id);
             return Json(result);
         }
 
         public async Task<JsonResult> GetArea(string Id)
         {
-            var result = await _IAreaService.GetArea(Id);
+            var result = await _areaService.GetArea(Id);
 
             return Json(result);
         }
 
-
-
         public async Task<ActionResult> CreateRetailors()
         {
             var viewModel = new SaveRetailorViewModel();
-            viewModel.States = await _IStateService.GetState();
+            viewModel.States = await _stateService.GetState();
             return View(viewModel);
         }
 
