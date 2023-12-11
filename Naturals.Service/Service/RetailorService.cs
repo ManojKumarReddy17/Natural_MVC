@@ -1,11 +1,8 @@
 ﻿using Natural.Core.IServices;
 using Natural.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Newtonsoft.Json;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Naturals.Service.Service
 {
@@ -23,7 +20,11 @@ namespace Naturals.Service.Service
             return getretailor;
 
         }
-        
+        public async Task<RetailorModel> GetRetailorById(string Retailorid)
+        {
+            var getretailorid = await _HttpCleintWrapper.GetByIdAsync<RetailorModel>("/Retailor", Retailorid);
+            return getretailorid;
+        }
 
         public async Task<RetailorModel> CreateRetailors(RetailorModel retailors)
         {
@@ -31,11 +32,39 @@ namespace Naturals.Service.Service
             return result;
         }
 
-        public async Task<RetailorModel> GetRetailorById(string Retailorid)
+        public async Task<bool> DeleteRetailor(string retailorId)
         {
-            var getretailorid = await _HttpCleintWrapper.GetByIdAsync<RetailorModel>("/Retailor", Retailorid);
+            try
+            {
+                var isDeleted = await _HttpCleintWrapper.DeleteAsync("/Retailor", retailorId);
+
+                if (isDeleted)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw new Exception("An error occurred while deleting the retailor.");
+            }
+        }
+
+        public async Task<RetailorModel> GetRetailorsById(string retailorId)
+        {
+            var getretailorid = await _HttpCleintWrapper.GetByIdAsync<RetailorModel>("/Retailor/details", retailorId);
             return getretailorid;
+
+
         }
     }
-   
+
+
 }
+
+
+   
+

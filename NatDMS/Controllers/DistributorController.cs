@@ -8,6 +8,7 @@ using Natural.Core.Models;
 using PagedList.Mvc;
 using PagedList;
 using Naturals.Service.Service;
+#nullable disable
 
 namespace NatDMS.Controllers
 {
@@ -66,10 +67,8 @@ namespace NatDMS.Controllers
             ViewBag.State = distributo;
             return View();
         }
+      
 
-
-        [HttpPost]
-       
 
         public async Task<ActionResult<EditViewModel>> Edit(string id)
         {
@@ -115,6 +114,35 @@ namespace NatDMS.Controllers
             return View(model);
         }
 
-        
-    }
+        // POST: HomeController1/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult<EditViewModel>> Edit(string id, EditViewModel collection)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+
+                    var update = _mapper.Map<EditViewModel, DistributorModel>(collection);
+
+                    await _distributorservice.UpdateDistributor(id, update);
+
+                    return RedirectToAction(nameof(DisplayDistributors));
+                }
+                else
+                {
+                    return View (collection);
+                }
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        }
+
+        //public JsonResult result (SaveDistributorViewModel Distributor)
+        //{ return Json(Distributor); }
 }

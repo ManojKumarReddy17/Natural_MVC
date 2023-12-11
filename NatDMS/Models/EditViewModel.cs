@@ -26,7 +26,6 @@ namespace NatDMS.Models
         [StringLength(256, MinimumLength = 10, ErrorMessage = "Please enter a valid Address ")]
         public string? Address { get; set; }
 
-
         [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Selecting Area is required.")]
         public string? Area { get; set; }
 
@@ -35,9 +34,18 @@ namespace NatDMS.Models
 
         [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Selecting state  is required.")]
         public string? State { get; set; }
+        
 
-        public string? UserName { get; set; }
-        public string? Password { get; set; }
+
+        [Required(ErrorMessage = "Selecting Area is required.")]
+        public string? Area { get; set; }
+
+        [Required(ErrorMessage = "Selecting City  is required.")]
+        public string? City { get; set; }
+
+        [Required(ErrorMessage = "Selecting state  is required.")]
+        public string? State { get; set; }
+        
 
         public IEnumerable<SelectListItem>? StateList { get; set; }
 

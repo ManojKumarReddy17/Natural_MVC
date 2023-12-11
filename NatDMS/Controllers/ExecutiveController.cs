@@ -5,156 +5,109 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using NatDMS.Models;
 using Natural.Core.IServices;
 using Natural.Core.Models;
-using Natural_Core.Models;
 using Naturals.Service.Service;
 using System.Net;
 
+#nullable disable
 namespace NatDMS.Controllers
 {
     public class ExecutiveController : Controller
 
       
     {
-
-        private readonly IExecutiveService _executiveService;
+        private readonly IExecutiveService _Service;
         private readonly IMapper _mapper;
-        private readonly IStateService _IStateService;
-        private readonly ICityService _ICityService;
-        private readonly IAreaService _IAreaService;
-        public ExecutiveController(IExecutiveService executiveService, IMapper mapper, IStateService IStateService, ICityService ICityService, IAreaService IAreaService)
-
+        private readonly ILocationService _locationService;
+        private readonly IStateService _state;
+        private readonly ICityService _city;
+        private readonly IAreaService _area;
+        public ExecutiveController(IExecutiveService servicec, IMapper mapper, ILocationService location, IStateService state, ICityService city, IAreaService area)
         {
-            _executiveService = executiveService;
-            _IStateService = IStateService;
-            _ICityService = ICityService;
-            _IAreaService = IAreaService;
-
+            _area = area;
+            _city = city;
+            _Service = servicec;
             _mapper = mapper;
+            _state = state;
+            _locationService = location;
         }
       
-
-      
-        public async Task<ActionResult> GetState()
+        /// <summary>
+        /// Display all executives
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ActionResult<ExecutiveModel>> DisplayExecutive()
         {
-            var result = await _IStateService.GetState();
-            var distributo = _mapper.Map<List<StateModel>, List<StateViewModel>>(result);
-           
-            return View(distributo);
+            var dspexe = await _Service.GetDeatils();
+            var dspmap = _mapper.Map<List<ExecutiveModel>, List<ExecutiveViewModel>>(dspexe);
+            return View(dspmap);
         }
        
 
+        /// <summary>
+        /// Getting cities list in the dropdown based on the stateid
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> cityData(string Id)
         {
-            var result = await _ICityService.GetCity(Id);
+            var result = await _city.GetCity(Id);
             return Json(result);
         }
 
+        /// <summary>
+        /// Getting areas list in the dropdown based on the cityid
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public async Task<JsonResult> GetArea(string Id)
         {
-            var result = await _IAreaService.GetArea(Id);
+            var result = await _area.GetArea(Id);
 
             return Json(result);
         }
 
-        // POST: HomeController1/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> CreateExecutive()
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var viewmodel = new SaveExecutiveViewModel();
+            viewmodel.States = await _state.GetState();
+            return View(viewmodel);
         }
 
         // GET: HomeController1/Edit/5
-        public async Task<ActionResult<EditViewModel>> Edit(string id)
-        {
-
-            
-            var executive = await _executiveService.GetExecutiveById(id);
-            
-            var statesResult = await _IStateService.GetState();
-
-            var citiesResult = await _ICityService.GetCity(executive.State);
-
-            var AreaResult = await _IAreaService.GetArea(executive.City);
-
-            var model = new EditViewModel
-            {
-
-                FirstName = executive.FirstName,
-                LastName = executive.LastName,
-                Email = executive.Email,
-                MobileNumber = executive.MobileNumber,
-                Address= executive.Address,
-                  UserName =executive.UserName,
-         Password = executive.Password,
-        StateList = statesResult.Select(state => new SelectListItem
-                {
-                    Text = state.StateName,
-                    Value = state.Id
-                }).AsEnumerable(),
-                CityList = citiesResult.Select(city => new SelectListItem
-                {
-                    Text = city.CityName,
-                    Value = city.Id
-                }).AsEnumerable(),
-
-                AreaList = AreaResult.Select(area => new SelectListItem
-                 {
-                     Text = area.AreaName,
-                     Value = area.Id
-                }).AsEnumerable()
-            };
-            model.State = executive.State;
-            model.City = executive.City; 
-            model.Area = executive.Area;               
-            return View(model);
-        }
-
-        // POST: HomeController1/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult<EditViewModel>> Edit(string id, EditViewModel collection)
+        public async Task<IActionResult> CreateExecutive(SaveExecutiveViewModel saveexecmdl)
         {
             
                 if (ModelState.IsValid)
                 {
- 
-                    var update = _mapper.Map<EditViewModel, ExecutiveModel>(collection); 
+                var createexecutive = _mapper.Map<SaveExecutiveViewModel,ExecutiveModel>(saveexecmdl); 
 
-                    await _executiveService.UpdateDistributor(id, update);
-
-                return RedirectToAction(nameof(GetState));
-                }
-                else { return View(collection); }
+                var displayxexecutive = await _Service.CreateExecutive(createexecutive);
             
-         }
+                return RedirectToAction("DisplayExecutive","Executive");
+                }
 
-        // GET: HomeController1/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
+            else
+                {
+                ModelState.AddModelError(string.Empty, "Form submission failed . please check the procided data");
+                return View(saveexecmdl);
+
+                }
         }
 
-        // POST: HomeController1/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
+            public async Task<ActionResult> DeleteExecutive( string execmdl)
             {
-                return RedirectToAction(nameof(Index));
+            await _Service.DeleteExecutiveasync(execmdl);
+            return RedirectToAction("DisplayExecutive","Executive");
             }
-            catch
+
+        public async Task<ActionResult> GetDetailsbyid(string id)
             {
-                return View();
-            }
+            var result = await _Service.GetExecutiveDetailsById(id);
+            var map =_mapper.Map<ExecutiveViewModel>(result);
+            return View(map);
         }
+
+
     }
 }
