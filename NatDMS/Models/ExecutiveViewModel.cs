@@ -1,8 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+
+#nullable disable
 
 namespace NatDMS.Models
 {
-    public class ExecutiveViewModel
+    public partial class ExecutiveViewModel
     {
 
         public string Id { get; set; }
@@ -16,7 +19,9 @@ namespace NatDMS.Models
         public string Area { get; set; }
         public string City { get; set; }
         public string State { get; set; }
+        public DateTime? CreateDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
 
-
+       
     }
 }

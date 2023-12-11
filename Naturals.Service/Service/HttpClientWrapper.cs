@@ -44,26 +44,48 @@ namespace Naturals.Service.Service
 
             return JsonConvert.DeserializeObject<T>(responseContent);
         }
+
+        public async Task<T> PutAsync<T>(string endpoint, object model)
+        {
+            var jsonContent = JsonConvert.SerializeObject(model);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PutAsync(_httpClient.BaseAddress + endpoint, content);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<T>(responseContent);
+        }
         public void Dispose()
         {
             _httpClient.Dispose();
         }
 
-        public async Task<T> GetByIdAsync<T>(string endpoint, string id)
+        public async Task<T> GetByIdAsync<T>(string endpoint, string Id)
         {
-            var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}{endpoint}/{id}");
+            var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}{endpoint}/{Id}");
 
             var responseContent = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<T>(responseContent);
         }
 
-        public async Task<bool> DeleteAsync(string endpoint,String Id)
+        public async Task<T> PutAsync<T>(string endpoint, string Id, object model)
+        {
+            var jsonContent = JsonConvert.SerializeObject(model);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PutAsync($"{_httpClient.BaseAddress}{endpoint}/{Id}", content);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<T>(responseContent);
+        }
+
+        public async Task<bool> DeleteAsync(string endpoint, string Id)
         {
             var response = await _httpClient.DeleteAsync($"{_httpClient.BaseAddress}{endpoint}/{Id}");
             return response.IsSuccessStatusCode;
         }
 
-      
+        
     }
 }

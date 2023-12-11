@@ -32,9 +32,7 @@ namespace NatDMS.Models
 
         [Required(ErrorMessage = "Area is required")]
 
-        
         public string Area { get; set; }
         
-
     }
 }

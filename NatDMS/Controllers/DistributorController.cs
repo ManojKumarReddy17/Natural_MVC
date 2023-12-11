@@ -19,16 +19,14 @@ namespace NatDMS.Controllers
         private readonly IStateService _IStateService;
         private readonly ICityService _ICityService;
         private readonly IAreaService _IAreaService;
-
         private readonly IMapper _mapper;
-        public DistributorController(IDistributorService distributorservice, IMapper mapper, ILocationService locationService, IStateService IStateService, ICityService ICityService, IAreaService IAreaService)
-
+        
+        public DistributorController(IDistributorService distributorservice, IMapper mapper,IStateService IStateService, ICityService ICityService, IAreaService IAreaService)
         {
             _distributorservice = distributorservice;
             _IStateService = IStateService;
             _ICityService = ICityService;
             _IAreaService = IAreaService;
-            _locationservice = locationService;
             _mapper = mapper;
         }
 
@@ -41,8 +39,6 @@ namespace NatDMS.Controllers
             return View(mapped);
         }
 
-      
-
         public async Task<IActionResult> cityData(string Id)
         {
             var result = await _ICityService.GetCity(Id);
@@ -52,11 +48,16 @@ namespace NatDMS.Controllers
         public async Task<JsonResult> GetArea(string Id)
         {
             var result = await _IAreaService.GetArea(Id);
-
             return Json(result);
         }
 
-      
+        public async Task<ActionResult<DistributorViewModel>> DetailsAsync(string id)
+        {
+            var result = await _distributorservice.GetDistributorById(id);
+            var mapped = _mapper.Map<DistributorModel, DistributorViewModel>(result);
+            return View(mapped);
+        }
+
 
         public async Task<ActionResult> CreateDistributor()
         {
@@ -67,20 +68,80 @@ namespace NatDMS.Controllers
         }
       
 
-        [HttpPost]
-        public async Task<IActionResult> CreateDistributor(DistributorViewModel distributorModel)
+
+        public async Task<ActionResult<EditViewModel>> Edit(string id)
         {
-            if (ModelState.IsValid)
+
+
+
+
+            var distributer = await _distributorservice.GetDistributorById(id);
+           
+            var statesResult = await _IStateService.GetState();
+           
+            var citiesResult = await _ICityService.GetCity(distributer.State);
+
+            var AreaResult = await _IAreaService.GetArea(distributer.City);
+            var model = new EditViewModel
             {
 
-                return RedirectToAction("DisplayDistributors", "Distributor");
+                FirstName = distributer.FirstName,
+                LastName = distributer.LastName,
+                Email = distributer.Email,
+                MobileNumber = distributer.MobileNumber,
+                Address = distributer.Address,
+                StateList = statesResult.Select(state => new SelectListItem
+                {
+                    Text = state.StateName,
+                    Value = state.Id
+                }).AsEnumerable(),
+                CityList = citiesResult.Select(city => new SelectListItem
+                {
+                    Text = city.CityName,
+                    Value = city.Id
+                }).AsEnumerable(),
+
+                AreaList = AreaResult.Select(area => new SelectListItem
+                {
+                    Text = area.AreaName,
+                    Value = area.Id
+                }).AsEnumerable()
+            };
+            model.State = distributer.State;
+            model.City = distributer.City; 
+            model.Area = distributer.Area;
+            return View(model);
+        }
+
+        // POST: HomeController1/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult<EditViewModel>> Edit(string id, EditViewModel collection)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+
+                    var update = _mapper.Map<EditViewModel, DistributorModel>(collection);
+
+                    await _distributorservice.UpdateDistributor(id, update);
+
+                    return RedirectToAction(nameof(DisplayDistributors));
+                }
+                else
+                {
+                    return View (collection);
+                }
             }
-
-            else
+            catch
             {
-              
-                return View(distributorModel);
+                return View();
             }
         }
-    }
+
+        }
+
+        //public JsonResult result (SaveDistributorViewModel Distributor)
+        //{ return Json(Distributor); }
 }

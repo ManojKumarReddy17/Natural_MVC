@@ -16,6 +16,7 @@ builder.Services.AddScoped<IDistributorService, DistributorService>();
 builder.Services.AddScoped<IRetailorService , RetailorService>(); 
 builder.Services.AddScoped<IExecutiveService, ExecutiveService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IExecutiveService, ExecutiveService>();
 builder.Services.Configure<ApiDetails>(builder.Configuration.GetSection("ApiUrlDetails"));
 builder.Services.AddHttpClient<IHttpClientWrapper, HttpClientWrapper>();
 builder.Services.AddScoped<IStateService, StateService>();

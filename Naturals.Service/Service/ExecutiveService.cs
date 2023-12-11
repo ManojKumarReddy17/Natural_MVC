@@ -1,5 +1,6 @@
 ﻿using Natural.Core.IServices;
 using Natural.Core.Models;
+using Natural_Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -36,22 +37,28 @@ namespace Naturals.Service.Service
                     return true;
                 }
                 else
-                {
+        {
                     return false;
                 }
-            }
+        }
             catch (Exception ) 
-            {
+        {
                 throw new Exception("Error");
             }
         }
 
         public async Task<ExecutiveModel> GetExecutiveDetailsById(string ID)
+        public async Task<ExecutiveModel> UpdateDistributor(string Id, ExecutiveModel distributor)
         {
             var excdtlid = await _httpClient.GetByIdAsync<ExecutiveModel>("/Executive/details",ID);
             return excdtlid;
         }
+            string controller = $"/Executive/{Id}";
 
+            var output = await _httpCleintWrapper.PutAsync<ExecutiveModel>(controller, distributor);
+
+            return output;
+
+        }
     }
-}
 
