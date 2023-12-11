@@ -1,119 +1,209 @@
-﻿@model NatDMS.Models.RetailorViewModel
+﻿@model NatDMS.Models.SaveRetailorViewModel
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Create Retailors</title>
+@{
+    ViewData["Title"] = "CreateRetailors";
+}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyYqBSgFfPIpsW0E2rmQQYAyw1pqGtJx" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="~/css/my.css">
 
-</head>
-<body>
 
-    <div class="container">
-        <div class="card form-container">
-            <div class="card-body">
-                <h3 class="card-title text-center">Create Retailor</h3>
-                <hr />
-                <form asp-action="CreateRetailors">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+@using (Html.BeginForm("CreateRetailors", "Retailor", FormMethod.Post, new { @class = "needs-validation", novalidate = "true" }))
+{
+    <h2 align="center">CREATE RETAILOR</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-3">
 
-                    <!-- First Name -->
-                    <b>
-                        <div class="form-group">
-                            <label asp-for="FirstName" class="control-label">First Name</label>
-                            <input asp-for="FirstName" class="form-control" alert="Firstname is Requied" />
-                            <span asp-validation-for="FirstName" class="text-danger"></span>
-                        </div>
-                    </b>
 
-                    <!-- Last Name -->
-                    <b>
-                        <div class="form-group">
-                            <label asp-for="LastName" class="control-label">Last Name</label>
-                            <input asp-for="LastName" class="form-control" />
-                            <span asp-validation-for="LastName" class="text-danger"></span>
-                        </div>
-                    </b>
+           
 
-                    <!-- Email -->
-                    <b>
-                        <div class="form-group">
-                            <label asp-for="Email" class="control-label">Email</label>
-                            <input asp-for="Email" class="form-control" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-                    </b>
-
-                    <!-- Mobile Number -->
-                    <b>
-                        <div class="form-group">
-                            <label asp-for="MobileNumber" class="control-label">Mobile Number</label>
-                            <input asp-for="MobileNumber" class="form-control" />
-                            <span asp-validation-for="MobileNumber" class="text-danger"></span>
-                        </div>
-                    </b>
-
-                    <!-- Address -->
-                    <b>
-                        <div class="form-group">
-                            <label asp-for="Address" class="control-label">Address</label>
-                            <input asp-for="Address" class="form-control" />
-                            <span asp-validation-for="Address" class="text-danger"></span>
-                        </div>
-                    </b>
-                    <!-- State -->
-                    <b>
-                        <div class="form-group">
-                            <label asp-for="State" class="control-label">State</label>
-                            <select asp-for="State" asp-items="ViewBag.States" class="form-control">
-                                <option value="">Select State</option>
-                            </select>
-                            <span asp-validation-for="State" class="text-danger"></span>
-                        </div>
-                    </b>
-
-                    <!-- City -->
-                    <b>
-                        <div class="form-group">
-                            <label asp-for="City" class="control-label">City</label>
-                            <select asp-for="City" asp-items="ViewBag.Cities" class="form-control">
-                                <option value="">Select City</option>
-                            </select>
-                            <span asp-validation-for="City" class="text-danger"></span>
-                        </div>
-                    </b>
-
-                    <!-- Area -->
-                    <b>
-                        <div class="form-group">
-                            <label asp-for="Area" class="control-label">Area</label>
-                            <select asp-for="Area" asp-items="ViewBag.Areas" class="form-control">
-                                <option value="">Select Area</option>
-                            </select>
-                            <span asp-validation-for="Area" class="text-danger"></span>
-                        </div>
-                    </b>
-
-                    <!-- Submit Button -->
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary btn-block" />
+                    <div class="form-group" style="margin-bottom: 9%;">
+                        <b>
+                            @Html.LabelFor(model => model.FirstName)
+                            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                        </b>
                     </div>
-                </form>
 
-                <!-- Back to List Button -->
-                <div class="text-center">
-                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                    <div class="form-group">
+                        <b>
+                            @Html.LabelFor(model => model.Email)
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </b>
+                    </div>
+
+                    <div class="form-group">
+                        <b>
+
+                            @Html.LabelFor(model => model.MobileNumber)
+                            @Html.TextBoxFor(model => model.MobileNumber, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
+
+                        </b>
+                    </div>
+                   
+                    <div class="form-group">
+                        <b>
+                            @Html.LabelFor(model => model.City)
+                            @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
+                        {
+                        new SelectListItem { Text = "", Value = "select" },
+                        }, "Value", "Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                        </b>
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-3 style=">
+
+                    <div class="form-group">
+                        <b>
+                            @Html.LabelFor(model => model.LastName)
+                            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                        </b>
+                    </div>
+                    <div class="form-group emphasized-section">
+                        <b>
+                            @Html.LabelFor(model => model.Address)
+                            @Html.TextAreaFor(model => model.Address, new { @class = "form-control", style = "overflow-y:scroll;" })
+                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+
+                        </b>
+                    </div>
+                    
+
+                    <div class="form-group">
+                        <b>
+                            @Html.LabelFor(model => model.State)
+                            @Html.DropDownListFor(model => model.State, new SelectList(Model.States, "Id", "StateName"),
+                        "--Select State--", new { @id = "state", onchange = "statechange()", @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                        </b>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <b>
+                            @Html.LabelFor(model => model.Area)
+                            @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
+                        {
+                        new SelectListItem { Text = "", Value = "select" }
+                        }, new { id = "area", @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+                        </b>
+                    </div>
+
                 </div>
             </div>
-        </div>
+
+
+    <div class="text-center">
+        <button type="submit" class="btn-style1">SUBMIT</button>
     </div>
 
-    <!-- Bootstrap JS and other scripts -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUcXGw+CA9Kd" crossorigin="anonymous"></script>
-</body>
-</html>
+}
+
+<div class="row">
+    <div class="col-md-10 d-flex justify-content-between">
+        <a href="@Url.Action("CreateRetailors")" class="d-flex align-items-center mr-6">
+            <i class="material-icons" style="font-size: 50px;">refresh</i>
+        </a>
+
+
+
+        <a href="@Url.Action("DisplayRetailors")" class="d-flex align-items-center">
+            <i class="material-icons" style="font-size: 50px;">arrow_back</i>
+        </a>
+    </div>
+</div>
+
+
+
+
+<!------------------------- AJAX CODE FOR STATE---------------------------->
+
+
+<script src="~/js/jquery-3.6.0.min.js"></script>
+
+<script type="text/javascript">
+    function statechange() {
+        debugger;
+        var stid = $('#state').val();
+        if (stid.trim() != '') {
+            var ddlcity = $('#city');
+            ddlcity.empty();
+
+            $.ajax(
+                {
+                    url: "/Retailor/cityData",
+
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { Id: stid },
+
+                    success: function (d) {
+
+                        ddlcity.append($("<option></option>").val('').html('SelectCity'));
+                        $.each(d, function (i, cities) {
+
+                            ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
+
+                        });
+                    },
+                    error: function () {
+                        alert('Error!');
+                    }
+                });
+        }
+
+    }
+
+
+
+
+
+    function citychange() {
+        debugger;
+        var stid = $('#city').val();
+        if (stid.trim() != '') {
+            var ddlarea = $('#area');
+            ddlarea.empty();
+
+            $.ajax(
+                {
+                    url: "/Retailor/GetArea",
+
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { Id: stid },
+
+                    success: function (d) {
+
+                        ddlarea.append($("<option></option>").val('').html('SelectArea'));
+                        $.each(d, function (i, areas) {
+
+                            ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
+
+                        });
+                    },
+                    error: function () {
+                        alert('Error!');
+                    }
+                });
+        }
+
+    }
+
+
+
+ </script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

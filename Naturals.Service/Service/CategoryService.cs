@@ -29,5 +29,36 @@ namespace Naturals.Service.Service
             var result = await _httpClientWrapper.GetAsync<List<CategoryModel>>("/Category/");
             return result;
         }
+        public async Task<CategoryModel> GetCategoryById(string Id)
+        {
+            var result = await _httpClientWrapper.GetByIdAsync<CategoryModel>("/Category", Id);
+            return result;
+        }
+        public async Task<CategoryModel> UpdateCategory(string Id, CategoryModel category)
+        {
+            var result = await _httpClientWrapper.PutAsync<CategoryModel>("/Category", Id, category);
+            return result;
+        }
+
+        public async Task<bool> DeleteCategory(string categoryId)
+        {
+            try
+            {
+                var isDeleted = await _httpClientWrapper.DeleteAsync("/Category", categoryId);
+
+                if (isDeleted)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw new Exception("An error occurred while deleting the retailor.");
+            }
+        }
     }
 }

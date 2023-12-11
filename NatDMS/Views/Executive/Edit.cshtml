@@ -1,0 +1,188 @@
+﻿@model NatDMS.Models.EditViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<div class="text-center mb-5" style="color:ButtonFace;">
+<h3>EDIT EXECUTIVE</h3>
+</div>
+
+<style>
+    .required:after {
+        content: " *";
+        color: #f00;
+    }
+</style>
+
+
+@using (Html.BeginForm())
+{
+ <div class="container">
+     <div class ="row">
+         <div class="col-md-3">
+    <div class="form-group">
+            <label class="required" for="FirstName">First Name:</label>
+        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+            <span style="color: red;"> @Html.ValidationMessageFor(m => m.FirstName)</span>
+    </div>
+                <div class="form-group">
+                    <label class="required" for="UserName">User Name:</label>
+                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+                   
+                </div>
+                <div class="form-group">
+                    <label class="required" for="MobileNumber">MobileNumber:</label>
+    @Html.TextBoxFor(model => model.MobileNumber, new { @class = "form-control" })
+                    <span style="color: red;">@Html.ValidationMessageFor(m => m.MobileNumber)</span>
+                </div>
+                @* <div class="form-group"> *@
+                    <label for="Address">Address:</label>
+    @Html.TextAreaFor(model => model.Address, new { @class = "form-control",rows = 3 })
+                    <span style="color: red;">  @Html.ValidationMessageFor(m => m.Address)</span>
+                @* </div> *@
+            </div>
+            <div class="col-md-3">
+
+    <div class="form-group">
+            <label class="required"  for="LastName">Last Name:</label>
+        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+            <span style="color: red;">  @Html.ValidationMessageFor(m => m.LastName)</span>
+    </div>
+
+                <div class="form-group">
+                    <label class="required" for="Password">Password:</label>
+                    @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
+                   
+                </div>
+            
+
+    <div class="form-group">
+        <label for="Email">Email:</label>
+        @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+            <span style="color: red;">  @Html.ValidationMessageFor(m => m.Email)</span>
+    </div>
+                <div class="form-group">
+                    <label class="required" for="State">State:</label>
+    @Html.DropDownListFor(model => model.State, Model.StateList, "-- Select State --", new { @class = "form-control",id = "state", onchange = "statechange()"})
+                    <span style="color: red;"> @Html.ValidationMessageFor(m => m.State)</span>
+                </div>
+                <div class="form-group">
+                    <label class="required" for="SelectedCity">Select City:</label>
+    @Html.DropDownListFor(model => model.City, Model.CityList, "-- Select City --", new { @class = "form-control",id="city", onchange="citychange()" })
+                    <span style="color: red;"> @Html.ValidationMessageFor(m => m.City)</span>
+                </div>
+                <div class="form-group">
+                    <label class="required" for="SelectedArea">Select Area:</label>
+    @Html.DropDownListFor(model => model.Area, Model.AreaList, "-- Select Area --", new { @class = "form-control",id="area" })
+                    <span style="color: red;"> @Html.ValidationMessageFor(m => m.Area)</span>
+                </div>
+            
+            </div>
+    </div>
+   
+
+
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+            <div>
+                <a asp-action="Index" class="btn btn-primary">Back to List</a>
+            </div>
+        </div>
+
+
+        <script src="~/js/jquery-3.6.0.min.js"></script>
+
+        <script type="text/javascript">
+            function statechange() {
+                debugger;
+                alert("hello")
+                var stid = $('#state').val();
+                if (stid.trim() != '') {
+                    var ddlcity = $('#city');
+
+
+                    ddlcity.empty();
+
+                    $.ajax(
+                        {
+                            url: "/Distributor/cityData",
+
+                            type: 'GET',
+                            dataType: 'json',
+                            data: { Id: stid },
+
+                            success: function (d) {
+                                alert("Success")
+
+                                ddlcity.append($("<option></option>").val('').html('SelectCity'));
+                                $.each(d, function (i, cities) {
+
+                                    ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
+
+                                });
+                            },
+                            error: function () {
+                                alert('Error!');
+                            }
+                        });
+                }
+
+            }
+
+            function citychange() {
+                debugger;
+                alert("changing city")
+                var stid = $('#city').val();
+                if (stid.trim() != '') {
+                    var ddlarea = $('#area');
+
+
+                    ddlarea.empty();
+
+                    $.ajax(
+                        {
+                            url: "/Distributor/GetArea",
+
+                            type: 'GET',
+                            dataType: 'json',
+                            data: { Id: stid },
+
+                            success: function (d) {
+                                alert("Success")
+
+                                ddlarea.append($("<option></option>").val('').html('SelectArea'));
+                                $.each(d, function (i, areas) {
+
+                                    ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
+
+                                });
+                            },
+                            error: function () {
+                                alert('Error!');
+                            }
+                        });
+                }
+
+            }
+        </script>
+
+
+    </div>
+
+
+}
+
+
+
+
+
+
+
+@* <div>
+    <a asp-action="Index" type="submit" class="btn btn-primary">Back to List</a>
+</div> *@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

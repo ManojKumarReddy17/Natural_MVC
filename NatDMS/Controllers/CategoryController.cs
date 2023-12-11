@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using NatDMS.Models;
 using Natural.Core.IServices;
 using Natural.Core.Models;
+using Naturals.Service.Service;
 
 namespace NatDMS.Controllers
 {
@@ -30,7 +31,7 @@ namespace NatDMS.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<CategoryModel>> CreateCategory(CategoryViewModel categoryModel)
+        public async Task<ActionResult<CategoryModel>>CreateCategory(CategoryViewModel categoryModel)
         {
             if (ModelState.IsValid)
             {
@@ -49,6 +50,35 @@ namespace NatDMS.Controllers
             }
         }
 
+        public async Task<ActionResult<CategoryViewModel>> EditCategory(string Id)
+        {
+            var category = await _categoryService.GetCategoryById(Id);
+            var categoryViewModel = _mapper.Map<CategoryModel, CategoryViewModel>(category);
+            return View(categoryViewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EditCategory(string Id, CategoryModel categoryModel)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var updatedCategory = await _categoryService.UpdateCategory(Id, categoryModel);
+
+                return RedirectToAction("DisplayCategories", "Category", updatedCategory);
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Entered Invalid credentials, Please Re Enter the Credentials");
+                return View(categoryModel);
+            }
+        }
+
+        public async Task<IActionResult> DeleteCategory(string categoryId)
+        {
+            await _categoryService.DeleteCategory(categoryId);
+            return RedirectToAction("DisplayCategories", "Category");
+        }
     }
 }
         

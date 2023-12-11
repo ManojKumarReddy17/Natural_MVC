@@ -5,21 +5,28 @@ namespace NatDMS.Models
 {
     public class RetailorViewModel
     {
-        [Required]
+        public string Id { get;set; }
         public string FirstName { get; set; }
-        [Required]
+
         public string LastName { get; set; }
-        [Required]
+
         public string Email { get; set; }
-        [Required]
         public string MobileNumber { get; set; }
-        [Required]
         public string Address { get; set; }
-        [Required]
+
+        public string StateId { get; set; }
+
         public string State { get; set; }
         [Required]
+        public string CityId { get; set; }
+
         public string City { get; set; }
         [Required]
+        public string AreaId { get; set; }
+
+
         public string Area { get; set; }
+       
+
     }
 }

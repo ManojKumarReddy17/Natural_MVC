@@ -1,4 +1,3 @@
-﻿
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Build.Framework;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +7,7 @@ namespace NatDMS.Models
     public class EditViewModel
     {
         public string Id { get; set; }
-
+      
         [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Please Enter First Name")]
         [StringLength(40, MinimumLength = 3, ErrorMessage = "Please enter a valid First Name ")]
         public string? FirstName { get; set; }
@@ -36,9 +35,12 @@ namespace NatDMS.Models
         [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Selecting state  is required.")]
         public string? State { get; set; }
 
-      
+        public string? UserName { get; set; }
+        public string? Password { get; set; }
+
 
         public IEnumerable<SelectListItem>? StateList { get; set; }
+
         public IEnumerable<SelectListItem>? CityList { get; set; }
 
         public IEnumerable<SelectListItem>? AreaList { get; set; }

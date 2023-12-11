@@ -10,55 +10,92 @@ namespace NatDMS.Controllers
 {
     public class RetailorController : Controller
     {
-        private readonly IMapper _mapper;
-        private readonly ILocationService _locationservice;
-        private readonly IRetailorService _retailorService;
 
-        public RetailorController(IRetailorService retailorService, IMapper mapper, ILocationService locationService)
+        private readonly IRetailorService _retailorservice;
+        private readonly ILocationService _locationservice;
+        private readonly IStateService _stateService;
+        private readonly ICityService _cityService;
+        private readonly IAreaService _areaService;
+        private readonly IMapper _mapper;
+        public RetailorController(IRetailorService retailorservice, IMapper mapper, ILocationService locationService, IStateService StateService, ICityService CityService, IAreaService AreaService)
+
         {
-            _retailorService = retailorService;
-            _mapper = mapper;
+            _retailorservice = retailorservice;
+            _stateService = StateService;
+            _cityService = CityService;
+            _areaService = AreaService;
             _locationservice = locationService;
+            _mapper = mapper;
         }
+
+
         public async Task<ActionResult<RetailorModel>> DisplayRetailors()
         {
-            var result = await _retailorService.GetRetailors();
+            var result = await _retailorservice.GetRetailors();
             var mapped = _mapper.Map<List<RetailorModel>, List<RetailorViewModel>>(result);
 
             return View(mapped);
         }
 
+
+
+        public async Task<ActionResult> cityData(string Id)
+        {
+            var result = await _cityService.GetCity(Id);
+            return Json(result);
+        }
+
+        public async Task<JsonResult> GetArea(string Id)
+        {
+            var result = await _areaService.GetArea(Id);
+
+            return Json(result);
+        }
+
         public async Task<ActionResult> CreateRetailors()
         {
-            var states = await _locationservice.GetStates();
-            var cities = await _locationservice.GetCities();
-            var areas = await _locationservice.GetAreas();
-
-            ViewBag.States = new SelectList(states, "Id", "StateName");
-            ViewBag.Cities = new SelectList(cities, "Id", "CityName");
-            ViewBag.Areas = new SelectList(areas, "Id", "AreaName");
-
-            return View();
+            var viewModel = new SaveRetailorViewModel();
+            viewModel.States = await _stateService.GetState();
+            return View(viewModel);
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateRetailors(RetailorViewModel retailorViewModel)
+        public async Task<ActionResult> CreateRetailors(SaveRetailorViewModel retailorModel)
         {
             if (ModelState.IsValid)
             {
-                var retailors = _mapper.Map<RetailorViewModel, RetailorModel>(retailorViewModel);
-                retailors.State = Request.Form["StateId"];
-                retailors.City = Request.Form["CityId"];
-                retailors.Area = Request.Form["AreaId"];
+                var retailor = _mapper.Map<SaveRetailorViewModel, RetailorModel>(retailorModel);
 
-                var createretailor = await _retailorService.CreateRetailors(retailors);
-                return Ok("INSERTED SUCCESSFULLY");
+                var Createretailor = await _retailorservice.CreateRetailors(retailor);
+
+                return RedirectToAction("DisplayRetailors", "Retailor");
             }
             else
             {
-                var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
-                return BadRequest("Validation failed. Errors: " + string.Join(", ", errors));
+                ModelState.AddModelError(string.Empty, "Form submission failed. Please check the provided data");
+                return View(retailorModel);
             }
+
         }
+
+        public async Task<IActionResult> DeleteRetailor(string retailorId)
+        {
+            await _retailorservice.DeleteRetailor(retailorId);
+            return RedirectToAction("DisplayRetailors", "Retailor");
+        }
+        public async Task<ActionResult> RetailorDetails(string id)
+        {
+            var result = await _retailorservice.GetRetailorsById(id);
+            var mapped = _mapper.Map<SaveRetailorViewModel>(result);
+
+            return View(mapped);
+
+        }
+        
     }
+
 }
+
+
+
+

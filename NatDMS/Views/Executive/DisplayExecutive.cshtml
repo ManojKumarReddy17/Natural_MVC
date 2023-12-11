@@ -1,5 +1,4 @@
-﻿
-@model IEnumerable<NatDMS.Models.RetailorViewModel>
+﻿@model IEnumerable<NatDMS.Models.ExecutiveViewModel>
 
 @using System.Security.Claims
 
@@ -7,16 +6,13 @@
 
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=5, shrink-to-fit=no">
-    <title>GetRetailors</title>
-  
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>GetExecutive</title>
 
     <link rel="stylesheet" type="text/css" href="~/css/my.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-eZvQ1eMh52L0fX3TKOM7zkgZt8R79F2AuYOxjMz9zKR7j2JqU3z8Fv5KFyC5F2f3" crossorigin="anonymous">
-
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script type="text/javascript">
 
         function confirmDelete(uniqueId, isTrue) {
@@ -49,16 +45,15 @@
 
 <body>
     <div class="container">
-        <h2 class="my-4" align="center">MANAGE RETAILOR</h2>
+        <h2 class="my-4">MANAGE EXECUTIVE</h2>
         <p>
-            <a asp-action="CreateRetailors" class="btn btn-primary">CREATE NEW</a>
+            <a asp-action="CreateExecutive" class="btn btn-primary">CREATE NEW</a>
         </p>
 
-        <form asp-action="DisplayRetailors" method="get" class="form-inline mb-2">
-          
+        <form asp-action="DisplayExecutive" method="get" class="form-inline mb-2">
         </form>
 
-        <table class="table table-bordered table-striped" style="background-color: wheat;">
+        <table class="table table-bordered table-striped custom-table">
             <thead>
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.FirstName)</th>
@@ -69,6 +64,9 @@
                     <th>@Html.DisplayNameFor(model => model.State)</th>
                     <th>@Html.DisplayNameFor(model => model.City)</th>
                     <th>@Html.DisplayNameFor(model => model.Area)</th>
+                    <th>@Html.DisplayNameFor(model => model.UserName)</th>
+                    <th>@Html.DisplayNameFor(model => model.Password)</th>
+                    
                     <th>Edit</th>
                     <th>Delete</th>
                     <th>Details</th>
@@ -87,20 +85,14 @@
                         <td>@Html.DisplayFor(modelItem => item.State)</td>
                         <td>@Html.DisplayFor(modelItem => item.City)</td>
                         <td>@Html.DisplayFor(modelItem => item.Area)</td>
+                        <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Password)</td>
 
+                        <td><a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-success">Edit</a></td>
                         <td>
-                            <a href="@Url.Action("Edit", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:orange;">
-                                <i class="material-icons">edit</i>
-                            </a>
-                        </td>
-
-
-                        <td>
-
-                            <div style="display: flex; justify-content: center; align-items: center;">
-                                <i onclick="confirmDelete('@item.Id', true)" class="material-icons" style="color: red;cursor: pointer;">delete</i>
-                            </div>
-
+                            <span id="deleteSpan_@item.Id">
+                                <a href="#" class="btn btn-danger" onclick="confirmDelete('@item.Id', true)">DELETE</a>
+                            </span>
 
                             <div id="deleteConfirmationModal_@item.Id" class="modal" style="display:none">
                                 <div class="modal-dialog">
@@ -116,19 +108,17 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" onclick="confirmDelete('@item.Id', false)">No</button>
-                                            @using (Html.BeginForm("DeleteRetailor", "Retailor", new { retailorId = item.Id }, FormMethod.Post))
-                                            {
+                                            <form method="post" asp-action="DeleteExecutive">
+                                                <input type="hidden" name="execmdl" value="@item.Id" />
                                                 <button type="submit" class="btn btn-danger">Yes</button>
-                                            }
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </td>
                         <td>
-                            <a href="@Url.Action("RetailorDetails", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:green;">
-                                <i class="material-icons">info</i>
-                            </a>
+                            <a href="@Url.Action("GetDetailsbyid", new { id = item.Id })" class="btn btn-success">Details</a>
                         </td>
 
                     </tr>

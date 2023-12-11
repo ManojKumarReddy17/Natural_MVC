@@ -7,6 +7,9 @@ using Natural.Core.IServices;
 using Natural.Core.Models;
 using PagedList.Mvc;
 using PagedList;
+using Naturals.Service.Service;
+#nullable disable
+
 namespace NatDMS.Controllers
 {
     public class DistributorController : Controller
@@ -18,11 +21,10 @@ namespace NatDMS.Controllers
         private readonly ICityService _ICityService;
         private readonly IAreaService _IAreaService;
         private readonly IMapper _mapper;
-        public DistributorController(IDistributorService distributorservice, IMapper mapper, IStateService IStateService, ICityService ICityService, IAreaService IAreaService, ILocationService locationService)
 
+        public DistributorController(IDistributorService distributorservice, IMapper mapper, IStateService IStateService, ICityService ICityService, IAreaService IAreaService)
         {
             _distributorservice = distributorservice;
-            _locationservice = locationService;
             _IStateService = IStateService;
             _ICityService = ICityService;
             _IAreaService = IAreaService;
@@ -33,7 +35,7 @@ namespace NatDMS.Controllers
         public async Task<ActionResult<DistributorModel>> DisplayDistributors()
         {
             var result = await _distributorservice.GetDistributors();
-            var mapped = _mapper.Map<List<DistributorModel>,List<DistributorViewModel>>(result);
+            var mapped = _mapper.Map<List<DistributorModel>, List<DistributorViewModel>>(result);
 
             return View(mapped);
         }
@@ -47,53 +49,25 @@ namespace NatDMS.Controllers
         public async Task<JsonResult> GetArea(string Id)
         {
             var result = await _IAreaService.GetArea(Id);
-
             return Json(result);
         }
-        public async Task<IActionResult> CreateDistributor()
+
+        public async Task<ActionResult<DistributorViewModel>> DetailsAsync(string id)
         {
-            var cities = await _locationservice.GetCities();
-            var states = await _locationservice.GetStates();
-            var areas = await _locationservice.GetAreas();
+            var result = await _distributorservice.GetDistributorById(id);
+            var mapped = _mapper.Map<DistributorModel, DistributorViewModel>(result);
+            return View(mapped);
+        }
 
-            ViewBag.Cities = new SelectList(cities, "Id", "CityName");
-            ViewBag.States = new SelectList(states, "Id", "StateName");
-            ViewBag.Areas = new SelectList(areas, "Id", "AreaName");
 
+        public async Task<ActionResult> CreateDistributor()
+        {
+            var result = await _IStateService.GetState();
+            var distributo = _mapper.Map<List<StateModel>, List<StateViewModel>>(result);
+            ViewBag.State = distributo;
             return View();
         }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateDistributor(DistributorViewModel distributorModel)
-        {
-            if (ModelState.IsValid)
-            {
-
-                var distributor = _mapper.Map<DistributorViewModel,DistributorModel>(distributorModel);
-                distributor.City = Request.Form["CityId"];
-                distributor.State = Request.Form["StateId"];
-                distributor.Area = Request.Form["AreaId"];
-
-
-                var createdDistributor = await _distributorservice.CreateDistributor(distributor);
-
-
-                return RedirectToAction("DisplayDistributors", "Distributor");
-            }
-
-            else
-            { 
-
-                var cities = await _locationservice.GetCities();
-                var states = await _locationservice.GetStates();
-                var areas = await _locationservice.GetAreas();
-                ViewBag.Cities = new SelectList(cities, "Id", "CityName");
-                ViewBag.States = new SelectList(states, "Id", "StateName");
-                ViewBag.Areas = new SelectList(areas, "Id", "AreaName");
-                ModelState.AddModelError(string.Empty, "Entered Invalid crednetials, Please Re Enter the Crendentials");
-                return View(distributorModel);
-            }
-        }
+      
 
 
         public async Task<ActionResult<EditViewModel>> Edit(string id)
@@ -103,9 +77,9 @@ namespace NatDMS.Controllers
 
 
             var distributer = await _distributorservice.GetDistributorById(id);
-           
+
             var statesResult = await _IStateService.GetState();
-           
+
             var citiesResult = await _ICityService.GetCity(distributer.State);
 
             var AreaResult = await _IAreaService.GetArea(distributer.City);
@@ -135,7 +109,7 @@ namespace NatDMS.Controllers
                 }).AsEnumerable()
             };
             model.State = distributer.State;
-            model.City = distributer.City; 
+            model.City = distributer.City;
             model.Area = distributer.Area;
             return View(model);
         }
@@ -166,5 +140,9 @@ namespace NatDMS.Controllers
                 return View();
             }
         }
-    }
+
+        }
+
+        //public JsonResult result (SaveDistributorViewModel Distributor)
+        //{ return Json(Distributor); }
 }
