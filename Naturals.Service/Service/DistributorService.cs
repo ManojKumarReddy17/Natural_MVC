@@ -38,5 +38,10 @@ namespace Naturals.Service.Service
             return output;
 
         }
+
+        public Task UpdateDistributor(string id, DistributorModel update)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
