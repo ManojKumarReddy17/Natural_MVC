@@ -16,7 +16,7 @@ namespace NatDMS.Controllers
     {
 
         private readonly IDistributorService _distributorservice;
-        private readonly ILocationService _locationservice;
+        
         private readonly IStateService _IStateService;
         private readonly ICityService _ICityService;
         private readonly IAreaService _IAreaService;
@@ -87,6 +87,8 @@ namespace NatDMS.Controllers
                 Email = distributer.Email,
                 MobileNumber = distributer.MobileNumber,
                 Address = distributer.Address,
+                UserName=distributer.UserName,
+                Password=distributer.Password,
                 StateList = statesResult.Select(state => new SelectListItem
                 {
                     Text = state.StateName,
@@ -139,6 +141,5 @@ namespace NatDMS.Controllers
 
         }
 
-        //public JsonResult result (SaveDistributorViewModel Distributor)
-        //{ return Json(Distributor); }
+        
 }

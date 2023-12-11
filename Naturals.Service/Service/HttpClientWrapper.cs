@@ -75,17 +75,11 @@ namespace Naturals.Service.Service
             return JsonConvert.DeserializeObject<T>(responseContent);
         }
 
-       
-
-
         public async Task<bool> DeleteAsync(string endpoint, string Id)
         {
             var response = await _httpClient.DeleteAsync($"{_httpClient.BaseAddress}{endpoint}/{Id}");
             return response.IsSuccessStatusCode;
         }
-
-
-
         public void Dispose()
         {
             _httpClient.Dispose();
