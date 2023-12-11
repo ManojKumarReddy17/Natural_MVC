@@ -1,0 +1,168 @@
+﻿@model NatDMS.Models.SaveExecutiveViewModel
+
+@{
+    ViewData["Title"] = "CreateExecutive";
+}
+
+@using (Html.BeginForm("CreateExecutive", "Executive", FormMethod.Post, new { @class = "needs-validation", novalidate = "true" }))
+{
+    <h3 class="text-center">CREATE EXECUTIVE</h3>
+    <div class="row justify-content-center">
+        <div class="col-md-3">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.FirstName)
+                @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LastName)
+                @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email)
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.MobileNumber)
+                @Html.TextBoxFor(model => model.MobileNumber, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Address)
+                @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+
+        <div class="col-md-3">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UserName)
+                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password)
+                @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.State)
+                @Html.DropDownListFor(model => model.State, new SelectList(Model.States, "Id", "StateName"),
+            "--Select State--", new { @id = "state", onchange = "statechange()", @class = "form-select" })
+                @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.City)
+                @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
+            {
+            new SelectListItem { Text = "", Value = "select" },
+            }, "Value", "Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
+                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Area)
+                @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
+            {
+            new SelectListItem { Text = "", Value = "select" }
+            }, new { id = "area", @class = "form-select" })
+                @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <input type="submit" value="SUBMIT" class="btn btn-primary" />
+    </div>
+
+}
+<div class="col-md-2">
+    <div class="btn-btn-warning">
+        @Html.ActionLink("RESET", "CreateExecutive")
+    </div>
+</div>
+
+<div class="col-md-2">
+    <div class="btn-btn-secondary">
+        @Html.ActionLink("BACK TO LIST", "DisplayExecutive")
+    </div>
+</div>
+
+<script src="~/js/jquery-3.6.0.min.js"></script>
+
+<script type="text/javascript">
+    function statechange() {
+        debugger;
+        var stid = $('#state').val();
+        if (stid.trim() != '') {
+            var ddlcity = $('#city');
+            ddlcity.empty();
+
+            $.ajax(
+                {
+                    url: "/Executive/cityData",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { Id: stid },
+                    success: function (d) {
+                        ddlcity.append($("<option></option>").val('').html('SelectCity'));
+                        $.each(d, function (i, cities) {
+                            ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
+                        });
+                    },
+                    error: function () {
+                        alert('Error!');
+                    }
+                });
+        }
+    }
+
+    function citychange() {
+        debugger;
+        var stid = $('#city').val();
+        if (stid.trim() != '') {
+            var ddlarea = $('#area');
+            ddlarea.empty();
+
+            $.ajax(
+                {
+                    url: "/Executive/GetArea",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { Id: stid },
+                    success: function (d) {
+                        ddlarea.append($("<option></option>").val('').html('SelectArea'));
+                        $.each(d, function (i, areas) {
+                            ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
+                        });
+                    },
+                    error: function () {
+                        alert('Error!');
+                    }
+                });
+        }
+    }
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

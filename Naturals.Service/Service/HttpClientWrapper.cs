@@ -4,6 +4,7 @@ using Natural.Core.IServices;
 using Natural.Core.Models;
 
 using Newtonsoft.Json;
+using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -36,9 +37,9 @@ namespace Naturals.Service.Service
         public async Task<T> PostAsync<T>(string endpoint, object model)
         {
             var jsonContent = JsonConvert.SerializeObject(model);
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            var content = new StringContent(jsonContent, Encoding.UTF8,"application/json");
 
-            var response = await _httpClient.PostAsync(_httpClient.BaseAddress + endpoint, content);
+            var response = await _httpClient.PostAsync(_httpClient.BaseAddress + endpoint,content);
             var responseContent = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<T>(responseContent);
