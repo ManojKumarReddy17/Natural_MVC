@@ -68,35 +68,6 @@ namespace NatDMS.Controllers
         }
       
 
-        [HttpPost]
-        public async Task<IActionResult> CreateDistributor(SaveDistributorViewModel data)
-        {
-            if (ModelState.IsValid)
-            {
-                var distributor = _mapper.Map<DistributorViewModel,DistributorModel>(distributorModel);
-                distributor.City = Request.Form["CityId"];
-                distributor.State = Request.Form["StateId"];
-                distributor.Area = Request.Form["AreaId"];
-
-
-                var createdDistributor = await _distributorservice.CreateDistributor(distributor);
-                return RedirectToAction("DisplayDistributors", "Distributor");
-            }
-
-            else
-            { 
-
-                var cities = await _locationservice.GetCities();
-                var states = await _locationservice.GetStates();
-                var areas = await _locationservice.GetAreas();
-                ViewBag.Cities = new SelectList(cities, "Id", "CityName");
-                ViewBag.States = new SelectList(states, "Id", "StateName");
-                ViewBag.Areas = new SelectList(areas, "Id", "AreaName");
-                ModelState.AddModelError(string.Empty, "Entered Invalid crednetials, Please Re Enter the Crendentials");
-                return View(distributorModel);
-            }
-        }
-
 
         public async Task<ActionResult<EditViewModel>> Edit(string id)
         {
@@ -168,13 +139,9 @@ namespace NatDMS.Controllers
                 return View();
             }
         }
-            {
 
-                return View();
-            }
         }
 
-        public JsonResult result (SaveDistributorViewModel Distributor)
-        { return Json(Distributor); }
-    }
+        //public JsonResult result (SaveDistributorViewModel Distributor)
+        //{ return Json(Distributor); }
 }
