@@ -13,23 +13,17 @@ namespace NatDMS.Controllers
 
         private readonly IRetailorService _retailorservice;
         private readonly ILocationService _locationservice;
-
-        private readonly IStateService _IStateService;
-        private readonly ICityService _ICityService;
-        private readonly IAreaService _IAreaService;
+        private readonly IStateService _stateService;
+        private readonly ICityService _cityService;
+        private readonly IAreaService _areaService;
 
         private readonly IMapper _mapper;
-        public RetailorController(IRetailorService retailorservice, IMapper mapper, ILocationService locationService, IStateService IStateService, ICityService ICityService, IAreaService IAreaService)
-
-        private readonly IRetailorService _retailorService;
-        private readonly IDistributorService _distributorService;
-
-        public RetailorController(IRetailorService retailorService, IMapper mapper, ILocationService locationService, IDistributorService distributorService)
+        public RetailorController(IRetailorService retailorService, IMapper mapper, ILocationService locationService, IStateService stateService, ICityService cityService, IAreaService areaService)
         {
-            _retailorservice = retailorservice;
-            _IStateService = IStateService;
-            _ICityService = ICityService;
-            _IAreaService = IAreaService;
+            _retailorservice = retailorService;
+            _stateService = stateService;
+            _cityService = cityService;
+            _areaService = areaService;
             _locationservice = locationService;
 
             _mapper = mapper;
@@ -44,16 +38,11 @@ namespace NatDMS.Controllers
             return View(mapped);
         }
 
-
-
-            _distributorService = distributorService;
-        }
-
         [HttpGet]
-        public async Task<ActionResult<RetailorModel>> DisplayRetailors(string searchTerm, string selectedState,string selectedCity,string selectedArea)
+        public async Task<ActionResult<RetailorModel>> DisplayRetailors(string searchTerm, string selectedState, string selectedCity, string selectedArea)
         {
-            
-            var retailors = await _retailorService.GetRetailors();
+
+            var retailors = await _retailorservice.GetRetailors();
 
             if (!string.IsNullOrEmpty(searchTerm))
             {
@@ -74,32 +63,34 @@ namespace NatDMS.Controllers
                 retailors = retailors.Where(r => r.Area.Equals(selectedArea, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
+            return View(retailors);
+        }
 
-        public async Task<IActionResult> cityData(string Id)
+        public async Task<ActionResult> cityData(string Id)
         {
-            var result = await _ICityService.GetCity(Id);
+            var result = await _cityService.GetCity(Id);
             return Json(result);
         }
+
+
         [HttpGet("{id}")]
         public async Task<ActionResult<RetailorViewModel>> GetRetailorById(string id)
         {
-            var retailor = await _retailorService.GetRetailorById(id);
+            var retailor = await _retailorservice.GetRetailorById(id);
             var mapretailor = _mapper.Map<List<RetailorViewModel>>(retailor);
             return Ok(mapretailor);
         }
 
         public async Task<JsonResult> GetArea(string Id)
         {
-            var result = await _IAreaService.GetArea(Id);
+            var result = await _cityService.GetCity(Id);
 
             return Json(result);
         }
 
-
-
         public async Task<ActionResult> CreateRetailors()
         {
-            var result = await _IStateService.GetState();
+            var result = await _stateService.GetState();
             var distributo = _mapper.Map<List<StateModel>, List<StateViewModel>>(result);
             ViewBag.State = distributo;
             return View();
@@ -129,19 +120,5 @@ namespace NatDMS.Controllers
 
 
         }
-        [HttpGet]
-        public IActionResult Search()
-        {
-            return View();
-        }
-       
-
-
-
-
-
-        }
     }
 }
-  
-

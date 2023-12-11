@@ -20,6 +20,9 @@ namespace NatDMS.Mapping
             CreateMap<CityModel, CityViewModel>();
             CreateMap<AreaModel, AreaViewModel>();
             CreateMap<RetailorModel, SaveRetailorViewModel>();
+            CreateMap<ExecutiveModel, ExecutiveViewModel>();
+            CreateMap<ExecutiveModel, SaveExecutiveViewModel>();
+
 
 
 
@@ -31,6 +34,9 @@ namespace NatDMS.Mapping
             CreateMap<CategoryViewModel, CategoryModel>();
             CreateMap<RetailorViewModel, RetailorModel>();
             CreateMap<SaveRetailorViewModel,RetailorModel>();
+            CreateMap<ExecutiveViewModel, ExecutiveModel>();
+            CreateMap<SaveExecutiveViewModel, ExecutiveModel>();
+
 
 
         }
