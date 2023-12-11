@@ -7,8 +7,11 @@ namespace Natural.Core.IServices
 {
     public interface IHttpClientWrapper
     {
-        public Task<T> GetAsync<T>(string endpoint);
+        Task<T> GetAsync<T>(string endpoint);
+        Task<T> PostAsync<T>(string endpoint, object model);
 
+         Task<T> PutAsync<T>(string endpoint, object model);
         public Task<T> PostAsync<T>(string endpoint, object model);
+        public Task<T>GetByIdAsync<T>(string endpoint,string id);
     }
 }

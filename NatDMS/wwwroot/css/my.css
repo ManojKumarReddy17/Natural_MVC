@@ -28,11 +28,10 @@
     margin: 0 auto; /* Center the box-header */
 }
 
-
 /* Custom CSS for DisplayCategories page */
 
 .custom-table {
-    width: 50%%;
+    width: 50%;
     margin-bottom: 1rem;
     color: black;
     border-collapse: collapse;
@@ -66,42 +65,11 @@
 
 /* Custom CSS for CreateCategories page */
 
-
-.card {
-    margin-top: 20px;
-    max-width: 400px; /* Adjust the max-width as needed */
-    margin-left: auto;
-    margin-right: auto;
-    background-color: papayawhip;
-}
-
-.card-header {
-    background-color: burlywood; /* Set the background color for the top of the card */
-}
-.about-back{
-    background-color:burlywood;
-
-}
-/* Custom CSS for CreateRetailor page */
-body {
-    background-color: lightgrey; /* Light gray background color */
-}
-.card-title{
-
-    height:50%;
-    background-color:papayawhip;
-}
- .center {
-    text-align: center;
-}
-
-
-.form-container {
-    max-width: 300px; /* Adjust as needed */
-    margin: auto;
+.custom-box {
+    border: 1px solid #ddd;
     padding: 20px;
-    background-color: wheat; /* Form background color */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 3px;
-    height: 50%;
+    border-radius: 5px;
+    margin-top: 20px;
+    background-color: burlywood;
 }
+

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using NatDMS.Models;
 using Natural.Core.Models;
+using Natural_Core.Models;
 
 namespace NatDMS.Mapping
 {
@@ -19,6 +20,11 @@ namespace NatDMS.Mapping
             CreateMap<DistributorModel, DistributorViewModel>();
             CreateMap<CategoryModel, CategoryViewModel>();
             CreateMap<RetailorModel, RetailorViewModel>();
+            CreateMap<StateModel, StateViewModel>();
+            CreateMap<CityModel, CityViewModel>();
+            CreateMap<AreaModel, AreaViewModel>();
+            CreateMap<ExecutiveModel, ExecutiveViewModel>();
+            CreateMap<RetailorModel, SaveRetailorViewModel>();
 
 
 
@@ -30,6 +36,8 @@ namespace NatDMS.Mapping
             CreateMap<CategoryViewModel, CategoryModel>();
             CreateMap<RetailorViewModel, RetailorModel>();
             CreateMap<EditViewModel, DistributorModel>();
+            CreateMap<EditViewModel, ExecutiveModel>();
+            CreateMap<SaveRetailorViewModel,RetailorModel>();
 
         }
     }

@@ -3,6 +3,7 @@ using Natural.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,10 +23,19 @@ namespace Naturals.Service.Service
             return getretailor;
 
         }
+        
+
         public async Task<RetailorModel> CreateRetailors(RetailorModel retailors)
         {
             var result = await _HttpCleintWrapper.PostAsync<RetailorModel>("/Retailor/", retailors);
             return result;
         }
+
+        public async Task<RetailorModel> GetRetailorById(string Retailorid)
+        {
+            var getretailorid = await _HttpCleintWrapper.GetByIdAsync<RetailorModel>("/Retailor", Retailorid);
+            return getretailorid;
+        }
     }
+   
 }

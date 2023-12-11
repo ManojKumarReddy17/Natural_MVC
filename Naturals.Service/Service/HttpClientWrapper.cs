@@ -4,6 +4,7 @@ using Natural.Core.IServices;
 using Natural.Core.Models;
 
 using Newtonsoft.Json;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 
@@ -42,9 +43,30 @@ namespace Naturals.Service.Service
 
             return JsonConvert.DeserializeObject<T>(responseContent);
         }
+
+        public async Task<T> PutAsync<T>(string endpoint, object model)
+        {
+            var jsonContent = JsonConvert.SerializeObject(model);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PutAsync(_httpClient.BaseAddress + endpoint, content);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<T>(responseContent);
+        }
         public void Dispose()
         {
             _httpClient.Dispose();
         }
+
+        public async Task<T> GetByIdAsync<T>(string endpoint, string id)
+        {
+            var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}{endpoint}/{id}");
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<T>(responseContent);
+        }
+
     }
 }

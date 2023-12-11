@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<NatDMS.Models.RetailorViewModel>
 
-
 <!DOCTYPE html>
 
 <html lang="en">
@@ -8,8 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>GetRetailors</title>
     <link rel="stylesheet" type="text/css" href="~/css/my.css">
-    
-
 </head>
 
 <body>
@@ -18,7 +15,36 @@
         <p>
             <a asp-action="CreateRetailors" class="btn btn-primary">CREATE NEW</a>
         </p>
-        <table class="table table-bordered table-striped custom-table">
+
+        <form asp-action="DisplayRetailors" method="get" class="form-inline mb-2">
+            <div class="form-group mr-2">
+                <label for="searchInput" class="sr-only">Search:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchInput" name="searchTerm" placeholder="Search">
+
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-secondary">Search</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-check form-check-inline mr-2">
+                <input class="form-check-input" type="checkbox" id="stateCheckbox" name="selectedCriteria" value="state">
+                <label class="form-check-label" for="stateCheckbox">Search State</label>
+            </div>
+
+            <div class="form-check form-check-inline mr-2">
+                <input class="form-check-input" type="checkbox" id="cityCheckbox" name="selectedCriteria" value="city">
+                <label class="form-check-label" for="cityCheckbox">Search City</label>
+            </div>
+
+            <div class="form-check form-check-inline mr-2">
+                <input class="form-check-input" type="checkbox" id="areaCheckbox" name="selectedCriteria" value="area">
+                <label class="form-check-label" for="areaCheckbox">Search Area</label>
+            </div>
+        </form>
+
+       <table class="table table-bordered table-striped custom-table">
             <thead>
                 <tr>
                     <th>
@@ -37,19 +63,23 @@
                         @Html.DisplayNameFor(model => model.Address)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Area)
+                        @Html.DisplayNameFor(model => model.State)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.City)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.State)
+                        @Html.DisplayNameFor(model => model.Area)
                     </th>
                     <th>Edit</th>
                     <th>Delete</th>
+                    <th>Details</th>
                 </tr>
 
+
+
                 </tr>
+ 
             </thead>
             <tbody>
                 @foreach (var item in Model)
@@ -65,14 +95,45 @@
                         <td>@Html.DisplayFor(modelItem => item.Area)</td>
                         <td><a asp-action="Edit" class="btn btn-warning btn-sm">EDIT</a></td>
                         <td><a asp-action="Delete" class="btn btn-danger btn-sm">DELETE</a></td>
+                        <td><a asp-action="Details" class="btn btn-success btn-sm">DETAILS</a></td>
+
+
+
+
                     </tr>
                 }
             </tbody>
         </table>
+
     </div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script>
+        // Function to dynamically update the placeholder and name attributes of the search input
+        function updateSearchInput() {
+            var searchInput = document.getElementById('searchInput');
+            var selectedCriteria = document.querySelector('input[name="selectedCriteria"]:checked');
+
+            if (selectedCriteria) {
+                var criteriaValue = selectedCriteria.value;
+                searchInput.placeholder = 'Search ' + criteriaValue.charAt(0).toUpperCase() + criteriaValue.slice(1);
+                searchInput.name = 'selected' + criteriaValue.charAt(0).toUpperCase() + criteriaValue.slice(1);
+            } else {
+                searchInput.placeholder = 'Search';
+                searchInput.name = 'searchTerm';
+            }
+        }
+
+        // Event listener to update search input when checkboxes are clicked
+        document.addEventListener('DOMContentLoaded', function () {
+            updateSearchInput(); // Set initial state
+            document.querySelectorAll('input[name="selectedCriteria"]').forEach(function (checkbox) {
+                checkbox.addEventListener('change', updateSearchInput);
+            });
+        });
+    </script>
 </body>
 </html>

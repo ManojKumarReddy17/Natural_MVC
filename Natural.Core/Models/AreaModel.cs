@@ -11,5 +11,7 @@ namespace Natural.Core.Models
     {
         public string Id { get; set; }
         public string AreaName { get; set; }
+        public string CityId { get; set; }
+
     }
 }

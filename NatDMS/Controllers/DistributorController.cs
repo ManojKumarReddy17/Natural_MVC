@@ -7,6 +7,8 @@ using Natural.Core.IServices;
 using Natural.Core.Models;
 using PagedList.Mvc;
 using PagedList;
+using Naturals.Service.Service;
+
 namespace NatDMS.Controllers
 {
     public class DistributorController : Controller
@@ -18,11 +20,10 @@ namespace NatDMS.Controllers
         private readonly ICityService _ICityService;
         private readonly IAreaService _IAreaService;
         private readonly IMapper _mapper;
-        public DistributorController(IDistributorService distributorservice, IMapper mapper, IStateService IStateService, ICityService ICityService, IAreaService IAreaService, ILocationService locationService)
-
+        
+        public DistributorController(IDistributorService distributorservice, IMapper mapper,IStateService IStateService, ICityService ICityService, IAreaService IAreaService)
         {
             _distributorservice = distributorservice;
-            _locationservice = locationService;
             _IStateService = IStateService;
             _ICityService = ICityService;
             _IAreaService = IAreaService;
@@ -47,28 +48,31 @@ namespace NatDMS.Controllers
         public async Task<JsonResult> GetArea(string Id)
         {
             var result = await _IAreaService.GetArea(Id);
-
             return Json(result);
         }
-        public async Task<IActionResult> CreateDistributor()
+
+        public async Task<ActionResult<DistributorViewModel>> DetailsAsync(string id)
         {
-            var cities = await _locationservice.GetCities();
-            var states = await _locationservice.GetStates();
-            var areas = await _locationservice.GetAreas();
-
-            ViewBag.Cities = new SelectList(cities, "Id", "CityName");
-            ViewBag.States = new SelectList(states, "Id", "StateName");
-            ViewBag.Areas = new SelectList(areas, "Id", "AreaName");
-
-            return View();
+            var result = await _distributorservice.GetDistributorById(id);
+            var mapped = _mapper.Map<DistributorModel, DistributorViewModel>(result);
+            return View(mapped);
         }
 
+
+        public async Task<ActionResult> CreateDistributor()
+        {
+            var result = await _IStateService.GetState();
+            var distributo = _mapper.Map<List<StateModel>, List<StateViewModel>>(result);
+            ViewBag.State = distributo;
+            return View();
+        }
+      
+
         [HttpPost]
-        public async Task<IActionResult> CreateDistributor(DistributorViewModel distributorModel)
+        public async Task<IActionResult> CreateDistributor(SaveDistributorViewModel data)
         {
             if (ModelState.IsValid)
             {
-
                 var distributor = _mapper.Map<DistributorViewModel,DistributorModel>(distributorModel);
                 distributor.City = Request.Form["CityId"];
                 distributor.State = Request.Form["StateId"];
@@ -76,8 +80,6 @@ namespace NatDMS.Controllers
 
 
                 var createdDistributor = await _distributorservice.CreateDistributor(distributor);
-
-
                 return RedirectToAction("DisplayDistributors", "Distributor");
             }
 
@@ -166,5 +168,13 @@ namespace NatDMS.Controllers
                 return View();
             }
         }
+            {
+
+                return View();
+            }
+        }
+
+        public JsonResult result (SaveDistributorViewModel Distributor)
+        { return Json(Distributor); }
     }
 }
