@@ -1,6 +1,5 @@
 ﻿using Natural.Core.IServices;
 using Natural.Core.Models;
-using Natural_Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -48,17 +47,25 @@ namespace Naturals.Service.Service
         }
 
         public async Task<ExecutiveModel> GetExecutiveDetailsById(string ID)
-        public async Task<ExecutiveModel> UpdateDistributor(string Id, ExecutiveModel distributor)
         {
-            var excdtlid = await _httpClient.GetByIdAsync<ExecutiveModel>("/Executive/details",ID);
+            
+            var excdtlid = await _httpClient.GetByIdAsync<ExecutiveModel>("/Executive/details", ID);
             return excdtlid;
         }
+        public async Task<ExecutiveModel> UpdateDistributor(string Id, ExecutiveModel execupdate)
+        {
             string controller = $"/Executive/{Id}";
 
-            var output = await _httpCleintWrapper.PutAsync<ExecutiveModel>(controller, distributor);
+            var output = await _httpClient.PutAsync<ExecutiveModel>("/Executive/id", Id);
 
             return output;
 
         }
+
+        public Task<ExecutiveModel> GetExecutiveById(string Id)
+        {
+            throw new NotImplementedException();
+        }
+    }
     }
 

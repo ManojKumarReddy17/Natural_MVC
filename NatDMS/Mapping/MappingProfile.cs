@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using NatDMS.Models;
 using Natural.Core.Models;
-using Natural_Core.Models;
 
 namespace NatDMS.Mapping
 {

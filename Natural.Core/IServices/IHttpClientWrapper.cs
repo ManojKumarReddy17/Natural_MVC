@@ -15,9 +15,9 @@ namespace Natural.Core.IServices
         public Task<T>GetByIdAsync<T>(string endpoint,string Id);
         public Task<T> PutAsync<T>(string endpoint, string Id, object model);
         Task <bool>DeleteAsync(string endpoint, string categoryId);
-    }
-        public Task<T> GetByIdAsync<T>(string endpoint, string id);
-        Task<bool> DeleteAsync(string endpoint, String Id);
+
+        //public Task<T> GetByIdAsync<T>(string endpoint, string id);
+        //Task<bool> DeleteAsync(string endpoint, String Id);
        // Task<T> GetExecutiveDetailsByID<T>(string ID);
     }  
 }
