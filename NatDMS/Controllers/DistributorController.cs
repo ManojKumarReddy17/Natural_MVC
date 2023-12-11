@@ -72,10 +72,6 @@ namespace NatDMS.Controllers
 
         public async Task<ActionResult<EditViewModel>> Edit(string id)
         {
-
-
-
-
             var distributer = await _distributorservice.GetDistributorById(id);
 
             var statesResult = await _IStateService.GetState();
