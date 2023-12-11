@@ -9,7 +9,7 @@ namespace Natural.Core.Models
 {
     public partial class CategoryModel
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string CategoryName { get; set; }
     }
 }
