@@ -28,5 +28,15 @@ namespace Naturals.Service.Service
             var result= await _HttpCleintWrapper.PostAsync<DistributorModel>("/Distributor/", distributor);
             return result;
         }
+
+        public async Task<DistributorModel> GetDistributorById(string Id)
+        {
+            string controller = $"/Distributor/{Id}";
+      
+            var output = await _HttpCleintWrapper.GetAsync<DistributorModel> (controller);
+
+            return output;
+
+        }
     }
 }

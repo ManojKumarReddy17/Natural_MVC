@@ -8,6 +8,9 @@
 
 <h4>SaveDistributorViewModel</h4>
 <hr />
+
+@using(Html.BeginForm())
+{
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Disttributor">
@@ -16,7 +19,7 @@
             <div class="form-group">
                 <b>
                 <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
+                <input asp-for="FirstName" class="form-control" id="FirstName" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
                 </b>
             </div>
@@ -24,7 +27,7 @@
             <div class="form-group">
                 <b>
                 <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
+                <input asp-for="LastName" class="form-control" id="LastName" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
                 </b>
             </div>
@@ -90,7 +93,7 @@
             </div>
           
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="button" value="Create" class="btn btn-primary" onclick="CustSave()" />
             </div>
 
 
@@ -172,12 +175,45 @@
             }
 
         }
+      function CustSave() {
+                    alert("save")
+          // var Distributor = {
+          //     State : $('#state').val(),
+          //  FirstName : $('#FirstName').val(),
+          //   City : $('#city').val(),
+          //   Area :$('#area').val(),
+          //          LastName  : $('#LastName').val()
+          // };
 
-               
+          var Distributor = new object();
+            Distributor.FirstName = $('#FirstName').val()
+            Distributor.LastName = $('#LastName').val()
+            Distributor.Area = $('#area').val()
+            Distributor.State = $('#state').val()
+            Distributor.City = $('#city').val()
+
+                    $.ajax({
+                url: "/Distributor/result",
+                        type: 'POST',
+                        dataType: 'json',
+                data: JSON.stringify(Distributor),
+                // data: { data: Distributor },
+                       
+                        contentType: 'application/json; charset=utf-8',
+                        success: function () {
+
+                    window.location.href = '/Distributor/DisplayDistributors';
+                        },
+                        error: function () {
+                           alert('Error!');
+                        }
+                    });
+
+                }
     </script>
 
 </div>
-
+}
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

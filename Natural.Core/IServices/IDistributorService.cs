@@ -11,5 +11,7 @@ namespace Natural.Core.IServices
     {
         Task<List<DistributorModel>> GetDistributors();
         Task<DistributorModel> CreateDistributor(DistributorModel distributor);
+
+        Task<DistributorModel> GetDistributorById(string Id);
     }
 }
