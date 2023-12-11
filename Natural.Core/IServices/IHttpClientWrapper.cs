@@ -1,7 +1,5 @@
 ﻿
-
 using Natural.Core.Models;
-
 namespace Natural.Core.IServices
 
 {

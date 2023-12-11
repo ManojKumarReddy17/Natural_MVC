@@ -1,87 +1,81 @@
-﻿@model IEnumerable<NatDMS.Models.RetailorViewModel>
+﻿
+@model IEnumerable<NatDMS.Models.RetailorViewModel>
+
+@using System.Security.Claims
 
 <!DOCTYPE html>
 
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=5, shrink-to-fit=no">
     <title>GetRetailors</title>
+  
+
     <link rel="stylesheet" type="text/css" href="~/css/my.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-eZvQ1eMh52L0fX3TKOM7zkgZt8R79F2AuYOxjMz9zKR7j2JqU3z8Fv5KFyC5F2f3" crossorigin="anonymous">
+
+    <script type="text/javascript">
+
+        function confirmDelete(uniqueId, isTrue) {
+            var deleteSpan = 'deleteSpan_' + uniqueId;
+            var confirmDeleteSpan = 'confirmDeleteSpan_' + uniqueId;
+
+            if (isTrue) {
+                $('#' + deleteSpan).hide();
+                $('#' + confirmDeleteSpan).show();
+                showModal(uniqueId);
+            } else {
+                $('#' + deleteSpan).show();
+                $('#' + confirmDeleteSpan).hide();
+                hideModal(uniqueId);
+            }
+        }
+
+        function showModal(uniqueId) {
+            var modal = $('#deleteConfirmationModal_' + uniqueId);
+            modal.modal('show');
+        }
+
+        function hideModal(uniqueId) {
+            var modal = $('#deleteConfirmationModal_' + uniqueId);
+            modal.modal('hide');
+        }
+    </script>
+
 </head>
 
 <body>
     <div class="container">
-        <h2 class="my-4">MANAGE RETAILOR</h2>
+        <h2 class="my-4" align="center">MANAGE RETAILOR</h2>
         <p>
             <a asp-action="CreateRetailors" class="btn btn-primary">CREATE NEW</a>
         </p>
 
         <form asp-action="DisplayRetailors" method="get" class="form-inline mb-2">
-            <div class="form-group mr-2">
-                <label for="searchInput" class="sr-only">Search:</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" id="searchInput" name="searchTerm" placeholder="Search">
-
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-secondary">Search</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-check form-check-inline mr-2">
-                <input class="form-check-input" type="checkbox" id="stateCheckbox" name="selectedCriteria" value="state">
-                <label class="form-check-label" for="stateCheckbox">Search State</label>
-            </div>
-
-            <div class="form-check form-check-inline mr-2">
-                <input class="form-check-input" type="checkbox" id="cityCheckbox" name="selectedCriteria" value="city">
-                <label class="form-check-label" for="cityCheckbox">Search City</label>
-            </div>
-
-            <div class="form-check form-check-inline mr-2">
-                <input class="form-check-input" type="checkbox" id="areaCheckbox" name="selectedCriteria" value="area">
-                <label class="form-check-label" for="areaCheckbox">Search Area</label>
-            </div>
+          
         </form>
 
-       <table class="table table-bordered table-striped custom-table">
+        <table class="table table-bordered table-striped" style="background-color: wheat;">
             <thead>
                 <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.FirstName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.LastName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Email)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.MobileNumber)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Address)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.State)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.City)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Area)
-                    </th>
+                    <th>@Html.DisplayNameFor(model => model.FirstName)</th>
+                    <th>@Html.DisplayNameFor(model => model.LastName)</th>
+                    <th>@Html.DisplayNameFor(model => model.Email)</th>
+                    <th>@Html.DisplayNameFor(model => model.MobileNumber)</th>
+                    <th>@Html.DisplayNameFor(model => model.Address)</th>
+                    <th>@Html.DisplayNameFor(model => model.State)</th>
+                    <th>@Html.DisplayNameFor(model => model.City)</th>
+                    <th>@Html.DisplayNameFor(model => model.Area)</th>
                     <th>Edit</th>
                     <th>Delete</th>
                     <th>Details</th>
                 </tr>
-
-
-
-                </tr>
- 
             </thead>
             <tbody>
+
                 @foreach (var item in Model)
                 {
                     <tr>
@@ -93,47 +87,55 @@
                         <td>@Html.DisplayFor(modelItem => item.State)</td>
                         <td>@Html.DisplayFor(modelItem => item.City)</td>
                         <td>@Html.DisplayFor(modelItem => item.Area)</td>
-                        <td><a asp-action="Edit" class="btn btn-warning btn-sm">EDIT</a></td>
-                        <td><a asp-action="Delete" class="btn btn-danger btn-sm">DELETE</a></td>
-                        <td><a asp-action="Details" class="btn btn-success btn-sm">DETAILS</a></td>
+
+                        <td>
+                            <a href="@Url.Action("Edit", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:orange;">
+                                <i class="material-icons">edit</i>
+                            </a>
+                        </td>
 
 
+                        <td>
 
+                            <div style="display: flex; justify-content: center; align-items: center;">
+                                <i onclick="confirmDelete('@item.Id', true)" class="material-icons" style="color: red;cursor: pointer;">delete</i>
+                            </div>
+
+
+                            <div id="deleteConfirmationModal_@item.Id" class="modal" style="display:none">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Delete Confirmation</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to delete this item?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" onclick="confirmDelete('@item.Id', false)">No</button>
+                                            @using (Html.BeginForm("DeleteRetailor", "Retailor", new { retailorId = item.Id }, FormMethod.Post))
+                                            {
+                                                <button type="submit" class="btn btn-danger">Yes</button>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("RetailorDetails", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:green;">
+                                <i class="material-icons">info</i>
+                            </a>
+                        </td>
 
                     </tr>
                 }
+
             </tbody>
         </table>
-
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
-    <script>
-        // Function to dynamically update the placeholder and name attributes of the search input
-        function updateSearchInput() {
-            var searchInput = document.getElementById('searchInput');
-            var selectedCriteria = document.querySelector('input[name="selectedCriteria"]:checked');
-
-            if (selectedCriteria) {
-                var criteriaValue = selectedCriteria.value;
-                searchInput.placeholder = 'Search ' + criteriaValue.charAt(0).toUpperCase() + criteriaValue.slice(1);
-                searchInput.name = 'selected' + criteriaValue.charAt(0).toUpperCase() + criteriaValue.slice(1);
-            } else {
-                searchInput.placeholder = 'Search';
-                searchInput.name = 'searchTerm';
-            }
-        }
-
-        // Event listener to update search input when checkboxes are clicked
-        document.addEventListener('DOMContentLoaded', function () {
-            updateSearchInput(); // Set initial state
-            document.querySelectorAll('input[name="selectedCriteria"]').forEach(function (checkbox) {
-                checkbox.addEventListener('change', updateSearchInput);
-            });
-        });
-    </script>
 </body>
 </html>

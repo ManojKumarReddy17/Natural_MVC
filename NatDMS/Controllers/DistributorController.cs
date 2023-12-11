@@ -8,6 +8,7 @@ using Natural.Core.Models;
 using PagedList.Mvc;
 using PagedList;
 using Naturals.Service.Service;
+#nullable disable
 
 namespace NatDMS.Controllers
 {
