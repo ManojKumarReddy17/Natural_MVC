@@ -10,5 +10,7 @@ namespace Natural.Core.IServices
         public Task<T> GetAsync<T>(string endpoint);
 
         public Task<T> PostAsync<T>(string endpoint, object model);
+
+        Task<T> PutAsync<T>(string endpoint, object model);
     }
 }

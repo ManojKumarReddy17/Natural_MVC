@@ -42,6 +42,18 @@ namespace Naturals.Service.Service
 
             return JsonConvert.DeserializeObject<T>(responseContent);
         }
+
+        public async Task<T> PutAsync<T>(string endpoint, object model)
+        {
+            var jsonContent = JsonConvert.SerializeObject(model);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PutAsync(_httpClient.BaseAddress + endpoint, content);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<T>(responseContent);
+        }
+
         public void Dispose()
         {
             _httpClient.Dispose();
