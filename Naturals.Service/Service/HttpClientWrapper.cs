@@ -80,9 +80,6 @@ namespace Naturals.Service.Service
             var response = await _httpClient.DeleteAsync($"{_httpClient.BaseAddress}{endpoint}/{Id}");
             return response.IsSuccessStatusCode;
         }
-
-
-
         public void Dispose()
         {
             _httpClient.Dispose();
