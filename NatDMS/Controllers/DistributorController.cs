@@ -8,7 +8,8 @@ using Natural.Core.Models;
 using PagedList.Mvc;
 using PagedList;
 using Naturals.Service.Service;
-#nullable disable
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace NatDMS.Controllers
 {
@@ -16,80 +17,115 @@ namespace NatDMS.Controllers
     {
 
         private readonly IDistributorService _distributorservice;
-        
-        private readonly IStateService _IStateService;
-        private readonly ICityService _ICityService;
-        private readonly IAreaService _IAreaService;
+        private readonly IUnifiedService _unifiedservice;
         private readonly IMapper _mapper;
+        public DistributorController(IDistributorService distributorservice, IMapper mapper, IUnifiedService unifiedservice)
 
-        public DistributorController(IDistributorService distributorservice, IMapper mapper, IStateService IStateService, ICityService ICityService, IAreaService IAreaService)
         {
             _distributorservice = distributorservice;
-            _IStateService = IStateService;
-            _ICityService = ICityService;
-            _IAreaService = IAreaService;
+            _unifiedservice = unifiedservice;
             _mapper = mapper;
         }
 
-
+        /// <summary>
+        /// DISPLAYING LIST OF ALL DISTRIBUTORS 
+        /// </summary>
+        [HttpGet]
         public async Task<ActionResult<DistributorModel>> DisplayDistributors()
         {
-            var result = await _distributorservice.GetDistributors();
+            var result = await _distributorservice.GetAllDistributors();
             var mapped = _mapper.Map<List<DistributorModel>, List<DistributorViewModel>>(result);
 
             return View(mapped);
         }
 
-        public async Task<IActionResult> cityData(string Id)
+        /// <summary>
+        /// GETTING DISTRIBUTOR DETAILS BY ID
+        /// </summary>
+        /// 
+        [HttpGet]
+        public async Task<ActionResult> DistrubutorDetailsById(string id)
         {
-            var result = await _ICityService.GetCity(Id);
-            return Json(result);
-        }
-
-        public async Task<JsonResult> GetArea(string Id)
-        {
-            var result = await _IAreaService.GetArea(Id);
-            return Json(result);
-        }
-
-        public async Task<ActionResult<DistributorViewModel>> DetailsAsync(string id)
-        {
-            var result = await _distributorservice.GetDistributorById(id);
-            var mapped = _mapper.Map<DistributorModel, DistributorViewModel>(result);
+            var distribtuors = await _distributorservice.GetDistributorDetailsById(id);
+            var mapped = _mapper.Map<DistributorViewModel>(distribtuors);
             return View(mapped);
+
+        }
+        /// <summary>
+        /// GETTING CITIES LIST FOR DROPDOWN BASED ON STATE_ID
+        /// </summary> 
+        public async Task<IActionResult> GetCitiesbyStateId(string stateId)
+        {
+            var result = await _unifiedservice.GetCitiesbyStateId(stateId);
+            return Json(result);
         }
 
+        /// <summary>
+        /// GETTING AREA'S LIST FOR DROPDOWN BASED ON CITY_ID
+        /// </summary>
+        public async Task<JsonResult> GetAreasByCityId(string cityId)
+        {
+            var result = await _unifiedservice.GetAreasByCityId(cityId);
 
+            return Json(result);
+        }
+
+        /// <summary>
+        /// CREATING NEW DISTRIBUTOR
+        /// </summary>
         public async Task<ActionResult> CreateDistributor()
         {
-            var result = await _IStateService.GetState();
-            var distributo = _mapper.Map<List<StateModel>, List<StateViewModel>>(result);
-            ViewBag.State = distributo;
-            return View();
+            var viewModel = new SaveDistributorViewModel();
+            viewModel.States = await _unifiedservice.GetStates();
+            return View(viewModel);
         }
-      
-
-
-        public async Task<ActionResult<EditViewModel>> Edit(string id)
+        /// <summary>
+        /// INSERTING CREATED DISTRIBUTOR DATA
+        /// </summary>
+        [HttpPost]
+        public async Task<ActionResult> CreateDistributor(SaveDistributorViewModel distributorModel)
         {
-            var distributer = await _distributorservice.GetDistributorById(id);
+            if (ModelState.IsValid)
+            {
+                var distributor = _mapper.Map<SaveDistributorViewModel, DistributorModel>(distributorModel);
 
-            var statesResult = await _IStateService.GetState();
+                var Createldistributor = await _distributorservice.CreateDistributor(distributor);
 
-            var citiesResult = await _ICityService.GetCity(distributer.State);
+                return RedirectToAction("DisplayDistributors","Distributor");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Form submission failed. Please check the provided data");
+                return View(distributorModel);
+            }
 
-            var AreaResult = await _IAreaService.GetArea(distributer.City);
-            var model = new EditViewModel
+        }
+
+
+        /// <summary>
+        /// GETTING EXISTING DATA FOR UPDATE
+        /// </summary>
+
+        public async Task<ActionResult<ED_EditViewModel>> EditDistributor(string id)
+        {
+            var distributor = await _distributorservice.GetDistributorById(id);
+
+            var statesResult = await _unifiedservice.GetStates();
+
+            var citiesResult = await _unifiedservice.GetCitiesbyStateId(distributor.State);
+
+            var AreaResult = await _unifiedservice.GetAreasByCityId(distributor.City);
+            var model = new ED_EditViewModel
             {
 
-                FirstName = distributer.FirstName,
-                LastName = distributer.LastName,
-                Email = distributer.Email,
-                MobileNumber = distributer.MobileNumber,
-                Address = distributer.Address,
-                UserName=distributer.UserName,
-                Password=distributer.Password,
-                StateList = statesResult.Select(state => new SelectListItem
+                FirstName = distributor.FirstName,
+                LastName = distributor.LastName,
+                Email = distributor.Email,
+                MobileNumber = distributor.MobileNumber,
+                Address = distributor.Address,
+                UserName = distributor.UserName,
+                Password = distributor.Password,
+                StateList = statesResult.Select(state=> new SelectListItem
                 {
                     Text = state.StateName,
                     Value = state.Id
@@ -106,23 +142,26 @@ namespace NatDMS.Controllers
                     Value = area.Id
                 }).AsEnumerable()
             };
-            model.State = distributer.State;
-            model.City = distributer.City;
-            model.Area = distributer.Area;
+            model.State = distributor.State;
+            model.City = distributor.City;
+            model.Area = distributor.Area;
             return View(model);
         }
 
-        // POST: HomeController1/Edit/5
+        /// <summary>
+        /// POSTING UPDATED DISTRIBUTOR DATA
+        /// </summary>
+        /// 
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult<EditViewModel>> Edit(string id, EditViewModel collection)
+        public async Task<ActionResult<ED_EditViewModel>> EditDistributor(string id, ED_EditViewModel Editviewmodel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
 
-                    var update = _mapper.Map<EditViewModel, DistributorModel>(collection);
+                    var update = _mapper.Map<ED_EditViewModel, DistributorModel>(Editviewmodel);
 
                     await _distributorservice.UpdateDistributor(id, update);
 
@@ -130,7 +169,7 @@ namespace NatDMS.Controllers
                 }
                 else
                 {
-                    return View (collection);
+                    return View(Editviewmodel);
                 }
             }
             catch
@@ -139,7 +178,17 @@ namespace NatDMS.Controllers
             }
         }
 
-        }
 
-        
+        /// <summary>
+        /// DELETING DISTRIBUTOR BY ID
+        /// </summary>
+
+
+        public async Task<IActionResult> DeleteDistributor(string distributorId)
+        {
+
+            await _distributorservice.DeleteDistributor(distributorId);
+            return RedirectToAction("DisplayDistributors", "Distributor");
+        }
+    }
 }

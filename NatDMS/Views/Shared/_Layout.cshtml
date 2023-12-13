@@ -1,6 +1,4 @@
-﻿
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -48,35 +46,25 @@
             </a>
             
         </div>
-
-        <div class="col-8">
-            <ul class="navbar-nav">
-                <!-- Move the login link to the end -->
-                <li class="nav-item ml-auto">
-                    <b><a class="nav-link text-dark" href="@Url.Action("Login", "Home", new { area = "",})">LOGIN</a></b>
-                </li>
-
-            </ul>
-        </div>
         <div class="col-2 text-black">
             @ViewBag.Message
         </div>
     </nav>  
                 <div class="container-fluid">
                     <div class="row">
-                 <div class="col-2 text-dark min-vh-100 d-flex flex-column">
+                        <div class="col-2 text-dark min-vh-100 d-flex flex-column">
 
                             <div class="list-group flex-grow-1 ">
-                                <div class="topnav">
+                                <div class="navbar-nav">
                                     <strong>
                                         <!-- Sidebar Options -->
                                        <a href="/Distributor/DisplayDistributors" class="list-group-item text-black">Manage Distributor</a>
+                                       <a href="/Executive/DisplayExecutives" class="list-group-item text-black">Manage Executives</a>
                                        <a href="/Retailor/DisplayRetailors" class="list-group-item text-black">Manage Retailor</a>
                                        <a href="/Category/DisplayCategories" class="list-group-item text-black">Manage Categories</a>
-                                        <a href="/Executive/DisplayExecutive" class="list-group-item text-black">Manage Executive</a>
-                                        <a href="/Test/ManageProducts" class="list-group-item text-black">Manage Products</a>
+                                        <a href="/Product/DisplayProducts" class="list-group-item text-black">Manage Products</a>
+                                       <a href="/Test/Reports" class="list-group-item text-black">Reports</a>
                                         <a href="/Test/DailyDSR" class="list-group-item text-black">Daily DSR</a>
-                                        <a href="/Test/Reports" class="list-group-item text-black">Reports</a>
                                     </strong>
                                 </div>
 
@@ -85,9 +73,9 @@
                             </div>
                         </div>
 
-                        <div class="col-10 min-vh-100">
-                            @RenderBody()
-                        </div>
+                                <div class="col-10 min-vh-100">
+                                    @RenderBody()
+                                </div>
                     </div>
                 </div>
 
@@ -130,4 +118,3 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-

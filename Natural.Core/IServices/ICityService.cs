@@ -12,7 +12,6 @@ namespace Natural.Core.IServices
     {
         Task<List<CityModel>> GetCity(string StateId);
 
-        Task<List<CityModel>> GetCity();
 
     }
 }

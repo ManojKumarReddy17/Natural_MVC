@@ -1,0 +1,84 @@
+﻿
+
+.back {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url('../image/back.jpg.jpeg');
+}
+
+.header-area {
+    padding-top: 20px 0; /* Adjust the padding to decrease the height */
+}
+
+.header-element.logo img {
+    max-height: 70px; /* Adjust the max height of the logo */
+}
+
+
+
+.login-area {
+    min-height: 50px;
+}
+
+.main-menu-area {
+    max-width: 80%; /* Adjust the percentage as needed */
+    margin: 0 auto; /* Center the menu */
+}
+
+.box-header {
+    max-width: 80%; /* Adjust the percentage as needed */
+    margin: 0 auto; /* Center the box-header */
+}
+
+/* Custom CSS for DisplayCategories page */
+
+.custom-table {
+    width: 50%;
+    margin-bottom: 1rem;
+    color: black;
+    border-collapse: collapse;
+    border-spacing: 0;
+    text-align: left;
+    background-color: papayawhip;
+}
+
+.my-1 {
+    font-size: xx-large;
+    font-style: normal;
+}
+
+.custom-table th,
+.custom-table td {
+    padding: 0.25rem;
+    vertical-align: top;
+    border-top: 2px solid lightgray;
+}
+
+.custom-table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid lightgray;
+    background-color: burlywood;
+}
+
+.custom-table tbody + tbody {
+    border-top: 2px solid;
+}
+
+
+/* Custom CSS for CreateCategories page */
+
+.custom-box {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+    background-color: burlywood;
+}
+
+/* Custom CSS for DisplayDistributor page */
+
+.ellipsis {
+    max-width: 150px; /* Adjust the max-width as needed */
+    text-overflow: ellipsis;
+    display: inline-block;
+}

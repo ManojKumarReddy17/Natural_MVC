@@ -9,12 +9,14 @@ namespace Natural.Core.IServices
 {
     public interface IDistributorService
     {
-        Task<List<DistributorModel>> GetDistributors();
+        Task<List<DistributorModel>> GetAllDistributors();
+        Task<DistributorModel> GetDistributorDetailsById(string id);
+        Task<DistributorModel> GetDistributorById(string id);
         Task<DistributorModel> CreateDistributor(DistributorModel distributor);
-
-        Task<DistributorModel> GetDistributorById(string Id);
-
-
-            Task<DistributorModel> UpdateDistributor(string Id, DistributorModel distributor);
+        Task<DistributorModel> UpdateDistributor(string DistributorId, DistributorModel distributor);
+        Task<bool> DeleteDistributor(string distributorId);
     }
 }
+
+
+       

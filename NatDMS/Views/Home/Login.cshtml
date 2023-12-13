@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
     <!-- owl slider -->
     <link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" type="text/css" href="css/owl.theme.defa ult.min.css">
+    <link rel="stylesheet" type="text/css" href="css/owl.theme.default.min.css">
     <!-- swiper -->
     <link rel="stylesheet" type="text/css" href="css/swiper.min.css">
     <!-- animation -->
@@ -42,8 +42,9 @@
     <!-- style -->
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/responsive.css">
-    <link rel="stylesheet" type="text/css" href="~/css/my.css">
+    <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha384-GLhlTQ8iN17U487F1dXoWSfR5/2Ipxi1RMEYz4J8r59b6EGGoI1Wwx4F7KsWSktQ" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
 
@@ -75,7 +76,7 @@
             </div>
         </div>
     </section>
-     <!------------------------------------------ TOP NOTIFICATION BAR END -------------------------------------->
+    <!------------------------------------------ TOP NOTIFICATION BAR END -------------------------------------->
     <!-------------------------------------- --------LOGO AREA START---------------------------------------------->
 
 
@@ -87,8 +88,8 @@
             </a>
             <!-- logo End -->
         </div>
-        </div> 
-    
+    </div>
+
     <!---------------------------------------------- LOGO AREA END --------------------------------------------------------->
     <!-----------------------Header Bottom Area------------------------------>
     <div class="header-bottom-area">
@@ -102,7 +103,7 @@
                             </div>
 
 
-     <!-------------------------------------------------- menu start --------------------------------------------------->
+                            <!-------------------------------------------------- menu start --------------------------------------------------->
 
                             <div class="navbar-collapse" id="navbarContent">
                                 <div class="megamenu-content">
@@ -112,7 +113,7 @@
                                                 <a href="Test/ManageCategories" class="link-title">
                                                     <b><span class="sp-link-title">CATEGORIES</span></b>
                                                 </a>
-                                             
+
                                             </li>
                                             <li class="menu-link parent">
                                                 <a href="Test/ManageProducts" class="link-title">
@@ -125,8 +126,8 @@
                                 </div>
                             </div>
 
-     <!------------------------------------------menu end-------------------------------------------------------------------->
-   <!----------------------------------------------------------CONTACT NUMBER ICON----------------------------------------------------------------------->
+                            <!------------------------------------------menu end-------------------------------------------------------------------->
+                            <!----------------------------------------------------------CONTACT NUMBER ICON----------------------------------------------------------------------->
 
                             <div class="img-hotline">
                                 <div class="image-content">
@@ -151,19 +152,40 @@
                 <div class="col">
                     <div class="login-area">
                         <div class="login-box bg-light">
-                            <b>
-                                <h1>ADMIN LOGIN</h1>
-                                <p>Please login below account detail</p>
-                                <form asp-action="Login">
-                                    <label>UserName</label>
-                                    <input type="text" name="UserName" placeholder="User Name">
-                                    <label for="password">Password</label>
-                                    <input type="password" id="password" name="password">
-                                    <button type="submit" class="btn-style1">SIGN IN</button>
-                                    @Html.ValidationSummary(false,"", new { @class = "text-danger" })
 
-                                </form>
-                            </b>
+                            <h1>
+                                <b>
+                                    ADMIN LOGIN
+                                </b>
+
+                            </h1>
+
+                            <p>Please login below account detail</p>
+                            @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+                            {
+                                <b>
+                                    <label>
+                                        <i class="material-icons">person</i>
+                                        UserName
+                                    </label>
+                                    <input type="text" name="UserName" placeholder="User Name" required>
+                                    <label for="password">
+                                        <i class="material-icons">lock</i>
+                                        Password
+                                    </label>
+                                    <input type="password" id="password" name="password" placeholder="Enter Password" pattern=".{6,}" title="Password must be at least 6 characters long" required>
+                                </b>
+
+                                <div class="row text-center">
+                                    <b><button type="submit" class="btn-style1">SIGN IN</button></b>
+                                </div>
+
+                                <b>
+                                    @Html.ValidationSummary(false, "", new { @class = "text-danger"} )
+                                </b>
+
+                            }
+
                         </div>
 
                     </div>
@@ -207,4 +229,3 @@
     <script src="~/js/custom.js"></script>
 </body>
 </html>
-

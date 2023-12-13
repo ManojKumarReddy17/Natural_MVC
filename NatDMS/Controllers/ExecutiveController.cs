@@ -11,69 +11,80 @@ using System.Net;
 #nullable disable
 namespace NatDMS.Controllers
 {
-    public class ExecutiveController : Controller
-
-      
+    public class ExecutiveController : Controller   
     {
-        private readonly IExecutiveService _Service;
+        private readonly IExecutiveService _ExecutiveService;
         private readonly IMapper _mapper;
-        private readonly ILocationService _locationService;
-        private readonly IStateService _state;
-        private readonly ICityService _city;
-        private readonly IAreaService _area;
-        public ExecutiveController(IExecutiveService servicec, IMapper mapper, ILocationService location, IStateService state, ICityService city, IAreaService area)
-        {
-            _area = area;
-            _city = city;
-            _Service = servicec;
-            _mapper = mapper;
-            _state = state;
-            _locationService = location;
-        }
+        private readonly IUnifiedService _unifiedservice;
       
-        /// <summary>
-        /// Display all executives
-        /// </summary>
-        /// <returns></returns>
-        public async Task<ActionResult<ExecutiveModel>> DisplayExecutive()
+        public ExecutiveController(IExecutiveService ExecutiveService, IMapper mapper, IUnifiedService unifiedService)
         {
-            var dspexe = await _Service.GetDeatils();
+            _ExecutiveService = ExecutiveService;
+            _mapper = mapper;
+            _unifiedservice = unifiedService;   
+        
+        }
+
+
+        /// <summary>
+        /// DISPLAYING LIST OF ALL EXECUTIVES 
+        /// </summary>
+        public async Task<ActionResult<ExecutiveModel>> DisplayExecutives()
+        {
+            var dspexe = await _ExecutiveService.GetAllDeatils();
             var dspmap = _mapper.Map<List<ExecutiveModel>, List<ExecutiveViewModel>>(dspexe);
             return View(dspmap);
         }
-       
+
 
         /// <summary>
-        /// Getting cities list in the dropdown based on the stateid
+        /// GETTING EXECUTIVE DETAILS BY ID
         /// </summary>
-        /// <param name="Id"></param>
-        /// <returns></returns>
-        public async Task<IActionResult> cityData(string Id)
+        /// 
+        [HttpGet]
+        public async Task<ActionResult> ExecutiveDetailsById(string id)
         {
-            var result = await _city.GetCity(Id);
+            var distribtuors = await _ExecutiveService.GetExecutiveDetailsById(id);
+            var mapped = _mapper.Map<ExecutiveViewModel>(distribtuors);
+            return View(mapped);
+
+        }
+
+
+        /// <summary>
+        /// GETTING CITIES LIST FOR DROPDOWN BASED ON STATE_ID
+        /// </summary> 
+        public async Task<IActionResult> GetCitiesbyStateId(string stateId)
+        {
+            var result = await _unifiedservice.GetCitiesbyStateId(stateId);
             return Json(result);
         }
 
         /// <summary>
-        /// Getting areas list in the dropdown based on the cityid
+        /// GETTING AREA'S LIST FOR DROPDOWN BASED ON CITY_ID
         /// </summary>
-        /// <param name="Id"></param>
-        /// <returns></returns>
-        public async Task<JsonResult> GetArea(string Id)
+        public async Task<JsonResult> GetAreasByCityId(string cityId)
         {
-            var result = await _area.GetArea(Id);
+            var result = await _unifiedservice.GetAreasByCityId(cityId);
 
             return Json(result);
         }
+
+
+        /// <summary>
+        /// CREATING NEW EXECUTIVE
+        /// </summary>
 
         public async Task<ActionResult> CreateExecutive()
         {
             var viewmodel = new SaveExecutiveViewModel();
-            viewmodel.States = await _state.GetState();
+            viewmodel.States = await _unifiedservice.GetStates();
             return View(viewmodel);
         }
 
-        // GET: HomeController1/Edit/5
+        /// <summary>
+        /// INSERTING CREATED EXECUTIVE DATA
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> CreateExecutive(SaveExecutiveViewModel saveexecmdl)
         {
@@ -82,9 +93,9 @@ namespace NatDMS.Controllers
                 {
                 var createexecutive = _mapper.Map<SaveExecutiveViewModel,ExecutiveModel>(saveexecmdl); 
 
-                var displayxexecutive = await _Service.CreateExecutive(createexecutive);
+                var displayxexecutive = await _ExecutiveService.CreateExecutive(createexecutive);
             
-                return RedirectToAction("DisplayExecutive","Executive");
+                return RedirectToAction(nameof(DisplayExecutives));
                 }
 
             else
@@ -95,29 +106,21 @@ namespace NatDMS.Controllers
                 }
         }
 
-            public async Task<ActionResult> DeleteExecutive( string execmdl)
-            {
-            await _Service.DeleteExecutiveasync(execmdl);
-            return RedirectToAction("DisplayExecutive","Executive");
-            }
+      
+        /// <summary>
+        /// GETTING EXISTING DATA FOR UPDATE
+        /// </summary>
 
-        public async Task<ActionResult> GetDetailsbyid(string id)
-            {
-            var result = await _Service.GetExecutiveDetailsById(id);
-            var map =_mapper.Map<ExecutiveViewModel>(result);
-            return View(map);
-        }
-
-        // GET: HomeController1/Edit/5
-        public async Task<ActionResult<EditViewModel>> Edit(string id)
+        public async Task<ActionResult<ED_EditViewModel>> EditExecutive(string id)
         {
+            var executive = await _ExecutiveService.GetExecutiveById(id);
 
+            var statesResult = await _unifiedservice.GetStates();
 
-            var executive = await _Service.GetExecutiveById(id);
-            var statesResult = await _state.GetState();
-            var citiesResult = await _city.GetCity(executive.State);
-            var AreaResult = await _area.GetArea(executive.City);
-            var model = new EditViewModel
+            var citiesResult = await _unifiedservice.GetCitiesbyStateId(executive.State);
+
+            var AreaResult = await _unifiedservice.GetAreasByCityId(executive.City);
+            var model = new ED_EditViewModel
             {
 
                 FirstName = executive.FirstName,
@@ -125,6 +128,8 @@ namespace NatDMS.Controllers
                 Email = executive.Email,
                 MobileNumber = executive.MobileNumber,
                 Address = executive.Address,
+                UserName = executive.UserName,
+                Password = executive.Password,
                 StateList = statesResult.Select(state => new SelectListItem
                 {
                     Text = state.StateName,
@@ -143,28 +148,50 @@ namespace NatDMS.Controllers
                 }).AsEnumerable()
             };
             model.State = executive.State;
-            model.City = executive.City; 
+            model.City = executive.City;
             model.Area = executive.Area;
             return View(model);
         }
 
-        // POST: HomeController1/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult<EditViewModel>> Edit(string id, EditViewModel collection)
-        {
-           
-            if (ModelState.IsValid)
-            {
-                var update = _mapper.Map<EditViewModel, ExecutiveModel>(collection);
-                await _Service.UpdateDistributor(id, update);
-                return RedirectToAction(nameof(DisplayExecutive));
-            }
-            else 
-            {
+        /// <summary>
+        /// POSTING UPDATED EXECUTIVE DATA
+        /// </summary>
+        /// 
 
-                return View(collection);
+        [HttpPost]
+        public async Task<ActionResult<ED_EditViewModel>> EditExecutive(string id, ED_EditViewModel Editviewmodel)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+
+                    var update = _mapper.Map<ED_EditViewModel, ExecutiveModel>(Editviewmodel);
+
+                    await _ExecutiveService.UpdateExecutive(id, update);
+
+                    return RedirectToAction(nameof(DisplayExecutives));
+                }
+                else
+                {
+                    return View(Editviewmodel);
+                }
             }
+            catch
+            {
+                return View();
+            }
+        }
+
+
+        /// <summary>
+        /// DELETING EXECUTIVE BY ID
+        /// </summary>
+
+        public async Task<ActionResult> DeleteExecutive(string ExecutiveId)
+        {
+            await _ExecutiveService.DeleteExecutive(ExecutiveId);
+            return RedirectToAction(nameof(DisplayExecutives));
         }
     }
 }

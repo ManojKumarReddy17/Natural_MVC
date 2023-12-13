@@ -9,12 +9,11 @@ namespace Natural.Core.IServices
 {
     public interface IExecutiveService
     {
+        Task<List<ExecutiveModel>> GetAllDeatils();
         Task<ExecutiveModel> GetExecutiveById(string Id);
-
-        Task<ExecutiveModel> UpdateDistributor(string Id, ExecutiveModel distributor);
-        Task<List<ExecutiveModel>> GetDeatils();
-        Task<ExecutiveModel> CreateExecutive(ExecutiveModel mdl);
-        Task<bool> DeleteExecutiveasync(string executiveId);
         Task<ExecutiveModel> GetExecutiveDetailsById(string ID);
+        Task<ExecutiveModel> CreateExecutive(ExecutiveModel mdl);
+        Task<ExecutiveModel> UpdateExecutive(string ExecutiveId, ExecutiveModel executive);
+        Task<bool> DeleteExecutive(string executiveId);
     }
 }
