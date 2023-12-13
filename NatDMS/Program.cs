@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<ILoginService, LoginService>();
-builder.Services.AddTransient<ILocationService, LocationService>();
+builder.Services.AddTransient<IUnifiedService, UnifiedService>();
 builder.Services.AddScoped<IDistributorService, DistributorService>();
 builder.Services.AddScoped<IRetailorService , RetailorService>(); 
 builder.Services.AddScoped<IExecutiveService, ExecutiveService>();
@@ -20,15 +20,16 @@ builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IExecutiveService, ExecutiveService>();
 builder.Services.Configure<ApiDetails>(builder.Configuration.GetSection("ApiUrlDetails"));
 builder.Services.AddHttpClient<IHttpClientWrapper, HttpClientWrapper>();
-builder.Services.AddScoped<IStateService, StateService>();
-builder.Services.AddScoped<ICityService, CityService>();
-builder.Services.AddScoped<IAreaService, AreaService>();
+
 
 builder.Services.AddAutoMapper(typeof(Program));
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Home/Login";
+        
+        options.Cookie.SameSite = SameSiteMode.None;
+        options.ExpireTimeSpan = TimeSpan.FromSeconds(15);
     });
 
 
@@ -47,12 +48,10 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-//app.UseMiddleware<RestrictAccessMiddleware>();
-
-
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Login}/{id?}");
+ 
 
 app.Run();

@@ -9,11 +9,12 @@ namespace Natural.Core.IServices
 {
    public interface IRetailorService
     {
-        Task<List<RetailorModel>> GetRetailors();
-        Task<RetailorModel> CreateRetailors(RetailorModel retailor);
+        Task<List<RetailorModel>> GetAllRetailors();
         Task<RetailorModel> GetRetailorById(string Retailorid);
+        Task<RetailorModel> GetRetailorDetailsById(string retailorId);
+        Task<RetailorModel> CreateRetailor(RetailorModel retailor);
+        Task<RetailorModel> UpdateRetailor(string RetailorId, RetailorModel Retailor);
         Task <bool>DeleteRetailor(string retailorId);
-        Task<RetailorModel> GetRetailorsById(string retailorId);
 
 
     }

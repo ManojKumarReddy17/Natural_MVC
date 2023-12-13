@@ -21,12 +21,15 @@ namespace NatDMS.Controllers
             _mapper = mapper;
         }
 
-
-        [HttpGet]
         public ActionResult Login()
         {
             return View();
         }
+
+        /// <summary>
+        /// Admin Login 
+        /// </summary>
+        
         [HttpPost]
         public async Task<ActionResult> Login(LoginViewModel model)
         {
@@ -37,6 +40,8 @@ namespace NatDMS.Controllers
 
                 if (contents.FirstName != null && contents.LastName != null)
                 {
+
+                 // Claims Collecting //
                     var claims = new List<Claim>
                  {
                 new Claim(ClaimTypes.Surname, contents.FirstName),
@@ -46,8 +51,6 @@ namespace NatDMS.Controllers
                     var principal = new ClaimsPrincipal(identity);
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-
-                    //  Redirect to the distributor page
 
                     return RedirectToAction("DisplayDistributors", "Distributor");
                 }

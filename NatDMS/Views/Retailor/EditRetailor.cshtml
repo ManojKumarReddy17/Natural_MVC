@@ -1,0 +1,182 @@
+﻿@model NatDMS.Models.RetailorEditViewModel
+
+@{
+    ViewData["Title"] = "EditRetailor";
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
+</head>
+
+<body>
+
+            @using (Html.BeginForm("EditRetailor", "Retailor", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+            {
+                    <h1>EDIT RETAILOR</h1>
+        <div class="row justify-content-center">
+
+        <div class="col-md-3">
+
+                        <div class="form-group">
+                            <b>
+                            @Html.LabelFor(model => model.FirstName, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                            </b>
+                        </div>
+
+                        <div class="form-group">
+                            <b>
+                            @Html.LabelFor(model => model.Email, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </b>
+                        </div>
+
+                        <div class="form-group">
+                            <b>
+                            @Html.LabelFor(model => model.MobileNumber, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.MobileNumber, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
+                            </b>
+                        </div>
+
+                        <div class="form-group">
+                            <b>
+                            @Html.LabelFor(model => model.City)
+                            @Html.DropDownListFor(model => model.City, new SelectList(Model.Cities, "Id", "CityName"),
+                        "--Select City--", new { @id = "city", onchange = "citychange()", @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                            </b>
+                        </div>
+               </div>
+
+         <div class="col-md-3">
+
+                <div class="form-group">
+                    <b>
+                    @Html.LabelFor(model => model.LastName, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+
+               
+
+                <div class="form-group">
+                    <b>
+                    @Html.LabelFor(model => model.Address, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+
+                 
+                <div class="form-group">
+                    <b>
+                    @Html.LabelFor(model => model.State, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.State, new SelectList(Model.States, "Id", "StateName"),
+                "--Select State--", new { @id = "state", onchange = "statechange()", @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+
+              
+                <div class="form-group">
+                    <b>
+                    @Html.LabelFor(model => model.Area)
+                    @Html.DropDownListFor(model => model.Area, new SelectList(Model.Areas, "Id", "AreaName"),
+                "--Select Area--", new { id = "area", @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+
+         </div>
+         </div>
+
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-style1">SUBMIT</button>
+        </div>
+    }
+
+    <div class="text-center">
+
+        <a href="@Url.Action("DisplayRetailors")" class="d-flex align-items-center">
+            <i class="material-icons">arrow_back</i>
+            <span class="ml-2" style="font-weight: bold;">BACK TO LIST</span>
+
+        </a>
+    </div>
+
+
+<script src="~/js/jquery-3.6.0.min.js"></script>
+
+<script type="text/javascript">
+    function statechange() {
+        var stid = $('#state').val();
+        console.log('State ID:', stid);
+
+        if (stid.trim() !== '') {
+            var ddlcity = $('#city');
+            ddlcity.empty();
+
+            $.ajax({
+                url: "/Retailor/GetCitiesByStateId",
+                type: 'GET',
+                dataType: 'json',
+                data: { stateId: stid },
+                success: function (cities) {
+                    console.log('Cities:', cities);
+                    ddlcity.append($("<option></option>").val('').html('--Select City--'));
+                    $.each(cities, function (i, city) {
+                        ddlcity.append($("<option></option>").val(city.id).html(city.cityName));
+                    });
+                },
+                error: function () {
+                    alert('Error fetching cities!');
+                }
+            });
+        }
+    }
+
+    function citychange() {
+        var cityid = $('#city').val();
+        console.log('City ID:', cityid);
+        if (cityid.trim() !== '') {
+            var ddlarea = $('#area');
+            ddlarea.empty();
+
+            $.ajax({
+                url: "/Retailor/GetAreasByCityId",
+                type: 'GET',
+                dataType: 'json',
+                data: { cityId: cityid },
+                success: function (areas) {
+                    console.log('Areas:', areas);
+                    ddlarea.append($("<option></option>").val('').html('--Select Area--'));
+                    $.each(areas, function (i, area) {
+                        ddlarea.append($("<option></option>").val(area.id).html(area.areaName));
+                    });
+                },
+                error: function () {
+                    alert('Error fetching areas!');
+                }
+            });
+        }
+    }
+
+</script>
+
+</body>
+</html>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

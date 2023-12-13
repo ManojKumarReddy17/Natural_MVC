@@ -12,86 +12,140 @@ namespace NatDMS.Controllers
     {
 
         private readonly IRetailorService _retailorservice;
-        private readonly ILocationService _locationservice;
-        private readonly IStateService _stateService;
-        private readonly ICityService _cityService;
-        private readonly IAreaService _areaService;
+        private readonly IUnifiedService _unifiedservice;
         private readonly IMapper _mapper;
-        public RetailorController(IRetailorService retailorservice, IMapper mapper, ILocationService locationService, IStateService StateService, ICityService CityService, IAreaService AreaService)
+        public RetailorController(IRetailorService retailorservice, IMapper mapper, IUnifiedService unifiedservice)
 
         {
             _retailorservice = retailorservice;
-            _stateService = StateService;
-            _cityService = CityService;
-            _areaService = AreaService;
-            _locationservice = locationService;
+            _unifiedservice = unifiedservice;
             _mapper = mapper;
         }
 
-
+        /// <summary>
+        /// DISPLAYING LIST OF ALL RETAILORS 
+        /// </summary>     
         public async Task<ActionResult<RetailorModel>> DisplayRetailors()
         {
-            var result = await _retailorservice.GetRetailors();
+            var result = await _retailorservice.GetAllRetailors();
             var mapped = _mapper.Map<List<RetailorModel>, List<RetailorViewModel>>(result);
 
             return View(mapped);
         }
 
-
-
-        public async Task<ActionResult> cityData(string Id)
+        /// <summary>
+        /// GETTING RETAILOR DETAILS BY ID
+        /// </summary>
+        public async Task<ActionResult> RetailorDetailsBYId(string id)
         {
-            var result = await _cityService.GetCity(Id);
+            var result = await _retailorservice.GetRetailorDetailsById(id);
+            var mapped = _mapper.Map<RetailorViewModel>(result);
+
+            return View(mapped);
+
+        }
+
+        /// <summary>
+        /// GETTING CITIES LIST FOR DROPDOWN BASED ON STATE_ID
+        /// </summary> 
+        public async Task<IActionResult> GetCitiesbyStateId(string stateId)
+        {
+            var result = await _unifiedservice.GetCitiesbyStateId(stateId);
             return Json(result);
         }
 
-        public async Task<JsonResult> GetArea(string Id)
+        /// <summary>
+        /// GETTING AREA'S LIST FOR DROPDOWN BASED ON CITY_ID
+        /// </summary>
+        public async Task<JsonResult> GetAreasByCityId(string cityId)
         {
-            var result = await _areaService.GetArea(Id);
+            var result = await _unifiedservice.GetAreasByCityId(cityId);
 
             return Json(result);
         }
 
-        public async Task<ActionResult> CreateRetailors()
+        /// <summary>
+        /// CREATING NEW RETAILOR
+        /// </summary>
+        public async Task<ActionResult> CreateRetailor()
         {
             var viewModel = new SaveRetailorViewModel();
-            viewModel.States = await _stateService.GetState();
+            viewModel.States = await _unifiedservice.GetStates();
             return View(viewModel);
         }
-
+        /// <summary>
+        /// INSERTING CREATED RETAILOR DATA
+        /// </summary>
+        /// 
         [HttpPost]
-        public async Task<ActionResult> CreateRetailors(SaveRetailorViewModel retailorModel)
+        public async Task<ActionResult> CreateRetailor(SaveRetailorViewModel retailorViewModel)
         {
             if (ModelState.IsValid)
             {
-                var retailor = _mapper.Map<SaveRetailorViewModel, RetailorModel>(retailorModel);
+                var distributor = _mapper.Map<SaveRetailorViewModel, RetailorModel>(retailorViewModel);
 
-                var Createretailor = await _retailorservice.CreateRetailors(retailor);
+                var CreateRetailor = await _retailorservice.CreateRetailor(distributor);
 
                 return RedirectToAction("DisplayRetailors", "Retailor");
             }
             else
             {
                 ModelState.AddModelError(string.Empty, "Form submission failed. Please check the provided data");
-                return View(retailorModel);
+                return View(retailorViewModel);
+            }
+
+        }
+     
+
+        /// <summary>
+        ///  GETTING EXISTING DATA BY RETAILOR BY ID //
+        /// </summary>
+
+        public async Task<ActionResult> EditRetailor(string id)
+        {
+            var retailorDetails = await _retailorservice.GetRetailorById(id);
+            var viewModel = _mapper.Map<RetailorEditViewModel>(retailorDetails);
+
+            viewModel.States = await _unifiedservice.GetStates();
+            viewModel.Cities = await _unifiedservice.GetCitiesbyStateId(retailorDetails.State);
+            viewModel.Areas = await _unifiedservice.GetAreasByCityId(retailorDetails.City);
+
+            return View(viewModel);
+        }
+
+        /// <summary>
+        ///  POSTING AN UPDATED RETAILOR DATA //
+        /// </summary>
+
+        [HttpPost]
+        public async Task<ActionResult> EditRetailor(string id, RetailorEditViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var updatedRetailor = _mapper.Map<RetailorEditViewModel, RetailorModel>(viewModel);
+                await _retailorservice.UpdateRetailor(id, updatedRetailor);
+                return RedirectToAction("DisplayRetailors", "Retailor");
+            }
+            else
+            {
+                viewModel.States = await _unifiedservice.GetStates();
+                viewModel.Cities = await _unifiedservice.GetCitiesbyStateId(viewModel.State);
+                viewModel.Areas = await _unifiedservice.GetAreasByCityId(viewModel.City);
+
+                return View(viewModel);
             }
 
         }
 
+        /// <summary>
+        /// DELETING RETAILOR BY ID
+        /// </summary>
         public async Task<IActionResult> DeleteRetailor(string retailorId)
         {
             await _retailorservice.DeleteRetailor(retailorId);
             return RedirectToAction("DisplayRetailors", "Retailor");
         }
-        public async Task<ActionResult> RetailorDetails(string id)
-        {
-            var result = await _retailorservice.GetRetailorsById(id);
-            var mapped = _mapper.Map<SaveRetailorViewModel>(result);
 
-            return View(mapped);
-
-        }
-        
     }
 
 }

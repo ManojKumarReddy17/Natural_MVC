@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace Natural.Core.IServices
 {
-    public interface ILocationService
+    public interface IUnifiedService
     {
-        Task<List<CityModel>> GetCities();
         Task<List<StateModel>> GetStates();
-        Task<List<AreaModel>> GetAreas();
-
+        Task<List<CityModel>> GetCitiesbyStateId(string stateId);
+        Task<List<AreaModel>> GetAreasByCityId(string cityId);
     }
 }

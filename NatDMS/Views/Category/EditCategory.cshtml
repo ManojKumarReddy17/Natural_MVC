@@ -3,31 +3,47 @@
 @{
     ViewData["Title"] = "EditCategory";
 }
+<!DOCTYPE html>
 
-<h1>EditCategory</h1>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
+</head>
 
-<h4>CategoryViewModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="EditCategory">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-         
-            <div class="form-group">
-                <label asp-for="CategoryName" class="control-label"></label>
-                <input asp-for="CategoryName" class="form-control" />
-                <span asp-validation-for="CategoryName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<body>
+
+      @using (Html.BeginForm("EditCategory", "Category", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+          {
+             <h1>EDIT CATEGORY</h1>
+
+         <div class="row justify-content-center">
+            <div class="col-md-3">
+
+                    <div class="form-group">
+                        <b>
+                        @Html.LabelFor(model => model.CategoryName, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.CategoryName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
+                        </b>
+                    </div>
+             </div>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-style1">SUBMIT</button>
+        </div>
+    }
+
+    <div class="text-center">
+
+        <a href="@Url.Action("DisplayCategories")"class="d-flex align-items-center">
+            <i class="material-icons">arrow_back</i>
+            <span class="ml-2" style="font-weight: bold;">BACK TO LIST</span>
+        </a>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    </body>
+    </html>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
