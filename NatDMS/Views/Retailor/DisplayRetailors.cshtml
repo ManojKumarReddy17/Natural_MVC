@@ -1,8 +1,6 @@
 ﻿
 @model IEnumerable<NatDMS.Models.RetailorViewModel>
 
-@using System.Security.Claims
-
 <!DOCTYPE html>
 
 <html lang="en">
@@ -11,11 +9,11 @@
     <title>GetRetailors</title>
   
 
-    <link rel="stylesheet" type="text/css" href="~/css/my.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-eZvQ1eMh52L0fX3TKOM7zkgZt8R79F2AuYOxjMz9zKR7j2JqU3z8Fv5KFyC5F2f3" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
 
     <script type="text/javascript">
 
@@ -49,16 +47,22 @@
 
 <body>
     <div class="container">
+        <div class="text-center">
+
         <h2 class="my-4" align="center">MANAGE RETAILOR</h2>
-        <p>
-            <a asp-action="CreateRetailors" class="btn btn-primary">CREATE NEW</a>
-        </p>
+      
+            <div class="text-center">
 
-        <form asp-action="DisplayRetailors" method="get" class="form-inline mb-2">
-          
-        </form>
+                <a href="@Url.Action("CreateRetailor")" class="d-flex align-items-center">
+                    <i class="material-icons">add</i>
+                    <span class="ml-2" style="font-weight: bold;">CREATE NEW</span>
 
-        <table class="table table-bordered table-striped" style="background-color: wheat;">
+                </a>
+            </div>
+
+
+        <div class="table-responsive">
+                <table class="table table-bordered table-striped custom-table">
             <thead>
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.FirstName)</th>
@@ -89,12 +93,10 @@
                         <td>@Html.DisplayFor(modelItem => item.Area)</td>
 
                         <td>
-                            <a href="@Url.Action("Edit", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:orange;">
+                            <a href="@Url.Action("EditRetailor", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:orange;">
                                 <i class="material-icons">edit</i>
                             </a>
                         </td>
-
-
                         <td>
 
                             <div style="display: flex; justify-content: center; align-items: center;">
@@ -126,7 +128,7 @@
                             </div>
                         </td>
                         <td>
-                            <a href="@Url.Action("RetailorDetails", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:green;">
+                                    <a href="@Url.Action("RetailorDetailsBYId", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:green;">
                                 <i class="material-icons">info</i>
                             </a>
                         </td>
@@ -136,6 +138,8 @@
 
             </tbody>
         </table>
+        </div>
+        </div>
     </div>
 </body>
 </html>

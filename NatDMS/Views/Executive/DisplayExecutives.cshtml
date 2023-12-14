@@ -1,13 +1,11 @@
-﻿@model IEnumerable<NatDMS.Models.DistributorViewModel>
+﻿@model IEnumerable<NatDMS.Models.ExecutiveViewModel>
 
-@using System.Security.Claims
 
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>GetDistributors</title>
+    <title>GetExecutives</title>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -50,18 +48,16 @@
     <div class="container">
         <div class="text-center">
 
-            <h2 class="my-1">MANAGE DISTRIBUTOR</h2>
-            <div>@User.FindFirst(ClaimTypes.Surname)?.Value @User.FindFirst(ClaimTypes.Name)?.Value</div>
-
+            <h2 class="my-1">MANAGE EXECUTIVE</h2>
+           
             <div class="text-center">
 
-                <a href="@Url.Action("CreateDistributor")" class="d-flex align-items-center">
+                <a href="@Url.Action("CreateExecutive")" class="d-flex align-items-center">
                     <i class="material-icons">add</i>
                     <span class="ml-2" style="font-weight: bold;">CREATE NEW</span>
 
                 </a>
             </div>
-
 
             <div class="table-responsive">
                 <table class="table table-bordered table-striped custom-table">
@@ -100,7 +96,7 @@
 
 
                                 <td>
-                                    <a href="@Url.Action("EditDistributor", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:orange;">
+                                    <a href="@Url.Action("EditExecutive", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:orange;">
                                         <i class="material-icons">edit</i>
                                     </a>
                                 </td>
@@ -127,7 +123,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" onclick="confirmDelete('@item.Id', false)">No</button>
-                                                    @using (Html.BeginForm("DeleteDistributor", "Distributor", new { distributorId = item.Id }, FormMethod.Post))
+                                                    @using (Html.BeginForm("DeleteExecutive", "Executive", new { ExecutiveId = item.Id }, FormMethod.Post))
                                                     {
                                                         <button type="submit" class="btn btn-danger">Yes</button>
                                                     }
@@ -139,7 +135,7 @@
 
 
                                 <td>
-                                    <a href="@Url.Action("DistrubutorDetailsById", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:green;">
+                                    <a href="@Url.Action("ExecutiveDetailsById", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:green;">
                                         <i class="material-icons">info</i>
                                     </a>
                                 </td>

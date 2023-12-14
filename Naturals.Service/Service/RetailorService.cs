@@ -14,23 +14,60 @@ namespace Naturals.Service.Service
         {
             _HttpCleintWrapper = httpCleintWrapper;
         }
-        public async Task<List<RetailorModel>> GetRetailors()
+
+        /// <summary>
+        /// GET ALL RETAILORS
+        /// </summary>
+        public async Task<List<RetailorModel>> GetAllRetailors()
         {
             var getretailor = await _HttpCleintWrapper.GetAsync<List<RetailorModel>>("/Retailor/");
             return getretailor;
 
         }
+
+        /// <summary>
+        /// GET RETAILOR BY ID
+        /// </summary>
         public async Task<RetailorModel> GetRetailorById(string Retailorid)
         {
             var getretailorid = await _HttpCleintWrapper.GetByIdAsync<RetailorModel>("/Retailor", Retailorid);
             return getretailorid;
         }
 
-        public async Task<RetailorModel> CreateRetailors(RetailorModel retailors)
+        /// <summary>
+        /// GET RETAILOR DETAILS BY ID
+        /// </summary>
+
+        public async Task<RetailorModel> GetRetailorDetailsById(string retailorId)
+        {
+            var getretailorid = await _HttpCleintWrapper.GetByIdAsync<RetailorModel>("/Retailor/details", retailorId);
+            return getretailorid;
+
+        }
+
+        /// <summary>
+        /// CREATE RETAILOR 
+        /// </summary>
+
+        public async Task<RetailorModel> CreateRetailor(RetailorModel retailors)
         {
             var result = await _HttpCleintWrapper.PostAsync<RetailorModel>("/Retailor/", retailors);
             return result;
         }
+
+        /// <summary>
+        /// UPDATE RETAILOR BY ID
+        /// </summary>
+        public async Task<RetailorModel> UpdateRetailor(string RetailorId, RetailorModel updatedRetailor)
+        {
+            var result = await _HttpCleintWrapper.PutAsync<RetailorModel>("/Retailor", RetailorId, updatedRetailor);
+            return result;
+        }
+
+
+        /// <summary>
+        /// DELETE RETAILOR BY ID
+        /// </summary>
 
         public async Task<bool> DeleteRetailor(string retailorId)
         {
@@ -53,13 +90,6 @@ namespace Naturals.Service.Service
             }
         }
 
-        public async Task<RetailorModel> GetRetailorsById(string retailorId)
-        {
-            var getretailorid = await _HttpCleintWrapper.GetByIdAsync<RetailorModel>("/Retailor/details", retailorId);
-            return getretailorid;
-
-
-        }
     }
 
 

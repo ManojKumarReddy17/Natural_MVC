@@ -1,20 +1,17 @@
 ﻿using Natural.Core.Models;
-﻿
 using System.ComponentModel.DataAnnotations;
 #nullable disable
-
 namespace NatDMS.Models
 {
-    public class SaveRetailorViewModel
+    public class RetailorEditViewModel
     {
-
         [Required(ErrorMessage = "First Name is required.")]
-        [StringLength(40, MinimumLength = 2, ErrorMessage = "First Name must be between 2 and 40 characters.")]
+        [StringLength(40, MinimumLength = 3, ErrorMessage = "Last Name must be between 3 and 40 characters.")]
 
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Last Name is required.")]
-        [StringLength(40, MinimumLength = 2, ErrorMessage = "Last Name must be between 2 and 40 characters.")]
+        [StringLength(40, MinimumLength = 3, ErrorMessage = "Last Name must be between 3 and 40 characters.")]
         public string LastName { get; set; }
 
         [EmailAddress(ErrorMessage = "Invalid email address. The email domain must be @gmail.com.")]
@@ -35,14 +32,10 @@ namespace NatDMS.Models
         [Required(ErrorMessage = "State is required.")]
         public string State { get; set; }
 
-        
-
-        public List<StateModel> States { get; set; }
+            public List<StateModel> States { get; set; }
+            public List<CityModel> Cities { get; set; }
+            public List<AreaModel> Areas { get; set; }
+        }
 
     }
-
-
-
-
-}
 

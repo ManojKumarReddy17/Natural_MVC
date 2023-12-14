@@ -8,31 +8,31 @@ using System.Threading.Tasks;
 
 namespace Naturals.Service.Service
 {
-    public class LocationService : ILocationService
+
+    public class UnifiedService :IUnifiedService
     {
 
         private readonly IHttpClientWrapper _httpClientWrapper;
 
-        public LocationService(IHttpClientWrapper httpClientWrapper)
+        public UnifiedService(IHttpClientWrapper httpClientWrapper)
         {
             _httpClientWrapper = httpClientWrapper;
         }
-
-        public async Task<List<CityModel>> GetCities()
-        {
-            return await _httpClientWrapper.GetAsync<List<CityModel>>("/City/");
-        }
-
         public async Task<List<StateModel>> GetStates()
         {
             return await _httpClientWrapper.GetAsync<List<StateModel>>("/State/");
         }
+        public async Task<List<CityModel>> GetCitiesbyStateId(string stateId)
+        {
+            return await _httpClientWrapper.GetByIdAsync<List<CityModel>>("/City", stateId);
+        }
 
-        public async Task<List<AreaModel>> GetAreas()
-            {
-            return await _httpClientWrapper.GetAsync<List<AreaModel>>("/Area/");
+        public async Task<List<AreaModel>> GetAreasByCityId(string cityId)
+        {
+            return await _httpClientWrapper.GetByIdAsync<List<AreaModel>>("/Area", cityId);
         }
 
 
     }
+
 }
