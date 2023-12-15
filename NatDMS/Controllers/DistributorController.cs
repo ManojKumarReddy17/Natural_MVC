@@ -30,14 +30,24 @@ namespace NatDMS.Controllers
         /// <summary>
         /// DISPLAYING LIST OF ALL DISTRIBUTORS 
         /// </summary>
+        
         [HttpGet]
-        public async Task<ActionResult<DistributorModel>> DisplayDistributors()
+        public async Task<ActionResult<DisplayViewModel>> DisplayDistributors()             
         {
-            var result = await _distributorservice.GetAllDistributors();
-            var mapped = _mapper.Map<List<DistributorModel>, List<DistributorViewModel>>(result);
+            var distributorlist = new List<DistributorModel>();
 
-            return View(mapped);
+            distributorlist = await _distributorservice.GetAllDistributors();
+            var statesResult = await _unifiedservice.GetStates();
+
+            var viewModel = new DisplayViewModel
+            {
+                DistributorList = distributorlist,
+                StateList = statesResult
+            };
+
+            return View(viewModel);
         }
+
 
         /// <summary>
         /// GETTING DISTRIBUTOR DETAILS BY ID
@@ -75,8 +85,11 @@ namespace NatDMS.Controllers
         /// </summary>
         public async Task<ActionResult> CreateDistributor()
         {
-            var viewModel = new SaveDistributorViewModel();
-            viewModel.States = await _unifiedservice.GetStates();
+            var viewModel = new SaveDistributorViewModel
+            {
+                States = await _unifiedservice.GetStates()
+            };
+
             return View(viewModel);
         }
         /// <summary>
@@ -91,7 +104,7 @@ namespace NatDMS.Controllers
 
                 var Createldistributor = await _distributorservice.CreateDistributor(distributor);
 
-                return RedirectToAction("DisplayDistributors","Distributor");
+                return RedirectToAction("DisplayDistributors", "Distributor");
             }
             else
             {
@@ -125,7 +138,7 @@ namespace NatDMS.Controllers
                 Address = distributor.Address,
                 UserName = distributor.UserName,
                 Password = distributor.Password,
-                StateList = statesResult.Select(state=> new SelectListItem
+                StateList = statesResult.Select(state => new SelectListItem
                 {
                     Text = state.StateName,
                     Value = state.Id
@@ -184,11 +197,27 @@ namespace NatDMS.Controllers
         /// </summary>
 
 
-        public async Task<IActionResult> DeleteDistributor(string distributorId)
+        public async Task<IActionResult> DeleteDistributor(string DistributorId)
         {
 
-            await _distributorservice.DeleteDistributor(distributorId);
+            await _distributorservice.DeleteDistributor(DistributorId);
             return RedirectToAction("DisplayDistributors", "Distributor");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<DisplayViewModel>> SearchDistributor(DisplayViewModel model)
+        {
+            var search = _mapper.Map<DisplayViewModel, SearchModel>(model);
+            var SearchResult = await _distributorservice.SearchDistributor(search);
+            var statesResult = await _unifiedservice.GetStates();
+
+            var viewModel = new DisplayViewModel
+            {
+                DistributorList = SearchResult,
+                StateList = statesResult,
+            };
+
+            return View("DisplayDistributors", viewModel);
         }
     }
 }

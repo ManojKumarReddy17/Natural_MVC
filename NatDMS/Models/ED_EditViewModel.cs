@@ -11,7 +11,8 @@ namespace NatDMS.Models
     public class ED_EditViewModel
     {
         [Required(ErrorMessage = "First Name is required.")]
-        [StringLength(40, MinimumLength = 3, ErrorMessage = "Last Name must be between 3 and 40 characters.")]
+        [StringLength(40, MinimumLength = 3, ErrorMessage = "First Name must be between 3 and 40 characters.")]
+        [RegularExpression("^[a-zA-Z]*$", ErrorMessage = "FirstName must contain only Alphabets")]
 
         public string FirstName { get; set; }
 

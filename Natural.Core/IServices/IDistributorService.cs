@@ -1,4 +1,5 @@
-﻿using Natural.Core.Models;
+﻿using NatDMS.Models;
+using Natural.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace Natural.Core.IServices
         Task<DistributorModel> CreateDistributor(DistributorModel distributor);
         Task<DistributorModel> UpdateDistributor(string DistributorId, DistributorModel distributor);
         Task<bool> DeleteDistributor(string distributorId);
+        Task<List<DistributorModel>> SearchDistributor(SearchModel searchdistributor);
+
     }
 }
 
