@@ -11,29 +11,41 @@ using System.Net;
 #nullable disable
 namespace NatDMS.Controllers
 {
-    public class ExecutiveController : Controller   
+    public class ExecutiveController : Controller
     {
         private readonly IExecutiveService _ExecutiveService;
         private readonly IMapper _mapper;
         private readonly IUnifiedService _unifiedservice;
-      
+
         public ExecutiveController(IExecutiveService ExecutiveService, IMapper mapper, IUnifiedService unifiedService)
         {
             _ExecutiveService = ExecutiveService;
             _mapper = mapper;
-            _unifiedservice = unifiedService;   
-        
+            _unifiedservice = unifiedService;
+
         }
 
 
         /// <summary>
         /// DISPLAYING LIST OF ALL EXECUTIVES 
         /// </summary>
-        public async Task<ActionResult<ExecutiveModel>> DisplayExecutives()
+        /// 
+
+        [HttpGet]
+        public async Task<ActionResult<DisplayViewModel>> DisplayExecutives()
         {
-            var dspexe = await _ExecutiveService.GetAllDeatils();
-            var dspmap = _mapper.Map<List<ExecutiveModel>, List<ExecutiveViewModel>>(dspexe);
-            return View(dspmap);
+            var executivelist = new List<ExecutiveModel>();
+
+            executivelist = await _ExecutiveService.GetAllExecutives();
+            var statesResult = await _unifiedservice.GetStates();
+
+            var viewModel = new DisplayViewModel
+            {
+                ExecutiveList = executivelist,
+                StateList = statesResult
+            };
+
+            return View(viewModel);
         }
 
 
@@ -88,25 +100,25 @@ namespace NatDMS.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateExecutive(SaveExecutiveViewModel saveexecmdl)
         {
-            
-                if (ModelState.IsValid)
-                {
-                var createexecutive = _mapper.Map<SaveExecutiveViewModel,ExecutiveModel>(saveexecmdl); 
+
+            if (ModelState.IsValid)
+            {
+                var createexecutive = _mapper.Map<SaveExecutiveViewModel, ExecutiveModel>(saveexecmdl);
 
                 var displayxexecutive = await _ExecutiveService.CreateExecutive(createexecutive);
-            
+
                 return RedirectToAction(nameof(DisplayExecutives));
-                }
+            }
 
             else
-                {
+            {
                 ModelState.AddModelError(string.Empty, "Form submission failed . please check the procided data");
                 return View(saveexecmdl);
 
-                }
+            }
         }
 
-      
+
         /// <summary>
         /// GETTING EXISTING DATA FOR UPDATE
         /// </summary>
@@ -193,5 +205,28 @@ namespace NatDMS.Controllers
             await _ExecutiveService.DeleteExecutive(ExecutiveId);
             return RedirectToAction(nameof(DisplayExecutives));
         }
+
+        /// <summary>
+        /// SEARCH EXECUTIVE 
+        /// </summary>
+
+
+        [HttpPost]
+        public async Task<ActionResult<DisplayViewModel>> SearchExecutive(DisplayViewModel model)
+        {
+            var search = _mapper.Map<DisplayViewModel, SearchModel>(model);
+            var SearchResult = await _ExecutiveService.SearchExecutive(search);
+            var statesResult = await _unifiedservice.GetStates();
+
+            var viewModel = new DisplayViewModel
+            {
+                ExecutiveList = SearchResult,
+                StateList = statesResult,
+            };
+            return View("DisplayExecutives", viewModel);
+
+
+        }
     }
 }
+

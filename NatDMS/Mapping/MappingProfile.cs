@@ -31,6 +31,13 @@ namespace NatDMS.Mapping
             CreateMap<ExecutiveModel, ED_EditViewModel>();
             CreateMap<RetailorModel , RetailorEditViewModel>();
 
+            CreateMap<ExecutiveModel, DisplayViewModel>();
+            CreateMap<DistributorModel,DisplayViewModel>();
+            CreateMap<RetailorModel, DisplayViewModel>();
+            CreateMap<SearchModel,DisplayViewModel>();
+
+
+
 
             // Resource to Domain
 
@@ -46,6 +53,11 @@ namespace NatDMS.Mapping
             CreateMap<SaveExecutiveViewModel, ExecutiveModel>();
             CreateMap<SaveDistributorViewModel,DistributorModel>();
             CreateMap<RetailorEditViewModel, RetailorModel>();
+
+            CreateMap<DisplayViewModel, ExecutiveModel>();
+            CreateMap<DisplayViewModel, DistributorModel>();
+            CreateMap<DisplayViewModel, RetailorModel>();
+            CreateMap<DisplayViewModel, SearchModel>();
 
 
 

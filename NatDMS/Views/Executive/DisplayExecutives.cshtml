@@ -1,22 +1,20 @@
-﻿@model IEnumerable<NatDMS.Models.ExecutiveViewModel>
-
+﻿@model NatDMS.Models.DisplayViewModel
 
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>GetExecutives</title>
+    <title>GetExecutive</title>
 
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <script type="text/javascript">
+
         function confirmDelete(uniqueId, isTrue) {
             var deleteSpan = 'deleteSpan_' + uniqueId;
             var confirmDeleteSpan = 'confirmDeleteSpan_' + uniqueId;
@@ -31,7 +29,6 @@
                 hideModal(uniqueId);
             }
         }
-
         function showModal(uniqueId) {
             var modal = $('#deleteConfirmationModal_' + uniqueId);
             modal.modal('show');
@@ -44,112 +41,246 @@
     </script>
 </head>
 
+
+<!---------------------------------------------------BODY---------------------------------------------------------->
+
+
 <body>
-    <div class="container">
+    <div class="d-flex justify-content-between">
+        <h4>MANAGE EXECUTIVE</h4>
+
         <div class="text-center">
+            <a href="@Url.Action("CreateExecutive")" class="d-flex align-items-center">
+                <i class="material-icons">add</i>
+                <b><span style="font-weight:bold;">CREATE NEW</span></b>
+            </a>
+        </div>
+    </div>
 
-            <h2 class="my-1">MANAGE EXECUTIVE</h2>
-           
-            <div class="text-center">
 
-                <a href="@Url.Action("CreateExecutive")" class="d-flex align-items-center">
-                    <i class="material-icons">add</i>
-                    <span class="ml-2" style="font-weight: bold;">CREATE NEW</span>
 
-                </a>
-            </div>
 
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped custom-table">
-                    <thead>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.FirstName)</th>
-                            <th>@Html.DisplayNameFor(model => model.LastName)</th>
-                            <th>@Html.DisplayNameFor(model => model.Email)</th>
-                            <th>@Html.DisplayNameFor(model => model.MobileNumber)</th>
-                            <th>@Html.DisplayNameFor(model => model.Address)</th>
-                            <th>@Html.DisplayNameFor(model => model.State)</th>
-                            <th>@Html.DisplayNameFor(model => model.City)</th>
-                            <th>@Html.DisplayNameFor(model => model.Area)</th>
-                            <th>@Html.DisplayNameFor(model => model.UserName)</th>
-                            <th>@Html.DisplayNameFor(model => model.Password)</th>
+    <!-----------------------------------------------SEARCH EXECUTIVE----------------------------------------------------->
 
-                            <th>Edit</th>
-                            <th>Delete</th>
-                            <th>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
+    <div class="container my-4">
+        @using (Html.BeginForm("SearchExecutive", "Executive", FormMethod.Post))
+        {
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <b>
+                            @Html.LabelFor(model => model.FirstName)
+                            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+                        </b>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <b>
+                            @Html.LabelFor(model => model.LastName)
+                            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                        </b>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <b>
+                            @Html.LabelFor(model => model.State)
+                            @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"),
+                        "-SelectState-", new { @id = "state", onchange = "statechange()", @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                        </b>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <b>
+                            @Html.LabelFor(model => model.City)
+                            @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
                         {
-                            <tr>
-                                <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
-                                <td>@Html.DisplayFor(modelItem => item.LastName)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                                <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Address)</td>
-                                <td>@Html.DisplayFor(modelItem => item.State)</td>
-                                <td>@Html.DisplayFor(modelItem => item.City)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Area)</td>
-                                <td>@Html.DisplayFor(modelItem => item.UserName)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Password)</td>
+                        new SelectListItem { Text = "", Value =""},
+                        }, "Value","Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                        </b>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <b>
+                            @Html.LabelFor(model => model.Area)
+                            @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
+                        {
+                        new SelectListItem {Text = ""}
+                        }, new { id = "area", @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+                        </b>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-secondary my-4">
+                            <i class="material-icons" style="font-size:20px;display:flex;justify-content:center;
+                                align-items:center;">search</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
 
 
-                                <td>
-                                    <a href="@Url.Action("EditExecutive", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:orange;">
-                                        <i class="material-icons">edit</i>
-                                    </a>
-                                </td>
+        <!----------------------------------------------------DISPLAY EXECUTIVE LIST-------------------------------------------------------------->
+
+        <div class="table-responsive">
+           
+            <table class="table table-bordered table-striped custom-table">
+                <thead>
+                    <tr>
+                        <th>FirstName</th>
+                        <th>LastName</th>
+                        <th>Email</th>
+                        <th>MobileNumber</th>
+                        <th>Address</th>
+                        <th>UserName</th>
+                        <th>Password</th>
+                        <th>State</th>
+                        <th>City</th>
+                        <th>Area</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model.ExecutiveList)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Address)</td>
+                            <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Password)</td>
+                            <td>@Html.DisplayFor(modelItem => item.State)</td>
+                            <td>@Html.DisplayFor(modelItem => item.City)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Area)</td>
+
+                            <td>
+                                <a href="@Url.Action("EditExecutive", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:orange;">
+                                    <i class="material-icons">edit</i>
+                                </a>
+                            </td>
+                            <td>
+
+     <!-----------------------------------------------------DELETE POPUP------------------------------------------------------------>
 
 
-                                <td>
-
-                                    <div style="display: flex; justify-content: center; align-items: center;">
-                                        <i onclick="confirmDelete('@item.Id', true)" class="material-icons" style="color: red;cursor: pointer;">delete</i>
-                                    </div>
+                                <div style="display: flex; justify-content: center; align-items: center;">
+                                    <i onclick="confirmDelete('@item.Id', true)" class="material-icons" style="color: red;cursor: pointer;">delete</i>
+                                </div>
 
 
-                                    <div id="deleteConfirmationModal_@item.Id" class="modal" style="display:none">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Delete Confirmation</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Are you sure you want to delete this item?</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" onclick="confirmDelete('@item.Id', false)">No</button>
-                                                    @using (Html.BeginForm("DeleteExecutive", "Executive", new { ExecutiveId = item.Id }, FormMethod.Post))
-                                                    {
-                                                        <button type="submit" class="btn btn-danger">Yes</button>
-                                                    }
-                                                </div>
+                                <div id="deleteConfirmationModal_@item.Id" class="modal" style="display:none">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Delete Confirmation</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure you want to delete this item?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" onclick="confirmDelete('@item.Id', false)">No</button>
+                                                @using (Html.BeginForm("DeleteExecutive", "Executive", new { ExecutiveId = item.Id }, FormMethod.Post))
+                                                {
+                                                    <button type="submit" class="btn btn-danger">Yes</button>
+                                                }
                                             </div>
                                         </div>
                                     </div>
-                                </td>
+                                </div>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("ExecutiveDetailsBYId", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:green;">
+                                    <i class="material-icons">info</i>
+                                </a>
+                            </td>
 
+                        </tr>
+                    }
 
-                                <td>
-                                    <a href="@Url.Action("ExecutiveDetailsById", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:green;">
-                                        <i class="material-icons">info</i>
-                                    </a>
-                                </td>
+                </tbody>
+            </table>
 
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
         </div>
     </div>
+
+    <!---------------------------------------------------------AJAX CODE FOR CITY CHANGE AND AREA-------------------------------------------------->
+
+
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+
+        function statechange() {
+            debugger;
+            var stid = $('#state').val();
+            if (stid.trim() != '') {
+                var ddlcity = $('#city');
+                ddlcity.empty();
+
+                $.ajax(
+                    {
+                        url: "/Executive/GetCitiesbyStateId",
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { stateId: stid },
+                        success: function (d) {
+                            ddlcity.append($("<option></option>").val('').html('-SelectCity-'));
+                            $.each(d, function (i, cities) {
+                                ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
+                            });
+                        },
+                        error: function () {
+                            alert('Error!');
+                        }
+                    });
+            }
+        }
+
+        function citychange() {
+            debugger;
+            var cityid = $('#city').val();
+            if (cityid.trim() != '') {
+                var ddlarea = $('#area');
+                ddlarea.empty();
+
+                $.ajax(
+                    {
+                        url: "/Executive/GetAreasByCityId",
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { cityId: cityid },
+                        success: function (d) {
+                            ddlarea.append($("<option></option>").val('').html('-SelectArea-'));
+                            $.each(d, function (i, areas) {
+                                ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
+                            });
+                        },
+                        error: function () {
+                            alert('Error!');
+                        }
+                    });
+            }
+        }
+    </script>
 </body>
 </html>
-
-
-
-

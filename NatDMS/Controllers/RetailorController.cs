@@ -25,12 +25,20 @@ namespace NatDMS.Controllers
         /// <summary>
         /// DISPLAYING LIST OF ALL RETAILORS 
         /// </summary>     
-        public async Task<ActionResult<RetailorModel>> DisplayRetailors()
+        public async Task<ActionResult<DisplayViewModel>> DisplayRetailors()
         {
-            var result = await _retailorservice.GetAllRetailors();
-            var mapped = _mapper.Map<List<RetailorModel>, List<RetailorViewModel>>(result);
+            var retailorlist = new List<RetailorModel>();
 
-            return View(mapped);
+            retailorlist = await _retailorservice.GetAllRetailors();
+            var statesResult = await _unifiedservice.GetStates();
+
+            var viewModel = new DisplayViewModel
+            {
+                RetailorList = retailorlist,
+                StateList = statesResult
+            };
+
+            return View(viewModel);
         }
 
         /// <summary>
@@ -95,7 +103,7 @@ namespace NatDMS.Controllers
             }
 
         }
-     
+
 
         /// <summary>
         ///  GETTING EXISTING DATA BY RETAILOR BY ID //
@@ -109,7 +117,6 @@ namespace NatDMS.Controllers
             viewModel.States = await _unifiedservice.GetStates();
             viewModel.Cities = await _unifiedservice.GetCitiesbyStateId(retailorDetails.State);
             viewModel.Areas = await _unifiedservice.GetAreasByCityId(retailorDetails.City);
-
             return View(viewModel);
         }
 
@@ -140,14 +147,34 @@ namespace NatDMS.Controllers
         /// <summary>
         /// DELETING RETAILOR BY ID
         /// </summary>
-        public async Task<IActionResult> DeleteRetailor(string retailorId)
+        public async Task<IActionResult> DeleteRetailor(string RetailorId)
         {
-            await _retailorservice.DeleteRetailor(retailorId);
+            await _retailorservice.DeleteRetailor(RetailorId);
             return RedirectToAction("DisplayRetailors", "Retailor");
         }
 
-    }
 
+        /// <summary>
+        /// SEARCH RETAILOR 
+        /// </summary>
+
+        [HttpPost]
+        public async Task<ActionResult<DisplayViewModel>> SearchRetailor(DisplayViewModel model)
+        {
+            var search = _mapper.Map<DisplayViewModel, SearchModel>(model);
+            var SearchResult = await _retailorservice.SearchRetailor(search);
+            var statesResult = await _unifiedservice.GetStates();
+
+            var viewModel = new DisplayViewModel
+            {
+                RetailorList = SearchResult,
+                StateList = statesResult,
+            };
+            return View("DisplayRetailors", viewModel);
+
+        }
+
+    }
 }
 
 

@@ -62,7 +62,7 @@
                         @Html.LabelFor(model => model.City)
                         @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
                     {
-                    new SelectListItem { Text = "", Value = "select" },
+                    new SelectListItem { Text = "", Value = "" },
                     }, "Value", "Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                     </b>

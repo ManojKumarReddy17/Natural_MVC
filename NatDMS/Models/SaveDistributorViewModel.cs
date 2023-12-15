@@ -10,20 +10,20 @@ namespace NatDMS.Models
 
         public class SaveDistributorViewModel
         {
-            [Required(ErrorMessage = "First Name is required.")]
-            [StringLength(40, MinimumLength = 3, ErrorMessage = "Last Name must be between 3 and 40 characters.")]
-            
-             public string FirstName { get; set; }
+          [Required(ErrorMessage = "FirstName is Required")]
+          [RegularExpression("[a-zA-Z]{1,40}", ErrorMessage = "must contain upto 40 alphabets only")]
+
+        public string FirstName { get; set; }
 
             [Required(ErrorMessage = "Last Name is required.")]
-            [StringLength(40, MinimumLength = 3, ErrorMessage = "Last Name must be between 3 and 40 characters.")]
+            [RegularExpression("[a-zA-Z]{1,40}", ErrorMessage = "must contain upto 40 alphabets only")]
             public string LastName { get; set; }
 
             [EmailAddress(ErrorMessage = "Invalid email address. The email domain must be @gmail.com.")]
              public string Email { get; set; }
 
             [Required(ErrorMessage = "Mobile Number is required.")]
-            [RegularExpression(@"^\d{10}$", ErrorMessage = "Invalid Mobile Number format. Use 10 digits.")]
+            [RegularExpression(@"\d{10}", ErrorMessage = "Invalid Mobile Number format. Use 10 digits.")]
             public string MobileNumber { get; set; }
 
             public string Address { get; set; }

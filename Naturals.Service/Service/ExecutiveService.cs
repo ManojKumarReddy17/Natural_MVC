@@ -1,4 +1,5 @@
-﻿using Natural.Core.IServices;
+﻿using NatDMS.Models;
+using Natural.Core.IServices;
 using Natural.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace Naturals.Service.Service
         /// <summary>
         /// GET ALL EXECUTIVES //
         /// </summary>
-        public async Task<List<ExecutiveModel>> GetAllDeatils()
+        public async Task<List<ExecutiveModel>> GetAllExecutives()
         {
             var getexe = await _httpClient.GetAsync<List<ExecutiveModel>>("/Executive");
             return getexe;
@@ -89,6 +90,12 @@ namespace Naturals.Service.Service
             {
                 throw new Exception("Error");
             }
+        }
+
+        public async Task<List<ExecutiveModel>> SearchExecutive(SearchModel searchexecutive)
+        {
+            var SearchedResult = await _httpClient.PostAsync<List<ExecutiveModel>>("/Executive/Search", searchexecutive);
+            return SearchedResult;
         }
     }
 }
