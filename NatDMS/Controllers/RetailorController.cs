@@ -34,13 +34,13 @@ namespace NatDMS.Controllers
 
             var paginatedData = retailorPgn.GetPaginatedData(retailorResult);
 
-            var mapped = _mapper.Map<List<RetailorModel>, List<DisplayViewModel>>(paginatedData);
+            var mapped = _mapper.Map<List<RetailorModel>, List<EDR_DisplayViewModel>>(paginatedData);
 
             ViewBag.Pages = retailorPgn;
 
             var statesResult = await _unifiedservice.GetStates();
 
-            var viewModel = new DisplayViewModel
+            var viewModel = new EDR_DisplayViewModel
             {
                 RetailorList = paginatedData,
                 StateList = statesResult
@@ -169,13 +169,13 @@ namespace NatDMS.Controllers
         /// </summary>
 
         [HttpPost]
-        public async Task<ActionResult<DisplayViewModel>> SearchRetailor(DisplayViewModel model)
+        public async Task<ActionResult<EDR_DisplayViewModel>> SearchRetailor(EDR_DisplayViewModel model)
         {
-            var search = _mapper.Map<DisplayViewModel, SearchModel>(model);
+            var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(model);
             var SearchResult = await _retailorservice.SearchRetailor(search);
             var statesResult = await _unifiedservice.GetStates();
 
-            var viewModel = new DisplayViewModel
+            var viewModel = new EDR_DisplayViewModel
             {
                 RetailorList = SearchResult,
                 StateList = statesResult,
