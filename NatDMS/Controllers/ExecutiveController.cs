@@ -33,6 +33,12 @@ namespace NatDMS.Controllers
         /// 
 
         [HttpGet]
+<<<<<<< Updated upstream
+=======
+        public async Task<ActionResult<EDR_DisplayViewModel>> DisplayExecutives()
+        {
+            var executivelist = new List<ExecutiveModel>();
+>>>>>>> Stashed changes
 
         public async Task<ActionResult<List<ExecutiveModel>>> DisplayExecutives(int page = 1)
         {
@@ -47,7 +53,7 @@ namespace NatDMS.Controllers
 
             var statesResult = await _unifiedservice.GetStates();
 
-            var viewModel = new DisplayViewModel
+            var viewModel = new EDR_DisplayViewModel
             {
                 ExecutiveList = paginatedData,
                 StateList = statesResult
@@ -99,7 +105,7 @@ namespace NatDMS.Controllers
 
         public async Task<ActionResult> CreateExecutive()
         {
-            var viewmodel = new SaveExecutiveViewModel();
+            var viewmodel = new ED_CreateViewModel();
             viewmodel.States = await _unifiedservice.GetStates();
             return View(viewmodel);
         }
@@ -108,12 +114,12 @@ namespace NatDMS.Controllers
         /// INSERTING CREATED EXECUTIVE DATA
         /// </summary>
         [HttpPost]
-        public async Task<IActionResult> CreateExecutive(SaveExecutiveViewModel saveexecmdl)
+        public async Task<IActionResult> CreateExecutive(ED_CreateViewModel saveexecmdl)
         {
 
             if (ModelState.IsValid)
             {
-                var createexecutive = _mapper.Map<SaveExecutiveViewModel, ExecutiveModel>(saveexecmdl);
+                var createexecutive = _mapper.Map<ED_CreateViewModel, ExecutiveModel>(saveexecmdl);
 
                 var displayxexecutive = await _ExecutiveService.CreateExecutive(createexecutive);
 
@@ -222,13 +228,13 @@ namespace NatDMS.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<DisplayViewModel>> SearchExecutive(DisplayViewModel model)
+        public async Task<ActionResult<EDR_DisplayViewModel>> SearchExecutive(EDR_DisplayViewModel model)
         {
-            var search = _mapper.Map<DisplayViewModel, SearchModel>(model);
+            var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(model);
             var SearchResult = await _ExecutiveService.SearchExecutive(search);
             var statesResult = await _unifiedservice.GetStates();
 
-            var viewModel = new DisplayViewModel
+            var viewModel = new EDR_DisplayViewModel
             {
                 ExecutiveList = SearchResult,
                 StateList = statesResult,
