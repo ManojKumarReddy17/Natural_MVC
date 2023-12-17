@@ -16,13 +16,14 @@ namespace NatDMS.Controllers
         private readonly IExecutiveService _ExecutiveService;
         private readonly IMapper _mapper;
         private readonly IUnifiedService _unifiedservice;
+        private readonly IConfiguration _configuration;
 
-        public ExecutiveController(IExecutiveService ExecutiveService, IMapper mapper, IUnifiedService unifiedService)
+        public ExecutiveController(IExecutiveService ExecutiveService, IMapper mapper, IUnifiedService unifiedService, IConfiguration configuration)
         {
             _ExecutiveService = ExecutiveService;
             _mapper = mapper;
             _unifiedservice = unifiedService;
-
+            _configuration = configuration;
         }
 
 
@@ -32,21 +33,30 @@ namespace NatDMS.Controllers
         /// 
 
         [HttpGet]
-        public async Task<ActionResult<DisplayViewModel>> DisplayExecutives()
-        {
-            var executivelist = new List<ExecutiveModel>();
 
-            executivelist = await _ExecutiveService.GetAllExecutives();
+        public async Task<ActionResult<List<ExecutiveModel>>> DisplayExecutives(int page = 1)
+        {
+            var executiveResult = await _ExecutiveService.GetAllExecutives();
+            var executivePgn = new PageNation<ExecutiveModel>(executiveResult, _configuration, page);
+
+            var paginatedData = executivePgn.GetPaginatedData(executiveResult);
+
+            var mapped = _mapper.Map<List<ExecutiveModel>, List<DisplayViewModel>>(paginatedData);
+
+            ViewBag.Pages = executivePgn;
+
             var statesResult = await _unifiedservice.GetStates();
 
             var viewModel = new DisplayViewModel
             {
-                ExecutiveList = executivelist,
+                ExecutiveList = paginatedData,
                 StateList = statesResult
             };
 
             return View(viewModel);
         }
+
+
 
 
         /// <summary>

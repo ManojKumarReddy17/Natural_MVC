@@ -136,7 +136,7 @@
         <!----------------------------------------------------DISPLAY EXECUTIVE LIST-------------------------------------------------------------->
 
         <div class="table-responsive">
-           
+
             <table class="table table-bordered table-striped custom-table">
                 <thead>
                     <tr>
@@ -178,7 +178,7 @@
                             </td>
                             <td>
 
-     <!-----------------------------------------------------DELETE POPUP------------------------------------------------------------>
+                                <!-----------------------------------------------------DELETE POPUP------------------------------------------------------------>
 
 
                                 <div style="display: flex; justify-content: center; align-items: center;">
@@ -222,6 +222,28 @@
             </table>
 
         </div>
+    </div>
+    <!-------------------------------------------------------------Pagination------------------------------------------------------------------->
+    <div class="text-center">
+        @if (ViewBag.Pages != null && ViewBag.Pages.TotalPages > 0)
+        {
+            <b>Page @ViewBag.Pages.CurrentPage of @ViewBag.Pages.TotalPages</b>
+
+            <ul class="pagination justify-content-center">
+                <li class="page-item @(ViewBag.Pages.CurrentPage == 1 ? "disabled" : "")">
+                    <a class="page-link btn btn-primary" href="@Url.Action("DisplayExecutives", new { page = ViewBag.Pages.CurrentPage - 1 })" style="color: black; font-weight: bold;">
+                        <span aria-hidden="true">&laquo;</span>
+                        Previous
+                    </a>
+                </li>
+                <li class="page-item @(ViewBag.Pages.CurrentPage == ViewBag.Pages.TotalPages ? "disabled" : "")">
+                    <a class="page-link btn btn-primary" href="@Url.Action("DisplayExecutives", new { page = ViewBag.Pages.CurrentPage + 1 })" style="color: black; font-weight: bold;">
+                        Next
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        }
     </div>
 
     <!---------------------------------------------------------AJAX CODE FOR CITY CHANGE AND AREA-------------------------------------------------->

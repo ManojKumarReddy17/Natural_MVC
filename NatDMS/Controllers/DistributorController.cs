@@ -19,34 +19,45 @@ namespace NatDMS.Controllers
         private readonly IDistributorService _distributorservice;
         private readonly IUnifiedService _unifiedservice;
         private readonly IMapper _mapper;
-        public DistributorController(IDistributorService distributorservice, IMapper mapper, IUnifiedService unifiedservice)
+        private readonly IConfiguration _configuration;
+        public DistributorController(IDistributorService distributorservice, IMapper mapper, IUnifiedService unifiedservice, IConfiguration configuration)
 
         {
             _distributorservice = distributorservice;
             _unifiedservice = unifiedservice;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
         /// <summary>
         /// DISPLAYING LIST OF ALL DISTRIBUTORS 
         /// </summary>
-        
-        [HttpGet]
-        public async Task<ActionResult<DisplayViewModel>> DisplayDistributors()             
-        {
-            var distributorlist = new List<DistributorModel>();
 
-            distributorlist = await _distributorservice.GetAllDistributors();
+        [HttpGet]
+
+        public async Task<ActionResult<List<DistributorModel>>> DisplayDistributors(int page = 1)
+        {
+            var distributorResult = await _distributorservice.GetAllDistributors();
+            var distributorPgn = new PageNation<DistributorModel>(distributorResult, _configuration, page);
+
+            var paginatedData = distributorPgn.GetPaginatedData(distributorResult);
+
+            var mapped = _mapper.Map<List<DistributorModel>, List<DisplayViewModel>>(paginatedData);
+
+            ViewBag.Pages = distributorPgn;
+
             var statesResult = await _unifiedservice.GetStates();
 
             var viewModel = new DisplayViewModel
             {
-                DistributorList = distributorlist,
+                DistributorList = paginatedData,
                 StateList = statesResult
             };
 
             return View(viewModel);
+
         }
+
 
 
         /// <summary>
