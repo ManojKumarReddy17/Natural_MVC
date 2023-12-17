@@ -31,11 +31,11 @@ namespace NatDMS.Controllers
         /// </summary>
         
         [HttpPost]
-        public async Task<ActionResult> Login(LoginViewModel model)
+        public async Task<ActionResult> Login(LoginViewModel loginViewModel)
         {
             if (ModelState.IsValid)
             {
-                var create = _mapper.Map<LoginViewModel, LoginModel>(model);
+                var create = _mapper.Map<LoginViewModel, LoginModel>(loginViewModel);
                 var contents = await _ILoginService.LoginAsync(create);
 
                 if (contents.FirstName != null && contents.LastName != null)
@@ -58,7 +58,7 @@ namespace NatDMS.Controllers
                 ModelState.AddModelError(string.Empty, "INVALID CREDENTIALS");
             }
 
-            return View(model);
+            return View(loginViewModel);
         }
     }
 }

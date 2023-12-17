@@ -14,32 +14,42 @@ namespace NatDMS.Controllers
         private readonly IRetailorService _retailorservice;
         private readonly IUnifiedService _unifiedservice;
         private readonly IMapper _mapper;
-        public RetailorController(IRetailorService retailorservice, IMapper mapper, IUnifiedService unifiedservice)
+        private readonly IConfiguration _configuration;
+        public RetailorController(IRetailorService retailorservice, IMapper mapper, IUnifiedService unifiedservice, IConfiguration configuration)
 
         {
             _retailorservice = retailorservice;
             _unifiedservice = unifiedservice;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
         /// <summary>
         /// DISPLAYING LIST OF ALL RETAILORS 
         /// </summary>     
-        public async Task<ActionResult<DisplayViewModel>> DisplayRetailors()
+        public async Task<ActionResult<List<RetailorModel>>> DisplayRetailors(int page = 1)
         {
-            var retailorlist = new List<RetailorModel>();
+            var retailorResult = await _retailorservice.GetAllRetailors();
+            var retailorPgn = new PageNation<RetailorModel>(retailorResult, _configuration, page);
 
-            retailorlist = await _retailorservice.GetAllRetailors();
+            var paginatedData = retailorPgn.GetPaginatedData(retailorResult);
+
+            var mapped = _mapper.Map<List<RetailorModel>, List<DisplayViewModel>>(paginatedData);
+
+            ViewBag.Pages = retailorPgn;
+
             var statesResult = await _unifiedservice.GetStates();
 
             var viewModel = new DisplayViewModel
             {
-                RetailorList = retailorlist,
+                RetailorList = paginatedData,
                 StateList = statesResult
             };
 
             return View(viewModel);
         }
+
+
 
         /// <summary>
         /// GETTING RETAILOR DETAILS BY ID

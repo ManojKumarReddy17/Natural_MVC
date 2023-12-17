@@ -11,18 +11,22 @@ namespace NatDMS.Controllers
     {
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
-        public CategoryController(ICategoryService categoryService, IMapper mapper)
+        private readonly IConfiguration _configuration;
+        public CategoryController(ICategoryService categoryService, IMapper mapper, IConfiguration configuration)
         {
             _categoryService = categoryService;
             _mapper = mapper;
+            _configuration = configuration;
         }
-        public async Task<ActionResult<CategoryModel>> DisplayCategories()
+        public async Task<ActionResult<CategoryModel>> DisplayCategories(int page = 1)
         {
-            var categorieslist = await _categoryService.GetCategories();
-            var mapped = _mapper.Map<List<CategoryModel>, List<CategoryViewModel>>(categorieslist);
+            var categoryresult = await _categoryService.GetCategories();
+            var categoryPgn = new PageNation<CategoryModel>(categoryresult, _configuration, page);
+            var paginatedData = categoryPgn.GetPaginatedData(categoryresult);
+            ViewBag.Pages = categoryPgn;
+            var mapped = _mapper.Map<List<CategoryModel>, List<CategoryViewModel>>(paginatedData);
             return View(mapped);
         }
-
 
         public ActionResult CreateCategory()
         {

@@ -14,195 +14,198 @@
 
 <body>
 
-            @using (Html.BeginForm("EditDistributor","Distributor", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
-            {
+    @using (Html.BeginForm("EditDistributor", "Distributor", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+    {
         <h1>EDIT DISTRIBUTOR</h1>
-      <div class="row justify-content-center">
-       <div class="col-md-3">
-
-
-                        <div class="form-group">
-                            <b>
-                            @Html.LabelFor(model => model.FirstName, new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-                            </b>
-                        </div>
-
-                        <div class="form-group">
-                            <b>
-                            @Html.LabelFor(model => model.Email, new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                            </b>
-                        </div>
-                        <div class="form-group">
-                            <b>
-                            @Html.LabelFor(model => model.MobileNumber, new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.MobileNumber, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
-                            </b>
-                        </div>
-                        <div class="form-group">
-                            <b>
-                            @Html.LabelFor(model => model.Password, new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                            </b>
-                        </div>
-                        <div class="form-group">
-                            <b>
-                            @Html.LabelFor(model => model.City)
-                            @Html.DropDownListFor(model => model.City, Model.CityList,
-                        new { id = "city", onchange = "citychange()", @class = "form-select" })
-                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-                            </b>
-                        </div>
-
-             </div>
-
-
-       <div class="col-md-3">
+        <div class="row justify-content-center">
+            <div class="col-md-3">
 
 
                 <div class="form-group">
                     <b>
-                    @Html.LabelFor(model => model.LastName, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-                    </b>
-                </div>         
-
-                <div class="form-group">
-                    <b>
-                    @Html.LabelFor(model => model.Address, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                        @Html.LabelFor(model => model.FirstName, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                     </b>
                 </div>
-                  
-                    <div class="form-group">
-                        <b>
+
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.Email, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.MobileNumber, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.MobileNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.Password, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.City)
+                        @Html.DropDownListFor(model => model.City, Model.CityList,
+                    new { id = "city", onchange = "citychange()", @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.LastName, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.Address, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+
+                <div class="form-group">
+                    <b>
                         @Html.LabelFor(model => model.UserName, new { @class = "control-label" })
                         @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
-                        </b>
-                    </div>
-
-                 
-                <div class="form-group">
-                    <b>
-                    @Html.LabelFor(model => model.State, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.State, Model.StateList,"--Select State--",
-                new {id = "state", onchange = "statechange()", @class = "form-select" })
-                    @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                     </b>
                 </div>
 
-              
+
                 <div class="form-group">
                     <b>
-                    @Html.LabelFor(model => model.Area)
-                    @Html.DropDownListFor(model => model.Area,Model.AreaList,
-                new { id = "area", @class = "form-select"})
-                    @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+                        @Html.LabelFor(model => model.State, new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.State, Model.StateList,"--Select State--",
+                    new {id = "state", onchange = "statechange()", @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                     </b>
                 </div>
 
-       </div>
-       </div>
+
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.Area)
+                        @Html.DropDownListFor(model => model.Area,Model.AreaList,
+                    new { id = "area", @class = "form-select"})
+                        @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+
+            </div>
+        </div>
 
         <div class="text-center">
             <button type="submit" class="btn-style1">SUBMIT</button>
         </div>
 
+    }
+
+
+    <div class="row">
+        <div class="col-md-10 d-flex justify-content-between">
+            <a href="@Url.Action("CreateDistributor")" class="d-flex align-items-center mr-6">
+                <i class="material-icons" style="font-size:20px;">refresh</i>
+                <span class="ml-2" style="font-weight: bold;">RESET</span>
+            </a>
+
+            <a href="@Url.Action("DisplayDistributors")" class="d-flex align-items-center">
+                <i class="material-icons" style="font-size:20px;">arrow_back</i>
+                <span class="ml-2" style="font-weight: bold;">BACK TO LIST</span>
+            </a>
+        </div>
+    </div>
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+
+    <script type="text/javascript">
+        function statechange() {
+            debugger;
+            var stid = $('#state').val();
+            if (stid.trim() != '') {
+                var ddlcity = $('#city');
+
+
+                ddlcity.empty();
+
+                $.ajax(
+                    {
+                        url: "/Distributor/GetCitiesbyStateId",
+
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { stateId: stid },
+
+                        success: function (d) {
+
+                            ddlcity.append($("<option></option>").val('').html('--SelectCity--'));
+                            $.each(d, function (i, cities) {
+
+                                ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
+
+                            });
+                        },
+                        error: function () {
+                            alert('Error!');
+                        }
+                    });
             }
 
+        }
 
-<div class="text-center">
-
-        <a href="@Url.Action("DisplayDistributors")" class="d-flex align-items-center">
-        <i class="material-icons">arrow_back</i>
-       <span class="ml-2" style="font-weight: bold;">BACK TO LIST</span>
-
-    </a>
-            
-</div>
-
-        <script src="~/js/jquery-3.6.0.min.js"></script>
-
-        <script type="text/javascript">
-            function statechange() {
-                debugger;
-                var stid = $('#state').val();
-                if (stid.trim() != '') {
-                    var ddlcity = $('#city');
+        function citychange() {
+            debugger;
+            var cityid = $('#city').val();
+            if (cityid.trim() != '') {
+                var ddlarea = $('#area');
 
 
-                    ddlcity.empty();
+                ddlarea.empty();
 
-                    $.ajax(
-                        {
-                            url: "/Distributor/GetCitiesbyStateId",
+                $.ajax(
+                    {
+                        url: "/Distributor/GetAreasByCityId",
 
-                            type: 'GET',
-                            dataType: 'json',
-                            data: { stateId: stid },
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { cityId: cityid },
 
-                            success: function (d) {
+                        success: function (d) {
 
-                                ddlcity.append($("<option></option>").val('').html('--SelectCity--'));
-                                $.each(d, function (i, cities) {
+                            ddlarea.append($("<option></option>").val('').html('--SelectArea--'));
+                            $.each(d, function (i, areas) {
 
-                                    ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
+                                ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
 
-                                });
-                            },
-                            error: function () {
-                                alert('Error!');
-                            }
-                        });
-                }
-
+                            });
+                        },
+                        error: function () {
+                            alert('Error!');
+                        }
+                    });
             }
 
-            function citychange() {
-                debugger;
-                var cityid = $('#city').val();
-                if (cityid.trim() != '') {
-                    var ddlarea = $('#area');
+        }
+    </script>
 
-
-                    ddlarea.empty();
-
-                    $.ajax(
-                        {
-                            url: "/Distributor/GetAreasByCityId",
-
-                            type: 'GET',
-                            dataType: 'json',
-                            data: { cityId: cityid },
-
-                            success: function (d) {
-
-                                ddlarea.append($("<option></option>").val('').html('--SelectArea--'));
-                                $.each(d, function (i, areas) {
-
-                                    ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
-
-                                });
-                            },
-                            error: function () {
-                                alert('Error!');
-                            }
-                        });
-                }
-
-            }
-        </script>
-
-        </body>
-        </html>
+</body>
+</html>
 
 @section Scripts {
     @{
