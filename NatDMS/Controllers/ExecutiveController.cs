@@ -30,15 +30,6 @@ namespace NatDMS.Controllers
         /// <summary>
         /// DISPLAYING LIST OF ALL EXECUTIVES 
         /// </summary>
-        /// 
-
-        [HttpGet]
-<<<<<<< Updated upstream
-=======
-        public async Task<ActionResult<EDR_DisplayViewModel>> DisplayExecutives()
-        {
-            var executivelist = new List<ExecutiveModel>();
->>>>>>> Stashed changes
 
         public async Task<ActionResult<List<ExecutiveModel>>> DisplayExecutives(int page = 1)
         {
@@ -47,7 +38,7 @@ namespace NatDMS.Controllers
 
             var paginatedData = executivePgn.GetPaginatedData(executiveResult);
 
-            var mapped = _mapper.Map<List<ExecutiveModel>, List<DisplayViewModel>>(paginatedData);
+            var mapped = _mapper.Map<List<ExecutiveModel>, List<EDR_DisplayViewModel>>(paginatedData);
 
             ViewBag.Pages = executivePgn;
 
@@ -61,9 +52,6 @@ namespace NatDMS.Controllers
 
             return View(viewModel);
         }
-
-
-
 
         /// <summary>
         /// GETTING EXECUTIVE DETAILS BY ID

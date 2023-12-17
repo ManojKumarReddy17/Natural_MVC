@@ -32,14 +32,7 @@ namespace NatDMS.Controllers
         /// <summary>
         /// DISPLAYING LIST OF ALL DISTRIBUTORS 
         /// </summary>
-<<<<<<< Updated upstream
-=======
-        
-        [HttpGet]
-        public async Task<ActionResult<EDR_DisplayViewModel>> DisplayDistributors()             
-        {
-            var distributorlist = new List<DistributorModel>();
->>>>>>> Stashed changes
+      
 
         [HttpGet]
 
@@ -50,7 +43,7 @@ namespace NatDMS.Controllers
 
             var paginatedData = distributorPgn.GetPaginatedData(distributorResult);
 
-            var mapped = _mapper.Map<List<DistributorModel>, List<DisplayViewModel>>(paginatedData);
+            var mapped = _mapper.Map<List<DistributorModel>, List<EDR_DisplayViewModel>>(paginatedData);
 
             ViewBag.Pages = distributorPgn;
 

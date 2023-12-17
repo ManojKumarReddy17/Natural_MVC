@@ -27,18 +27,14 @@ namespace NatDMS.Controllers
         /// <summary>
         /// DISPLAYING LIST OF ALL RETAILORS 
         /// </summary>     
-<<<<<<< Updated upstream
         public async Task<ActionResult<List<RetailorModel>>> DisplayRetailors(int page = 1)
-=======
-        public async Task<ActionResult<EDR_DisplayViewModel>> DisplayRetailors()
->>>>>>> Stashed changes
         {
             var retailorResult = await _retailorservice.GetAllRetailors();
             var retailorPgn = new PageNation<RetailorModel>(retailorResult, _configuration, page);
 
             var paginatedData = retailorPgn.GetPaginatedData(retailorResult);
 
-            var mapped = _mapper.Map<List<RetailorModel>, List<DisplayViewModel>>(paginatedData);
+            var mapped = _mapper.Map<List<RetailorModel>, List<EDR_DisplayViewModel>>(paginatedData);
 
             ViewBag.Pages = retailorPgn;
 
