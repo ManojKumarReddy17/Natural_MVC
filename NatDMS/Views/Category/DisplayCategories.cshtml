@@ -43,19 +43,19 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="d-flex justify-content-between">
+        <h4>MANAGE CATEGORIES</h4>
+
         <div class="text-center">
+            <a href="@Url.Action("CreateCategory")" class="d-flex align-items-center">
+                <i class="material-icons">add</i>
+                <b><span style="font-weight:bold;">CREATE NEW</span></b>
+            </a>
+        </div>
+    </div>
 
-            <h4>MANAGE CATEGORIES</h4>
 
-            <div class="text-center">
-
-                <a href="@Url.Action("CreateCategory")" class="d-flex align-items-center">
-                    <i class="material-icons">add</i>
-                    <span class="ml-2" style="font-weight: bold;">CREATE NEW</span>
-
-                </a>
-            </div>
+    <div class="container my-4">
 
             <div class="table-responsive">
                 <table class="table table-bordered table-striped custom-table">
@@ -141,11 +141,9 @@
                     }
                 </div>
 
-
+            </div>
 
             </div>
-        </div>
-    </div>
 </body>
 </html>
 
