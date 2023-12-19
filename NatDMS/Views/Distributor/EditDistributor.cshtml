@@ -16,7 +16,6 @@
 
     @using (Html.BeginForm("EditDistributor", "Distributor", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
     {
-        <h4>EDIT DISTRIBUTOR</h4>
         <div class="row justify-content-center">
             <div class="col-md-3">
 
@@ -50,11 +49,12 @@
                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                     </b>
                 </div>
+
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.City)
-                        @Html.DropDownListFor(model => model.City, Model.CityList,
-                    new { id = "city", onchange = "citychange()", @class = "form-select" })
+                        @Html.DropDownListFor(model => model.City, new SelectList(Model.CityList, "Id", "CityName"),
+                    "--Select City--", new { @id = "city", onchange = "citychange()", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                     </b>
                 </div>
@@ -93,22 +93,22 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.State, new { @class = "control-label" })
-                        @Html.DropDownListFor(model => model.State, Model.StateList,"--Select State--",
-                    new {id = "state", onchange = "statechange()", @class = "form-select" })
+                        @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"),
+                    "--Select State--", new { @id = "state", onchange = "statechange()", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                     </b>
                 </div>
 
 
+
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Area)
-                        @Html.DropDownListFor(model => model.Area,Model.AreaList,
-                    new { id = "area", @class = "form-select"})
+                        @Html.DropDownListFor(model => model.Area, new SelectList(Model.AreaList, "Id", "AreaName"),
+                    "--Select Area--", new { id = "area", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
                     </b>
                 </div>
-
             </div>
         </div>
 
@@ -121,7 +121,7 @@
 
     <div class="row">
         <div class="col-md-10 d-flex justify-content-between">
-            <a href="@Url.Action("CreateDistributor")" class="d-flex align-items-center mr-6">
+            <a href="@Url.Action("EditDistributor")" class="d-flex align-items-center mr-6">
                 <i class="material-icons" style="font-size:20px;">refresh</i>
                 <span class="ml-2" style="font-weight: bold;">RESET</span>
             </a>

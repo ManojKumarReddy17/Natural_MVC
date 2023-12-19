@@ -1,5 +1,6 @@
 ﻿@model NatDMS.Models.EDR_DisplayViewModel
-@using System.Security.Claims
+
+
 
 <!DOCTYPE html>
 
@@ -44,43 +45,40 @@
 
         //-------------SCRIPT FOR PLACEHOLDER------------//
 
-            function movePlaceholder(input) {
-                input.setAttribute("placeholder", "");
-            }
+
+        function movePlaceholder(input) {
+            input.setAttribute("placeholder", "");
+        }
 
     </script>
 </head>
 
 
 <!---------------------------------------------------BODY---------------------------------------------------------->
-<body>
-    <div class="d-flex justify-content-between">
-        <h4>MANAGE DISTRIBUTOR</h4>
 
+
+<body>
+    <div class="d-flex justify-content-between align-items-center">
         <div class="text-center">
+        </div>
             <a href="@Url.Action("CreateDistributor")" class="d-flex align-items-center">
                 <i class="material-icons">add</i>
                 <b><span style="font-weight:bold;">CREATE NEW</span></b>
             </a>
         </div>
-    </div>
-
-
 
     <!-----------------------------------------------SEARCH DISTRIBUTOR----------------------------------------------------->
-    <div class="container my-4">
 
+    <div class="container my-4">
         @using (Html.BeginForm("SearchDistributor", "Distributor", FormMethod.Post))
         {
             <div class="row">
-
-
                 <div class="col-md-2">
                     <div class="form-group">
                         <b>
                             @Html.LabelFor(model => model.FirstName)
                             @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control",
-                            placeholder = "Enter FirstName", onfocus = "movePlaceholder(this)"  })
+                        placeholder = "Enter FirstName", onfocus = "movePlaceholder(this)"  })
                             @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
 
                         </b>
@@ -92,7 +90,7 @@
                         <b>
                             @Html.LabelFor(model => model.LastName)
                             @Html.TextBoxFor(model => model.LastName, new { @class = "form-control",
-                            placeholder = "Enter LastName", onfocus = "movePlaceholder(this)"  })
+                        placeholder = "Enter FirstName", onfocus = "movePlaceholder(this)"  })
                             @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
 
                         </b>
@@ -101,18 +99,14 @@
 
                 <div class="col-md-2">
                     <div class="form-group">
-
                         <b>
                             @Html.LabelFor(model => model.State)
-
                             @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"),
                         "-SelectState-", new { @id = "state", onchange = "statechange()", @class = "form-select" })
                             @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                         </b>
                     </div>
                 </div>
-
-
 
                 <div class="col-md-2">
                     <div class="form-group">
@@ -143,133 +137,128 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         <button type="submit" class="btn btn-secondary my-4">
-                            <i class="material-icons" style="font-size:20px;display:flex;justify-content:center; align-items:center;">search</i>
+                            <i class="material-icons" style="font-size:20px;display:flex;justify-content:center;
+                                align-items:center;">search</i>
                         </button>
                     </div>
                 </div>
+            </div>
+        }
 
+
+        <!----------------------------------------------------DISPLAY RETAILOR LIST-------------------------------------------------------------->
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-striped custom-table">
+                <thead>
+                    <tr>
+                        <th>FirstName</th>
+                        <th>LastName</th>
+                        <th>Email</th>
+                        <th>MobileNumber</th>
+                        <th>Address</th>
+                        <th>State</th>
+                        <th>City</th>
+                        <th>Area</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model.DistributorList)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Address)</td>
+                            <td>@Html.DisplayFor(modelItem => item.State)</td>
+                            <td>@Html.DisplayFor(modelItem => item.City)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Area)</td>
+
+                            <td>
+                                <a href="@Url.Action("EditDistributor", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:orange;">
+                                    <i class="material-icons">edit</i>
+                                </a>
+                            </td>
+                            <td>
+
+                                <!-----------------------------------------------------DELETE POPUP------------------------------------------------------------>
+
+
+                                <div style="display: flex; justify-content: center; align-items: center;">
+                                    <i onclick="confirmDelete('@item.Id', true)" class="material-icons" style="color: red;cursor: pointer;">delete</i>
+                                </div>
+
+
+                                <div id="deleteConfirmationModal_@item.Id" class="modal" style="display:none">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Delete Confirmation</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure you want to delete this item?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" onclick="confirmDelete('@item.Id', false)">No</button>
+                                                @using (Html.BeginForm("DeleteDistributor", "Distributor", new { DistributorId = item.Id }, FormMethod.Post))
+                                                {
+                                                    <button type="submit" class="btn btn-danger">Yes</button>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("DistributorDetailsBYId", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:green;">
+                                    <i class="material-icons">info</i>
+                                </a>
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <!-------------------------------------------------------------Pagination------------------------------------------------------------------->
+    <div class="text-center">
+        @if (ViewBag.Pages != null && ViewBag.Pages.TotalPages > 0)
+        {
+            <b>Page @ViewBag.Pages.CurrentPage of @ViewBag.Pages.TotalPages</b>
+
+            <div class="d-flex justify-content-between">
+                <ul class="pagination">
+                    <li class="page-item @(ViewBag.Pages.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="page-link text-black" href="@Url.Action("DisplayDistributors", new { page = ViewBag.Pages.CurrentPage - 1 })" style="font-weight: bold; background-color: transparent; border: none;">
+                            <span aria-hidden="true">&laquo;</span>
+                            Previous
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="pagination">
+                    <li class="page-item @(ViewBag.Pages.CurrentPage == ViewBag.Pages.TotalPages ? "disabled" : "")">
+                        <a class="page-link text-black" href="@Url.Action("DisplayDistributors", new { page = ViewBag.Pages.CurrentPage + 1 })" style="font-weight: bold; background-color: transparent; border: none;">
+                            Next
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
         }
     </div>
-
-    <!----------------------------------------------------DISPLAY DISTIBUTORS LIST-------------------------------------------------------------->
-
-    <div class="table-responsive">
-
-        <table class="table table-bordered table-striped custom-table">
-            <thead>
-                <tr>
-                    <th>FirstName</th>
-                    <th>LastName</th>
-                    <th>Email</th>
-                    <th>MobileNumber</th>
-                    <th>Address</th>
-                    <th>State</th>
-                    <th>City</th>
-                    <th>Area</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                    <th>Details</th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-                @foreach (var item in Model.DistributorList)
-                {
-                    <tr>
-                        <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
-                        <td>@Html.DisplayFor(modelItem => item.LastName)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                        <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Address)</td>
-                        <td>@Html.DisplayFor(modelItem => item.State)</td>
-                        <td>@Html.DisplayFor(modelItem => item.City)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Area)</td>
-                     
-
-                        <td>
-                            <a href="@Url.Action("EditDistributor", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:orange;">
-                                <i class="material-icons">edit</i>
-                            </a>
-                        </td>
-                        <!-----------------------------------------------------DELETE POPUP------------------------------------------------------------>
-
-                        <td>
-                 
-                            <div style="display: flex; justify-content: center; align-items: center;">
-                                <i onclick="confirmDelete('@item.Id', true)" class="material-icons" style="color: red;cursor: pointer;">delete</i>
-                            </div>
-
-
-                            <div id="deleteConfirmationModal_@item.Id" class="modal" style="display:none">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Delete Confirmation</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-
-                                        <div class="modal-body">
-                                            <p>Are you sure you want to delete this item?</p>
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" onclick="confirmDelete('@item.Id', false)">No</button>
-                                            @using (Html.BeginForm("DeleteDistributor", "Distributor", new { DistributorId = item.Id }, FormMethod.Post))
-                                            {
-                                                <button type="submit" class="btn btn-danger">Yes</button>
-                                            }
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-
-                        <td>
-                            <a href="@Url.Action("DistributorDetailsBYId", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:green;">
-                                <i class="material-icons">info</i>
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-
-    <!-------------------------------------------------------------Pagination------------------------------------------------------------------->
-    <div class="text-center">
-                    @if (ViewBag.Pages != null && ViewBag.Pages.TotalPages > 0)
-                    {
-                        <b>Page @ViewBag.Pages.CurrentPage of @ViewBag.Pages.TotalPages</b>
-
-                        <div class="d-flex justify-content-between">
-                            <ul class="pagination">
-                                <li class="page-item @(ViewBag.Pages.CurrentPage == 1 ? "disabled" : "")">
-                                    <a class="page-link text-black" href="@Url.Action("DisplayDistributors", new { page = ViewBag.Pages.CurrentPage - 1 })" style="font-weight: bold; background-color: transparent; border: none;">
-                                        <span aria-hidden="true">&laquo;</span>
-                                        Previous
-                                    </a>
-                                </li>
-                            </ul>
-
-                            <ul class="pagination">
-                                <li class="page-item @(ViewBag.Pages.CurrentPage == ViewBag.Pages.TotalPages ? "disabled" : "")">
-                                    <a class="page-link text-black" href="@Url.Action("DisplayDistributors", new { page = ViewBag.Pages.CurrentPage + 1 })" style="font-weight: bold; background-color: transparent; border: none;">
-                                        Next
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    }
-                </div>
-
-
 
     <!---------------------------------------------------------AJAX CODE FOR CITY CHANGE AND AREA-------------------------------------------------->
 
@@ -283,8 +272,6 @@
             if (stid.trim() != '') {
                 var ddlcity = $('#city');
                 ddlcity.empty();
-
-
 
                 $.ajax(
                     {

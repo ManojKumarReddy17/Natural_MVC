@@ -132,46 +132,14 @@ namespace NatDMS.Controllers
         /// GETTING EXISTING DATA FOR UPDATE
         /// </summary>
 
-        public async Task<ActionResult<ED_EditViewModel>> EditDistributor(string id)
+        public async Task<ActionResult> EditDistributor(string id)
         {
             var distributor = await _distributorservice.GetDistributorById(id);
-
-            var statesResult = await _unifiedservice.GetStates();
-
-            var citiesResult = await _unifiedservice.GetCitiesbyStateId(distributor.State);
-
-            var AreaResult = await _unifiedservice.GetAreasByCityId(distributor.City);
-            var model = new ED_EditViewModel
-            {
-
-                FirstName = distributor.FirstName,
-                LastName = distributor.LastName,
-                Email = distributor.Email,
-                MobileNumber = distributor.MobileNumber,
-                Address = distributor.Address,
-                UserName = distributor.UserName,
-                Password = distributor.Password,
-                StateList = statesResult.Select(state => new SelectListItem
-                {
-                    Text = state.StateName,
-                    Value = state.Id
-                }).AsEnumerable(),
-                CityList = citiesResult.Select(city => new SelectListItem
-                {
-                    Text = city.CityName,
-                    Value = city.Id
-                }).AsEnumerable(),
-
-                AreaList = AreaResult.Select(area => new SelectListItem
-                {
-                    Text = area.AreaName,
-                    Value = area.Id
-                }).AsEnumerable()
-            };
-            model.State = distributor.State;
-            model.City = distributor.City;
-            model.Area = distributor.Area;
-            return View(model);
+            var viewModel = _mapper.Map<ED_EditViewModel>(distributor);
+            viewModel.StateList = await _unifiedservice.GetStates();
+            viewModel.CityList = await _unifiedservice.GetCitiesbyStateId(distributor.State);
+            viewModel.AreaList = await _unifiedservice.GetAreasByCityId(distributor.City);
+            return View(viewModel);
         }
 
         /// <summary>
@@ -180,31 +148,23 @@ namespace NatDMS.Controllers
         /// 
 
         [HttpPost]
-        public async Task<ActionResult<ED_EditViewModel>> EditDistributor(string id, ED_EditViewModel Editviewmodel)
-        {
-            try
-            {
+        public async Task<ActionResult> EditDistributor(string id, ED_EditViewModel viewModel)
+        {       
                 if (ModelState.IsValid)
                 {
-
-                    var update = _mapper.Map<ED_EditViewModel, DistributorModel>(Editviewmodel);
-
+                    var update = _mapper.Map<ED_EditViewModel, DistributorModel>(viewModel);
                     await _distributorservice.UpdateDistributor(id, update);
-
                     return RedirectToAction(nameof(DisplayDistributors));
                 }
                 else
                 {
-                    return View(Editviewmodel);
+                    viewModel.StateList = await _unifiedservice.GetStates();
+                    viewModel.CityList = await _unifiedservice.GetCitiesbyStateId(viewModel.State);
+                    viewModel.AreaList = await _unifiedservice.GetAreasByCityId(viewModel.City);
+                    return View(viewModel);
                 }
             }
-            catch
-            {
-                return View();
-            }
-        }
-
-
+           
         /// <summary>
         /// DELETING DISTRIBUTOR BY ID
         /// </summary>

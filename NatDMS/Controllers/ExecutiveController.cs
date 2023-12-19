@@ -103,8 +103,7 @@ namespace NatDMS.Controllers
         /// </summary>
         [HttpPost]
         public async Task<IActionResult> CreateExecutive(ED_CreateViewModel saveexecmdl)
-        {
-
+        { 
             if (ModelState.IsValid)
             {
                 var createexecutive = _mapper.Map<ED_CreateViewModel, ExecutiveModel>(saveexecmdl);
@@ -113,12 +112,10 @@ namespace NatDMS.Controllers
 
                 return RedirectToAction(nameof(DisplayExecutives));
             }
-
             else
             {
                 ModelState.AddModelError(string.Empty, "Form submission failed . please check the procided data");
                 return View(saveexecmdl);
-
             }
         }
 
@@ -131,58 +128,24 @@ namespace NatDMS.Controllers
         {
             var executive = await _ExecutiveService.GetExecutiveById(id);
 
-            var statesResult = await _unifiedservice.GetStates();
-
-            var citiesResult = await _unifiedservice.GetCitiesbyStateId(executive.State);
-
-            var AreaResult = await _unifiedservice.GetAreasByCityId(executive.City);
-            var model = new ED_EditViewModel
-            {
-
-                FirstName = executive.FirstName,
-                LastName = executive.LastName,
-                Email = executive.Email,
-                MobileNumber = executive.MobileNumber,
-                Address = executive.Address,
-                UserName = executive.UserName,
-                Password = executive.Password,
-                StateList = statesResult.Select(state => new SelectListItem
-                {
-                    Text = state.StateName,
-                    Value = state.Id
-                }).AsEnumerable(),
-                CityList = citiesResult.Select(city => new SelectListItem
-                {
-                    Text = city.CityName,
-                    Value = city.Id
-                }).AsEnumerable(),
-
-                AreaList = AreaResult.Select(area => new SelectListItem
-                {
-                    Text = area.AreaName,
-                    Value = area.Id
-                }).AsEnumerable()
-            };
-            model.State = executive.State;
-            model.City = executive.City;
-            model.Area = executive.Area;
-            return View(model);
+            var viewModel = _mapper.Map<ED_EditViewModel>(executive);
+            viewModel.StateList = await _unifiedservice.GetStates();
+            viewModel.CityList = await _unifiedservice.GetCitiesbyStateId(executive.State);
+            viewModel.AreaList = await _unifiedservice.GetAreasByCityId(executive.City);
+            return View(viewModel);
         }
 
-        /// <summary>
-        /// POSTING UPDATED EXECUTIVE DATA
-        /// </summary>
-        /// 
-
-        [HttpPost]
-        public async Task<ActionResult<ED_EditViewModel>> EditExecutive(string id, ED_EditViewModel Editviewmodel)
-        {
-            try
+            /// <summary>
+            /// POSTING UPDATED EXECUTIVE DATA
+            /// </summary>
+            /// 
+        
+         [HttpPost]
+            public async Task<ActionResult> EditExecutive(string id, ED_EditViewModel viewModel)
             {
                 if (ModelState.IsValid)
                 {
-
-                    var update = _mapper.Map<ED_EditViewModel, ExecutiveModel>(Editviewmodel);
+                    var update = _mapper.Map<ED_EditViewModel, ExecutiveModel>(viewModel);
 
                     await _ExecutiveService.UpdateExecutive(id, update);
 
@@ -190,15 +153,12 @@ namespace NatDMS.Controllers
                 }
                 else
                 {
-                    return View(Editviewmodel);
+                    viewModel.StateList = await _unifiedservice.GetStates();
+                    viewModel.CityList = await _unifiedservice.GetCitiesbyStateId(viewModel.State);
+                    viewModel.AreaList = await _unifiedservice.GetAreasByCityId(viewModel.City);
+                    return View(viewModel);
                 }
             }
-            catch
-            {
-                return View();
-            }
-        }
-
 
         /// <summary>
         /// DELETING EXECUTIVE BY ID
