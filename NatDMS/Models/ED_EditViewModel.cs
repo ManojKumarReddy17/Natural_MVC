@@ -44,11 +44,11 @@ namespace NatDMS.Models
         [Required(ErrorMessage = "Password is required.")]
         public string Password { get; set; } 
         
-        public IEnumerable<SelectListItem> StateList { get; set; }
+        public List<StateModel> StateList { get; set; }
 
-        public IEnumerable<SelectListItem> CityList { get; set; }
+        public List<CityModel> CityList { get; set; }
 
-        public IEnumerable<SelectListItem> AreaList { get; set; }
+        public List<AreaModel> AreaList { get; set; }
 
     }
 }

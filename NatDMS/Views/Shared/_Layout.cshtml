@@ -33,49 +33,62 @@
     <link rel="stylesheet" type="text/css" href="css/myboot.css">
     <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
 
-
-    
+    @RenderSection("BannerStyles", required: false)
 
     <!-- Bootstrap CSS -->
-
 </head>
-<body> 
-        <div class="col-2">
-            <a class="navbar-brand">
-                <img src="~/image/logo1.jpg" alt="Logo" class="img-fluid">
-            </a>
-            
-        </div>
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-2 text-dark min-vh-100 d-flex flex-column">
+<body>
+    <nav>
 
-                            <div class="list-group flex-grow-1 ">
-                                <div class="navbar-nav">
-                                    <strong>
-                                        <!-- Sidebar Options -->
-                                       <a href="/Distributor/DisplayDistributors" class="list-group-item text-black">Manage Distributor</a>
-                                       <a href="/Executive/DisplayExecutives" class="list-group-item text-black">Manage Executives</a>
-                                       <a href="/Retailor/DisplayRetailors" class="list-group-item text-black">Manage Retailor</a>
-                                       <a href="/Category/DisplayCategories" class="list-group-item text-black">Manage Categories</a>
-                                        <a href="/Product/DisplayProducts" class="list-group-item text-black">Manage Products</a>
-                                       <a href="/Test/Reports" class="list-group-item text-black">Reports</a>
-                                        <a href="/Test/DailyDSR" class="list-group-item text-black">Daily DSR</a>
-                                    </strong>
-                                </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2 text-dark min-vh-100 d-flex flex-column">
+                <div class="list-group flex-grow-1 ">
+                    <div class="navbar-nav">
 
-                                <!-- Add more options as needed -->
-                                @RenderSection("SideBarOptions", false)
+                        <div class="header-main">
+                            <!-- logo start -->
+                            <div class="header-element logo img ">
+                                <a>
+                                    <img src="~/image/logo1.jpg" alt="logo-image" class="img-fluid">
+                                </a>
+                                <!-- logo End -->
                             </div>
                         </div>
 
-                                <div class="col-10 min-vh-100">
-                                    @RenderBody()
-                                </div>
+                        <strong>
+                            <!-- Sidebar Options -->
+                            <a href="/Distributor/DisplayDistributors" class="list-group-item text-black">Manage Distributor</a>
+                            <a href="/Executive/DisplayExecutives" class="list-group-item text-black">Manage Executives</a>
+                            <a href="/Retailor/DisplayRetailors" class="list-group-item text-black">Manage Retailor</a>
+                            <a href="/Category/DisplayCategories" class="list-group-item text-black">Manage Categories</a>
+                            <a href="/Product/DisplayProducts" class="list-group-item text-black">Manage Products</a>
+                            <a href="/Test/Reports" class="list-group-item text-black">Reports</a>
+                            <a href="/Test/DailyDSR" class="list-group-item text-black">Daily DSR</a>
+                        </strong>
                     </div>
+
+                    <!-- Add more options as needed -->
+                    @RenderSection("SideBarOptions", false)
+                </div>
+            </div>
+           
+            <div class="col-10 min-vh-100">
+                <!-- Banner Section -->
+                <div class="jumbotron" style="height:20%;">
+                    <!-- Add your banner content for this page -->
+                    <img src="~/image/BannerF.jpg" alt="Banner Image" class="img-fluid" style="max-height:100%;">
+                  
                 </div>
 
-  
+     
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+   <!-------------------------------------------------------COPY RIGHT-------------------------------------->
 
     <section class="footer-copyright">
         <div class="container">
