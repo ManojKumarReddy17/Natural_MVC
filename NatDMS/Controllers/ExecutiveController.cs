@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +12,7 @@ using System.Net;
 #nullable disable
 namespace NatDMS.Controllers
 {
+    [Authorize]
     public class ExecutiveController : Controller
     {
         private readonly IExecutiveService _ExecutiveService;

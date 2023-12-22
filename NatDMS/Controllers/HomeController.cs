@@ -6,6 +6,7 @@ using NatDMS.Models;
 using Natural.Core.IServices;
 using Natural.Core.Models;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NatDMS.Controllers
 {
@@ -31,6 +32,7 @@ namespace NatDMS.Controllers
         /// </summary>
         
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult> Login(LoginViewModel loginViewModel)
         {
             if (ModelState.IsValid)
@@ -40,7 +42,6 @@ namespace NatDMS.Controllers
 
                 if (contents.FirstName != null && contents.LastName != null)
                 {
-
                  // Claims Collecting //
                     var claims = new List<Claim>
                  {
