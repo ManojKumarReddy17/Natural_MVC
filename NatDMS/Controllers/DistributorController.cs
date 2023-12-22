@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace NatDMS.Controllers
 {
+    [Authorize]
     public class DistributorController : Controller
     {
 
