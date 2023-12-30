@@ -13,7 +13,7 @@ namespace Natural.Core.IServices
         Task<List<CategoryModel>> GetCategories();
 
         Task<CategoryModel> CreateCategory(CategoryModel category);
-        public Task<CategoryModel> GetCategoryById(string Id);
+         Task<CategoryModel> GetCategoryById(string Id);
         Task<CategoryModel> UpdateCategory(string Id, CategoryModel category);
         Task<bool> DeleteCategory(string categoryId);
     }

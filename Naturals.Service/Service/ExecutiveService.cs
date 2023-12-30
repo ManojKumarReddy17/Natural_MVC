@@ -1,5 +1,4 @@
-﻿using NatDMS.Models;
-using Natural.Core.IServices;
+﻿using Natural.Core.IServices;
 using Natural.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -95,6 +94,19 @@ namespace Naturals.Service.Service
         public async Task<List<ExecutiveModel>> SearchExecutive(SearchModel searchexecutive)
         {
             var SearchedResult = await _httpClient.PostAsync<List<ExecutiveModel>>("/Executive/Search", searchexecutive);
+            return SearchedResult;
+        }
+
+
+        public async Task<List<DistributorModel>> GetAllDistributors()
+        {
+            var getdistributor = await _httpClient.GetAsync<List<DistributorModel>>("/Distributor/");
+            return getdistributor;
+
+        }
+        public async Task<List<DistributorModel>> SearchDistributor(SearchModel searchdistributor)
+        {
+            var SearchedResult = await _httpClient.PostAsync<List<DistributorModel>>("/Distributor/Search", searchdistributor);
             return SearchedResult;
         }
     }
