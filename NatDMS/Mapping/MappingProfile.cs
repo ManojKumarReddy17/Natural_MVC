@@ -38,6 +38,7 @@ namespace NatDMS.Mapping
             CreateMap<DistributorToExecutive, AssignDistributorToExecutiveViewModel>();
             CreateMap<SearchModel , SearchViewModel>();
 
+            CreateMap<RetailorToDistributor,RetailorToDistributorView>();
 
 
 
