@@ -1,5 +1,4 @@
 ﻿@model NatDMS.Models.EDR_DisplayViewModel
-@using System.Security.Claims
 
 <!DOCTYPE html>
 
@@ -14,11 +13,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  
 
-    <script type="text/javascript">      
-        
-          //-------------SCRIPT FOR DELETE POPUP------------//
+        <script type="text/javascript">
+
+ //----------------------------------------------SCRIPT FOR DELETE POPUP-------------------------------------------------------------//
 
         function confirmDelete(uniqueId, isTrue) {
             var deleteSpan = 'deleteSpan_' + uniqueId;
@@ -43,121 +41,17 @@
             var modal = $('#deleteConfirmationModal_' + uniqueId);
             modal.modal('hide');
         }
-
-    //-------------SCRIPT FOR SEARCH------------//
-
-$(document).ready(function() {
-    $("#SearchResultmodel").submit(function(event) {
-        event.preventDefault();
-        var formData = $(this).serialize();
-        $.ajax({
-            type: "POST",
-            url: "/Executive/SearchExecutive",
-            data: formData,
-            success: function (response) {
-             $("#Executivelist").html(response);
-            }
-        });
-    });
-});
-
-
- </script>
+     </script>
 </head>
-
-<!---------------------------------------------------BODY---------------------------------------------------------->
 
 
 <body>
-    <div class="d-flex justify-content-between align-items-center">
-        <div class="text-center">
-            <!-- Your existing content here -->
-        </div>
-        <div class="text-center">
-            <a href="@Url.Action("CreateExecutive")" class="d-flex align-items-center">
-                <i class="material-icons">add</i>
-                <b><span style="font-weight:bold;">CREATE NEW</span></b>
-            </a>
-        </div>
-    </div>
 
-    <!-----------------------------------------------SEARCH EXECUTIVE----------------------------------------------------->
-  
-    
-    <div class="container my-4">
-        @using (Html.BeginForm(FormMethod.Post,new { id ="SearchResultmodel"}))
-        {
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <b>
-                            @Html.Label("SearchName", "Search by Name")
-                            @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Search By FirstName or LastName" })
-                        </b>
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <div class="form-group">
-
-                        <b>
-                            @Html.LabelFor(model => model.State)
-
-                            @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"),
-                        "-SelectState-", new { @id = "state", onchange = "statechange()", @class = "form-select" })
-                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
-                        </b>
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <b>
-                            @Html.LabelFor(model => model.City)
-                            @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
-                        {
-                        new SelectListItem { Text = "", Value =""},
-                        }, "Value","Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
-                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-                        </b>
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <b>
-                            @Html.LabelFor(model => model.Area)
-                            @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
-                        {
-                        new SelectListItem {Text = ""}
-                        }, new { @id = "area", @class = "form-select" })
-                            @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
-                        </b>
-                    </div>
-                </div>
-
-                <!-- Display search results -->
-
-             <div class="col-md-2">
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-secondary my-4">
-                            <i class="material-icons" style="font-size:20px;display:flex;justify-content:center;
-                                align-items:center;">search</i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        }
-     </div>
-
-    <!----------------------------------------------------DISPLAY DISTIBUTORS LIST-------------------------------------------------------------->
-
-
+   <div class="container my-4">
 
     <div class="table-responsive">
-
-        <table class="table table-bordered table-striped custom-table" id="Executivelist">
-            <thead>
+        <table class="table table-bordered table-striped custom-table">
+         <thead>
                 <tr>
                     <th>FirstName</th>
                     <th>LastName</th>
@@ -173,11 +67,10 @@ $(document).ready(function() {
                 </tr>
             </thead>
 
-            <tbody >
+               <tbody >
 
                 @foreach (var item in Model.ExecutiveList)
                 {
-
                     <tr>
                         <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
                         <td>@Html.DisplayFor(modelItem => item.LastName)</td>
@@ -187,9 +80,9 @@ $(document).ready(function() {
                         <td>@Html.DisplayFor(modelItem => item.City)</td>
                         <td>@Html.DisplayFor(modelItem => item.Area)</td>
 
-                  
           <!------------------------------------------------ASSIGN DISTRIBUTOR POPUP------------------------------------------------------------>
-            
+
+                        
                      <td>
                             <div style="display: flex; justify-content: center; align-items: center;">
                                 <a href="#" onclick="loadDisplayDistributorsPopup('@item.Id',true)">
@@ -216,10 +109,7 @@ $(document).ready(function() {
                             </div>
                         </td>
 
-
-
-
- <!-----------------------------------------------EDIT ACTION LINK------------------------------------------------------------------------>
+ <!---------------------------------------------------EDIT ACTION LINK------------------------------------------------------------->
 
 
                         <td>
@@ -228,7 +118,7 @@ $(document).ready(function() {
                             </a>
                         </td>
 
-<!-----------------------------------------------------DELETE POPUP------------------------------------------------------------------------>
+<!-----------------------------------------------------DELETE POPUP-------------------------------------------------------------------->
 
                         <td>
                             <!-- Delete Icon -->
@@ -251,7 +141,7 @@ $(document).ready(function() {
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" onclick="confirmDelete('@item.Id', false)">No</button>
-                                            @using (Html.BeginForm("DeleteExecutive", "Executive", new { ExecutiveId = item.Id }, FormMethod.Post))
+                                            @using (Html.BeginForm("DeleteExecutive","Executive", new { ExecutiveId = item.Id }, FormMethod.Post))
                                             {
                                                 <button type="submit" class="btn btn-danger">Yes</button>
                                             }
@@ -267,14 +157,14 @@ $(document).ready(function() {
                                 <i class="material-icons">info</i>
                             </a>
                         </td>
-                </tr>
-
+               </tr>
                 }
             </tbody>
         </table>
     </div>
+  </div>
 
-    
+
 
 
     <!-------------------------------------------------------------Pagination------------------------------------------------------------------->
@@ -306,6 +196,8 @@ $(document).ready(function() {
     </div>
     <!---------------------------------------------------------AJAX CODE FOR CITY CHANGE AND AREA-------------------------------------------------->
 
+
+    <script src="~/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
 
         function statechange() {
@@ -313,9 +205,10 @@ $(document).ready(function() {
             var stid = $('#state').val();
             if (stid.trim() != '') {
                 var ddlcity = $('#city');
-                 var ddlarea = $('#area');
+                var ddlarea = $('#area');
                 ddlcity.empty();
                 ddlarea.empty();
+
                 $.ajax(
                     {
                         url: "/Executive/GetCitiesbyStateId",
@@ -361,7 +254,10 @@ $(document).ready(function() {
             }
         }
 
+
     </script>
+
+    
 </body>
 </html>
 

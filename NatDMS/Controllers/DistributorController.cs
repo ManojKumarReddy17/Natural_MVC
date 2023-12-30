@@ -10,10 +10,10 @@ using PagedList;
 using Naturals.Service.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace NatDMS.Controllers
 {
-    [Authorize]
     public class DistributorController : Controller
     {
 
@@ -33,19 +33,15 @@ namespace NatDMS.Controllers
         /// <summary>
         /// DISPLAYING LIST OF ALL DISTRIBUTORS 
         /// </summary>
-      
+
 
         [HttpGet]
-
         public async Task<ActionResult<List<DistributorModel>>> DisplayDistributors(int page = 1)
         {
             var distributorResult = await _distributorservice.GetAllDistributors();
             var distributorPgn = new PageNation<DistributorModel>(distributorResult, _configuration, page);
 
             var paginatedData = distributorPgn.GetPaginatedData(distributorResult);
-
-            var mapped = _mapper.Map<List<DistributorModel>, List<EDR_DisplayViewModel>>(paginatedData);
-
             ViewBag.Pages = distributorPgn;
 
             var statesResult = await _unifiedservice.GetStates();
@@ -61,11 +57,11 @@ namespace NatDMS.Controllers
         }
 
 
-
         /// <summary>
         /// GETTING DISTRIBUTOR DETAILS BY ID
         /// </summary>
-        /// 
+
+
 
         [HttpGet]
         public async Task<ActionResult> DistributorDetailsBYId(string id)
@@ -75,9 +71,12 @@ namespace NatDMS.Controllers
             return View(mapped);
 
         }
+
+
         /// <summary>
         /// GETTING CITIES LIST FOR DROPDOWN BASED ON STATE_ID
         /// </summary> 
+
         public async Task<ActionResult> GetCitiesbyStateId(string stateId)
         {
             var result = await _unifiedservice.GetCitiesbyStateId(stateId);
@@ -87,6 +86,8 @@ namespace NatDMS.Controllers
         /// <summary>
         /// GETTING AREA'S LIST FOR DROPDOWN BASED ON CITY_ID
         /// </summary>
+
+
         public async Task<JsonResult> GetAreasByCityId(string cityId)
         {
             var result = await _unifiedservice.GetAreasByCityId(cityId);
@@ -109,6 +110,10 @@ namespace NatDMS.Controllers
         /// <summary>
         /// INSERTING CREATED DISTRIBUTOR DATA
         /// </summary>
+
+
+
+
         [HttpPost]
         public async Task<ActionResult> CreateDistributor(ED_CreateViewModel distributorModel)
         {
@@ -116,7 +121,7 @@ namespace NatDMS.Controllers
             {
                 var distributor = _mapper.Map<ED_CreateViewModel, DistributorModel>(distributorModel);
 
-                 await _distributorservice.CreateDistributor(distributor);
+                await _distributorservice.CreateDistributor(distributor);
 
                 return RedirectToAction("DisplayDistributors", "Distributor");
             }
@@ -143,29 +148,32 @@ namespace NatDMS.Controllers
             return View(viewModel);
         }
 
+
         /// <summary>
         /// POSTING UPDATED DISTRIBUTOR DATA
         /// </summary>
-        /// 
+
+
 
         [HttpPost]
         public async Task<ActionResult> EditDistributor(string id, ED_EditViewModel viewModel)
-        {       
-                if (ModelState.IsValid)
-                {
-                    var update = _mapper.Map<ED_EditViewModel, DistributorModel>(viewModel);
-                    await _distributorservice.UpdateDistributor(id, update);
-                    return RedirectToAction(nameof(DisplayDistributors));
-                }
-                else
-                {
-                    viewModel.StateList = await _unifiedservice.GetStates();
-                    viewModel.CityList = await _unifiedservice.GetCitiesbyStateId(viewModel.State);
-                    viewModel.AreaList = await _unifiedservice.GetAreasByCityId(viewModel.City);
-                    return View(viewModel);
-                }
+        {
+            if (ModelState.IsValid)
+            {
+                var update = _mapper.Map<ED_EditViewModel, DistributorModel>(viewModel);
+                await _distributorservice.UpdateDistributor(id, update);
+                return RedirectToAction(nameof(DisplayDistributors));
             }
-           
+            else
+            {
+                viewModel.StateList = await _unifiedservice.GetStates();
+                viewModel.CityList = await _unifiedservice.GetCitiesbyStateId(viewModel.State);
+                viewModel.AreaList = await _unifiedservice.GetAreasByCityId(viewModel.City);
+                return View(viewModel);
+            }
+        }
+
+
         /// <summary>
         /// DELETING DISTRIBUTOR BY ID
         /// </summary>
@@ -178,10 +186,14 @@ namespace NatDMS.Controllers
             return RedirectToAction("DisplayDistributors", "Distributor");
         }
 
+        /// <summary>
+        /// SEARCH DISTRIBUTOR PARTIAL VIEW
+        /// </summary>
+
         [HttpPost]
-        public async Task<ActionResult<EDR_DisplayViewModel>> SearchDistributor(EDR_DisplayViewModel model)
+        public async Task<ActionResult<EDR_DisplayViewModel>> SearchDistributor(EDR_DisplayViewModel SearchResultmodel)
         {
-            var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(model);
+            var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
             var SearchResult = await _distributorservice.SearchDistributor(search);
             var statesResult = await _unifiedservice.GetStates();
 
@@ -191,7 +203,7 @@ namespace NatDMS.Controllers
                 StateList = statesResult,
             };
 
-            return View("DisplayDistributors", viewModel);
+            return PartialView("_SearchDistributorPartial", viewModel);
         }
     }
 }
