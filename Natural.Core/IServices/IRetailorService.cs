@@ -1,5 +1,4 @@
-﻿using NatDMS.Models;
-using Natural.Core.Models;
+﻿using Natural.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

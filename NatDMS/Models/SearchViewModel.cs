@@ -1,16 +1,17 @@
-﻿
-#nullable disable
-namespace Natural.Core.Models
+﻿#nullable disable
+
+using Natural.Core.Models;
+
+namespace NatDMS.Models
 {
-    public class SearchModel
+    public class SearchViewModel
     {
-        public string FullName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Area { get; set; }
         public string City { get; set; }
         public string State { get; set; }
 
+
     }
 }
-

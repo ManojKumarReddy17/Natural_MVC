@@ -9,7 +9,6 @@ using Naturals.Service.Service;
 namespace NatDMS.Controllers
 {
 
-    [Authorize]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;

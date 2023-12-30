@@ -9,7 +9,7 @@ using Naturals.Service.Service;
 
 namespace NatDMS.Controllers
 {
-    [Authorize]
+    
     public class RetailorController : Controller
     {
 
@@ -165,15 +165,14 @@ namespace NatDMS.Controllers
             return RedirectToAction("DisplayRetailors", "Retailor");
         }
 
-
         /// <summary>
-        /// SEARCH RETAILOR 
+        /// SEARCH RETAILOR PARTIAL VIEW
         /// </summary>
 
         [HttpPost]
-        public async Task<ActionResult<EDR_DisplayViewModel>> SearchRetailor(EDR_DisplayViewModel model)
+        public async Task<ActionResult<EDR_DisplayViewModel>> SearchRetailor(EDR_DisplayViewModel SearchResultmodel)
         {
-            var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(model);
+            var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
             var SearchResult = await _retailorservice.SearchRetailor(search);
             var statesResult = await _unifiedservice.GetStates();
 
@@ -182,13 +181,12 @@ namespace NatDMS.Controllers
                 RetailorList = SearchResult,
                 StateList = statesResult,
             };
-            return View("DisplayRetailors", viewModel);
 
+            return PartialView("_SearchRetailorPartial", viewModel);
         }
-
     }
 }
-
+     
 
 
 

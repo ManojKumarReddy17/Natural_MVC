@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 #nullable disable
+
 namespace Natural.Core.Models
 {
     public class DistributorToExecutive

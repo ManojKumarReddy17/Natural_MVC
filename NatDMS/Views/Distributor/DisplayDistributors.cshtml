@@ -1,7 +1,5 @@
 ﻿@model NatDMS.Models.EDR_DisplayViewModel
 
-
-
 <!DOCTYPE html>
 
 <html lang="en">
@@ -43,12 +41,22 @@
             modal.modal('hide');
         }
 
-        //-------------SCRIPT FOR PLACEHOLDER------------//
+        //-------------SCRIPT FOR SEARCH------------//
 
-
-        function movePlaceholder(input) {
-            input.setAttribute("placeholder", "");
-        }
+        $(document).ready(function () {
+            $("#SearchResultmodel").submit(function (event) {
+                event.preventDefault();
+                var formData = $(this).serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/Distributor/SearchDistributor",
+                    data: formData,
+                    success: function (response) {
+                        $("#Distributorlist").html(response);
+                    }
+                });
+            });
+        });
 
     </script>
 </head>
@@ -70,32 +78,17 @@
     <!-----------------------------------------------SEARCH DISTRIBUTOR----------------------------------------------------->
 
     <div class="container my-4">
-        @using (Html.BeginForm("SearchDistributor", "Distributor", FormMethod.Post))
+        @using (Html.BeginForm(FormMethod.Post, new { id = "SearchResultmodel" }))
         {
             <div class="row">
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <b>
-                            @Html.LabelFor(model => model.FirstName)
-                            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control",
-                        placeholder = "Enter FirstName", onfocus = "movePlaceholder(this)"  })
-                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-
-                        </b>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <b>
+                                @Html.Label("SearchName", "Search by Name")
+                                @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Search By FirstName or LastName" })
+                            </b>
+                        </div>
                     </div>
-                </div>
-
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <b>
-                            @Html.LabelFor(model => model.LastName)
-                            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control",
-                        placeholder = "Enter FirstName", onfocus = "movePlaceholder(this)"  })
-                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-
-                        </b>
-                    </div>
-                </div>
 
                 <div class="col-md-2">
                     <div class="form-group">
@@ -150,7 +143,7 @@
 
         <div class="table-responsive">
 
-            <table class="table table-bordered table-striped custom-table">
+            <table class="table table-bordered table-striped custom-table" id="Distributorlist">
                 <thead>
                     <tr>
                         <th>FirstName</th>
