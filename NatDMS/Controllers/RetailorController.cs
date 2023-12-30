@@ -9,7 +9,6 @@ using Naturals.Service.Service;
 
 namespace NatDMS.Controllers
 {
-    [Authorize]
     public class RetailorController : Controller
     {
 
@@ -182,9 +181,23 @@ namespace NatDMS.Controllers
                 RetailorList = SearchResult,
                 StateList = statesResult,
             };
-            return View("DisplayRetailors", viewModel);
+            return View("DisplayRetailorsPopup", viewModel);
 
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
 }

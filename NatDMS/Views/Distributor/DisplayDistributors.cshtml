@@ -1,9 +1,6 @@
 ﻿@model NatDMS.Models.EDR_DisplayViewModel
 
-
-
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -33,6 +30,7 @@
                 hideModal(uniqueId);
             }
         }
+
         function showModal(uniqueId) {
             var modal = $('#deleteConfirmationModal_' + uniqueId);
             modal.modal('show');
@@ -45,27 +43,49 @@
 
         //-------------SCRIPT FOR PLACEHOLDER------------//
 
-
         function movePlaceholder(input) {
             input.setAttribute("placeholder", "");
         }
 
+        //-------------SCRIPT FOR ASSIGN RETAILOR MODAL------------//
+
+        function redirectToDisplayDistributors() {
+            var url = '@Url.Action("DisplayDistributors", "Distributor")';
+            window.location.href = url;
+        }
+
+        function displayRetailorsPopup(distributorId) {
+            console.log('Displaying retailors for Distributor ID: ' + distributorId);
+
+            var retailorDetailsContainer = $('#retailorDetailsContainer_' + distributorId);
+
+            $.ajax({
+                url: '@Url.Action("DisplayRetailorsPopup", "Distributor")?distributorId=' + distributorId,
+                type: 'GET',
+                success: function (data) {
+                    retailorDetailsContainer.html(data);
+                    $('#assignRetailorModal_' + distributorId).modal('show');
+                    console.log('AJAX Success');
+                },
+                error: function (xhr, status, error) {
+                    console.log('AJAX Error:', xhr, status, error);
+                    alert('Error fetching retailor details. See console for details.');
+                }
+            });
+        }
+
+
     </script>
 </head>
-
-
-<!---------------------------------------------------BODY---------------------------------------------------------->
-
-
 <body>
     <div class="d-flex justify-content-between align-items-center">
         <div class="text-center">
         </div>
-            <a href="@Url.Action("CreateDistributor")" class="d-flex align-items-center">
-                <i class="material-icons">add</i>
-                <b><span style="font-weight:bold;">CREATE NEW</span></b>
-            </a>
-        </div>
+        <a href="@Url.Action("CreateDistributor")" class="d-flex align-items-center">
+            <i class="material-icons">add</i>
+            <b><span style="font-weight:bold;">CREATE NEW</span></b>
+        </a>
+    </div>
 
     <!-----------------------------------------------SEARCH DISTRIBUTOR----------------------------------------------------->
 
@@ -80,7 +100,6 @@
                             @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control",
                         placeholder = "Enter FirstName", onfocus = "movePlaceholder(this)"  })
                             @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-
                         </b>
                     </div>
                 </div>
@@ -92,7 +111,6 @@
                             @Html.TextBoxFor(model => model.LastName, new { @class = "form-control",
                         placeholder = "Enter FirstName", onfocus = "movePlaceholder(this)"  })
                             @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-
                         </b>
                     </div>
                 </div>
@@ -144,94 +162,114 @@
                 </div>
             </div>
         }
+    </div>
+    <!----------------------------------------------------DISPLAY RETAILOR LIST-------------------------------------------------------------->
 
-
-        <!----------------------------------------------------DISPLAY RETAILOR LIST-------------------------------------------------------------->
-
-        <div class="table-responsive">
-
-            <table class="table table-bordered table-striped custom-table">
-                <thead>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped custom-table">
+            <thead>
+                <tr>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                    <th>Email</th>
+                    <th>MobileNumber</th>
+                    <th>Address</th>
+                    <th>State</th>
+                    <th>City</th>
+                    <th>Area</th>
+                    <th>AssignRetailor</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.DistributorList)
+                {
                     <tr>
-                        <th>FirstName</th>
-                        <th>LastName</th>
-                        <th>Email</th>
-                        <th>MobileNumber</th>
-                        <th>Address</th>
-                        <th>State</th>
-                        <th>City</th>
-                        <th>Area</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                        <th>Details</th>
-                    </tr>
-                </thead>
-                <tbody>
+                        <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                        <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Address)</td>
+                        <td>@Html.DisplayFor(modelItem => item.State)</td>
+                        <td>@Html.DisplayFor(modelItem => item.City)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Area)</td>
 
-                    @foreach (var item in Model.DistributorList)
-                    {
-                        <tr>
-                            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
-                            <td>@Html.DisplayFor(modelItem => item.LastName)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                            <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Address)</td>
-                            <td>@Html.DisplayFor(modelItem => item.State)</td>
-                            <td>@Html.DisplayFor(modelItem => item.City)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Area)</td>
-
-                            <td>
-                                <a href="@Url.Action("EditDistributor", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:orange;">
-                                    <i class="material-icons">edit</i>
-                                </a>
-                            </td>
-                            <td>
-
-                                <!-----------------------------------------------------DELETE POPUP------------------------------------------------------------>
+                        <td style="display: flex; justify-content: center; align-items: center;">
+                            <a href="javascript:void(0);" onclick="displayRetailorsPopup('@item.Id')">
+                                <i class="material-icons" style="color:teal;">people</i>
+                            </a>
+                        </td>
 
 
-                                <div style="display: flex; justify-content: center; align-items: center;">
-                                    <i onclick="confirmDelete('@item.Id', true)" class="material-icons" style="color: red;cursor: pointer;">delete</i>
-                                </div>
+                        <td>
+                            <a href="@Url.Action("EditDistributor", new { id = item.Id })" style="display: flex; justify-content: center; align-items: center; color:orange;">
+                                <i class="material-icons">edit</i>
+                            </a>
+                        </td>
+                        <td>
+                            <div style="display: flex; justify-content: center; align-items: center;">
+                                <i onclick="confirmDelete('@item.Id', true)" class="material-icons" style="color: red;cursor: pointer;">delete</i>
+                            </div>
 
-
-                                <div id="deleteConfirmationModal_@item.Id" class="modal" style="display:none">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Delete Confirmation</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Are you sure you want to delete this item?</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" onclick="confirmDelete('@item.Id', false)">No</button>
-                                                @using (Html.BeginForm("DeleteDistributor", "Distributor", new { DistributorId = item.Id }, FormMethod.Post))
-                                                {
-                                                    <button type="submit" class="btn btn-danger">Yes</button>
-                                                }
-                                            </div>
+                            <div id="deleteConfirmationModal_@item.Id" class="modal" style="display:none">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Delete Confirmation</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to delete this item?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" onclick="confirmDelete('@item.Id', false)">No</button>
+                                            @using (Html.BeginForm("DeleteDistributor", "Distributor", new { DistributorId = item.Id }, FormMethod.Post))
+                                            {
+                                                <button type="submit" class="btn btn-danger">Yes</button>
+                                            }
                                         </div>
                                     </div>
                                 </div>
-                            </td>
-                            <td>
-                                <a href="@Url.Action("DistributorDetailsBYId", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:green;">
-                                    <i class="material-icons">info</i>
-                                </a>
-                            </td>
-
-                        </tr>
-                    }
-
-                </tbody>
-            </table>
-
-        </div>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("DistributorDetailsBYId", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:green;">
+                                <i class="material-icons">info</i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
+    @foreach (var item in Model.DistributorList)
+    {
+        <div id="assignRetailorModal_@item.Id" class="modal" style="display:none">
+            <div class="modal-dialog" style="max-width: 90%;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Assign Retailor</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="retailorDetailsContainer_@item.Id">
+                        <p>Content related to Assign Retailor goes here.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="redirectToDisplayDistributors()">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+
+
     <!-------------------------------------------------------------Pagination------------------------------------------------------------------->
     <div class="text-center">
         @if (ViewBag.Pages != null && ViewBag.Pages.TotalPages > 0)
@@ -259,6 +297,7 @@
             </div>
         }
     </div>
+
 
     <!---------------------------------------------------------AJAX CODE FOR CITY CHANGE AND AREA-------------------------------------------------->
 

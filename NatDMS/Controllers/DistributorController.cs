@@ -13,18 +13,19 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace NatDMS.Controllers
 {
-    [Authorize]
     public class DistributorController : Controller
     {
 
         private readonly IDistributorService _distributorservice;
+        private readonly IRetailorService _retailorService;
         private readonly IUnifiedService _unifiedservice;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
-        public DistributorController(IDistributorService distributorservice, IMapper mapper, IUnifiedService unifiedservice, IConfiguration configuration)
+        public DistributorController(IDistributorService distributorservice, IMapper mapper, IUnifiedService unifiedservice, IConfiguration configuration,IRetailorService retailorService)
 
         {
             _distributorservice = distributorservice;
+            _retailorService = retailorService;
             _unifiedservice = unifiedservice;
             _mapper = mapper;
             _configuration = configuration;
@@ -179,7 +180,7 @@ namespace NatDMS.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<EDR_DisplayViewModel>> SearchDistributor(EDR_DisplayViewModel model)
+        public async Task<ActionResult<EDR_DisplayViewModel>> DisplayDistributors(EDR_DisplayViewModel model)
         {
             var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(model);
             var SearchResult = await _distributorservice.SearchDistributor(search);
@@ -193,5 +194,44 @@ namespace NatDMS.Controllers
 
             return View("DisplayDistributors", viewModel);
         }
+        [HttpPost]
+        public async Task<ActionResult<List<RetailorModel>>> DisplayRetailorsPopup(int page = 1)
+        {
+            var retailorResult = await _retailorService.GetAllRetailors();
+            var retailorPgn = new PageNation<RetailorModel>(retailorResult, _configuration, page);
+
+            var paginatedData = retailorPgn.GetPaginatedData(retailorResult);
+
+            var mapped = _mapper.Map<List<RetailorModel>, List<EDR_DisplayViewModel>>(paginatedData);
+
+            ViewBag.Pages = retailorPgn;
+
+            var statesResult = await _unifiedservice.GetStates();
+
+            var viewModel = new EDR_DisplayViewModel
+            {
+                RetailorList = paginatedData,
+                StateList = statesResult
+            };
+
+            return View(viewModel);
+        }
+        [HttpPost]
+        public async Task<ActionResult<EDR_DisplayViewModel>> SearchRetailor(EDR_DisplayViewModel model)
+        {
+            var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(model);
+            var SearchResult = await _retailorService.SearchRetailor(search);
+            var statesResult = await _unifiedservice.GetStates();
+
+            var viewModel = new EDR_DisplayViewModel
+            {
+                RetailorList = SearchResult,
+                StateList = statesResult,
+            };
+            return View("DisplayRetailorsPopup", viewModel);
+
+        }
+
+
     }
 }

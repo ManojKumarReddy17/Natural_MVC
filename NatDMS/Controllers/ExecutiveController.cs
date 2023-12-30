@@ -12,7 +12,6 @@ using System.Net;
 #nullable disable
 namespace NatDMS.Controllers
 {
-    [Authorize]
     public class ExecutiveController : Controller
     {
         private readonly IExecutiveService _ExecutiveService;
