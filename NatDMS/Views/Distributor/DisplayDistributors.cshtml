@@ -154,6 +154,7 @@
                         <th>State</th>
                         <th>City</th>
                         <th>Area</th>
+                        <th>AssignRetailor</th>
                         <th>Edit</th>
                         <th>Delete</th>
                         <th>Details</th>
@@ -173,20 +174,22 @@
                             <td>@Html.DisplayFor(modelItem => item.City)</td>
                             <td>@Html.DisplayFor(modelItem => item.Area)</td>
 
+                            <td style="display: flex; justify-content: center; align-items: center;">
+                                <a href="#" data-toggle="modal" data-target="#assignRetailorModal_@item.Id" onclick="displayRetailorsPopup('@Html.Raw(item.Id)')">
+                                    <i class="material-icons">people</i>
+                                </a>
+                            </td>
+
+
                             <td>
-                                <a href="@Url.Action("EditDistributor", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:orange;">
+                                <a href="@Url.Action("EditDistributor", new { id = item.Id })" style="display: flex; justify-content: center; align-items: center; color:orange;">
                                     <i class="material-icons">edit</i>
                                 </a>
                             </td>
                             <td>
-
-                                <!-----------------------------------------------------DELETE POPUP------------------------------------------------------------>
-
-
                                 <div style="display: flex; justify-content: center; align-items: center;">
                                     <i onclick="confirmDelete('@item.Id', true)" class="material-icons" style="color: red;cursor: pointer;">delete</i>
                                 </div>
-
 
                                 <div id="deleteConfirmationModal_@item.Id" class="modal" style="display:none">
                                     <div class="modal-dialog">
@@ -216,15 +219,12 @@
                                     <i class="material-icons">info</i>
                                 </a>
                             </td>
-
                         </tr>
                     }
-
                 </tbody>
             </table>
-
         </div>
-    </div>
+        </div>
     <!-------------------------------------------------------------Pagination------------------------------------------------------------------->
     <div class="text-center">
         @if (ViewBag.Pages != null && ViewBag.Pages.TotalPages > 0)

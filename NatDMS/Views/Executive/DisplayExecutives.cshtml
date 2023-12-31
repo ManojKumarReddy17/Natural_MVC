@@ -46,20 +46,38 @@
 
     //-------------SCRIPT FOR SEARCH------------//
 
-$(document).ready(function() {
-    $("#SearchResultmodel").submit(function(event) {
-        event.preventDefault();
-        var formData = $(this).serialize();
-        $.ajax({
-            type: "POST",
-            url: "/Executive/SearchExecutive",
-            data: formData,
-            success: function (response) {
-             $("#Executivelist").html(response);
-            }
+        $(document).ready(function () {
+            $("#SearchResultmodel").submit(function (event) {
+                event.preventDefault();
+                var formData = $(this).serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/Executive/SearchExecutive",
+                    data: formData,
+                    success: function (response) {
+                        $("#Executivelist").html(response);
+                    }
+                });
+            });
+
+
+            // Use the ExecutiveList property from the view model
+            var suggestedNames = @Html.Raw(Json.Serialize(Model.ExecutiveList));
+            $("#FullName").on("input", function () {
+                var searchTerm = $(this).val();
+                if (searchTerm.length >= 2) {
+                    // Filter suggested names based on the input
+                    var filteredNames = suggestedNames.filter(function (item) {
+                        var fullName = item.firstName + ' ' + item.lastName;
+                        return fullName.toLowerCase().includes(searchTerm.toLowerCase());
+                    });
+                    // Update the search list with the filtered names
+                    // For simplicity, let's assume you have a div with id 'searchList'
+                    $("#searchList").html(filteredNames.join(', '));
+                }
+            });
         });
-    });
-});
+
 
 
  </script>
@@ -85,14 +103,14 @@ $(document).ready(function() {
   
     
     <div class="container my-4">
-        @using (Html.BeginForm(FormMethod.Post,new { id ="SearchResultmodel"}))
+        @using (Html.BeginForm(FormMethod.Post, new { id = "SearchResultmodel", @class = "ajax-form" }))
         {
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
                         <b>
-                            @Html.Label("SearchName", "Search by Name")
-                            @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Search By FirstName or LastName" })
+                            @Html.Label("SearchName","Search by Name")
+                            @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Search By FirstName or LastName"})
                         </b>
                     </div>
                 </div>
@@ -152,8 +170,6 @@ $(document).ready(function() {
 
     <!----------------------------------------------------DISPLAY DISTIBUTORS LIST-------------------------------------------------------------->
 
-
-
     <div class="table-responsive">
 
         <table class="table table-bordered table-striped custom-table" id="Executivelist">
@@ -173,104 +189,109 @@ $(document).ready(function() {
                 </tr>
             </thead>
 
-            <tbody >
-
-                @foreach (var item in Model.ExecutiveList)
-                {
-
-                    <tr>
-                        <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
-                        <td>@Html.DisplayFor(modelItem => item.LastName)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                        <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
-                        <td>@Html.DisplayFor(modelItem => item.State)</td>
-                        <td>@Html.DisplayFor(modelItem => item.City)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Area)</td>
-
-                  
-          <!------------------------------------------------ASSIGN DISTRIBUTOR POPUP------------------------------------------------------------>
+         
+            <tbody>
+              
             
-                     <td>
-                            <div style="display: flex; justify-content: center; align-items: center;">
-                                <a href="#" onclick="loadDisplayDistributorsPopup('@item.Id',true)">
-                                    <i class="material-icons">supervisor_account</i>
+                    @foreach (var item in Model.ExecutiveList)
+                    {
+
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
+                            <td>@Html.DisplayFor(modelItem => item.State)</td>
+                            <td>@Html.DisplayFor(modelItem => item.City)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Area)</td>
+
+
+                            <!------------------------------------------------ASSIGN DISTRIBUTOR POPUP------------------------------------------------------------>
+
+                            <td>
+                                <div style="display: flex; justify-content: center; align-items: center;">
+                                    <a href="#" onclick="loadDisplayDistributorsPopup('@item.Id',true)">
+                                        <i class="material-icons">supervisor_account</i>
+                                    </a>
+                                </div>
+
+                                <!-- Distributors Modal -->
+                                <div class="modal fade" id="displayDistributorsModal" tabindex="-1" aria-labelledby="displayDistributorsModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-fullscreen-xxl-down">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="displayDistributorsModalLabel">Distributors</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body" id="displayDistributorsModalBody">
+                                                <!-- DistributorDetails content will be loaded here -->
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeAndRefresh('@item.Id')">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+
+
+
+
+                            <!-----------------------------------------------EDIT ACTION LINK------------------------------------------------------------------------>
+
+
+                            <td>
+                                <a href="@Url.Action("EditExecutive", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:orange;">
+                                    <i class="material-icons">edit</i>
                                 </a>
-                            </div>
+                            </td>
 
-                            <!-- Distributors Modal -->
-                            <div class="modal fade" id="displayDistributorsModal" tabindex="-1" aria-labelledby="displayDistributorsModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-fullscreen-xxl-down">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="displayDistributorsModalLabel">Distributors</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body" id="displayDistributorsModalBody">
-                                            <!-- DistributorDetails content will be loaded here -->
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeAndRefresh('@item.Id')">Close</button>
+                            <!-----------------------------------------------------DELETE POPUP------------------------------------------------------------------------>
+
+                            <td>
+                                <!-- Delete Icon -->
+                                <div style="display: flex; justify-content: center; align-items: center;">
+                                    <i onclick="confirmDelete('@item.Id', true)" class="material-icons" style="color: red;cursor: pointer;">delete</i>
+                                </div>
+
+                                <!-- Delete Confirmation Modal -->
+
+                                <div id="deleteConfirmationModal_@item.Id" class="modal" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Delete Confirmation</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure you want to delete this item?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" onclick="confirmDelete('@item.Id', false)">No</button>
+                                                @using (Html.BeginForm("DeleteExecutive", "Executive", new { ExecutiveId = item.Id }, FormMethod.Post))
+                                                {
+                                                    <button type="submit" class="btn btn-danger">Yes</button>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </td>
+                            </td>
 
+                            <td>
+                                <a href="@Url.Action("ExecutiveDetailsBYId", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:green;">
+                                    <i class="material-icons">info</i>
+                                </a>
+                            </td>
 
-
-
- <!-----------------------------------------------EDIT ACTION LINK------------------------------------------------------------------------>
-
-
-                        <td>
-                            <a href="@Url.Action("EditExecutive", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:orange;">
-                                <i class="material-icons">edit</i>
-                            </a>
-                        </td>
-
-<!-----------------------------------------------------DELETE POPUP------------------------------------------------------------------------>
-
-                        <td>
-                            <!-- Delete Icon -->
-                            <div style="display: flex; justify-content: center; align-items: center;">
-                                <i onclick="confirmDelete('@item.Id', true)" class="material-icons" style="color: red;cursor: pointer;">delete</i>
-                            </div>
-
-                            <!-- Delete Confirmation Modal -->
-                            <div id="deleteConfirmationModal_@item.Id" class="modal" role="dialog">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Delete Confirmation</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>Are you sure you want to delete this item?</p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" onclick="confirmDelete('@item.Id', false)">No</button>
-                                            @using (Html.BeginForm("DeleteExecutive", "Executive", new { ExecutiveId = item.Id }, FormMethod.Post))
-                                            {
-                                                <button type="submit" class="btn btn-danger">Yes</button>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </td>
-
-                        <td>
-                            <a href="@Url.Action("ExecutiveDetailsBYId", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:green;">
-                                <i class="material-icons">info</i>
-                            </a>
-                        </td>
-                </tr>
-
+                        </tr>
+                    
                 }
-            </tbody>
+                  </tbody>
+                   
+           
         </table>
     </div>
 
