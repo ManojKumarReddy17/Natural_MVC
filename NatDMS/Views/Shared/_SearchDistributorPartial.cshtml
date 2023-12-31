@@ -70,6 +70,16 @@
 
                 <tbody>
 
+                @if(Model.DistributorList.Count() == 0)
+                {
+                    <tr>
+                        <td colspan="12" class="text-danger fw-bold">NO DATA FOUND</td>
+                    </tr>
+                }
+                else
+                {
+
+
                     @foreach (var item in Model.DistributorList)
                     {
                         <tr>
@@ -161,6 +171,8 @@
                             </td>
                         </tr>
                     }
+                }
+
                 </tbody>
             </table>
         </div>
