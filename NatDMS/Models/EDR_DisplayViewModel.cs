@@ -20,6 +20,8 @@ namespace NatDMS.Models
         public List<ExecutiveModel> ExecutiveList { get; set; }
         public List<DistributorModel> DistributorList { get; set; }
         public List<RetailorModel> RetailorList { get; set; }
+        public List<DsrModel> DsrList { get; set; }
+        
       
 
     }
