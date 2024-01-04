@@ -1,23 +1,22 @@
 ﻿@model NatDMS.Models.EDR_DisplayViewModel
 
-
-
 <!DOCTYPE html>
 
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>GetRetailor</title>
+    <title>GetDistributor</title>
 
     <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <script type="text/javascript">
 
-        //-------------SCRIPT FOR DELETE POPUP------------//
+        //----------------------------------------------SCRIPT FOR DELETE POPUP-------------------------------------------------------------//
 
         function confirmDelete(uniqueId, isTrue) {
             var deleteSpan = 'deleteSpan_' + uniqueId;
@@ -42,110 +41,16 @@
             var modal = $('#deleteConfirmationModal_' + uniqueId);
             modal.modal('hide');
         }
-
-        //-------------SCRIPT FOR SEARCH------------//
-
-        $(document).ready(function () {
-            $("#SearchResultmodel").submit(function (event) {
-                event.preventDefault();
-                var formData = $(this).serialize();
-                $.ajax({
-                    type: "POST",
-                    url: "/Retailor/SearchRetailor",
-                    data: formData,
-                    success: function (response) {
-                        $("#Retailorlist").html(response);
-                    }
-                });
-            });
-        });
-
     </script>
 </head>
 
 
-<!---------------------------------------------------BODY---------------------------------------------------------->
-
-
 <body>
-    <div class="d-flex justify-content-between align-items-center">
-        <div class="text-center">
-        </div>
-            <a href="@Url.Action("CreateRetailor")" class="d-flex align-items-center">
-                <i class="material-icons">add</i>
-                <b><span style="font-weight:bold;">CREATE NEW</span></b>
-            </a>
-        </div>
-
-    <!-----------------------------------------------SEARCH RETAILOR----------------------------------------------------->
 
     <div class="container my-4">
-        @using (Html.BeginForm(FormMethod.Post, new { id = "SearchResultmodel" }))
-        {
-            <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <b>
-                                @Html.Label("SearchName", "Search by Name")
-                                @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Search By FirstName or LastName" })
-                            </b>
-                        </div>
-                    </div>
-
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <b>
-                            @Html.LabelFor(model => model.State)
-                            @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"),
-                        "-SelectState-", new { @id = "state", onchange = "statechange()", @class = "form-select" })
-                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
-                        </b>
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <b>
-                            @Html.LabelFor(model => model.City)
-                            @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
-                        {
-                        new SelectListItem { Text = "", Value =""},
-                        }, "Value","Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
-                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-                        </b>
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <b>
-                            @Html.LabelFor(model => model.Area)
-                            @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
-                        {
-                        new SelectListItem {Text = ""}
-                        }, new { id = "area", @class = "form-select" })
-                            @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
-                        </b>
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-secondary my-4">
-                            <i class="material-icons" style="font-size:20px;display:flex;justify-content:center;
-                                align-items:center;">search</i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        }
-
-
-        <!----------------------------------------------------DISPLAY RETAILOR LIST-------------------------------------------------------------->
 
         <div class="table-responsive">
-
-            <table class="table table-bordered table-striped custom-table" id="Retailorlist">
+            <table class="table table-bordered table-striped custom-table">
                 <thead>
                     <tr>
                         <th>FirstName</th>
@@ -161,7 +66,17 @@
                         <th>Details</th>
                     </tr>
                 </thead>
+
                 <tbody>
+
+                @if(Model.RetailorList.Count() == 0)
+                {
+                    <tr>
+                        <td colspan="11" class="text-danger fw-bold">NO DATA FOUND</td>
+                    </tr>
+                }
+                else
+                {
 
                     @foreach (var item in Model.RetailorList)
                     {
@@ -170,27 +85,31 @@
                             <td>@Html.DisplayFor(modelItem => item.LastName)</td>
                             <td>@Html.DisplayFor(modelItem => item.Email)</td>
                             <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
-                           <td>@Html.DisplayFor(modelItem => item.Address)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Address)</td>
                             <td>@Html.DisplayFor(modelItem => item.State)</td>
                             <td>@Html.DisplayFor(modelItem => item.City)</td>
                             <td>@Html.DisplayFor(modelItem => item.Area)</td>
+
+                         
+                            <!---------------------------------------------------EDIT ACTION LINK------------------------------------------------------------->
+
 
                             <td>
                                 <a href="@Url.Action("EditRetailor", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:orange;">
                                     <i class="material-icons">edit</i>
                                 </a>
                             </td>
+
+                            <!-----------------------------------------------------DELETE POPUP-------------------------------------------------------------------->
+
                             <td>
-
-                                <!-----------------------------------------------------DELETE POPUP------------------------------------------------------------>
-
-
+                                <!-- Delete Icon -->
                                 <div style="display: flex; justify-content: center; align-items: center;">
                                     <i onclick="confirmDelete('@item.Id', true)" class="material-icons" style="color: red;cursor: pointer;">delete</i>
                                 </div>
 
-
-                                <div id="deleteConfirmationModal_@item.Id" class="modal" style="display:none">
+                                <!-- Delete Confirmation Modal -->
+                                <div id="deleteConfirmationModal_@item.Id" class="modal" role="dialog">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -212,21 +131,26 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </td>
+
                             <td>
                                 <a href="@Url.Action("RetailorDetailsBYId", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:green;">
                                     <i class="material-icons">info</i>
                                 </a>
                             </td>
-
                         </tr>
                     }
-
+                }
                 </tbody>
-            </table>
 
+            </table>
         </div>
     </div>
+
+
+
+
     <!-------------------------------------------------------------Pagination------------------------------------------------------------------->
     <div class="text-center">
         @if (ViewBag.Pages != null && ViewBag.Pages.TotalPages > 0)
@@ -245,7 +169,7 @@
 
                 <ul class="pagination">
                     <li class="page-item @(ViewBag.Pages.CurrentPage == ViewBag.Pages.TotalPages ? "disabled" : "")">
-                        <a class="page-link text-black" href="@Url.Action("DisplayRetailors", new { page = ViewBag.Pages.CurrentPage + 1 })" style="font-weight: bold; background-color: transparent; border: none;">
+                        <a class="page-link text-black" href="@Url.Action("DisplaRetailors", new { page = ViewBag.Pages.CurrentPage + 1 })" style="font-weight: bold; background-color: transparent; border: none;">
                             Next
                             <span aria-hidden="true">&raquo;</span>
                         </a>
@@ -254,7 +178,6 @@
             </div>
         }
     </div>
-
     <!---------------------------------------------------------AJAX CODE FOR CITY CHANGE AND AREA-------------------------------------------------->
 
 
@@ -266,8 +189,9 @@
             var stid = $('#state').val();
             if (stid.trim() != '') {
                 var ddlcity = $('#city');
+                var ddlarea = $('#area');
                 ddlcity.empty();
-
+                ddlarea.empty();
                 $.ajax(
                     {
                         url: "/Retailor/GetCitiesbyStateId",
@@ -312,6 +236,13 @@
                     });
             }
         }
+
+
     </script>
+
+
 </body>
 </html>
+
+
+

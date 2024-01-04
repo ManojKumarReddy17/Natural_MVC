@@ -39,6 +39,9 @@ namespace NatDMS.Mapping
             CreateMap<DsrModel, DsrViewModel>();
             CreateMap<DsrModel,SaveDsrViewModel>();
             CreateMap<DSRDetailsModel, SaveDsrViewModel>();
+            CreateMap<DistributorToExecutive, AssignDistributorToExecutiveViewModel>();
+            CreateMap<SearchModel , SearchViewModel>();
+
 
 
 
@@ -64,6 +67,10 @@ namespace NatDMS.Mapping
             CreateMap<DsrViewModel,DsrModel>();
             CreateMap<SaveDsrViewModel, DsrModel>();
             CreateMap<SaveDsrViewModel, DSRDetailsModel>();
+            CreateMap<AssignDistributorToExecutiveViewModel, DistributorToExecutive>();
+            CreateMap<SearchViewModel,SearchModel>();
+
+
 
 
 

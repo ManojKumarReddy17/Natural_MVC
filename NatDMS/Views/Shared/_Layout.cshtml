@@ -67,28 +67,43 @@
                             <a href="/Test/Reports" class="list-group-item text-black">Reports</a>
                             <a href="/DSR/DisplayDsrs" class="list-group-item text-black">DSR</a>
                         </strong>
+                      
+
+                        <div class="dropdown">
+                            <a class="list-group-item dropdown-toggle text-black" data-toggle="dropdown" href="#">
+                                Reports
+                            </a>
+                            <div class="dropdown-menu" style="background-color:gray;">
+                                <a class="dropdown-item text-black" href="#">Distributor Reports</a>
+                                <a class="dropdown-item text-black" href="#">Executive Reports</a>
+                                <a class="dropdown-item text-black" href="#">Retailor Reports</a>
+                            </div>
+                        </div>
+
+
+
                     </div>
 
                     <!-- Add more options as needed -->
                     @RenderSection("SideBarOptions", false)
                 </div>
             </div>
-           
+
             <div class="col-10 min-vh-100">
                 <!-- Banner Section -->
                 <div class="jumbotron" style="height:20%;">
                     <!-- Add your banner content for this page -->
                     <img src="~/image/BannerF.jpg" alt="Banner Image" class="img-fluid" style="max-height:100%;">
-                  
+
                 </div>
 
-     
+
                 @RenderBody()
             </div>
         </div>
     </div>
 
-   <!-------------------------------------------------------COPY RIGHT-------------------------------------->
+    <!-------------------------------------------------------COPY RIGHT-------------------------------------->
 
     <section class="footer-copyright">
         <div class="container">

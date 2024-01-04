@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -7,8 +8,10 @@ using Natural.Core.IServices;
 using Natural.Core.Models;
 using Naturals.Service.Service;
 using System.Net;
+using System.Reflection;
 
-#nullable disable
+# nullable disable
+
 namespace NatDMS.Controllers
 {
     public class ExecutiveController : Controller
@@ -17,15 +20,14 @@ namespace NatDMS.Controllers
         private readonly IMapper _mapper;
         private readonly IUnifiedService _unifiedservice;
         private readonly IConfiguration _configuration;
-
-        public ExecutiveController(IExecutiveService ExecutiveService, IMapper mapper, IUnifiedService unifiedService, IConfiguration configuration)
+        public ExecutiveController(IExecutiveService ExecutiveService, IMapper mapper, IUnifiedService unifiedService,
+        IConfiguration configuration)
         {
             _ExecutiveService = ExecutiveService;
             _mapper = mapper;
             _unifiedservice = unifiedService;
             _configuration = configuration;
         }
-
 
         /// <summary>
         /// DISPLAYING LIST OF ALL EXECUTIVES 
@@ -35,28 +37,24 @@ namespace NatDMS.Controllers
         {
             var executiveResult = await _ExecutiveService.GetAllExecutives();
             var executivePgn = new PageNation<ExecutiveModel>(executiveResult, _configuration, page);
-
             var paginatedData = executivePgn.GetPaginatedData(executiveResult);
-
-            var mapped = _mapper.Map<List<ExecutiveModel>, List<EDR_DisplayViewModel>>(paginatedData);
-
             ViewBag.Pages = executivePgn;
-
             var statesResult = await _unifiedservice.GetStates();
-
             var viewModel = new EDR_DisplayViewModel
             {
                 ExecutiveList = paginatedData,
-                StateList = statesResult
+                StateList = statesResult,
             };
 
             return View(viewModel);
         }
 
+
         /// <summary>
         /// GETTING EXECUTIVE DETAILS BY ID
         /// </summary>
-        /// 
+
+
         [HttpGet]
         public async Task<ActionResult> ExecutiveDetailsById(string id)
         {
@@ -66,10 +64,10 @@ namespace NatDMS.Controllers
 
         }
 
-
         /// <summary>
         /// GETTING CITIES LIST FOR DROPDOWN BASED ON STATE_ID
         /// </summary> 
+
         public async Task<IActionResult> GetCitiesbyStateId(string stateId)
         {
             var result = await _unifiedservice.GetCitiesbyStateId(stateId);
@@ -86,7 +84,6 @@ namespace NatDMS.Controllers
             return Json(result);
         }
 
-
         /// <summary>
         /// CREATING NEW EXECUTIVE
         /// </summary>
@@ -98,12 +95,14 @@ namespace NatDMS.Controllers
             return View(viewmodel);
         }
 
+
         /// <summary>
         /// INSERTING CREATED EXECUTIVE DATA
         /// </summary>
+
         [HttpPost]
         public async Task<IActionResult> CreateExecutive(ED_CreateViewModel saveexecmdl)
-        { 
+        {
             if (ModelState.IsValid)
             {
                 var createexecutive = _mapper.Map<ED_CreateViewModel, ExecutiveModel>(saveexecmdl);
@@ -135,30 +134,30 @@ namespace NatDMS.Controllers
             return View(viewModel);
         }
 
-            /// <summary>
-            /// POSTING UPDATED EXECUTIVE DATA
-            /// </summary>
-            /// 
-        
-         [HttpPost]
-            public async Task<ActionResult> EditExecutive(string id, ED_EditViewModel viewModel)
+        /// <summary>
+        /// POSTING UPDATED EXECUTIVE DATA
+        /// </summary>
+        /// 
+
+        [HttpPost]
+        public async Task<ActionResult> EditExecutive(string id, ED_EditViewModel viewModel)
+        {
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    var update = _mapper.Map<ED_EditViewModel, ExecutiveModel>(viewModel);
+                var update = _mapper.Map<ED_EditViewModel, ExecutiveModel>(viewModel);
 
-                    await _ExecutiveService.UpdateExecutive(id, update);
+                await _ExecutiveService.UpdateExecutive(id, update);
 
-                    return RedirectToAction(nameof(DisplayExecutives));
-                }
-                else
-                {
-                    viewModel.StateList = await _unifiedservice.GetStates();
-                    viewModel.CityList = await _unifiedservice.GetCitiesbyStateId(viewModel.State);
-                    viewModel.AreaList = await _unifiedservice.GetAreasByCityId(viewModel.City);
-                    return View(viewModel);
-                }
+                return RedirectToAction(nameof(DisplayExecutives));
             }
+            else
+            {
+                viewModel.StateList = await _unifiedservice.GetStates();
+                viewModel.CityList = await _unifiedservice.GetCitiesbyStateId(viewModel.State);
+                viewModel.AreaList = await _unifiedservice.GetAreasByCityId(viewModel.City);
+                return View(viewModel);
+            }
+        }
 
         /// <summary>
         /// DELETING EXECUTIVE BY ID
@@ -171,14 +170,13 @@ namespace NatDMS.Controllers
         }
 
         /// <summary>
-        /// SEARCH EXECUTIVE 
+        /// SEARCH EXECUTIVE PARTIAL VIEW
         /// </summary>
 
-
         [HttpPost]
-        public async Task<ActionResult<EDR_DisplayViewModel>> SearchExecutive(EDR_DisplayViewModel model)
+        public async Task<ActionResult<EDR_DisplayViewModel>> SearchExecutive(EDR_DisplayViewModel SearchResultmodel)
         {
-            var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(model);
+            var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
             var SearchResult = await _ExecutiveService.SearchExecutive(search);
             var statesResult = await _unifiedservice.GetStates();
 
@@ -187,10 +185,8 @@ namespace NatDMS.Controllers
                 ExecutiveList = SearchResult,
                 StateList = statesResult,
             };
-            return View("DisplayExecutives", viewModel);
 
-
+            return PartialView("_SearchExecutivePartial", viewModel);
         }
     }
 }
-
