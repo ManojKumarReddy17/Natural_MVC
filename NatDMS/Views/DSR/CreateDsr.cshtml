@@ -32,7 +32,7 @@
                         @Html.LabelFor(model => model.Executive)
                         @if (Model.Executives != null)
                         {
-                            @Html.DropDownListFor(model => model.Executive, new SelectList(Model.Executives, "Id", "FirstName"),
+                            @Html.DropDownListFor(model => model.Executive, new SelectList(Model.Executives, "Id", "FirstName","LastName"),
                     "--Select Excutive--", new { @id = "executive", onchange = "executivechange()", @class = "form-select" })
                         }
                         else
@@ -59,10 +59,11 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.RetailorId)
-                        @Html.DropDownListFor(model => model.RetailorId, new List<SelectListItem>
+                        @Html.DropDownListFor(model => model.RetailorId,new SelectList(new List<SelectListItem>
                     {
-                    new SelectListItem { Text = "", Value = "select" }
-                    }, new { id = "retailor", @class = "form-select" })
+                    new SelectListItem { Text = "", Value = "" },
+                    }, "Value","Text"), new { @id = "retailor", @onchange = "retailorchange()",@class ="form -select",
+                    })
                         @Html.ValidationMessageFor(model => model.RetailorId, "", new { @class = "text-danger" })
                     </b>
                 </div>

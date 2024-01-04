@@ -40,13 +40,14 @@ namespace Naturals.Service.Service
 
         public async Task<List<DistributorToExecutive>> GetDistributorsByExecutiveId(string executiveId)
         {
-            return await _httpClientWrapper.GetByIdAsync<List<DistributorToExecutive>>("/AssignDistributorToExecutive/Details", executiveId);
+            return await _httpClientWrapper.GetByIdAsync<List<DistributorToExecutive>>("/AssignDistributorToExecutive", executiveId);
         }
 
         public async Task<List<RetailorToDistributor>> GetRetailorbydistributorId(string distributorId)
         {
-            return await _httpClientWrapper.GetByIdAsync<List<RetailorToDistributor>>("/AssignRetailorToDistributor/Details", distributorId);
+            return await _httpClientWrapper.GetByIdAsync<List<RetailorToDistributor>>("/AssignRetailorToDistributor", distributorId);
         }
+       
     }
 
 }

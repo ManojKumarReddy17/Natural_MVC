@@ -5,6 +5,7 @@ using NatDMS.Models;
 using Natural.Core.IServices;
 using Natural.Core.Models;
 using Naturals.Service.Service;
+using System.Security.Cryptography;
 
 namespace NatDMS.Controllers
 {
@@ -64,6 +65,7 @@ namespace NatDMS.Controllers
 
         public async Task<ActionResult> CreateDsr()
         {
+          
             var viewModel = new SaveDsrViewModel();
             viewModel.Executives = await _unifiedservice.GetExecutives();
             return View(viewModel);
@@ -75,7 +77,7 @@ namespace NatDMS.Controllers
             if (dsrViewModel != null && ModelState.IsValid)
             {
                 var dsr = _mapper.Map<SaveDsrViewModel, DsrModel>(dsrViewModel);
-                var CreateDsr = await _dsrservice.CreateDSR(dsr);
+                var CreateDsr = await _dsrservice.CreateDsr(dsr);
                 var dsrdetails = _mapper.Map<SaveDsrViewModel, DSRDetailsModel>(dsrViewModel);
                 var CreateDsrDetails=await  _dsrdetailsservice.CreateDSRDetails(dsrdetails);
                 return RedirectToAction("DisplayDsrs", "DSR");
