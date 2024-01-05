@@ -16,7 +16,9 @@ namespace NatDMS.Controllers
 {
     public class ExecutiveController : Controller
     {
+
         private readonly IExecutiveService _ExecutiveService;
+
         private readonly IMapper _mapper;
         private readonly IUnifiedService _unifiedservice;
         private readonly IConfiguration _configuration;
@@ -188,5 +190,56 @@ namespace NatDMS.Controllers
 
             return PartialView("_SearchExecutivePartial", viewModel);
         }
+
+        /// <summary>
+        /// DISPLAYING LIST OF ALL DISTRIBUTORS 
+        /// </summary>
+
+
+        [HttpGet]
+        public async Task<ActionResult<List<DistributorModel>>> ListOfDistributors(int page = 1)
+        {
+            var distributorResult = await _ExecutiveService.GetAllDistributors();
+            var distributorPgn = new PageNation<DistributorModel>(distributorResult, _configuration, page);
+
+            var paginatedData = distributorPgn.GetPaginatedData(distributorResult);
+            ViewBag.Pages = distributorPgn;
+
+            var statesResult = await _unifiedservice.GetStates();
+
+            var viewModel = new EDR_DisplayViewModel
+            {
+                DistributorList = paginatedData,
+                StateList = statesResult
+            };
+
+            return View("_ListOfDistributors",viewModel);
+
+        }
+
+        /// <summary>
+        /// SEARCH DISTRIBUTOR PARTIAL VIEW
+        /// </summary>
+
+
+        [HttpPost]
+        public async Task<JsonResult> SearchDistributors(EDR_DisplayViewModel SearchResultmodel)
+        {
+           // EDR_DisplayViewModel SearchResultmodel=new EDR_DisplayViewModel();
+            var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
+            var SearchResult = await _ExecutiveService.SearchDistributor(search);
+            var statesResult = await _unifiedservice.GetStates();
+
+            var viewModel = new EDR_DisplayViewModel
+            {
+                DistributorList = SearchResult,
+                StateList = statesResult,
+            };
+
+            return Json(viewModel);
+        }
+
     }
+  
+
 }

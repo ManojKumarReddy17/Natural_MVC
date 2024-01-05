@@ -69,15 +69,6 @@
 
                <tbody >
 
-                 @if(Model.ExecutiveList.Count() == 0)
-                {
-                    <tr>
-                        <td colspan="11" class="text-danger fw-bold">NO DATA FOUND</td>
-                    </tr>
-                }
-                else
-                {
-
                 @foreach (var item in Model.ExecutiveList)
                 {
                     <tr>
@@ -116,7 +107,7 @@
                                     </div>
                                 </div>
                             </div>
-                      </td>
+                        </td>
 
  <!---------------------------------------------------EDIT ACTION LINK------------------------------------------------------------->
 
@@ -166,9 +157,8 @@
                                 <i class="material-icons">info</i>
                             </a>
                         </td>
-                    </tr>
+               </tr>
                 }
-            }
             </tbody>
         </table>
     </div>
