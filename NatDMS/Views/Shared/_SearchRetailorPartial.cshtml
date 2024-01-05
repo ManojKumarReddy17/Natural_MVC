@@ -69,15 +69,6 @@
 
                 <tbody>
 
-                @if(Model.RetailorList.Count() == 0)
-                {
-                    <tr>
-                        <td colspan="11" class="text-danger fw-bold">NO DATA FOUND</td>
-                    </tr>
-                }
-                else
-                {
-
                     @foreach (var item in Model.RetailorList)
                     {
                         <tr>
@@ -141,9 +132,7 @@
                             </td>
                         </tr>
                     }
-                }
                 </tbody>
-
             </table>
         </div>
     </div>
