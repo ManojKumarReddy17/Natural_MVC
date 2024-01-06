@@ -25,17 +25,17 @@
         $(function () {
             $("#btnSubmit").click(function () {
                 debugger;
-                var SearchResultmodel = new Object();
-                SearchResultmodel.State = $("#Dstate").val();
-                SearchResultmodel.City = $("#Dcity").val();
-                SearchResultmodel.Area = $("#Darea").val();
-                SearchResultmodel.fullName = $("#FullName").val();
+                var searchResultmodel = new Object();
+                searchResultmodel.State = $("#Dstate").val();
+                searchResultmodel.City = $("#Dcity").val();
+                searchResultmodel.Area = $("#Darea").val();
+                searchResultmodel.FullName = $("#FullName").val();
                 $.ajax({
                     url: "/Executive/SearchDistributors",
                     type: 'POST',
                     content: "application/json; charset=utf-8",
                     dataType: "json",
-                    data: SearchResultmodel,
+                    data: searchResultmodel,
                     success: function (response){
                         let result = JSON.stringify(response.distributorList);
                         $("#Distributorlist").empty();
@@ -44,8 +44,11 @@
                             $("#Distributorlist").append('<tr>' + '<td>' + distributors.firstName + '</td> <td>' +
                                 distributors.lastName + '</td> <td>' + distributors.email + '</td> <td>' +
                                 distributors.mobileNumber + '</td> <td>' + distributors.address + '</td> <td>' +
-                                distributors.state + '</td> <td>' + distributors.city + ' </td> <td>' + distributors.area + '</td> </tr>')
-
+                                distributors.state + '</td> <td>' + distributors.city + ' </td> <td>' + distributors.area +
+                                '<td style="text-align: center;">'+
+                                '<input type="checkbox" class="selectDistributor" data-id="' + distributors.Id + '" />' +
+                                '</td>' +
+                                '</tr>');
                         });
                                 },
                                 error: function (error) {
@@ -71,8 +74,8 @@
                     <div class="form-group">
                         <b>
                             @Html.Label("SearchName", "Search by Name")
-                            @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Search By FirstName or LastName" })
-                        </b>
+                            @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Search By FirstName or LastName", @id = "FullName" })
+                    </b>
                     </div>
                 </div>
 
@@ -141,13 +144,14 @@
                         <th>State</th>
                         <th>City</th>
                         <th>Area</th>
+                        <th>Select</th>
                     </tr>
                 </thead>
                 <tbody id="Distributorlist">
-
                     @foreach (var item in Model.DistributorList)
                     {
                         <tr>
+                          
                             <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
                             <td>@Html.DisplayFor(modelItem => item.LastName)</td>
                             <td>@Html.DisplayFor(modelItem => item.Email)</td>
@@ -156,8 +160,12 @@
                             <td>@Html.DisplayFor(modelItem => item.State)</td>
                             <td>@Html.DisplayFor(modelItem => item.City)</td>
                             <td>@Html.DisplayFor(modelItem => item.Area)</td>
-
+                            <td style="text-align: center;">
+                                <input type="checkbox" class="selectDistributor" data-id="@item.Id" />
+                            </td>
                         </tr>
+
+
                     }
                 </tbody>
             </table>

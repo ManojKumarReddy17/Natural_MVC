@@ -10,7 +10,7 @@ namespace NatDMS.Controllers
     public class AssignDistirbutorToExecutiveController : Controller
     {
         private readonly IAssignDistributorToExecutiveService _assignDistributorToExecutiveService;
-       
+
         private readonly IMapper _mapper;
 
         public AssignDistirbutorToExecutiveController(IAssignDistributorToExecutiveService assignDistributorToExecutiveService, IMapper mapper)
@@ -20,21 +20,25 @@ namespace NatDMS.Controllers
             _mapper = mapper;
         }
 
+
         [HttpPost]
-        public async Task<ActionResult> CreateAssignDistributortoExecutive(AssignDistributorToExecutiveViewModel model)
+        public async Task<ActionResult> AssignDistributors(string executiveId, List<string> selectedDistributorIds)
         {
             if (ModelState.IsValid)
             {
-                var mappedResult = _mapper.Map<AssignDistributorToExecutiveViewModel, DistributorToExecutive>(model);
+                var assignDistributorModel = new DistributorToExecutive
+                {
+                    ExecutiveId = executiveId,
+                    DistributorIds = selectedDistributorIds
+                };
 
-                var assignedResult = await _assignDistributorToExecutiveService.AssignDsitributorToExecutive(mappedResult);
-                return View(assignedResult);
-            }
-            else
-            {
-                return View(model);
+                var assignedResult = await _assignDistributorToExecutiveService.AssignDsitributorToExecutive(assignDistributorModel);
 
+                var viewModel = _mapper.Map<DistributorToExecutive, AssignDistributorToExecutiveViewModel>(assignedResult);
+
+                return View(viewModel);
             }
+            return View();
         }
     }
 }

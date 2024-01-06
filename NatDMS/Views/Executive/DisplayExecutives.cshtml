@@ -61,31 +61,44 @@ $(document).ready(function() {
         });
     });
 });
-
-        function loadDisplayDistributorsPopup(itemId) {
+        function loadDisplayDistributorsPopup(executiveId) {
             var modalBody = $('#modalBody');
-            var url = '/Executive/ListOfDistributors/' + itemId;
-            // Use AJAX to load content into modal body
+            var url = '/Executive/ListOfDistributors/' + executiveId;
             $.ajax({
                 url: url,
                 type: 'GET',
                 success: function (data) {
-                    alert('data loaded');
                     modalBody.html(data);
                     $('#exampleModal').modal('show');
+
+                    $('#assignDistributorsBtn').on('click', function () {
+                        var selectedDistributorIds = [];
+
+                        // Loop through checkboxes and collect selected distributor IDs
+                        $('.selectDistributor:checked').each(function () {
+                            selectedDistributorIds.push($(this).data('id'));
+                        });
+                        $.ajax({
+                            url: '/AssignDistirbutorToExecutive/AssignDistributors',
+                            type: 'POST',
+                            data: {
+                                executiveId: executiveId,
+                                selectedDistributorIds: selectedDistributorIds
+                            },
+                            success: function (result) {
+                                $('#exampleModal').modal('hide');
+                            },
+                            error: function (error) {
+                                console.error('Error assigning distributors:', error);
+                            }
+                        });
+                    });
                 },
                 error: function (error) {
                     console.error('Error loading distributors:', error);
                 }
             });
         }
-     
-        function refreshOnClose(itemId) {
-            // Perform refresh action here
-            console.log('Refresh action for item ID ' + itemId);
-        }
-
-
  </script>
 </head>
 
@@ -225,14 +238,15 @@ $(document).ready(function() {
                                 <div class="modal-dialog modal-fullscreen-xxl-down">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Distributors</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body" id="modalBody">
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat, velit.
                                         </div>
                                         <div class="modal-footer">
-                                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button class="btn btn-outline-primary" id="assignDistributorsBtn">Assign</button>
+
+                                       <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
 
                                         </div>
                                     </div>
