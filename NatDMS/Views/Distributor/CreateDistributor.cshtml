@@ -139,8 +139,12 @@
             <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
         </div>
 
-    }
+    
+    <b>
+        @Html.ValidationSummary(false, "", new { @class = "text-danger"} )
+    </b>
 
+    }
     <div class="row">
         <div class="col-md-10 d-flex justify-content-between">
             <a href="@Url.Action("CreateDistributor")" class="d-flex align-items-center mr-6">

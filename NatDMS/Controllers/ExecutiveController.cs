@@ -225,7 +225,6 @@ namespace NatDMS.Controllers
         [HttpPost]
         public async Task<JsonResult> SearchDistributors(EDR_DisplayViewModel SearchResultmodel)
         {
-           // EDR_DisplayViewModel SearchResultmodel=new EDR_DisplayViewModel();
             var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
             var SearchResult = await _ExecutiveService.SearchDistributor(search);
             var statesResult = await _unifiedservice.GetStates();
