@@ -207,15 +207,14 @@ namespace NatDMS.Controllers
 
             return PartialView("_SearchDistributorPartial", viewModel);
         }
-        [HttpPost]
-        public async Task<ActionResult<List<RetailorModel>>> DisplayRetailorsPopup(int page = 1)
+        [HttpGet]
+        public async Task<ActionResult<List<RetailorModel>>> ListOfRetailors(int page = 1)
         {
             var retailorResult = await _retailorService.GetAllRetailors();
             var retailorPgn = new PageNation<RetailorModel>(retailorResult, _configuration, page);
 
             var paginatedData = retailorPgn.GetPaginatedData(retailorResult);
 
-            var mapped = _mapper.Map<List<RetailorModel>, List<EDR_DisplayViewModel>>(paginatedData);
 
             ViewBag.Pages = retailorPgn;
 
@@ -227,12 +226,13 @@ namespace NatDMS.Controllers
                 StateList = statesResult
             };
 
-            return View(viewModel);
+            return View("_ListOfRetailors",viewModel);
         }
+       
         [HttpPost]
-        public async Task<ActionResult<EDR_DisplayViewModel>> SearchRetailor(EDR_DisplayViewModel model)
+        public async Task<JsonResult>SearchRetailor(EDR_DisplayViewModel SearchResultmodel)
         {
-            var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(model);
+            var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
             var SearchResult = await _retailorService.SearchRetailor(search);
             var statesResult = await _unifiedservice.GetStates();
 
@@ -241,7 +241,7 @@ namespace NatDMS.Controllers
                 RetailorList = SearchResult,
                 StateList = statesResult,
             };
-            return View("DisplayRetailorsPopup", viewModel);
+            return Json(viewModel);
 
         }
 

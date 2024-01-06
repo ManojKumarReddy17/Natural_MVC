@@ -1,4 +1,5 @@
-﻿namespace NatDMS.Models
+﻿#nullable disable
+namespace NatDMS.Models
 {
     
 
