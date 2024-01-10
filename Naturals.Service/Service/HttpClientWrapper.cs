@@ -7,6 +7,7 @@ using Natural.Core.Models;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 
 #nullable disable
@@ -36,7 +37,17 @@ namespace Naturals.Service.Service
 
             return JsonConvert.DeserializeObject<T>(responseContent);
         }
+        /// <summary>
+        /// GET BY ID ASYNC
+        /// </summary>
+        public async Task<T> GetByIdAsync<T>(string endpoint, string id)
+        {
+            var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}{endpoint}/{id}");
 
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<T>(responseContent);
+        }
         /// <summary>
         /// POST ASYNC
         /// </summary>
@@ -46,18 +57,6 @@ namespace Naturals.Service.Service
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync(_httpClient.BaseAddress + endpoint, content);
-            var responseContent = await response.Content.ReadAsStringAsync();
-
-            return JsonConvert.DeserializeObject<T>(responseContent);
-        }
-
-        /// <summary>
-        /// GET BY ID ASYNC
-        /// </summary>
-        public async Task<T> GetByIdAsync<T>(string endpoint, string id)
-        {
-            var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}{endpoint}/{id}");
-
             var responseContent = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<T>(responseContent);
@@ -85,7 +84,6 @@ namespace Naturals.Service.Service
             var response = await _httpClient.DeleteAsync($"{_httpClient.BaseAddress}{endpoint}/{id}");
             return response.IsSuccessStatusCode;
         }
-
         public void Dispose()
         {
             _httpClient.Dispose();

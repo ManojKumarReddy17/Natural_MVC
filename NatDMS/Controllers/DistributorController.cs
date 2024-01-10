@@ -18,13 +18,15 @@ namespace NatDMS.Controllers
     {
 
         private readonly IDistributorService _distributorservice;
+        private readonly IRetailorService _retailorService;
         private readonly IUnifiedService _unifiedservice;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
-        public DistributorController(IDistributorService distributorservice, IMapper mapper, IUnifiedService unifiedservice, IConfiguration configuration)
+        public DistributorController(IDistributorService distributorservice, IMapper mapper, IUnifiedService unifiedservice, IConfiguration configuration,IRetailorService retailorService)
 
         {
             _distributorservice = distributorservice;
+            _retailorService = retailorService;
             _unifiedservice = unifiedservice;
             _mapper = mapper;
             _configuration = configuration;
@@ -205,5 +207,44 @@ namespace NatDMS.Controllers
 
             return PartialView("_SearchDistributorPartial", viewModel);
         }
+        [HttpGet]
+        public async Task<ActionResult<List<RetailorModel>>> ListOfRetailors(int page = 1)
+        {
+            var retailorResult = await _retailorService.GetAllRetailors();
+            var retailorPgn = new PageNation<RetailorModel>(retailorResult, _configuration, page);
+
+            var paginatedData = retailorPgn.GetPaginatedData(retailorResult);
+
+
+            ViewBag.Pages = retailorPgn;
+
+            var statesResult = await _unifiedservice.GetStates();
+
+            var viewModel = new EDR_DisplayViewModel
+            {
+                RetailorList = paginatedData,
+                StateList = statesResult
+            };
+
+            return View("_ListOfRetailors",viewModel);
+        }
+       
+        [HttpPost]
+        public async Task<JsonResult>SearchRetailor(EDR_DisplayViewModel SearchResultmodel)
+        {
+            var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
+            var SearchResult = await _retailorService.SearchRetailor(search);
+            var statesResult = await _unifiedservice.GetStates();
+
+            var viewModel = new EDR_DisplayViewModel
+            {
+                RetailorList = SearchResult,
+                StateList = statesResult,
+            };
+            return Json(viewModel);
+
+        }
+
+
     }
 }

@@ -58,6 +58,24 @@
                         </div>
 
                         <!-- Sidebar Options -->
+
+
+                            <a href="/Executive/DisplayExecutives" class="list-group-item text-black"><strong>Manage Executives</strong></a>
+                            <a href="/Distributor/DisplayDistributors" class="list-group-item text-black"><strong>Manage Distributor</strong></a>
+                            <a href="/Retailor/DisplayRetailors" class="list-group-item text-black"><strong>Manage Retailor</strong></a>
+                            <a href="/Category/DisplayCategories" class="list-group-item text-black"><strong>Manage Categories</strong></a>
+                            <a href="/Product/DisplayProducts" class="list-group-item text-black"><strong>Manage Products</strong></a>
+                            <a href="/Test/DailyDSR" class="list-group-item text-black"><strong>Daily DSR</strong></a>
+                            <div class="dropdown">
+                                <a class="list-group-item dropdown-toggle text-black" data-toggle="dropdown" href="#">
+                                    <strong>Reports</strong>
+                                </a>
+                                <div class="dropdown-menu" style="background-color: gray;">
+                                    <a class="dropdown-item text-black" href="#">Distributor Reports</a>
+                                    <a class="dropdown-item text-black" href="#">Executive Reports</a>
+                                    <a class="dropdown-item text-black" href="#">Retailor Reports</a>
+                                </div>
+
                         <a href="/Distributor/DisplayDistributors" class="list-group-item text-black">Manage Distributor</a>
                         <a href="/Executive/DisplayExecutives" class="list-group-item text-black">Manage Executives</a>
                         <a href="/Retailor/DisplayRetailors" class="list-group-item text-black">Manage Retailor</a>
@@ -73,12 +91,10 @@
                                 <a class="dropdown-item text-black" href="#">Distributor Reports</a>
                                 <a class="dropdown-item text-black" href="#">Executive Reports</a>
                                 <a class="dropdown-item text-black" href="#">Retailor Reports</a>
+
                             </div>
                         </div>
 
-
-
-                    </div>
 
                     <!-- Add more options as needed -->
                     @RenderSection("SideBarOptions", false)
@@ -87,11 +103,17 @@
 
             <div class="col-10 min-vh-100">
                 <!-- Banner Section -->
-                <div class="jumbotron" style="height:20%;">
+                <div class="jumbotron" style="height:20%; position: relative;">
                     <!-- Add your banner content for this page -->
                     <img src="~/image/BannerF.jpg" alt="Banner Image" class="img-fluid" style="max-height:100%;">
 
+
+                   
                 </div>
+
+
+
+
 
 
                 @RenderBody()
@@ -99,8 +121,9 @@
         </div>
     </div>
 
-    <!-------------------------------------------------------COPY RIGHT-------------------------------------->
 
+
+    <!-------------------------------------------------------COPY RIGHT-------------------------------------->
     <section class="footer-copyright">
         <div class="container">
             <div class="row">

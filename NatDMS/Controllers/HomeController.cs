@@ -32,7 +32,6 @@ namespace NatDMS.Controllers
         /// </summary>
         
         [HttpPost]
-        [AllowAnonymous]
         public async Task<ActionResult> Login(LoginViewModel loginViewModel)
         {
             if (ModelState.IsValid)

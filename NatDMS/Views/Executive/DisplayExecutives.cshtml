@@ -84,6 +84,7 @@ $(document).ready(function() {
                             data: {
                                 executiveId: executiveId,
                                 selectedDistributorIds: selectedDistributorIds
+
                             },
                             success: function (result) {
                                 $('#exampleModal').modal('hide');
@@ -139,7 +140,6 @@ $(document).ready(function() {
 
                         <b>
                             @Html.LabelFor(model => model.State)
-
                             @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"),
                         "-SelectState-", new { @id = "state", onchange = "statechange()", @class = "form-select" })
                             @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })

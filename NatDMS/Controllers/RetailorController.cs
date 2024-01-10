@@ -36,7 +36,6 @@ namespace NatDMS.Controllers
 
             var paginatedData = retailorPgn.GetPaginatedData(retailorResult);
 
-            var mapped = _mapper.Map<List<RetailorModel>, List<EDR_DisplayViewModel>>(paginatedData);
 
             ViewBag.Pages = retailorPgn;
 
