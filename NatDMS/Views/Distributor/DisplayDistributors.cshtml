@@ -2,7 +2,6 @@
 @using System.Security.Claims
 
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -106,8 +105,13 @@
     </script>
 </head>
 
+        function redirectToDisplayDistributors() {
+            var url = '@Url.Action("DisplayDistributors", "Distributor")';
+            window.location.href = url;
+        }
 
 
+            var retailorDetailsContainer = $('#retailorDetailsContainer_' + distributorId);
 
 
 
