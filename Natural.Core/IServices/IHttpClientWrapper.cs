@@ -18,8 +18,7 @@ namespace Natural.Core.IServices
 
 
 
-        Task<T> GetRetailorAsync<T>(string retailorId);
-        Task<T> GetDistributorAsync<T>(string distributorId);
+        
 
 
     }

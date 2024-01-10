@@ -84,35 +84,6 @@ namespace Naturals.Service.Service
             var response = await _httpClient.DeleteAsync($"{_httpClient.BaseAddress}{endpoint}/{id}");
             return response.IsSuccessStatusCode;
         }
-
-
-
-
-
-
-
-
-
-        public async Task<T> GetRetailorAsync<T>(string retailorId)
-        {
-            var response = await _httpClient.GetAsync($"api/retailors/{retailorId}");
-            response.EnsureSuccessStatusCode();
-
-            return await response.Content.ReadFromJsonAsync<T>();
-        }
-
-        public async Task<T> GetDistributorAsync<T>(string distributorId)
-        {
-            var response = await _httpClient.GetAsync($"api/distributors/{distributorId}");
-            response.EnsureSuccessStatusCode();
-
-            return await response.Content.ReadFromJsonAsync<T>();
-        }
-
-
-
-
-
         public void Dispose()
         {
             _httpClient.Dispose();

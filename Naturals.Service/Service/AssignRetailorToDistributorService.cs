@@ -12,9 +12,13 @@ namespace Naturals.Service.Service
             _httpClientWrapper = httpClientWrapper;  
         }
 
-        public Task<RetailorToDistributor> AssignRetailorsToDistributor(RetailorToDistributor retailorToDistributorlist)
+
+       
+
+        public async Task<RetailorToDistributor> AssignRetailorToDistributor(RetailorToDistributor retailorToDistributor)
         {
-            throw new NotImplementedException();
+            var result = await _httpClientWrapper.PostAsync<RetailorToDistributor>("/AssignRetailorToDistributor/", retailorToDistributor);
+            return result;
         }
     }
 }

@@ -9,21 +9,20 @@
 <html lang="en">
 
 <head>
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>GetDistributor</title>
-
     <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-   
+
 
 
     <script type="text/javascript">
 
         //-------------SCRIPT FOR SEARCH------------//
-
         $(function () {
             $("#btnSubmit").click(function () {
                 debugger;
@@ -31,7 +30,7 @@
                 SearchResultmodel.State = $("#Dstate").val();
                 SearchResultmodel.City = $("#Dcity").val();
                 SearchResultmodel.Area = $("#Darea").val();
-                SearchResultmodel.FullName = $("#FullName").val();
+                SearchResultmodel.fullName = $("#FullName").val();
                 $.ajax({
                     url: "/Distributor/SearchRetailor",
                     type: 'POST',
@@ -41,9 +40,26 @@
                     success: function (response) {
                         let result = JSON.stringify(response.retailorList);
                         $("#Retailorlist").empty();
+                        $.each(response.retailorList, function (i, retailors) {
+                            let result1 = retailors;
+                            $("#Retailorlist").append('<tr>' +
+                                '<td>' + retailors.firstName + '</td>' +
+                                '<td>' + retailors.lastName + '</td>' +
+                                '<td>' + retailors.email + '</td>' +
+                                '<td>' + retailors.mobileNumber + '</td>' +
+                                '<td>' + retailors.address + '</td>' +
+                                '<td>' + retailors.state + '</td>' +
+                                '<td>' + retailors.city + '</td>' +
+                                '<td>' + retailors.area + '</td>' +
+                                '<td style="text-align: center;">' +
+                                '<input type="checkbox" class="selectRetailor" data-id="' + retailors.Id + '" />' +
+                                '</td>' +
+                                '</tr>');
 
-                        $.each(response.retailorList, function (i, retailor) {
-                            appendRowWithCheckbox(retailor);
+
+
+
+
                         });
                     },
                     error: function (error) {
@@ -51,27 +67,11 @@
                     }
                 });
             });
-
-            function appendRowWithCheckbox(retailor) {
-                $("#Retailorlist").append('<tr>' +
-                    '<td>' + retailor.firstName + '</td>' +
-                    '<td>' + retailor.lastName + '</td>' +
-                    
-                    '<td>' + retailor.state + '</td>' +
-                    '<td>' + retailor.city + '</td>' +
-                    '<td>' + retailor.area + '</td>' +
-                    '<td><input type="checkbox" class="rowCheckbox" /></td>' +
-                    '</tr>');
-            }
         });
-//------------------SCRIPT FOR ASSIGN RETAILOR---------------------------------//
-     
 
-
-      
 
     </script>
-   
+
 </head>
 
 
@@ -140,17 +140,20 @@
         </div>
 
 
-</div>
+    </div>
 
-        <!----------------------------------------------------DISPLAY RETAILOR LIST-------------------------------------------------------------->
+    <!----------------------------------------------------DISPLAY RETAILOR LIST-------------------------------------------------------------->
 
     <div class="table-responsive">
+
         <table class="table table-bordered table-striped custom-table">
             <thead>
                 <tr>
                     <th>FirstName</th>
                     <th>LastName</th>
-                    
+                    <th>Email</th>
+                    <th>MobileNumber</th>
+                    <th>Address</th>
                     <th>State</th>
                     <th>City</th>
                     <th>Area</th>
@@ -158,23 +161,30 @@
                 </tr>
             </thead>
             <tbody id="Retailorlist">
+
+
+
                 @foreach (var item in Model.RetailorList)
                 {
                     <tr>
                         <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
                         <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                        <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Address)</td>
                         <td>@Html.DisplayFor(modelItem => item.State)</td>
                         <td>@Html.DisplayFor(modelItem => item.City)</td>
                         <td>@Html.DisplayFor(modelItem => item.Area)</td>
-                        <td>
-                            <input type="checkbox" class="rowCheckbox" />
+                        <td style="text-align: center;">
+                            <input type="checkbox" class="selectRetailor" data-id="@item.Id" />
                         </td>
                     </tr>
                 }
+
             </tbody>
         </table>
-    </div>
 
+    </div>
 
     <!---------------------------------------------------------AJAX CODE FOR CITY CHANGE AND AREA-------------------------------------------------->
 

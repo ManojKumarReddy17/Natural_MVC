@@ -16,6 +16,10 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 
+
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+
+
     <script type="text/javascript">
 
         //-------------SCRIPT FOR DELETE POPUP------------//
@@ -62,29 +66,51 @@
             });
         });
 
-        function loadDisplayRetailorsPopup(itemId) {
+        function loadDisplayRetailorsPopup(distributorId) {
             var modalBody = $('#modalBody');
-            var url = '/Distributor/ListOfRetailors/' + itemId;
+            var url = '/Distributor/ListOfRetailors/' + distributorId;
             $.ajax({
                 url: url,
                 type: 'GET',
                 success: function (data) {
-                    alert('Data loaded');
                     modalBody.html(data);
                     $('#exampleModal').modal('show');
+                    $('#assignRetailorsBtn').on('click', function () {
+                        var selectedRetailorIds = [];
+                        $('.selectRetailor:checked').each(function () {
+                            selectedRetailorIds.push($(this).data('id'));
+
+                        });
+                        $.ajax({
+                            url:'/AssignRetailorToDistributor/AssignRetailors',
+                            type: 'POST',
+                            data: {
+                                distributorId: distributorId,
+                                selectedRetailorIds: selectedRetailorIds
+
+                            },
+                            success: function (result) {
+                                $('#exampleModal').modal('hide');
+                            },
+                            error: function (error) {
+                                console.error('Error assigning retailors:', error);
+                            }
+                        });
+                    });
                 },
                 error: function (error) {
                     console.error('Error loading retailors:', error);
                 }
             });
         }
-
-        function refreshOnClose(itemId) {
-            console.log('Refresh action for item ID ' + itemId);
-        }
-
     </script>
 </head>
+
+
+
+
+
+
 <body>
     <div class="d-flex justify-content-between align-items-center">
         <div class="text-center">
@@ -158,6 +184,7 @@
             </div>
         }
     </div>
+
     <!----------------------------------------------------DISPLAY RETAILOR LIST-------------------------------------------------------------->
 
         <div class="table-responsive">
@@ -197,24 +224,23 @@
 
                         <td data-bs-toggle="modal" data-bs-target="#exampleModal_@item.Id">
                             <div style="display: flex; justify-content: center; align-items: center;">
-                                <a href="#" onclick="loadDisplayRetailorsPopup('@item.Id', true)" style="color: blueviolet;">
+                                <a href="#" onclick="loadDisplayRetailorsPopup('@item.Id', true)"style="color:brown">
                                     <i class="material-icons">people</i>
                                 </a>
                             </div>
-
-
 
                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-fullscreen-xxl-down">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">List Of Retailors</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">ListOfRetailors</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body" id="modalBody">
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button class="btn btn-outline-success" id="assignRetailorsBtn">Assign</button>
+                                            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
 
                                         </div>
                                     </div>
@@ -256,6 +282,7 @@
                                 </div>
                             </div>
                         </td>
+
                         <td>
                             <a href="@Url.Action("DistributorDetailsBYId", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:green;">
                                 <i class="material-icons">info</i>
@@ -269,6 +296,7 @@
    
 
     <!-------------------------------------------------------------Pagination------------------------------------------------------------------->
+   
     <div class="text-center">
         @if (ViewBag.Pages != null && ViewBag.Pages.TotalPages > 0)
         {
@@ -300,7 +328,7 @@
     <!---------------------------------------------------------AJAX CODE FOR CITY CHANGE AND AREA-------------------------------------------------->
 
 
-    <script src="~/js/jquery-3.6.0.min.js"></script>
+
     <script type="text/javascript">
 
         function statechange() {
