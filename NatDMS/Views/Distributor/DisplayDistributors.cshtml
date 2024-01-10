@@ -1,5 +1,7 @@
 ﻿@model NatDMS.Models.EDR_DisplayViewModel
+
 @using System.Security.Claims
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -48,7 +50,9 @@
             modal.modal('hide');
         }
 
-        //----------SCRIPT FOR SEARCH---------
+
+        //-------------SCRIPT FOR SEARCH------------//
+
 
         $(document).ready(function () {
             $("#SearchResultmodel").submit(function (event) {
@@ -64,6 +68,7 @@
                 });
             });
         });
+
 
         function loadDisplayRetailorsPopup(distributorId) {
             var modalBody = $('#modalBody');
@@ -102,6 +107,7 @@
                 }
             });
         }
+
     </script>
 </head>
 
