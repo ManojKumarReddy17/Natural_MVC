@@ -4,9 +4,10 @@ using Natural.Core.Models;
 
 namespace NatDMS.Mapping
 {
-    public class MappingProfile : Profile
-    {
+   public class MappingProfile : Profile
+   {
         public MappingProfile()
+
         {
             // Domain to Resource
 
@@ -24,12 +25,21 @@ namespace NatDMS.Mapping
             CreateMap<ExecutiveModel, ExecutiveViewModel>();
             CreateMap<RetailorModel, SaveRetailorViewModel>();
             CreateMap<ExecutiveModel, ExecutiveViewModel>();
-            CreateMap<ExecutiveModel, SaveExecutiveViewModel>();
-            CreateMap<DistributorModel , SaveDistributorViewModel>();
-            CreateMap<StateModel, SaveDistributorViewModel>();
+            CreateMap<ExecutiveModel, ED_CreateViewModel>();
+            CreateMap<DistributorModel , ED_CreateViewModel>();
+            CreateMap<StateModel, ED_CreateViewModel>();
             CreateMap<DistributorModel, ED_EditViewModel>();
             CreateMap<ExecutiveModel, ED_EditViewModel>();
             CreateMap<RetailorModel , RetailorEditViewModel>();
+            CreateMap<ExecutiveModel, EDR_DisplayViewModel>();
+            CreateMap<DistributorModel,EDR_DisplayViewModel>();
+            CreateMap<RetailorModel, EDR_DisplayViewModel>();
+            CreateMap<SearchModel,EDR_DisplayViewModel>();
+            CreateMap<DistributorToExecutive, AssignDistributorToExecutiveViewModel>();
+            CreateMap<SearchModel , SearchViewModel>();
+
+            CreateMap<RetailorToDistributor,AssignRetailorToDistributorViewModel>();
+
 
 
             // Resource to Domain
@@ -43,9 +53,18 @@ namespace NatDMS.Mapping
             CreateMap<ED_EditViewModel, ExecutiveModel>();
             CreateMap<SaveRetailorViewModel,RetailorModel>();
             CreateMap<ExecutiveViewModel, ExecutiveModel>();
-            CreateMap<SaveExecutiveViewModel, ExecutiveModel>();
-            CreateMap<SaveDistributorViewModel,DistributorModel>();
+            CreateMap<ED_CreateViewModel, ExecutiveModel>();
+            CreateMap<ED_CreateViewModel,DistributorModel>();
             CreateMap<RetailorEditViewModel, RetailorModel>();
+            CreateMap<EDR_DisplayViewModel, ExecutiveModel>();
+            CreateMap<EDR_DisplayViewModel, DistributorModel>();
+            CreateMap<EDR_DisplayViewModel, RetailorModel>();
+            CreateMap<EDR_DisplayViewModel, SearchModel>();
+            CreateMap<AssignDistributorToExecutiveViewModel, DistributorToExecutive>();
+            CreateMap<SearchViewModel,SearchModel>();
+            CreateMap<AssignRetailorToDistributorViewModel, RetailorToDistributor>();
+
+
 
 
 

@@ -6,7 +6,7 @@ using System.Net.Http;
 
 namespace Naturals.Service.Service
 {
-    public class RetailorService:IRetailorService
+    public class RetailorService : IRetailorService
     {
         private readonly IHttpClientWrapper _HttpCleintWrapper;
 
@@ -90,6 +90,11 @@ namespace Naturals.Service.Service
             }
         }
 
+        public async Task<List<RetailorModel>> SearchRetailor(SearchModel searchretailor)
+        {
+            var SearchedResult = await _HttpCleintWrapper.PostAsync<List<RetailorModel>>("/Retailor/Search", searchretailor);
+            return SearchedResult;
+        }
     }
 
 

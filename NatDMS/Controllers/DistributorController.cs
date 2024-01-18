@@ -10,6 +10,7 @@ using PagedList;
 using Naturals.Service.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace NatDMS.Controllers
 {
@@ -17,44 +18,68 @@ namespace NatDMS.Controllers
     {
 
         private readonly IDistributorService _distributorservice;
+        private readonly IRetailorService _retailorService;
         private readonly IUnifiedService _unifiedservice;
         private readonly IMapper _mapper;
-        public DistributorController(IDistributorService distributorservice, IMapper mapper, IUnifiedService unifiedservice)
+        private readonly IConfiguration _configuration;
+        public DistributorController(IDistributorService distributorservice, IMapper mapper, IUnifiedService unifiedservice, IConfiguration configuration,IRetailorService retailorService)
 
         {
             _distributorservice = distributorservice;
+            _retailorService = retailorService;
             _unifiedservice = unifiedservice;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
         /// <summary>
         /// DISPLAYING LIST OF ALL DISTRIBUTORS 
         /// </summary>
-        [HttpGet]
-        public async Task<ActionResult<DistributorModel>> DisplayDistributors()
-        {
-            var result = await _distributorservice.GetAllDistributors();
-            var mapped = _mapper.Map<List<DistributorModel>, List<DistributorViewModel>>(result);
 
-            return View(mapped);
+
+        [HttpGet]
+        public async Task<ActionResult<List<DistributorModel>>> DisplayDistributors(int page = 1)
+        {
+            var distributorResult = await _distributorservice.GetAllDistributors();
+            var distributorPgn = new PageNation<DistributorModel>(distributorResult, _configuration, page);
+
+            var paginatedData = distributorPgn.GetPaginatedData(distributorResult);
+            ViewBag.Pages = distributorPgn;
+
+            var statesResult = await _unifiedservice.GetStates();
+
+            var viewModel = new EDR_DisplayViewModel
+            {
+                DistributorList = paginatedData,
+                StateList = statesResult
+            };
+
+            return View(viewModel);
+
         }
+
 
         /// <summary>
         /// GETTING DISTRIBUTOR DETAILS BY ID
         /// </summary>
-        /// 
+
+
+
         [HttpGet]
-        public async Task<ActionResult> DistrubutorDetailsById(string id)
+        public async Task<ActionResult> DistributorDetailsBYId(string id)
         {
             var distribtuors = await _distributorservice.GetDistributorDetailsById(id);
             var mapped = _mapper.Map<DistributorViewModel>(distribtuors);
             return View(mapped);
 
         }
+
+
         /// <summary>
         /// GETTING CITIES LIST FOR DROPDOWN BASED ON STATE_ID
         /// </summary> 
-        public async Task<IActionResult> GetCitiesbyStateId(string stateId)
+
+        public async Task<ActionResult> GetCitiesbyStateId(string stateId)
         {
             var result = await _unifiedservice.GetCitiesbyStateId(stateId);
             return Json(result);
@@ -63,6 +88,8 @@ namespace NatDMS.Controllers
         /// <summary>
         /// GETTING AREA'S LIST FOR DROPDOWN BASED ON CITY_ID
         /// </summary>
+
+
         public async Task<JsonResult> GetAreasByCityId(string cityId)
         {
             var result = await _unifiedservice.GetAreasByCityId(cityId);
@@ -75,23 +102,30 @@ namespace NatDMS.Controllers
         /// </summary>
         public async Task<ActionResult> CreateDistributor()
         {
-            var viewModel = new SaveDistributorViewModel();
-            viewModel.States = await _unifiedservice.GetStates();
+            var viewModel = new ED_CreateViewModel
+            {
+                States = await _unifiedservice.GetStates()
+            };
+
             return View(viewModel);
         }
         /// <summary>
         /// INSERTING CREATED DISTRIBUTOR DATA
         /// </summary>
+
+
+
+
         [HttpPost]
-        public async Task<ActionResult> CreateDistributor(SaveDistributorViewModel distributorModel)
+        public async Task<ActionResult> CreateDistributor(ED_CreateViewModel distributorModel)
         {
             if (ModelState.IsValid)
             {
-                var distributor = _mapper.Map<SaveDistributorViewModel, DistributorModel>(distributorModel);
+                var distributor = _mapper.Map<ED_CreateViewModel, DistributorModel>(distributorModel);
 
-                var Createldistributor = await _distributorservice.CreateDistributor(distributor);
+                await _distributorservice.CreateDistributor(distributor);
 
-                return RedirectToAction("DisplayDistributors","Distributor");
+                return RedirectToAction("DisplayDistributors", "Distributor");
             }
             else
             {
@@ -106,75 +140,38 @@ namespace NatDMS.Controllers
         /// GETTING EXISTING DATA FOR UPDATE
         /// </summary>
 
-        public async Task<ActionResult<ED_EditViewModel>> EditDistributor(string id)
+        public async Task<ActionResult> EditDistributor(string id)
         {
             var distributor = await _distributorservice.GetDistributorById(id);
-
-            var statesResult = await _unifiedservice.GetStates();
-
-            var citiesResult = await _unifiedservice.GetCitiesbyStateId(distributor.State);
-
-            var AreaResult = await _unifiedservice.GetAreasByCityId(distributor.City);
-            var model = new ED_EditViewModel
-            {
-
-                FirstName = distributor.FirstName,
-                LastName = distributor.LastName,
-                Email = distributor.Email,
-                MobileNumber = distributor.MobileNumber,
-                Address = distributor.Address,
-                UserName = distributor.UserName,
-                Password = distributor.Password,
-                StateList = statesResult.Select(state=> new SelectListItem
-                {
-                    Text = state.StateName,
-                    Value = state.Id
-                }).AsEnumerable(),
-                CityList = citiesResult.Select(city => new SelectListItem
-                {
-                    Text = city.CityName,
-                    Value = city.Id
-                }).AsEnumerable(),
-
-                AreaList = AreaResult.Select(area => new SelectListItem
-                {
-                    Text = area.AreaName,
-                    Value = area.Id
-                }).AsEnumerable()
-            };
-            model.State = distributor.State;
-            model.City = distributor.City;
-            model.Area = distributor.Area;
-            return View(model);
+            var viewModel = _mapper.Map<ED_EditViewModel>(distributor);
+            viewModel.StateList = await _unifiedservice.GetStates();
+            viewModel.CityList = await _unifiedservice.GetCitiesbyStateId(distributor.State);
+            viewModel.AreaList = await _unifiedservice.GetAreasByCityId(distributor.City);
+            return View(viewModel);
         }
+
 
         /// <summary>
         /// POSTING UPDATED DISTRIBUTOR DATA
         /// </summary>
-        /// 
+
+
 
         [HttpPost]
-        public async Task<ActionResult<ED_EditViewModel>> EditDistributor(string id, ED_EditViewModel Editviewmodel)
+        public async Task<ActionResult> EditDistributor(string id, ED_EditViewModel viewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-
-                    var update = _mapper.Map<ED_EditViewModel, DistributorModel>(Editviewmodel);
-
-                    await _distributorservice.UpdateDistributor(id, update);
-
-                    return RedirectToAction(nameof(DisplayDistributors));
-                }
-                else
-                {
-                    return View(Editviewmodel);
-                }
+                var update = _mapper.Map<ED_EditViewModel, DistributorModel>(viewModel);
+                await _distributorservice.UpdateDistributor(id, update);
+                return RedirectToAction(nameof(DisplayDistributors));
             }
-            catch
+            else
             {
-                return View();
+                viewModel.StateList = await _unifiedservice.GetStates();
+                viewModel.CityList = await _unifiedservice.GetCitiesbyStateId(viewModel.State);
+                viewModel.AreaList = await _unifiedservice.GetAreasByCityId(viewModel.City);
+                return View(viewModel);
             }
         }
 
@@ -184,11 +181,70 @@ namespace NatDMS.Controllers
         /// </summary>
 
 
-        public async Task<IActionResult> DeleteDistributor(string distributorId)
+        public async Task<IActionResult> DeleteDistributor(string DistributorId)
         {
 
-            await _distributorservice.DeleteDistributor(distributorId);
+            await _distributorservice.DeleteDistributor(DistributorId);
             return RedirectToAction("DisplayDistributors", "Distributor");
         }
+
+        /// <summary>
+        /// SEARCH DISTRIBUTOR PARTIAL VIEW
+        /// </summary>
+
+        [HttpPost]
+        public async Task<ActionResult<EDR_DisplayViewModel>> SearchDistributor(EDR_DisplayViewModel SearchResultmodel)
+        {
+            var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
+            var SearchResult = await _distributorservice.SearchDistributor(search);
+            var statesResult = await _unifiedservice.GetStates();
+
+            var viewModel = new EDR_DisplayViewModel
+            {
+                DistributorList = SearchResult,
+                StateList = statesResult,
+            };
+
+            return PartialView("_SearchDistributorPartial", viewModel);
+        }
+        [HttpGet]
+        public async Task<ActionResult<List<RetailorModel>>> ListOfRetailors(int page = 1)
+        {
+            var retailorResult = await _retailorService.GetAllRetailors();
+            var retailorPgn = new PageNation<RetailorModel>(retailorResult, _configuration, page);
+
+            var paginatedData = retailorPgn.GetPaginatedData(retailorResult);
+
+
+            ViewBag.Pages = retailorPgn;
+
+            var statesResult = await _unifiedservice.GetStates();
+
+            var viewModel = new EDR_DisplayViewModel
+            {
+                RetailorList = paginatedData,
+                StateList = statesResult
+            };
+
+            return View("_ListOfRetailors",viewModel);
+        }
+       
+        [HttpPost]
+        public async Task<JsonResult>SearchRetailor(EDR_DisplayViewModel SearchResultmodel)
+        {
+            var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
+            var SearchResult = await _retailorService.SearchRetailor(search);
+            var statesResult = await _unifiedservice.GetStates();
+
+            var viewModel = new EDR_DisplayViewModel
+            {
+                RetailorList = SearchResult,
+                StateList = statesResult,
+            };
+            return Json(viewModel);
+
+        }
+
+
     }
 }

@@ -15,6 +15,8 @@ namespace Natural.Core.IServices
         Task<RetailorModel> CreateRetailor(RetailorModel retailor);
         Task<RetailorModel> UpdateRetailor(string RetailorId, RetailorModel Retailor);
         Task <bool>DeleteRetailor(string retailorId);
+        Task<List<RetailorModel>> SearchRetailor(SearchModel searchretailor);
+
 
 
     }

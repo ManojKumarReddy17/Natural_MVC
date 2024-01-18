@@ -18,18 +18,21 @@ builder.Services.AddScoped<IRetailorService , RetailorService>();
 builder.Services.AddScoped<IExecutiveService, ExecutiveService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IExecutiveService, ExecutiveService>();
+builder.Services.AddScoped<IAssignDistributorToExecutiveService, AssignDistributorToExecutiveService>();
 builder.Services.Configure<ApiDetails>(builder.Configuration.GetSection("ApiUrlDetails"));
 builder.Services.AddHttpClient<IHttpClientWrapper, HttpClientWrapper>();
 
 
 builder.Services.AddAutoMapper(typeof(Program));
 
+
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
         
         options.Cookie.SameSite = SameSiteMode.None;
-        options.ExpireTimeSpan = TimeSpan.FromSeconds(15);
+        //options.ExpireTimeSpan = TimeSpan.FromSeconds(20);
     });
 
 

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NatDMS.Models;
@@ -8,30 +9,48 @@ using Naturals.Service.Service;
 
 namespace NatDMS.Controllers
 {
+    
     public class RetailorController : Controller
     {
 
         private readonly IRetailorService _retailorservice;
         private readonly IUnifiedService _unifiedservice;
         private readonly IMapper _mapper;
-        public RetailorController(IRetailorService retailorservice, IMapper mapper, IUnifiedService unifiedservice)
+        private readonly IConfiguration _configuration;
+        public RetailorController(IRetailorService retailorservice, IMapper mapper, IUnifiedService unifiedservice, IConfiguration configuration)
 
         {
             _retailorservice = retailorservice;
             _unifiedservice = unifiedservice;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
         /// <summary>
         /// DISPLAYING LIST OF ALL RETAILORS 
         /// </summary>     
-        public async Task<ActionResult<RetailorModel>> DisplayRetailors()
+        public async Task<ActionResult<List<RetailorModel>>> DisplayRetailors(int page = 1)
         {
-            var result = await _retailorservice.GetAllRetailors();
-            var mapped = _mapper.Map<List<RetailorModel>, List<RetailorViewModel>>(result);
+            var retailorResult = await _retailorservice.GetAllRetailors();
+            var retailorPgn = new PageNation<RetailorModel>(retailorResult, _configuration, page);
 
-            return View(mapped);
+            var paginatedData = retailorPgn.GetPaginatedData(retailorResult);
+
+
+            ViewBag.Pages = retailorPgn;
+
+            var statesResult = await _unifiedservice.GetStates();
+
+            var viewModel = new EDR_DisplayViewModel
+            {
+                RetailorList = paginatedData,
+                StateList = statesResult
+            };
+
+            return View(viewModel);
         }
+
+
 
         /// <summary>
         /// GETTING RETAILOR DETAILS BY ID
@@ -95,7 +114,7 @@ namespace NatDMS.Controllers
             }
 
         }
-     
+
 
         /// <summary>
         ///  GETTING EXISTING DATA BY RETAILOR BY ID //
@@ -109,7 +128,6 @@ namespace NatDMS.Controllers
             viewModel.States = await _unifiedservice.GetStates();
             viewModel.Cities = await _unifiedservice.GetCitiesbyStateId(retailorDetails.State);
             viewModel.Areas = await _unifiedservice.GetAreasByCityId(retailorDetails.City);
-
             return View(viewModel);
         }
 
@@ -140,16 +158,34 @@ namespace NatDMS.Controllers
         /// <summary>
         /// DELETING RETAILOR BY ID
         /// </summary>
-        public async Task<IActionResult> DeleteRetailor(string retailorId)
+        public async Task<IActionResult> DeleteRetailor(string RetailorId)
         {
-            await _retailorservice.DeleteRetailor(retailorId);
+            await _retailorservice.DeleteRetailor(RetailorId);
             return RedirectToAction("DisplayRetailors", "Retailor");
         }
 
+        /// <summary>
+        /// SEARCH RETAILOR PARTIAL VIEW
+        /// </summary>
+
+        [HttpPost]
+        public async Task<ActionResult<EDR_DisplayViewModel>> SearchRetailor(EDR_DisplayViewModel SearchResultmodel)
+        {
+            var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
+            var SearchResult = await _retailorservice.SearchRetailor(search);
+            var statesResult = await _unifiedservice.GetStates();
+
+            var viewModel = new EDR_DisplayViewModel
+            {
+                RetailorList = SearchResult,
+                StateList = statesResult,
+            };
+
+            return PartialView("_SearchRetailorPartial", viewModel);
+        }
     }
-
 }
-
+     
 
 
 

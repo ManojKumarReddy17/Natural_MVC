@@ -13,38 +13,46 @@
 
 <body>
 
-      @using (Html.BeginForm("EditCategory", "Category", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
-          {
-             <h1>EDIT CATEGORY</h1>
+    @using (Html.BeginForm("EditCategory", "Category", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+    {
 
-         <div class="row justify-content-center">
+        <div class="row justify-content-center">
             <div class="col-md-3">
 
-                    <div class="form-group">
-                        <b>
+                <div class="form-group">
+                    <b>
                         @Html.LabelFor(model => model.CategoryName, new { @class = "control-label" })
                         @Html.TextBoxFor(model => model.CategoryName, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
-                        </b>
-                    </div>
-             </div>
+                    </b>
+                </div>
+            </div>
         </div>
 
         <div class="text-center">
-            <button type="submit" class="btn btn-style1">SUBMIT</button>
+            <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
         </div>
     }
 
-    <div class="text-center">
 
-        <a href="@Url.Action("DisplayCategories")"class="d-flex align-items-center">
-            <i class="material-icons">arrow_back</i>
-            <span class="ml-2" style="font-weight: bold;">BACK TO LIST</span>
-        </a>
+    <div class="row">
+        <div class="col-md-10 d-flex justify-content-between">
+            <a href="@Url.Action("EditCategory")" class="d-flex align-items-center mr-6">
+                <i class="material-icons" style="font-size:20px;">refresh</i>
+                <span class="ml-2" style="font-weight: bold;">RESET</span>
+            </a>
+
+            <a href="@Url.Action("DisplayCategories")" class="d-flex align-items-center">
+                <i class="material-icons" style="font-size:20px;">arrow_back</i>
+                <span class="ml-2" style="font-weight: bold;">BACK TO LIST</span>
+            </a>
+        </div>
     </div>
-    </body>
-    </html>
+</body>
+</html>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

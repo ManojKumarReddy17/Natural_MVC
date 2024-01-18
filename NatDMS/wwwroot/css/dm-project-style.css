@@ -82,3 +82,27 @@
     text-overflow: ellipsis;
     display: inline-block;
 }
+
+.custom-select {
+    position: relative;
+    width: 100%;
+}
+
+    .custom-select select {
+        display: inline-block;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .custom-select::after {
+        content: '\25BC';
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        pointer-events: none;
+    }
+

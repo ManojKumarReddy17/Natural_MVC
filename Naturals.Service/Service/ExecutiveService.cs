@@ -20,7 +20,7 @@ namespace Naturals.Service.Service
         /// <summary>
         /// GET ALL EXECUTIVES //
         /// </summary>
-        public async Task<List<ExecutiveModel>> GetAllDeatils()
+        public async Task<List<ExecutiveModel>> GetAllExecutives()
         {
             var getexe = await _httpClient.GetAsync<List<ExecutiveModel>>("/Executive");
             return getexe;
@@ -89,6 +89,25 @@ namespace Naturals.Service.Service
             {
                 throw new Exception("Error");
             }
+        }
+
+        public async Task<List<ExecutiveModel>> SearchExecutive(SearchModel searchexecutive)
+        {
+            var SearchedResult = await _httpClient.PostAsync<List<ExecutiveModel>>("/Executive/Search", searchexecutive);
+            return SearchedResult;
+        }
+
+
+        public async Task<List<DistributorModel>> GetAllDistributors()
+        {
+            var getdistributor = await _httpClient.GetAsync<List<DistributorModel>>("/Distributor/");
+            return getdistributor;
+
+        }
+        public async Task<List<DistributorModel>> SearchDistributor(SearchModel searchdistributor)
+        {
+            var SearchedResult = await _httpClient.PostAsync<List<DistributorModel>>("/Distributor/Search", searchdistributor);
+            return SearchedResult;
         }
     }
 }

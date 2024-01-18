@@ -1,0 +1,263 @@
+﻿@model NatDMS.Models.EDR_DisplayViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>GetDistributor</title>
+
+    <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script type="text/javascript">
+
+        //-------------SCRIPT FOR SEARCH------------//
+
+        $(function () {
+            $("#btnSubmit").click(function () {
+                debugger;
+                var searchResultmodel = new Object();
+                searchResultmodel.State = $("#Dstate").val();
+                searchResultmodel.City = $("#Dcity").val();
+                searchResultmodel.Area = $("#Darea").val();
+                searchResultmodel.FullName = $("#FullName").val();
+                $.ajax({
+                    url: "/Executive/SearchDistributors",
+                    type: 'POST',
+                    content: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: searchResultmodel,
+                    success: function (response){
+                        let result = JSON.stringify(response.distributorList);
+                        $("#Distributorlist").empty();
+                        $.each(response.distributorList, function (i, distributors) {
+                            let result1 = distributors;
+                            $("#Distributorlist").append('<tr>' + '<td>' + distributors.firstName + '</td> <td>' +
+                                distributors.lastName + '</td> <td>' + distributors.email + '</td> <td>' +
+                                distributors.mobileNumber + '</td> <td>' + distributors.address + '</td> <td>' +
+                                distributors.state + '</td> <td>' + distributors.city + ' </td> <td>' + distributors.area +
+                                '<td style="text-align: center;">'+
+                                '<input type="checkbox" class="selectDistributor" data-id="' + distributors.Id + '" />' +
+                                '</td>' +
+                                '</tr>');
+                        });
+                                },
+                                error: function (error) {
+                                    console.error('Error:', error);
+                                }
+                });
+            });
+        });
+
+    </script>
+
+</head>
+
+
+<!---------------------------------------------------BODY---------------------------------------------------------->
+<body>
+
+    <!-----------------------------------------------SEARCH DISTRIBUTOR----------------------------------------------------->
+
+    <div class="container my-4">
+             <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <b>
+                            @Html.Label("SearchName", "Search by Name")
+                            @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Search By FirstName or LastName", @id = "FullName" })
+                    </b>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <b>
+                            @Html.LabelFor(model => model.State)
+                            @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"),
+                        "-SelectState-", new { @id = "Dstate", onchange = "Statechange()", @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                        </b>
+                    </div>
+                </div>
+
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <b>
+                            @Html.LabelFor(model => model.City)
+                            @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
+                        {
+                        new SelectListItem { Text = "", Value =""},
+                        }, "Value","Text"), new { @id = "Dcity", @onchange = "Citychange()", @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                        </b>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <b>
+                            @Html.LabelFor(model => model.Area)
+                            @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
+                        {
+                        new SelectListItem {Text = ""}
+                        }, new { id = "Darea", @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+                        </b>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <button id="btnSubmit" >
+                        <i class="material-icons" style="font-size:20px;display:flex;justify-content:center;
+                                align-items:center;">search</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+         
+ 
+
+        <!----------------------------------------------------DISPLAY RETAILOR LIST-------------------------------------------------------------->
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-striped custom-table" >
+                <thead>
+                    <tr>
+                        <th>FirstName</th>
+                        <th>LastName</th>
+                        <th>Email</th>
+                        <th>MobileNumber</th>
+                        <th>Address</th>
+                        <th>State</th>
+                        <th>City</th>
+                        <th>Area</th>
+                        <th>Select</th>
+                    </tr>
+                </thead>
+                <tbody id="Distributorlist">
+                    @foreach (var item in Model.DistributorList)
+                    {
+                        <tr>
+                          
+                            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Address)</td>
+                            <td>@Html.DisplayFor(modelItem => item.State)</td>
+                            <td>@Html.DisplayFor(modelItem => item.City)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Area)</td>
+                            <td style="text-align: center;">
+                                <input type="checkbox" class="selectDistributor" data-id="@item.Id" />
+                            </td>
+                        </tr>
+
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-------------------------------------------------------------Pagination------------------------------------------------------------------->
+
+    <div class="text-center">
+        @if (ViewBag.Pages != null && ViewBag.Pages.TotalPages > 0)
+        {
+            <b>Page @ViewBag.Pages.CurrentPage of @ViewBag.Pages.TotalPages</b>
+
+            <div class="d-flex justify-content-between">
+                <ul class="pagination">
+                    <li class="page-item @(ViewBag.Pages.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="page-link text-black" href="@Url.Action("ListOfDistributors", new { page = ViewBag.Pages.CurrentPage - 1 })" style="font-weight: bold; background-color: transparent; border: none;">
+                            <span aria-hidden="true">&laquo;</span>
+                            Previous
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="pagination">
+                    <li class="page-item @(ViewBag.Pages.CurrentPage == ViewBag.Pages.TotalPages ? "disabled" : "")">
+                        <a class="page-link text-black" href="@Url.Action("ListOfDistributors", new { page = ViewBag.Pages.CurrentPage + 1 })" style="font-weight: bold; background-color: transparent; border: none;">
+                            Next
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        }
+    </div>
+
+    <!---------------------------------------------------------AJAX CODE FOR CITY CHANGE AND AREA-------------------------------------------------->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        function Statechange(){
+          
+            var stid = $('#Dstate').val();
+            if (stid.trim() != '') {
+                var ddlcity = $('#Dcity');
+                var ddlarea = $('#Darea');
+                ddlcity.empty();
+                ddlarea.empty();
+                $.ajax(
+                    {
+                        url: "/Executive/GetCitiesbyStateId",
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { stateId: stid },
+                        success: function (d) {
+                            ddlcity.append($("<option></option>").val('').html('-SelectCity-'));
+                            $.each(d, function (i, cities) {
+                                ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
+                            });
+                        },
+                        error: function () {
+                            alert('Error!');
+                        }
+                    });
+            }
+        }
+
+        function Citychange(){
+            
+            var cityid = $('#Dcity').val();
+            if (cityid.trim() != '') {
+                var ddlarea = $('#Darea');
+                ddlarea.empty();
+
+                $.ajax(
+                    {
+                        url: "/Executive/GetAreasByCityId",
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { cityId: cityid },
+                        success: function (d) {
+                            ddlarea.append($("<option></option>").val('').html('-SelectArea-'));
+                            $.each(d, function (i, areas) {
+                                ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
+                            });
+                        },
+                        error: function () {
+                            alert('Error!');
+                        }
+                    });
+            }
+        }
+    </script>
+</body>
+</html>

@@ -11,7 +11,8 @@ namespace NatDMS.Models
     public class ED_EditViewModel
     {
         [Required(ErrorMessage = "First Name is required.")]
-        [StringLength(40, MinimumLength = 3, ErrorMessage = "Last Name must be between 3 and 40 characters.")]
+        [StringLength(40, MinimumLength = 3, ErrorMessage = "First Name must be between 3 and 40 characters.")]
+        [RegularExpression("^[a-zA-Z]*$", ErrorMessage = "FirstName must contain only Alphabets")]
 
         public string FirstName { get; set; }
 
@@ -43,11 +44,11 @@ namespace NatDMS.Models
         [Required(ErrorMessage = "Password is required.")]
         public string Password { get; set; } 
         
-        public IEnumerable<SelectListItem> StateList { get; set; }
+        public List<StateModel> StateList { get; set; }
 
-        public IEnumerable<SelectListItem> CityList { get; set; }
+        public List<CityModel> CityList { get; set; }
 
-        public IEnumerable<SelectListItem> AreaList { get; set; }
+        public List<AreaModel> AreaList { get; set; }
 
     }
 }

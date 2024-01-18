@@ -3,6 +3,7 @@ using Natural.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -90,6 +91,12 @@ namespace Naturals.Service.Service
             {
                 throw new Exception($"Failed to delete distributor. Error: {ex.Message}");
             }
+        }
+
+        public async Task<List<DistributorModel>> SearchDistributor(SearchModel searchdistributor)
+        {
+            var SearchedResult = await _HttpCleintWrapper.PostAsync<List<DistributorModel>>("/Distributor/Search", searchdistributor);
+            return SearchedResult;
         }
     }
 }

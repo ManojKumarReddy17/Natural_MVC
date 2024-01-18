@@ -1,4 +1,4 @@
-﻿@model NatDMS.Models.SaveDistributorViewModel
+﻿@model NatDMS.Models.ED_CreateViewModel
 
 @{
     ViewData["Title"] = "CreateDistributor";
@@ -10,22 +10,28 @@
 <head>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
+
+    <script>
+        function movePlaceholder(input) {
+            input.setAttribute("placeholder","");
+        }
+    </script>
+
 </head>
 
 <body>
     @using (Html.BeginForm("CreateDistributor", "Distributor", FormMethod.Post, new { @class = "needs-validation", novalidate = "true" }))
     {
-        <h2>CREATE DISTRIBUTOR</h2>
-    
 
         <div class="row justify-content-center">
-
+                   
             <div class="col-md-3">
-
+                
                 <div class="form-group" style="margin-bottom: 9%;">
                     <b>
                         @Html.LabelFor(model => model.FirstName)
-                        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+                        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control",
+                        placeholder = "Enter FirstName", onfocus = "movePlaceholder(this)" })
                         @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                     </b>
                 </div>
@@ -33,42 +39,43 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Email)
-                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", 
+                        placeholder = "Enter Email", onfocus = "movePlaceholder(this)" })
                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                     </b>
                 </div>
 
                 <div class="form-group">
                     <b>
-
                         @Html.LabelFor(model => model.MobileNumber)
-                        @Html.TextBoxFor(model => model.MobileNumber, new { @class = "form-control" })
+                        @Html.TextBoxFor(model => model.MobileNumber, new { @class = "form-control",
+                        placeholder = "Enter MobileNumber", onfocus = "movePlaceholder(this)" })
                         @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
-
                     </b>
                 </div>
+
                 <div class="form-group">
                     <b>
-
                         @Html.LabelFor(model => model.Password)
-                        @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                        @Html.PasswordFor(model => model.Password, new { @class = "form-control",
+                        placeholder = "Enter Password", onfocus = "movePlaceholder(this)" })
                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-
                     </b>
                 </div>
-                <div class="form-group">
-                    
+
+
+              <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.City)
                         @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
                     {
-                    new SelectListItem { Text = "", Value = "select" },
-                    }, "Value", "Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
+                    new SelectListItem { Text = "", Value = "" },
+                    }, "Value", "Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select",
+                    })
                         @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                     </b>
                 </div>
-
-            </div>
+           </div>
 
 
             <div class="col-md-3">
@@ -76,14 +83,17 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.LastName)
-                        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control",
+                    placeholder = "Enter LastName", onfocus = "movePlaceholder(this)" })
                         @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                     </b>
                 </div>
+
                 <div class="form-group emphasized-section">
                     <b>
                         @Html.LabelFor(model => model.Address)
-                        @Html.TextAreaFor(model => model.Address, new { @class = "form-control", style = "overflow-y:scroll;" })
+                        @Html.TextAreaFor(model => model.Address, new { @class = "form-control", style = "overflow-y:scroll;", 
+                        placeholder = "Enter Address", onfocus = "movePlaceholder(this)"})
                         @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
 
                     </b>
@@ -91,7 +101,8 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.UserName)
-                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control",
+                        placeholder = "Enter UserName", onfocus = "movePlaceholder(this)" })
                         @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
                     </b>
                 </div>
@@ -120,15 +131,20 @@
                 </div>
 
             </div>
+
         </div>
 
 
         <div class="text-center">
-            <button type="submit" class="btn-style1">SUBMIT</button>
+            <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
         </div>
 
-    }
+    
+    <b>
+        @Html.ValidationSummary(false, "", new { @class = "text-danger"} )
+    </b>
 
+    }
     <div class="row">
         <div class="col-md-10 d-flex justify-content-between">
             <a href="@Url.Action("CreateDistributor")" class="d-flex align-items-center mr-6">
@@ -145,8 +161,7 @@
 
 
 
-
-    <!------------------------------------------------------------------AJAX CODE FOR STATE CITY,AREA-------------------------------------------------->
+ <!--------------------------------------------AJAX CODE FOR STATE CITY,AREA-------------------------------------------------->
 
     <script src="~/js/jquery-3.6.0.min.js"></script>
 
@@ -156,6 +171,7 @@
             var stid = $('#state').val();
             if (stid.trim() != '') {
                 var ddlcity = $('#city');
+
                 ddlcity.empty();
 
                 $.ajax(
@@ -165,7 +181,7 @@
                         dataType: 'json',
                         data: { stateId: stid },
                         success: function (d) {
-                            ddlcity.append($("<option></option>").val('').html('--SelectCity--'));
+                            ddlcity.append($("<option></option>").val('').html('--Select City--'));
                             $.each(d, function (i, cities) {
                                 ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
                             });
@@ -177,7 +193,6 @@
             }
         }
 
-        <!----------SELECT AREA---------------->
 
             function citychange() {
                 debugger;
@@ -193,7 +208,7 @@
                             dataType: 'json',
                             data: { cityId: cityid },
                             success: function (d) {
-                                ddlarea.append($("<option></option>").val('').html('--SelectArea--'));
+                                ddlarea.append($("<option></option>").val('').html('--Select Area--'));
                                 $.each(d, function (i, areas) {
                                     ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
                                 });
