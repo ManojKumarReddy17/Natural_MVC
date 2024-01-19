@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace NatDMS.Models
 {
-    public partial class Product
+    public partial class EditProduct
     {
         public string Id { get; set; }
         public List<CategoryModel> Categorylist { get; set; }
@@ -16,8 +16,9 @@ namespace NatDMS.Models
         public decimal Price { get; set; }
         public string Quantity { get; set; }
         public int Weight { get; set; }
+        public string PresignedUrl { get; set; }
         public IFormFile UploadImage { get; set; }
+
 
     }
 }
-

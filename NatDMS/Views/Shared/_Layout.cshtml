@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="~/css/myboot.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/NatDMS.styles.css" asp-append-version="true" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
-
     <link rel="shortcut icon" type="image/favicon" href="image/fevicon.png">
     <link rel="stylesheet" type="text/css" href="css/simple-line-icons.css">
     <!-- font-awesome icon -->
@@ -32,21 +31,17 @@
     <link rel="stylesheet" type="text/css" href="css/responsive.css">
     <link rel="stylesheet" type="text/css" href="css/myboot.css">
     <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
-
     @RenderSection("BannerStyles", required: false)
-
     <!-- Bootstrap CSS -->
 </head>
 <body>
     <nav>
-
     </nav>
     <div class="container-fluid">
         <div class="row">
             <div class="col-2 text-dark min-vh-100 d-flex flex-column">
                 <div class="list-group flex-grow-1 ">
                     <div class="navbar-nav">
-
                         <div class="header-main">
                             <!-- logo start -->
                             <div class="header-element logo img ">
@@ -56,33 +51,13 @@
                                 <!-- logo End -->
                             </div>
                         </div>
-
                         <!-- Sidebar Options -->
-
-
-                            <a href="/Executive/DisplayExecutives" class="list-group-item text-black"><strong>Manage Executives</strong></a>
-                            <a href="/Distributor/DisplayDistributors" class="list-group-item text-black"><strong>Manage Distributor</strong></a>
-                            <a href="/Retailor/DisplayRetailors" class="list-group-item text-black"><strong>Manage Retailor</strong></a>
-                            <a href="/Category/DisplayCategories" class="list-group-item text-black"><strong>Manage Categories</strong></a>
-                            <a href="/Product/DisplayProducts" class="list-group-item text-black"><strong>Manage Products</strong></a>
-                            <a href="/Test/DailyDSR" class="list-group-item text-black"><strong>Daily DSR</strong></a>
-                            <div class="dropdown">
-                                <a class="list-group-item dropdown-toggle text-black" data-toggle="dropdown" href="#">
-                                    <strong>Reports</strong>
-                                </a>
-                                <div class="dropdown-menu" style="background-color: gray;">
-                                    <a class="dropdown-item text-black" href="#">Distributor Reports</a>
-                                    <a class="dropdown-item text-black" href="#">Executive Reports</a>
-                                    <a class="dropdown-item text-black" href="#">Retailor Reports</a>
-                                </div>
-
                         <a href="/Distributor/DisplayDistributors" class="list-group-item text-black">Manage Distributor</a>
                         <a href="/Executive/DisplayExecutives" class="list-group-item text-black">Manage Executives</a>
                         <a href="/Retailor/DisplayRetailors" class="list-group-item text-black">Manage Retailor</a>
                         <a href="/Category/DisplayCategories" class="list-group-item text-black">Manage Categories</a>
-                        <a href="/Product/DisplayProducts" class="list-group-item text-black">Manage Products</a>
+                        <a href="/Product/DisplayProduct" class="list-group-item text-black">Manage Product</a>
                         <a href="/Test/DailyDSR" class="list-group-item text-black">Daily DSR</a>
-
                         <div class="dropdown">
                             <a class="list-group-item dropdown-toggle text-black" data-toggle="dropdown" href="#">
                                 Reports
@@ -91,38 +66,23 @@
                                 <a class="dropdown-item text-black" href="#">Distributor Reports</a>
                                 <a class="dropdown-item text-black" href="#">Executive Reports</a>
                                 <a class="dropdown-item text-black" href="#">Retailor Reports</a>
-
                             </div>
                         </div>
-
-
+                    </div>
                     <!-- Add more options as needed -->
                     @RenderSection("SideBarOptions", false)
                 </div>
             </div>
-
             <div class="col-10 min-vh-100">
                 <!-- Banner Section -->
-                <div class="jumbotron" style="height:20%; position: relative;">
+                <div class="jumbotron" style="height:20%;">
                     <!-- Add your banner content for this page -->
                     <img src="~/image/BannerF.jpg" alt="Banner Image" class="img-fluid" style="max-height:100%;">
-
-
-                   
                 </div>
-
-
-
-
-
-
                 @RenderBody()
             </div>
         </div>
     </div>
-
-
-
     <!-------------------------------------------------------COPY RIGHT-------------------------------------->
     <section class="footer-copyright">
         <div class="container">
@@ -137,11 +97,9 @@
             </div>
         </div>
     </section>
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <!-- fontawesome -->
     <script src="~/js/fontawesome.min.js"></script>
-
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/modernizr-2.8.3.min.js"></script>

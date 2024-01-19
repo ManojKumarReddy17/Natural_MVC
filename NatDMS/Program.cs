@@ -21,6 +21,7 @@ builder.Services.AddScoped<IExecutiveService, ExecutiveService>();
 builder.Services.AddScoped<IAssignDistributorToExecutiveService, AssignDistributorToExecutiveService>();
 builder.Services.Configure<ApiDetails>(builder.Configuration.GetSection("ApiUrlDetails"));
 builder.Services.AddHttpClient<IHttpClientWrapper, HttpClientWrapper>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 
 builder.Services.AddAutoMapper(typeof(Program));

@@ -1,0 +1,495 @@
+﻿@model NatDMS.Models.EditProduct
+
+@{
+    ViewData["Title"] = "EditProduct";
+}
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+
+    <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
+    @*<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+
+</head>
+
+<body>
+
+    @using (Html.BeginForm("EditProduct", "Product", FormMethod.Post, new { @class = "needs-validation", enctype = "multipart/form-data" ,novalidate = "novalidate" }))
+        {
+        <div class="row justify-content-center">
+
+            @Html.Hidden("Id", Model.Id)
+
+
+            <div class="form-group">
+                <b>
+                    @Html.LabelFor(model => model.Category, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.Category, new SelectList(Model.Categorylist, "Id", "CategoryName"),
+                "--Select category--", new { @id = "category", @class = "form-select" })
+
+                </b>
+            </div>
+
+            <div class="form-group">
+                <b>
+                    @Html.LabelFor(model => model.ProductName, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control" })
+                    @*@Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })*@
+                </b>
+            </div>
+            <div class="form-group">
+                <b>
+                    @Html.LabelFor(model => model.Price, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Price, new { @class = "form-control" })
+                    @*@Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })*@
+                </b>
+            </div>
+            <div class="form-group">
+                <b>
+                    @Html.LabelFor(model => model.Quantity, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control" })
+                    @*@Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })*@
+                </b>
+            </div>
+
+            <div class="form-group">
+                <b>
+                    @Html.LabelFor(model => model.Weight, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Weight, new { @class = "form-control" })
+                </b>
+            </div>
+
+
+
+
+
+
+
+            <div class="form-group">
+
+
+                <label for="presignedurl-label" class="control-label" id="image" style="font-weight: bold;">  <span>@Model.ProductName</span></label>
+                @*@Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })*@
+                @*<img scr="model => model.PresignedUrl" alt="ProfileImage" width="200" height="200" />*@
+
+                <!--<div id="image">-->
+                @*@{
+                string imageUrl = string.IsNullOrWhiteSpace(Model.PresignedUrl)
+                    ? "/wwwroot/image/back.jpg.jpeg"  // Replace with your placeholder image path
+                    : Model.PresignedUrl;
+            }*@
+                <img src="@Model.PresignedUrl" alt="ProfileImage" width="200" height="200" class="img-responsive" onclick="confirmDelete('@Model.Id', true)" id="presignedurl" enabled>
+                @*</div>*@
+
+
+                @*<div style="display: flex; justify-content: center; align-items: center;">
+                <i onclick="confirmDelete('@Model.Id', true)" class="material-icons" style="color: red;cursor: pointer;">delete</i>b
+            </div>
+                    <div>*@
+                <i class="bi bi-image"></i>
+            </div>
+            <!-- Your other HTML content -->
+            @*<div>
+            @Html.Raw("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-image\" viewBox=\"0 0 16 16\">" +
+                       "<path d=\"M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0\"/>" +
+                       "<path d=\"M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12\"/>" +
+                       "</svg>")
+        </div>*@
+            @*<div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
+                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12" />
+            </svg>
+        </div>*@
+            <!-- Your other HTML content -->
+            @*<form id="uploadForm" enctype="multipart/form-data">
+            <label for="fileInput" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
+                    <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                    <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12" />
+                </svg>
+                Choose a file
+            </label>
+            <input type="file" class="visually-hidden" id="fileInput" name="fileInput" onchange="updateLabel()">
+            <div id="fileName" class="form-text">No file chosen</div>
+            <button type="button" class="btn btn-primary" onclick="uploadPhoto()">Upload Photo</button>
+        </form>*@
+            @*<form enctype="multipart/form-data" asp-action="upload" asp-controller="Product" method="post"  id="uploadForm">*@
+            @*<div class="form-group">
+            <label asp-for="UploadImage" class="control-label">Choose image</label>
+            <input asp-for="UploadImage" class="form-control custom-file-input" type="file" id=“fileInput”>
+        </div>*@
+            @*<div class="form-group" id="fileInputContainer" disabled="disabled">
+            <label asp-for="UploadImage" class="control-label">Choose image</label>
+            <input asp-for="UploadImage" class="form-control custom-file-input" type="file" id="fileInput">
+        </div>*@
+            <div class="form-group" id="fileInputContainer">
+                <label asp-for="UploadImage" class="control-label">Choose image</label>
+                <input asp-for="UploadImage" class="form-control custom-file-input" type="file"  id="fileInput" disabled onchange="ShowImagePreview(this)">
+>
+            </div>
+            <div class="col-md-4" id="imagePreviewContainer" style="display:none;">
+               
+                <img src="#" alt="preview" id="imagePreview" style="border: 1px solid red; height: 169px; width: 176px; margin: auto; display: block;" />
+
+
+            </div>
+
+            @*<div class="form-group" id="fileInputContainer">
+            <label asp-for="UploadImage" class="control-label">
+                <span class="material-icons">cloud_upload</span> Choose image
+            </label>
+            <input asp-for="UploadImage" class="form-control custom-file-input" type="file" id="fileInput" disabled>
+        </div>*@
+
+
+            @*<div class="form-group" id="fileInputContainer">
+            <label asp-for="UploadImage" class="custom-file-label" id="fileInputLabel">
+                <span class="material-icons" id="fileInputIcon">cloud_upload</span> Choose image
+            </label>
+            <input asp-for="UploadImage" class="visually-hidden" type="file" id="fileInput" disabled onchange="updateLabel()">
+        </div>*@
+
+
+
+            @*<div class="form-group">
+            <button type="submit" class="btn btn-outline-danger" onclick="uploadPhoto()">upoad</button>
+        </div>*@
+            @*}*@
+            <!--</form>-->
+
+
+
+            <div id="deleteConfirmationModal_@Model.Id" class="modal" style="display:none">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Delete Confirmation</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <img src="@Model.PresignedUrl" alt="ProfileImage" width="200" height="200" class="img-responsive" />
+                            <p>Are you sure you want to delete this item?</p>
+                        </div>
+                        <div class="modal-footer">
+                            @*<button type="button" class="btn btn-secondary" onclick="confirmDelete('@Model.Id', true)">No</button>*@
+
+                            <button type="button" class="btn btn-secondary" onclick="cancelDelete('@Model.Id', true)">No</button>
+                            @*@using (Html.BeginForm("Delete", "Product", new { Id = Model.Id }, FormMethod.Post))
+                        {
+                            <button type="submit" class="btn btn-danger">Yes</button>
+                        }*@
+                            <button type="button" class="btn btn-danger" onclick="deleteItem('@Model.Id')">Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+        @*</div>*@
+
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
+        </div>
+
+    }
+
+
+<div class="row">
+    <div class="col-md-10 d-flex justify-content-between">
+        <a href="@Url.Action("EditProduct")" class="d-flex align-items-center mr-6">
+            <i class="material-icons" style="font-size:20px;">refresh</i>
+            <span class="ml-2" style="font-weight: bold;">RESET</span>
+        </a>
+
+        <a href="@Url.Action("DisplayProduct")" class="d-flex align-items-center">
+            <i class="material-icons" style="font-size:20px;">arrow_back</i>
+            <span class="ml-2" style="font-weight: bold;">BACK TO LIST</span>
+        </a>
+    </div>
+
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+    @*<script type="text/javascript">//-------------SCRIPT FOR DELETE POPUP------------//
+
+        function confirmDelete(uniqueId, isTrue) {
+            var deleteSpan = 'deleteSpan_' + uniqueId;
+            var confirmDeleteSpan = 'confirmDeleteSpan_' + uniqueId;
+
+            if (isTrue) {
+                $('#' + deleteSpan).hide();
+                $('#' + confirmDeleteSpan).show();
+                showModal(uniqueId);
+            } else {
+                $('#' + deleteSpan).show();
+                $('#' + confirmDeleteSpan).hide();
+                hideModal(uniqueId);
+            }
+        }
+        function showModal(uniqueId) {
+            var modal = $('#deleteConfirmationModal_' + uniqueId);
+            modal.modal('show');
+        }
+
+        function hideModal(uniqueId) {
+            var modal = $('#deleteConfirmationModal_' + uniqueId);
+            modal.modal('hide');
+        }
+
+        //-------------SCRIPT FOR PLACEHOLDER------------//
+
+
+        function movePlaceholder(input) {
+            input.setAttribute("placeholder", "");
+        }</script>*@
+
+<script>var isDeleteSuccessful = false; // added yesterday
+
+    
+    function confirmDelete(id) {
+        var modal = $('#deleteConfirmationModal_' + id);
+        modal.modal('show');
+    }
+
+   
+    function cancelDelete(id) {
+          var model=  $('#deleteConfirmationModal_' + id).modal('hide');
+        }
+
+
+    var isDeleteSuccess = false;
+        function deleteItem(id) {
+            $.ajax({
+                url: '/Product/Delete', // Specify the correct URL for your delete action
+                type: 'POST',
+                data: { Id:'@Model.Id' },
+                success: function (result) {
+                    alert("seccess")
+                    // Handle the success case (e.g., update UI, close modal)
+                    console.log('Item deleted successfully');
+                    $('#deleteConfirmationModal_' + id).modal('hide');
+                    isDeleteSuccessful = true; // added yesterday
+                    enableForm(); // added yesterday
+                    //isDeleteSuccess = true;
+                    disableImage();
+                },
+                error: function (error) {
+                    // Handle the error case (e.g., display an error message)
+                    console.error('Error deleting item', error);
+                }
+            });
+        }
+          //added yesterday
+    function enableForm() {
+            if (isDeleteSuccessful) {
+                $('#fileInput').prop('disabled', false);
+                //$('#fileInput').show(); // Enable the entire div
+            }
+        }
+
+    //function disableImage() {
+    //    if (isDeleteSuccess) {
+    //        $('#presignedurl').prop('enabled', false); // Enable the entire div
+            
+    //    }
+    //}
+
+        $(document).ready(function () {
+            enableForm();
+            
+        });
+
+    $(document).ready(function () {
+        disableImage();
+
+    });
+    //function disableImage() {
+    //    if (isDeleteSuccess) {
+    //        $('#presignedurl').off('click'); // Remove click event
+    //        $('#presignedurl').css('pointer-events', 'none'); // Disable pointer events (optional)
+    //        //$('#presignedurl').prop('enabled', false);
+    //        $('#presignedurl').attr('src', ''); // Set src attribute to empty string
+    //        $('#presignedurl').css('display', 'none'); 
+    //    }
+    //}
+    function disableImage() {
+        if (isDeleteSuccessful) {
+            $('#presignedurl').off('click'); // Remove click event
+            $('#presignedurl').css('pointer-events', 'none'); // Disable pointer events (optional)
+            //$('#presignedurl').prop('enabled', false);
+            $('#presignedurl').attr('src', ''); // Set src attribute to empty string
+            $('#presignedurl').css('display', 'none');
+            $('#image').css('display', 'none');
+
+        }
+    }
+
+    // for preview image after upload
+    function ShowImagePreview(input) {
+        debugger;
+        if (input.files && input.files[0]) {
+            var fname = input.files[0].name;
+            var re = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/i;
+            if (!re.exec(fname)) {
+                alert("Image not supported!");
+                $("#fileInput").val("");
+                $("#imagePreviewContainer").hide();
+                return false;
+            }
+            else {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+
+                    $('#imagePreview').prop('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+                $("#imagePreviewContainer").show();
+            }
+        }
+    }
+    </script>
+
+    @*<script>function uploadPhoto() {
+            var formData = new FormData($('#uploadForm')[0]);
+            //var fileInput = document.getElementById('fileInput');
+            //var filename = fileInput.files[0].name;
+            //formData.append(filename, fileInput.files[0]);
+
+            $.ajax({
+                type: 'POST',
+                url: '/Product/upload',
+                data: formData,
+                //dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    // Handle success response
+                    console.log(response);
+                },
+                error: function (error) {
+                    // Handle error response
+                    console.log('Error uploading photo.');
+                }
+            });
+        }</script>*@
+    @*<script>
+            function uploadPhoto() {
+                var myformdata = new FormData($("#uploadForm")[0]);
+                var fileInput = document.getElementById('fileInput');
+                var filename = fileInput.files[0].name;
+                myformdata.append(filename, fileInput.files[0]);
+
+            $.ajax({
+                type: 'POST',
+                url: '/Product/upload',
+                data: myformdata,
+                contentType: false,
+                processData: false,
+                success: function () {
+                    //$("#loaderDiv").hide();
+                    //$("#myModal2").modal("hide");
+                }
+            })
+
+        </script>*@
+    @*<script>
+            function uploadPhoto() {
+                var file = $("#fileInput").get(0).files;
+                var data = new FormData;
+                data.append("UploadImage", file[0]);
+                $.ajax({
+                    asyn: true;
+                    type: 'POST',
+                    url: '/Product/upload',
+                    data: data,
+                    dataType:'JSON',
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        //$("#loaderDiv").hide();
+                        //$("#myModal2").modal("hide");
+                    },
+                    Error: function (data) {
+                        //$("#loaderDiv").hide();
+                        //$("#myModal2").modal("hide");
+                    }
+                });
+
+            }
+
+        </script>*@
+@*<script>var imageData;
+    function openFile(e) {
+        var input = e.target;
+
+        var reader = new FileReader();
+        reader.onload = function () {
+            var dataURL = reader.result;
+            var output = document.getElementById('output');
+            output.src = dataURL;
+            imageData = dataURL.split("base64,")[1];;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }*@
+
+    @*//$("#submitFormJson").click(function () {*@
+    @*function uploadPhoto() {
+        var jsonData = {
+            //name: $("#name").val(),
+            imageData: imageData,
+            categories: [{ id: 1, name: "cat1" }, { id: 2, name: "cat2" }]
+        };
+
+        $.ajax({
+            type: 'post',
+            url: '/upload/index',
+            data: JSON.stringify(jsonData),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+            },
+            error: function () {
+                alert("there was error uploading files!");
+            }
+        });
+    })</script>*@
+</div>
+
+
+
+   
+
+</body>
+</html>
+
+
+@*@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}*@
+

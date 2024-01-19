@@ -63,6 +63,9 @@ namespace NatDMS.Mapping
             CreateMap<AssignDistributorToExecutiveViewModel, DistributorToExecutive>();
             CreateMap<SearchViewModel,SearchModel>();
             CreateMap<AssignRetailorToDistributorViewModel, RetailorToDistributor>();
+            CreateMap<Product, ProductModel>();
+            CreateMap<GetProduct, EditProduct>();
+            CreateMap<EditProduct, ProductModel>();
 
 
 

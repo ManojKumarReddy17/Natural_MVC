@@ -1,13 +1,17 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Options;
 using NatDMS.Models;
 using Natural.Core.IServices;
 using Natural.Core.Models;
 using Naturals.Service.Service;
+using Newtonsoft.Json;
 using System.Drawing;
+using System.Net;
 using System.Net.Http;
+using System.Text;
 
 namespace NatDMS.Controllers
 {
@@ -33,25 +37,85 @@ namespace NatDMS.Controllers
             _httpClient.DefaultRequestHeaders.Add("ApiKey", _ApiDetails.ApiKey);
         }
         // GET: ProductController
-        public ActionResult Index()
+        public async Task<ActionResult<List<EditProduct>>> Index()
         {
-            return View();
+            var getproduct = await _ProductService.GetAllProduct();
+            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+            //viewmodel.
+            return View(viewmodel);
+        }
+
+        public async Task<ActionResult<List<EditProduct>>> Index2()
+        {
+            var getproduct = await _ProductService.GetAllProduct();
+            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+            //viewmodel.
+            return View(viewmodel);
+        }
+
+        public async Task<ActionResult<List<EditProduct>>> Index3()
+        {
+            var getproduct = await _ProductService.GetAllProduct();
+            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+            //viewmodel.
+            return View(viewmodel);
+        }
+
+        public async Task<ActionResult<List<EditProduct>>> Index4()
+        {
+            var getproduct = await _ProductService.GetAllProduct();
+            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+            //viewmodel.
+            return View(viewmodel);
+        }
+
+        public async Task<ActionResult<List<EditProduct>>> Index5()
+        {
+            var getproduct = await _ProductService.GetAllProduct();
+            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+            //viewmodel.
+            return View(viewmodel);
+        }
+        public async Task<ActionResult<List<EditProduct>>> Index6()
+        {
+            var getproduct = await _ProductService.GetAllProduct();
+            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+            //viewmodel.
+            return View(viewmodel);
+        }
+        public async Task<ActionResult<List<EditProduct>>> Index7()
+        {
+            var getproduct = await _ProductService.GetAllProduct();
+            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+            //viewmodel.
+            return View(viewmodel);
+        }
+
+        public async Task<ActionResult<List<EditProduct>>> Index8()
+        {
+            var getproduct = await _ProductService.GetAllProduct();
+            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+            //viewmodel.
+            return View(viewmodel);
+        }
+        public async Task<ActionResult<List<EditProduct>>> DisplayProduct()
+        {
+
+            var getproduct = await _ProductService.GetAllProduct();
+            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+            //viewmodel.
+            return View(viewmodel);
         }
 
         // GET: ProductController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(string id)
         {
-            return View();
-        }
 
-        public async Task<ActionResult<List<Product>>> DisplayImage()
-        {
-           var getproduct = await _ProductService.GetAllProduct();
-           var viewmodel = _Mapper.Map<List<ProductModel>,List<Product>>(getproduct);
-               //viewmodel.
+            var ProductById = await _ProductService.GetproductDetailsById(id);
+            var mapped = _Mapper.Map<GetProduct, EditProduct>(ProductById);
+            return View(mapped);
 
 
-            return View(viewmodel);
         }
 
         // GET: ProductController/Create
@@ -59,100 +123,73 @@ namespace NatDMS.Controllers
         {
             var viewModel = new Product
             {
-              Categorylist   = await _CategoryService.GetCategories()
-        };
-            
+                Categorylist = await _CategoryService.GetCategories()
+            };
+
             return View(viewModel);
         }
-
-       
 
         // POST: ProductController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+      
         public async Task<ActionResult> CreateAsync(/*IFormCollection*/ Product collection)
         {
             var UpdateProduct = _Mapper.Map<Product, ProductModel>(collection);
-            using (var formData = new MultipartFormDataContent())
-            {
-                byte[] filebytes;
-                using (var ms = new MemoryStream())
-
-                {
-                    await collection.UploadImage.CopyToAsync(ms);
-                    filebytes = ms.ToArray();
-                }
-                formData.Add(new StringContent(collection.Category), "Category");
-                formData.Add(new StringContent(collection.Product1), "Product1");
-                formData.Add(new StringContent(collection.Quantity), "Quantity");
-                formData.Add(new StringContent(collection.Weight.ToString()), "Weight");
-                formData.Add(new StringContent(collection.Price.ToString()), "Price");
-
-
-                //formData.Add(new StreamContent(collection.Image.OpenReadStream()), "Image", collection.Image.FileName);
-
-                formData.Add(new ByteArrayContent(filebytes), "UploadImage", collection.UploadImage.FileName);
-
-                var endpoint = "/Product/";
-                /*var createexe =*/ await _httpClient.PostAsync(_httpClient.BaseAddress + endpoint, formData);
-                return RedirectToAction("DisplayDistributors", "Distributor");
-            }
-            //await _ProductService.CreateProduct(UpdateProduct);
-            //var viewModel = new Product();
-
-            //var image = collection["Image"]; 
-            //var weight = collection["Weight"];
-            //int weightValue = Convert.ToInt32(weight);
-            //var viewModel = new Product { Weight = weightValue, Image= image
-            //};
-
-
-            //return RedirectToAction("DisplayDistributors", "Distributor");
-
-
+            var RESPONSE = _ProductService.CreateProduct(UpdateProduct);
+            return RedirectToAction("DisplayProduct", "Product");
 
         }
 
         // GET: ProductController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> EditProduct(string id)
         {
-            return View();
+
+            var produttdetails = await _ProductService.GetproductById(id);
+
+            //var viewModel = _mapper.Map<ED_EditViewModel>(executive);
+            var viewModel = _Mapper.Map<GetProduct, EditProduct>(produttdetails);
+            viewModel.Categorylist = await _CategoryService.GetCategories();
+            return View(viewModel);
         }
 
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit(int id, IFormCollection collection)
         // POST: ProductController/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> EditProduct(EditProduct collection, string id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var UpdateProduct = _Mapper.Map<EditProduct, ProductModel>(collection);
+            
+            var res = await _ProductService.UpdateProduct(id, UpdateProduct);
+           
+            return RedirectToAction("Details", new { id = id });
+        
+
+
+
         }
 
         // GET: ProductController/Delete/5
-        public ActionResult Delete(int id)
+        //to delete image
+        public async Task<ActionResult> DeleteAsync(String Id)
         {
-            return View();
+            var result = await _ProductService.DeleteImage(Id);
+
+            return Json(result);
+
+            
         }
 
-        // POST: ProductController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        //to delete product data(image also)
+        public async Task<IActionResult> DeleteProduct(string ProductId)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+
+            await _ProductService.DeleteProduct(ProductId);
+            return RedirectToAction("DisplayProduct", "Product");
         }
+
+       
+
     }
 }
