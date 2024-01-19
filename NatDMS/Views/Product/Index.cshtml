@@ -1,0 +1,106 @@
+﻿@model IEnumerable<NatDMS.Models.EditProduct>
+
+@*<h2>Product Catalog</h2>
+
+<div class="scroll-container">
+    @foreach (var product in Model)
+    {
+        <div class="product-item">
+            <img src="@product.PresignedUrl" alt="ProfileImage" width="200" height="200" class="img-responsive" id="presignedurl" />
+            <p>@product.Product1.</p>
+            <p>@product.Category</p>
+        </div>
+    }
+</div>*@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Other head elements -->
+    @*<style>
+            /*div.scroll-container {
+                background-color: #333;
+                overflow-y: auto;*/ /* Vertical scrolling */
+            /*padding: 10px;
+            }
+
+                div.scroll-container .product-item {
+                    text-align: center;
+                    padding: 10px;
+                    color: #fff;*/ /* Text color for better visibility */
+            /*}*/
+
+
+
+
+
+
+            div.scroll-container {
+                background-color: #333;
+                overflow-x: auto; /* Horizontal scrolling */
+                overflow-y: auto; /* Vertical scrolling */
+                white-space: nowrap;
+                padding: 10px;
+            }
+
+                div.scroll-container .product-item {
+                    display: inline-block; /* Display images in a horizontal line */
+                    text-align: center;
+                    padding: 10px;
+                    color: #fff; /* Text color for better visibility */
+                }
+        </style>*@
+    @*<style>
+        div.scroll-container {
+            background-color: #fff; /* Set the background color to white */
+            overflow-x: auto; /* Horizontal scrolling */
+            overflow-y: auto; /* Vertical scrolling */
+            white-space: nowrap;
+            padding: 10px;
+        }
+
+            div.scroll-container .product-item {
+                display: inline-block; /* Display images in a horizontal line */
+                text-align: center;
+                padding: 10px;
+                color: #333; /* Text color for better visibility on white background */
+            }
+    </style>*@
+    <style>
+        div.scroll-container {
+            background-color: #fff; /* Set the background color to white */
+            overflow-x: auto; /* Horizontal scrolling */
+            overflow-y: auto; /* Vertical scrolling */
+            white-space: nowrap;
+            padding: 10px;
+            max-width: 600px; /* Set the maximum width of the container */
+            margin: auto; /* Center the container on the page */
+        }
+
+            div.scroll-container .product-item {
+                display: inline-block; /* Display images in a horizontal line */
+                text-align: center;
+                padding: 10px;
+                color: #333; /* Text color for better visibility on white background */
+                max-width: 200px; /* Set the maximum width of each item */
+            }
+    </style>
+</head>
+<body>
+    <!-- Body content -->
+
+    <h2>Product Catalog</h2>
+
+    <div class="scroll-container">
+        @foreach (var product in Model)
+        {
+            <div class="product-item">
+                <img src="@product.PresignedUrl" alt="ProfileImage" width="200" height="200" class="img-responsive" id="presignedurl" />
+                <p>@product.ProductName</p>
+                <p>@product.Category</p>
+            </div>
+        }
+    </div>
+</body>
+</html>
