@@ -8,7 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-
+#nullable disable
 namespace Naturals.Service.Service
 {
     public class ProductService : IProductService
