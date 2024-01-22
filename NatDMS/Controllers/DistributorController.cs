@@ -18,7 +18,6 @@ namespace NatDMS.Controllers
     {
 
         private readonly IDistributorService _distributorservice;
-        private readonly IRetailorService _retailorService;
         private readonly IUnifiedService _unifiedservice;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
@@ -26,7 +25,6 @@ namespace NatDMS.Controllers
 
         {
             _distributorservice = distributorservice;
-            _retailorService = retailorService;
             _unifiedservice = unifiedservice;
             _mapper = mapper;
             _configuration = configuration;
@@ -211,7 +209,7 @@ namespace NatDMS.Controllers
         [HttpGet]
         public async Task<ActionResult<List<RetailorModel>>> ListOfRetailors(int page = 1)
         {
-            var retailorResult = await _retailorService.GetAllRetailors();
+            var retailorResult = await _distributorservice.GetNonAssignedRetailors();
             var retailorPgn = new PageNation<RetailorModel>(retailorResult, _configuration, page);
 
             var paginatedData = retailorPgn.GetPaginatedData(retailorResult);
@@ -234,7 +232,7 @@ namespace NatDMS.Controllers
         public async Task<JsonResult>SearchRetailor(EDR_DisplayViewModel SearchResultmodel)
         {
             var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
-            var SearchResult = await _retailorService.SearchRetailor(search);
+            var SearchResult = await _distributorservice.SearchRetailor(search);
             var statesResult = await _unifiedservice.GetStates();
 
             var viewModel = new EDR_DisplayViewModel

@@ -26,16 +26,7 @@ namespace Naturals.Service.Service
         }
 
 
-        /// <summary>
-        /// GET ALL ASSIGNED RETAILORS
-        /// </summary>
-        public async Task<List<RetailorModel>> GetAssignedRetailors()
-        {
-            var getretailor = await _HttpCleintWrapper.GetAsync<List<RetailorModel>>("/Retailor/Assign");
-            return getretailor;
-
-        }
-
+ 
         /// <summary>
         /// GET RETAILOR BY ID
         /// </summary>
