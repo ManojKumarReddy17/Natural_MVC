@@ -98,6 +98,24 @@ namespace Naturals.Service.Service
             var SearchedResult = await _HttpCleintWrapper.PostAsync<List<DistributorModel>>("/Distributor/Search", searchdistributor);
             return SearchedResult;
         }
+
+
+        /// <summary>
+        /// GET ALL NON_ASSIGNED RETAILORS
+        /// </summary>
+        public async Task<List<RetailorModel>> GetNonAssignedRetailors()
+        {
+            var getretailor = await _HttpCleintWrapper.GetAsync<List<RetailorModel>>("/Retailor/Assign");
+            return getretailor;
+
+        }
+
+        public async Task<List<RetailorModel>> SearchRetailor(SearchModel searchretailor)
+        {
+            var SearchedResult = await _HttpCleintWrapper.PostAsync<List<RetailorModel>>("/Retailor/Search", searchretailor);
+            return SearchedResult;
+        }
+
     }
 }
 

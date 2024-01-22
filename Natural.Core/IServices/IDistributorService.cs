@@ -16,6 +16,9 @@ namespace Natural.Core.IServices
         Task<DistributorModel> UpdateDistributor(string DistributorId, DistributorModel distributor);
         Task<bool> DeleteDistributor(string distributorId);
         Task<List<DistributorModel>> SearchDistributor(SearchModel searchdistributor);
+        Task<List<RetailorModel>> GetNonAssignedRetailors();
+        Task<List<RetailorModel>> SearchRetailor(SearchModel searchretailor);
+
 
     }
 }
