@@ -19,6 +19,7 @@ builder.Services.AddScoped<IExecutiveService, ExecutiveService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IExecutiveService, ExecutiveService>();
 builder.Services.AddScoped<IAssignDistributorToExecutiveService, AssignDistributorToExecutiveService>();
+builder.Services.AddScoped<IAssignRetailorToDistributorService,AssignRetailorToDistributorService>();
 builder.Services.Configure<ApiDetails>(builder.Configuration.GetSection("ApiUrlDetails"));
 builder.Services.AddHttpClient<IHttpClientWrapper, HttpClientWrapper>();
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -33,7 +34,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         
         options.Cookie.SameSite = SameSiteMode.None;
-        //options.ExpireTimeSpan = TimeSpan.FromSeconds(20);
     });
 
 

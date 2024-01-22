@@ -57,9 +57,18 @@ namespace Naturals.Service.Service
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync(_httpClient.BaseAddress + endpoint, content);
-            var responseContent = await response.Content.ReadAsStringAsync();
 
-            return JsonConvert.DeserializeObject<T>(responseContent);
+            if(response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                return JsonConvert.DeserializeObject<T>(responseContent);
+            }
+            else
+            {
+                throw new Exception("Failed to post the data");
+            }
+
         }
 
 

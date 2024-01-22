@@ -31,7 +31,7 @@ namespace NatDMS.Controllers
         /// </summary>     
         public async Task<ActionResult<List<RetailorModel>>> DisplayRetailors(int page = 1)
         {
-            var retailorResult = await _retailorservice.GetAllRetailors();
+            var retailorResult = await _retailorservice.GetAssignedRetailors();
             var retailorPgn = new PageNation<RetailorModel>(retailorResult, _configuration, page);
 
             var paginatedData = retailorPgn.GetPaginatedData(retailorResult);

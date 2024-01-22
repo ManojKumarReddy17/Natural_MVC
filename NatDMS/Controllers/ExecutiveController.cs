@@ -199,7 +199,7 @@ namespace NatDMS.Controllers
         [HttpGet]
         public async Task<ActionResult<List<DistributorModel>>> ListOfDistributors(int page = 1)
         {
-            var distributorResult = await _ExecutiveService.GetAllDistributors();
+            var distributorResult = await _ExecutiveService.GetNonAssignedDistributors();
             var distributorPgn = new PageNation<DistributorModel>(distributorResult, _configuration, page);
 
             var paginatedData = distributorPgn.GetPaginatedData(distributorResult);
@@ -213,7 +213,7 @@ namespace NatDMS.Controllers
                 StateList = statesResult
             };
 
-            return View("_ListOfDistributors",viewModel);
+            return View("_ListOfDistributors", viewModel);
 
         }
 
@@ -239,6 +239,6 @@ namespace NatDMS.Controllers
         }
 
     }
-  
+
 
 }

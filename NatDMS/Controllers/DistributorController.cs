@@ -207,6 +207,7 @@ namespace NatDMS.Controllers
 
             return PartialView("_SearchDistributorPartial", viewModel);
         }
+
         [HttpGet]
         public async Task<ActionResult<List<RetailorModel>>> ListOfRetailors(int page = 1)
         {
