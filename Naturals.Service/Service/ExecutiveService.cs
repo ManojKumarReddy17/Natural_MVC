@@ -97,10 +97,9 @@ namespace Naturals.Service.Service
             return SearchedResult;
         }
 
-
-        public async Task<List<DistributorModel>> GetAllDistributors()
+        public async Task<List<DistributorModel>> GetNonAssignedDistributors()
         {
-            var getdistributor = await _httpClient.GetAsync<List<DistributorModel>>("/Distributor/");
+            var getdistributor = await _httpClient.GetAsync<List<DistributorModel>>("/Distributor/Assign");
             return getdistributor;
 
         }
