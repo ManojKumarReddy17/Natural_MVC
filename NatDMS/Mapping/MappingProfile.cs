@@ -39,7 +39,7 @@ namespace NatDMS.Mapping
             CreateMap<SearchModel , SearchViewModel>();
             CreateMap<DSRModel,DSRViewModel>();
 
-            CreateMap<ProductResponse, ProductResult>();
+            CreateMap<ProductResponse,ProductResult>();
             CreateMap<RetailorToDistributor,AssignRetailorToDistributorViewModel>();
 
 
