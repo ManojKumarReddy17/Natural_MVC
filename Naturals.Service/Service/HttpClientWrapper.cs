@@ -62,6 +62,15 @@ namespace Naturals.Service.Service
             return JsonConvert.DeserializeObject<T>(responseContent);
         }
 
+
+        public async Task<T> PostMultipartFormData<T>(string endpoint, MultipartFormDataContent model)
+        {
+            var response = await _httpClient.PostAsync(_httpClient.BaseAddress + endpoint, model);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<T>(responseContent);
+        }
+
         /// <summary>
         /// PUT ASYNC
         /// </summary>
@@ -75,6 +84,16 @@ namespace Naturals.Service.Service
 
             return JsonConvert.DeserializeObject<T>(responseContent);
         }
+
+
+        public async Task<T> PutMultipartFormData<T>(string endpoint, MultipartFormDataContent model)
+        {
+            var response = await _httpClient.PutAsync(_httpClient.BaseAddress + endpoint, model);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<T>(responseContent);
+        }
+
 
         /// <summary>
         /// DELETE ASYNC
