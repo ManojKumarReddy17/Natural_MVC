@@ -70,4 +70,10 @@
     <ProjectReference Include="..\Naturals.Service\Naturals.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Views\GuestProduct\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\GuestProduct\" />
+  </ItemGroup>
 </Project>

@@ -181,12 +181,17 @@
                             <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
                             <td>@Html.DisplayFor(modelItem => item.Weight)</td>
                             <td>
-                                @{
-                                    string imageUrl = string.IsNullOrWhiteSpace(item.PresignedUrl)
-                                        ? "~wwwroot/image/back.jpg.jpeg"  // Replace with your placeholder image path
-                                        : item.PresignedUrl;
+                                @if (!string.IsNullOrEmpty(@item.PresignedUrl))
+                                {
+                                    @*<img class="card-img-top img-fluid" src="@product.PresignedUrl" alt="@product.ProductName">*@
+                                    <img src="@item.PresignedUrl" alt="ProfileImage" width="200" height="200" class="img-responsive" id="presignedurl" />
                                 }
-                                <img src="@item.PresignedUrl" alt="ProfileImage" width="200" height="200" class="img-responsive" id="presignedurl" />
+                                else
+                                {
+                                    <!-- Display a default "no image" placeholder -->
+                                    <img class="card-img-top img-fluid" src="~/image/no-image-placeholder.svg" alt="No Image">
+                                }
+                                @*<img src="@item.PresignedUrl" alt="ProfileImage" width="200" height="200" class="img-responsive" id="presignedurl" />*@
                             </td>
                            
 
