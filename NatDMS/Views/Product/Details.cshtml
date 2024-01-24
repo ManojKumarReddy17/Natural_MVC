@@ -74,7 +74,18 @@
                         <label for="presignedurl-label" class="control-label" id="image" style="font-weight: bold;">  <span>@Model.ProductName</span></label>
                     </dt>
                     <dd class="col-sm-7 bold-text">
-                        <img src="@Model.PresignedUrl" alt="ProfileImage" width="200" height="200" class="img-responsive" />
+                        @if (!string.IsNullOrEmpty(@Model.PresignedUrl))
+                        {
+                            @*<img class="card-img-top img-fluid" src="@product.PresignedUrl" alt="@product.ProductName">*@
+                            <img src="@Model.PresignedUrl" alt="ProfileImage" width="200" height="200" class="img-responsive" id="presignedurl" />
+                        }
+                        else
+                        {
+                            <!-- Display a default "no image" placeholder -->
+                            <img class="card-img-top img-fluid" src="~/image/no-image-placeholder.svg" alt="No Image">
+                        }
+
+                        @*<img src="@Model.PresignedUrl" alt="ProfileImage" width="200" height="200" class="img-responsive" />*@
                     </dd>
 
                 </dl>

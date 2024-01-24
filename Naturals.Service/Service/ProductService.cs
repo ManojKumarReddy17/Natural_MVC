@@ -151,5 +151,11 @@ namespace Naturals.Service.Service
                 throw new Exception($"Failed to delete distributor. Error: {ex.Message}");
             }
         }
+
+       public async Task<List<GetProduct>> SearchProduct(ProductSearch SearchProduct)
+        {
+            var SearchedResult = await _httpClient.PostAsync<List<GetProduct>>("/Product/Search", SearchProduct);
+            return SearchedResult;
+        }
     }
 }

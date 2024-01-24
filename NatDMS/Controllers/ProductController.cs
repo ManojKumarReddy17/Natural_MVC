@@ -101,10 +101,33 @@ namespace NatDMS.Controllers
 
             var getproduct = await _ProductService.GetAllProduct();
             var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
-            
-            return View(viewmodel);
-        }
+            var category1 = await _CategoryService.GetCategories();
+            DisplayProduct_View viewmodel1 = new DisplayProduct_View
+            {
+                CategoryList = category1,
+                product = viewmodel
 
+            };
+
+            return View(viewmodel1);
+        }
+        [HttpPost]
+        public async Task<ActionResult<List<EditProduct>>> DisplayProduct(SearchProduct search)
+        {
+            var Searchmodel = _Mapper.Map<SearchProduct, ProductSearch>(search);
+            var getproduct = await _ProductService.SearchProduct(Searchmodel);
+            var SearchResult = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+
+            var category1 = await _CategoryService.GetCategories();
+            DisplayProduct_View viewmodel1 = new DisplayProduct_View
+            {
+                CategoryList = category1,
+                product = SearchResult
+
+            };
+
+            return View(viewmodel1);
+        }
         // GET: ProductController/Details/5
         public async Task<ActionResult> Details(string id)
         {
@@ -165,9 +188,6 @@ namespace NatDMS.Controllers
             
             return RedirectToAction("Details", new { id = id });
            
-         
-
-
         }
 
         // GET: ProductController/Delete/5
@@ -189,7 +209,9 @@ namespace NatDMS.Controllers
             return RedirectToAction("DisplayProduct", "Product");
         }
 
-       
+
+
+
 
     }
 }

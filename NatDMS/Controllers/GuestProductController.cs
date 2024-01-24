@@ -38,35 +38,119 @@ namespace NatDMS.Controllers
             return View(viewmodel);
         }
 
-        //public async Task<ActionResult<List<EditProduct>>> Index8()
+        public async Task<ActionResult<List<EditProduct>>> Index9()
+        {
+            var getproduct = await _ProductService.GetAllProduct();
+            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+            var category1 = await _CategoryService.GetCategories();
+            DisplayProduct_View viewmodel1 = new DisplayProduct_View
+            {
+                CategoryList = category1,
+                product = viewmodel
+
+            };
+
+            return View(viewmodel1);
+        }
+
+        //[HttpPost]
+        //public async Task<ActionResult<List<EditProduct>>> Index9(DisplayProduct_View search)
         //{
-        //    var getproduct = await _ProductService.GetAllProduct();
-        //    var result = getproduct.Where(c =>
-        //       (string.IsNullOrEmpty(search.Category) || c.Category == search.Category) &&
-        //       (string.IsNullOrEmpty(search.ProductName) || c.ProductName.StartsWith(search.ProductName)))
-        //       .Select(c => new GetProduct
-        //       {
-        //           Id = c.Id,
-        //           ProductName = c.ProductName,
-        //           Quantity = c.Quantity,
-        //           Price = c.Price,
-        //           //Image = c.Image,
-        //           Category = c.Category,
-        //           Weight = c.Weight,
-        //           PresignedUrl = c.PresignedUrl
 
 
-        //       });
-        //        .ToList();
+        //    return View();
 
-        //    var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
-
-        //    return View(viewmodel);
         //}
 
+        [HttpPost]
+        public async Task<ActionResult<List<EditProduct>>> Index9(SearchProduct search)
+        {
+            var Searchmodel = _Mapper.Map<SearchProduct, ProductSearch>(search);
+            var getproduct = await _ProductService.SearchProduct(Searchmodel);
+            var SearchResult = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+
+            var category1 = await _CategoryService.GetCategories();
+            DisplayProduct_View viewmodel1 = new DisplayProduct_View
+            {
+                CategoryList = category1,
+                product = SearchResult
+
+            };
+
+            return View(viewmodel1);
+        }
 
 
+
+        public async Task<ActionResult<List<EditProduct>>> Index10()
+        {
+            var getproduct = await _ProductService.GetAllProduct();
+            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+            var category1 = await _CategoryService.GetCategories();
+            DisplayProduct_View viewmodel1 = new DisplayProduct_View
+            {
+                CategoryList = category1,
+                product = viewmodel
+
+            };
+
+            return View(viewmodel1);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<List<EditProduct>>> Index10(SearchProduct search)
+        {
+            var Searchmodel = _Mapper.Map<SearchProduct, ProductSearch>(search);
+            var getproduct = await _ProductService.SearchProduct(Searchmodel);
+            var SearchResult = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+
+            var category1 = await _CategoryService.GetCategories();
+            DisplayProduct_View viewmodel1 = new DisplayProduct_View
+            {
+                CategoryList = category1,
+                product = SearchResult
+
+            };
+
+            return View(viewmodel1);
+        }
+
+        public async Task<ActionResult<List<EditProduct>>> Index11()
+        {
+            var getproduct = await _ProductService.GetAllProduct();
+            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+            var category1 = await _CategoryService.GetCategories();
+            DisplayProduct_View viewmodel1 = new DisplayProduct_View
+            {
+                CategoryList = category1,
+                product = viewmodel
+
+            };
+
+            return View(viewmodel1);
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult<List<EditProduct>>> Index11(SearchProduct search)
+        {
+            var Searchmodel = _Mapper.Map<SearchProduct, ProductSearch>(search);
+            var getproduct = await _ProductService.SearchProduct(Searchmodel);
+            var SearchResult = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+
+            var category1 = await _CategoryService.GetCategories();
+            DisplayProduct_View viewmodel1 = new DisplayProduct_View
+            {
+                CategoryList = category1,
+                product = SearchResult
+
+            };
+
+            return View(viewmodel1);
+        }
 
     }
+
+
 }
 

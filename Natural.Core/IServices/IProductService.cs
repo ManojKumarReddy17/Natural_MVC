@@ -16,6 +16,7 @@ namespace Natural.Core.IServices
         Task<bool> DeleteImage(string ProductId);
         Task<bool> DeleteProduct(string ProductId);
         Task<ProductResponse> UpdateProduct(string ProductId, ProductModel mdl);
+        Task<List<GetProduct>> SearchProduct(ProductSearch SearchProduct);
 
     }
 }
