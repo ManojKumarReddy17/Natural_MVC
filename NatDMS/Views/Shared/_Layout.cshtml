@@ -52,26 +52,29 @@
                             </div>
                         </div>
                         <!-- Sidebar Options -->
-                        <a href="/Distributor/DisplayDistributors" class="list-group-item text-black">Manage Distributor</a>
-                        <a href="/Executive/DisplayExecutives" class="list-group-item text-black">Manage Executives</a>
-                        <a href="/Retailor/DisplayRetailors" class="list-group-item text-black">Manage Retailor</a>
-                        <a href="/Category/DisplayCategories" class="list-group-item text-black">Manage Categories</a>
-                        <a href="/Product/DisplayProduct" class="list-group-item text-black">Manage Products</a>
-                        <a href="/Test/DailyDSR" class="list-group-item text-black">Daily DSR</a>
+                        <strong>
+                            <a href="/Executive/DisplayExecutives" class="list-group-item text-black">Manage Executives</a>
+                            <a href="/Distributor/DisplayDistributors" class="list-group-item text-black">Manage Distributor</a>
+                            <a href="/Retailor/DisplayRetailors" class="list-group-item text-black">Manage Retailor</a>
+                            <a href="/Category/DisplayCategories" class="list-group-item text-black">Manage Categories</a>
+                            <a href="/Product/DisplayProduct" class="list-group-item text-black">Manage Products</a>
+                            <a href="/Test/DailyDSR" class="list-group-item text-black">Daily DSR</a>
+                        </strong>
+
                         <div class="dropdown">
-                            <a class="list-group-item dropdown-toggle text-black" data-toggle="dropdown" href="#">
+                           <b> <a class="list-group-item dropdown-toggle text-black" data-toggle="dropdown" href="#">
                                 Reports
                             </a>
-                            <div class="dropdown-menu" style="background-color:gray;">
+                            </b>
+                            <div class="dropdown-menu" style="background-color: gray;">
                                 <a class="dropdown-item text-black" href="#">Distributor Reports</a>
                                 <a class="dropdown-item text-black" href="#">Executive Reports</a>
                                 <a class="dropdown-item text-black" href="#">Retailor Reports</a>
                             </div>
+
                         </div>
-
-
-
-                    </div>
+            </div>
+                    
 
                     <!-- Add more options as needed -->
                     @RenderSection("SideBarOptions", false)
@@ -84,34 +87,14 @@
                     <img src="~/image/BannerF.jpg" alt="Banner Image" class="img-fluid" style="max-height:100%;">
 
 
-<<<<<<< HEAD
-                   
-=======
 
->>>>>>> b006637 (commit)
                 </div>
                 @RenderBody()
             </div>
 
-<<<<<<< HEAD
+    </div>
     </div>
 
-
-
-    <!-------------------------------------------------------COPY RIGHT-------------------------------------->
-
-    <section class="footer-copyright">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <ul class="f-bottom">
-                        <li class="f-c f-copyright">
-                            <p>Copyright <i class="fa fa-copyright"></i> 2023 Natural</p>
-                        </li>
-                    </ul>
-=======
-        </div>
-        </div>
 
 
         <!-------------------------------------------------------COPY RIGHT-------------------------------------->
@@ -126,7 +109,6 @@
                             </li>
                         </ul>
                     </div>
->>>>>>> b006637 (commit)
                 </div>
             </div>
         </section>
