@@ -1,5 +1,6 @@
 ﻿
 #nullable disable
+using Natural.Core.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace NatDMS.Models
@@ -17,7 +18,6 @@ namespace NatDMS.Models
         public string State { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-
 
 
     }

@@ -11,6 +11,7 @@ using Naturals.Service.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Collections.Generic;
 
 namespace NatDMS.Controllers
 {
@@ -21,7 +22,7 @@ namespace NatDMS.Controllers
         private readonly IUnifiedService _unifiedservice;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
-        public DistributorController(IDistributorService distributorservice, IMapper mapper, IUnifiedService unifiedservice, IConfiguration configuration,IRetailorService retailorService)
+        public DistributorController(IDistributorService distributorservice, IMapper mapper, IUnifiedService unifiedservice, IConfiguration configuration, IRetailorService retailorService)
 
         {
             _distributorservice = distributorservice;
@@ -40,20 +41,15 @@ namespace NatDMS.Controllers
         {
             var distributorResult = await _distributorservice.GetAllDistributors();
             var distributorPgn = new PageNation<DistributorModel>(distributorResult, _configuration, page);
-
             var paginatedData = distributorPgn.GetPaginatedData(distributorResult);
             ViewBag.Pages = distributorPgn;
-
             var statesResult = await _unifiedservice.GetStates();
-
             var viewModel = new EDR_DisplayViewModel
             {
                 DistributorList = paginatedData,
                 StateList = statesResult
             };
-
             return View(viewModel);
-
         }
 
 
@@ -61,16 +57,30 @@ namespace NatDMS.Controllers
         /// GETTING DISTRIBUTOR DETAILS BY ID
         /// </summary>
 
-
-
         [HttpGet]
-        public async Task<ActionResult> DistributorDetailsBYId(string id)
+        public async Task<ActionResult<DistributorDetailsViewModel>> DistributorDetailsBYId(string id)
         {
-            var distribtuors = await _distributorservice.GetDistributorDetailsById(id);
-            var mapped = _mapper.Map<DistributorViewModel>(distribtuors);
-            return View(mapped);
+          
+                var distributors = await _distributorservice.GetDistributorDetailsById(id);
+                var assignedDistributors = await _distributorservice.GetAssignedRetailorByDistributor(id);
 
-        }
+                if (distributors == null || assignedDistributors == null)
+                {
+                    return NotFound(); 
+                }
+
+                var mappedDistributors = _mapper.Map<DistributorModel,DistributorViewModel>(distributors);
+
+                var distributorDetailsViewModel = new DistributorDetailsViewModel
+                {
+                    Distributors = mappedDistributors,
+                    AssignedRetailors = assignedDistributors,
+                };
+
+                return View(distributorDetailsViewModel);
+            
+         }
+    
 
 
         /// <summary>
