@@ -9,7 +9,7 @@ namespace Natural.Core.IServices
 {
     public interface IAssignRetailorToDistributorService
     {
-        Task<RetailorToDistributor> AssignRetailorToDistributor(RetailorToDistributor retailorToDistributor);
+        Task<HttpResponseMessage> AssignRetailorToDistributor(RetailorToDistributor retailorToDistributor);
 
     }
 }
