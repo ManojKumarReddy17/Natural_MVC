@@ -11,13 +11,10 @@ namespace Naturals.Service.Service
         {
             _httpClientWrapper = httpClientWrapper;  
         }
-
-
        
-
-        public async Task<RetailorToDistributor> AssignRetailorToDistributor(RetailorToDistributor retailorToDistributor)
+        public async Task<HttpResponseMessage> AssignRetailorToDistributor(RetailorToDistributor retailorToDistributor)
         {
-            var result = await _httpClientWrapper.PostAsync<RetailorToDistributor>("/AssignRetailorToDistributor/", retailorToDistributor);
+            var result = await _httpClientWrapper.PostAsync<HttpResponseMessage>("/AssignRetailorToDistributor/", retailorToDistributor);
             return result;
         }
     }

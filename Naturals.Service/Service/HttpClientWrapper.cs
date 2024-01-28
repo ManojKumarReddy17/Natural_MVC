@@ -51,6 +51,7 @@ namespace Naturals.Service.Service
         /// <summary>
         /// POST ASYNC
         /// </summary>
+        
         public async Task<T> PostAsync<T>(string endpoint, object model)
         {
             var jsonContent = JsonConvert.SerializeObject(model);
@@ -112,6 +113,17 @@ namespace Naturals.Service.Service
             var response = await _httpClient.DeleteAsync($"{_httpClient.BaseAddress}{endpoint}/{id}");
             return response.IsSuccessStatusCode;
         }
+
+
+        public async Task<string> DeleteAssignedDistirbutorAsync(string endpoint, string id)
+        {
+            var response = await _httpClient.DeleteAsync($"{_httpClient.BaseAddress}{endpoint}/{id}");
+            var responseData = await response.Content.ReadAsStringAsync();
+
+            return responseData;
+        }
+
+
         public void Dispose()
         {
             _httpClient.Dispose();

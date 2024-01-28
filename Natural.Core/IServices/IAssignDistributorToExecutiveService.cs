@@ -9,6 +9,6 @@ namespace Natural.Core.IServices
 {
     public interface IAssignDistributorToExecutiveService
     {
-        Task<DistributorToExecutive> AssignDsitributorToExecutive(DistributorToExecutive distributorToExecutive);
+        Task<HttpResponseMessage> AssignDsitributorToExecutive(DistributorToExecutive distributorToExecutive);
     }
 }
