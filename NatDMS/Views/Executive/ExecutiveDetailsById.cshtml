@@ -17,12 +17,16 @@
         <div class="row">
             <div class="col-md-10">
 
+ <!-------------------------------------------------------EDIT ICON LINK --------------------------------------------------->
+
                 <div class="text-center position-relative">
                     <a href="@Url.Action("EditExecutive", new { id = Model.ExecutiveDetails.Id })" class="d-flex align-items-center position-absolute" style="top: 0; right: 0;">
                         <i class="material-icons" style="font-size:20px">edit</i>
                         <span class="ml-2" style="font-weight:bold;">Edit</span>
                     </a>
                 </div>
+
+ <!-------------------------------------------------------EXECUTIVE DETAILS --------------------------------------------------->
 
                 <div class="container my-4">
                     <dl class="row">
@@ -48,8 +52,9 @@
                         <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.ExecutiveDetails.Area)</dd>
                     </dl>
 
-                    <!-- ASSIGN DISTRIBUTOR POPUP -->
-                    <h4 class="text-danger">Assigned Distributors</h4>
+  <!-------------------------------------------------------ASSIGN DISTRIBUTOR POPUP --------------------------------------------------->
+                
+                  <h4 class="text-danger">Assigned Distributors</h4>
                     <div data-bs-toggle="modal" data-bs-target="#exampleModal_@Model.ExecutiveDetails.Id">
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-fullscreen-xxl-down">
@@ -69,6 +74,9 @@
                             </div>
                         </div>
                     </div>
+
+  <!------------------------------------------------ASSIGN DISTRIBUTOR ICON LINK --------------------------------------------->
+
                     <div class="text-end position-relative d-flex justify-content-end">
                         <a href="#" onclick="loadDisplayDistributorsPopup('@Model.ExecutiveDetails.Id',true)">
                             <span style="display: inline-block;">
@@ -77,8 +85,11 @@
                             </span>
                         </a>
                     </div>
-                    <!-- Table markup omitted for brevity -->
-                    <table class="table red-border" style="border-collapse:collapse;">
+
+ <!--------------------------------------LIST OF ASSIGNED DISTIRBUTORS----------------------------------------->
+                  
+ 
+                      <table class="table red-border" style="border-collapse:collapse;">
                         <thead>
                             <tr class="red-border">
                                 <th class="red-border">FirstName</th>
@@ -103,11 +114,14 @@
                                     <td class="red-border">@distributor.City</td>
                                     <td class="red-border">@distributor.Area</td>
                                     <td>
-                                        <!-- Delete Icon -->
+                    <!---------------------------- Delete Icon ------------------------------------>
+
                                         <div style="display: flex; justify-content: center; align-items: center;">
                                             <i onclick="confirmDelete('@distributor.Id', true)" class="material-icons" style="color: red;cursor: pointer;">delete</i>
                                         </div>
-                                        <!-- Delete Confirmation Modal -->
+
+                    <!--------------------------- Delete Confirmation Modal ----------------------------->
+
                                         <div id="deleteConfirmationModal_@distributor.Id" class="modal" role="dialog">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
@@ -133,12 +147,12 @@
                             }
                         </tbody>
                     </table>
-
-
                 </div>
             </div>
         </div>
     </div>
+
+    <!-----------------------------------------BACK TO LIST ICON LINK-------------------------------------->
 
     <div class="text-center py-1">
         <a href="@Url.Action("DisplayExecutives")" class="d-flex align-items-center">
@@ -147,9 +161,15 @@
         </a>
     </div>
 
+
+
+    <!------------------------------------SCRIPTS FOR THIS PAGE------------------------------------------------------->
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+
+        //---------------------------------------------SCRIPT FOR DELETE POPUP--------------------------------------
 
         function confirmDelete(uniqueId, isTrue) {
             var deleteSpan = 'deleteSpan_' + uniqueId;
@@ -175,6 +195,8 @@
             var modal = $('#deleteConfirmationModal_' + uniqueId);
             modal.modal('hide');
         }
+
+     //--------------------------------------------SCRIPT FOR DELETE ASSIGNED DISTIRBUTOR --------------------------------------
 
         function deleteDistributor(distributorId, executiveId){
             $.ajax({
@@ -234,9 +256,6 @@
                         });
                     });
                 },
-                error: function (error) {
-                    console.error('Error loading distributors:', error);
-                }
             });
         }
 
