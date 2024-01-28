@@ -31,7 +31,7 @@
                 searchResultmodel.Area = $("#Darea").val();
                 searchResultmodel.FullName = $("#FullName").val();
                 $.ajax({
-                    url: "/Executive/SearchDistributors",
+                    url: "/Executive/SearchNonAssignedDistributors",
                     type: 'POST',
                     content: "application/json; charset=utf-8",
                     dataType: "json",
@@ -46,7 +46,7 @@
                                 distributors.mobileNumber + '</td> <td>' + distributors.address + '</td> <td>' +
                                 distributors.state + '</td> <td>' + distributors.city + ' </td> <td>' + distributors.area +
                                 '<td style="text-align: center;">'+
-                                '<input type="checkbox" class="selectDistributor" data-id="' + distributors.Id + '" />' +
+                                '<input type="checkbox" class="selectDistributor" data-id="' + distributors.Id + '"/>' +
                                 '</td>' +
                                 '</tr>');
                         });
@@ -116,14 +116,14 @@
                     </div>
                 </div>
 
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <button id="btnSubmit" >
+            <div class="col-md-2">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-secondary my-4">
                         <i class="material-icons" style="font-size:20px;display:flex;justify-content:center;
                                 align-items:center;">search</i>
-                        </button>
-                    </div>
+                    </button>
                 </div>
+            </div>
             </div>
          
  

@@ -38,6 +38,18 @@ namespace Naturals.Service.Service
 
 
         /// <summary>
+        /// Get Assigned Distributor to ExecutiveById
+        /// </summary>
+        /// <param name="ExecutiveId"></param>
+        /// <returns></returns>
+
+        public async Task<List<DistributorModel>> GetAssignedDistributorsByExecutiveId(string ExecutiveId)
+        {
+            var assineddistr = await _httpClient.GetByIdAsync<List<DistributorModel>>("/AssignDistributorToExecutive/Details", ExecutiveId);
+            return assineddistr;
+        }
+
+        /// <summary>
         /// GET EXECUTIVE BY ID //
         /// </summary>
 
@@ -103,11 +115,16 @@ namespace Naturals.Service.Service
             return getdistributor;
 
         }
-        public async Task<List<DistributorModel>> SearchDistributor(SearchModel searchdistributor)
+        public async Task<List<DistributorModel>> SearchNonAssignedDistributors(SearchModel searchdistributor)
         {
             var SearchedResult = await _httpClient.PostAsync<List<DistributorModel>>("/Distributor/Search", searchdistributor);
             return SearchedResult;
         }
+        public async Task<string> DeleteAssignedDistributor(string distributorId, string executiveId)
+        {
+            var delete = await _httpClient.DeleteAssignedDistirbutorAsync("/AssignDistributorToExecutive", $"{distributorId}/{executiveId}");
+            return delete;
+        }
+
     }
 }
-

@@ -15,11 +15,14 @@ namespace Natural.Core.IServices
         Task<ExecutiveModel> GetExecutiveDetailsById(string ID);
         Task<ExecutiveModel> CreateExecutive(ExecutiveModel mdl);
         Task<ExecutiveModel> UpdateExecutive(string ExecutiveId, ExecutiveModel executive);
-        Task<bool> DeleteExecutive(string executiveId);
-        Task<List<ExecutiveModel>> SearchExecutive(SearchModel searchexecutive);
+        Task<bool> DeleteExecutive(string executiveId);        
+      Task<List<ExecutiveModel>> SearchExecutive(SearchModel searchexecutive);
 
         Task<List<DistributorModel>> GetNonAssignedDistributors();
-        Task<List<DistributorModel>> SearchDistributor(SearchModel searchdistributor);
+        Task<List<DistributorModel>> SearchNonAssignedDistributors(SearchModel searchdistributor);
+        Task<string> DeleteAssignedDistributor(string DistributorId, string executiveId);
+
+        Task<List<DistributorModel>> GetAssignedDistributorsByExecutiveId(string ExecutiveId);
 
     }
 }

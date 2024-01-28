@@ -33,12 +33,13 @@ namespace NatDMS.Controllers
                 };
 
                 var assignedResult = await _assignDistributorToExecutiveService.AssignDsitributorToExecutive(assignDistributorModel);
+                return Json(assignedResult.StatusCode);
 
-                var viewModel = _mapper.Map<DistributorToExecutive, AssignDistributorToExecutiveViewModel>(assignedResult);
-
-                return View(viewModel);
             }
-            return View();
+            return Json(null);
+
         }
+      
     }
 }
+   

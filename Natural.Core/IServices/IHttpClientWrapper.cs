@@ -15,6 +15,7 @@ namespace Natural.Core.IServices
         Task<bool> DeleteAsync(string endpoint, string id);
         Task<T> PostMultipartFormData<T>(string endpoint, MultipartFormDataContent model);
         Task<T> PutMultipartFormData<T>(string endpoint, MultipartFormDataContent model);
+        Task<string> DeleteAssignedDistirbutorAsync(string endpoint,string id);
 
 
 
