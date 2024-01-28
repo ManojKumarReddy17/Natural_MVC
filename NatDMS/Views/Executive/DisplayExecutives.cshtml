@@ -61,45 +61,6 @@ $(document).ready(function() {
         });
     });
 });
-        function loadDisplayDistributorsPopup(executiveId) {
-            var modalBody = $('#modalBody');
-            var url = '/Executive/ListOfDistributors/' + executiveId;
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function (data) {
-                    modalBody.html(data);
-                    $('#exampleModal').modal('show');
-
-                    $('#assignDistributorsBtn').on('click', function () {
-                        var selectedDistributorIds = [];
-
-                        // Loop through checkboxes and collect selected distributor IDs
-                        $('.selectDistributor:checked').each(function () {
-                            selectedDistributorIds.push($(this).data('id'));
-                        });
-                        $.ajax({
-                            url: '/AssignDistirbutorToExecutive/AssignDistributors',
-                            type: 'POST',
-                            data: {
-                                executiveId: executiveId,
-                                selectedDistributorIds: selectedDistributorIds
-
-                            },
-                            success: function (result) {
-                                $('#exampleModal').modal('hide');
-                            },
-                            error: function (error) {
-                                console.error('Error assigning distributors:', error);
-                            }
-                        });
-                    });
-                },
-                error: function (error) {
-                    console.error('Error loading distributors:', error);
-                }
-            });
-        }
  </script>
 </head>
 
@@ -203,7 +164,6 @@ $(document).ready(function() {
                     <th>State</th>
                     <th>City</th>
                     <th>Area</th>
-                    <th>AssignDistributor</th>
                     <th>Edit</th>
                     <th>Delete</th>
                     <th>Details</th>
@@ -224,39 +184,7 @@ $(document).ready(function() {
                         <td>@Html.DisplayFor(modelItem => item.City)</td>
                         <td>@Html.DisplayFor(modelItem => item.Area)</td>
 
-                  
-          <!------------------------------------------------ASSIGN DISTRIBUTOR POPUP------------------------------------------------------------>
-            
-                        <td data-bs-toggle="modal" data-bs-target="#exampleModal_@item.Id">
-                            <div style="display: flex; justify-content: center; align-items: center;">
-                                <a href="#" onclick="loadDisplayDistributorsPopup('@item.Id', true)">
-                                    <i class="material-icons">supervisor_account</i>
-                                </a>
-                            </div>
-
-                          
-                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-fullscreen-xxl-down">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Distributors</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body" id="modalBody">
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button class="btn btn-outline-primary" id="assignDistributorsBtn">Assign</button>
-
-                                       <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                         </td>
-
-                     
-
+                 
                        
  <!-----------------------------------------------EDIT ACTION LINK------------------------------------------------------------------------>
 

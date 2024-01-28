@@ -57,12 +57,25 @@ namespace NatDMS.Controllers
         /// </summary>
 
 
-        [HttpGet]
-        public async Task<ActionResult> ExecutiveDetailsById(string id)
+        public async Task<ActionResult<ExecutiveDetailsViewModel>> ExecutiveDetailsById(string id)
         {
-            var distribtuors = await _ExecutiveService.GetExecutiveDetailsById(id);
-            var mapped = _mapper.Map<ExecutiveViewModel>(distribtuors);
-            return View(mapped);
+            var ExecutiveDetails = await _ExecutiveService.GetExecutiveDetailsById(id);
+            var AssignedDetails = await _ExecutiveService.GetAssignedDistributorsByExecutiveId(id);
+
+            if (ExecutiveDetails == null || AssignedDetails == null)
+            {
+                return NotFound();
+            }
+            var mapped = _mapper.Map<ExecutiveModel, ExecutiveViewModel>(ExecutiveDetails);
+
+            var executiveviewmodel = new ExecutiveDetailsViewModel
+            {
+                ExecutiveDetails = mapped,
+                AssignedDistributors = AssignedDetails,
+            };
+
+
+            return View(executiveviewmodel);
 
         }
 
@@ -201,18 +214,14 @@ namespace NatDMS.Controllers
         {
             var distributorResult = await _ExecutiveService.GetNonAssignedDistributors();
             var distributorPgn = new PageNation<DistributorModel>(distributorResult, _configuration, page);
-
             var paginatedData = distributorPgn.GetPaginatedData(distributorResult);
             ViewBag.Pages = distributorPgn;
-
             var statesResult = await _unifiedservice.GetStates();
-
             var viewModel = new EDR_DisplayViewModel
             {
                 DistributorList = paginatedData,
                 StateList = statesResult
             };
-
             return View("_ListOfDistributors", viewModel);
 
         }
@@ -220,13 +229,12 @@ namespace NatDMS.Controllers
         /// <summary>
         /// SEARCH DISTRIBUTOR PARTIAL VIEW
         /// </summary>
-
-
         [HttpPost]
-        public async Task<JsonResult> SearchDistributors(EDR_DisplayViewModel SearchResultmodel)
+        public async Task<JsonResult> SearchNonAssignedDistributors(EDR_DisplayViewModel SearchResultmodel)
         {
             var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
-            var SearchResult = await _ExecutiveService.SearchDistributor(search);
+            var SearchResult = await _ExecutiveService.SearchNonAssignedDistributors(search);
+
             var statesResult = await _unifiedservice.GetStates();
 
             var viewModel = new EDR_DisplayViewModel
@@ -237,8 +245,13 @@ namespace NatDMS.Controllers
 
             return Json(viewModel);
         }
+        public async Task<IActionResult> DeleteAssignedDistributor(string distributorId,string executiveId)
+        {
+           
+            var result  = await _ExecutiveService.DeleteAssignedDistributor(distributorId, executiveId);
+          
+            return Json(result);
+        }
 
     }
-
-
 }

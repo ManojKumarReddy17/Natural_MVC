@@ -181,6 +181,7 @@ namespace NatDMS.Controllers
         //[ValidateAntiForgeryToken]
         //public ActionResult Edit(int id, IFormCollection collection)
         // POST: ProductController/Edit/5
+
         [HttpPost]
         public async Task<ActionResult> EditProduct(EditProduct collection, string id)
         {

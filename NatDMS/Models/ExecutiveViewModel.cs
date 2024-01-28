@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace NatDMS.Models
 {
-    public partial class ExecutiveViewModel
+    public class ExecutiveViewModel
     {
 
         public string Id { get; set; }
