@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using NatDMS.Models;
 using Natural.Core.IServices;
 using Natural.Core.Models;
+using Naturals.Service.Service;
 
 namespace NatDMS.Controllers
 {
@@ -34,11 +35,9 @@ namespace NatDMS.Controllers
 
                 var assignedResult = await _AssignRetailorToDistributorService.AssignRetailorToDistributor(assignRetailorModel);
 
-                var viewModel = _mapper.Map<RetailorToDistributor, AssignRetailorToDistributorViewModel>(assignedResult);
-
-                return View(viewModel);
+                return Json(assignedResult.StatusCode);
             }
-            return View();
+            return Json(null);
         }
     }
 }
