@@ -1,13 +1,7 @@
-﻿using Microsoft.Extensions.Options;
+﻿
 using Natural.Core.IServices;
 using Natural.Core.Models;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
+
 #nullable disable
 namespace Naturals.Service.Service
 {
@@ -15,9 +9,7 @@ namespace Naturals.Service.Service
     {
         
         private readonly IHttpClientWrapper _httpClient;
-       
-       
-  
+    
         public ProductService(IHttpClientWrapper httpClient)
         {
             _httpClient = httpClient;
@@ -65,12 +57,9 @@ namespace Naturals.Service.Service
                 formData.Add(new StringContent(mdl.Quantity), "Quantity");
                 formData.Add(new StringContent(mdl.Weight.ToString()), "Weight");
                 formData.Add(new StringContent(mdl.Price.ToString()), "Price");
-
                 formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.UploadImage.FileName);
 
-              
                 var result = await _httpClient.PostMultipartFormData<ProductResponse>("/Product/", formData);
-                
 
                 return result;
             }

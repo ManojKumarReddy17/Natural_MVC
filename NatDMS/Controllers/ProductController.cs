@@ -1,18 +1,10 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Build.Evaluation;
-using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Options;
 using NatDMS.Models;
 using Natural.Core.IServices;
 using Natural.Core.Models;
-using Naturals.Service.Service;
-using Newtonsoft.Json;
-using System.Drawing;
-using System.Net;
-using System.Net.Http;
-using System.Text;
+
 
 namespace NatDMS.Controllers
 {
@@ -35,82 +27,32 @@ namespace NatDMS.Controllers
 
 
         // GET: ProductController
-        public async Task<ActionResult<List<EditProduct>>> Index()
-        {
-            var getproduct = await _ProductService.GetAllProduct();
-            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
-            return View(viewmodel);
-        }
+      
 
-
-        public async Task<ActionResult<List<EditProduct>>> Index2()
-        {
-            var getproduct = await _ProductService.GetAllProduct();
-            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
-            
-            return View(viewmodel);
-        }
-
-        public async Task<ActionResult<List<EditProduct>>> Index3()
-        {
-            var getproduct = await _ProductService.GetAllProduct();
-            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
-            
-            return View(viewmodel);
-        }
-
-        public async Task<ActionResult<List<EditProduct>>> Index4()
-        {
-            var getproduct = await _ProductService.GetAllProduct();
-            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
-            
-            return View(viewmodel);
-        }
-
-        public async Task<ActionResult<List<EditProduct>>> Index5()
-        {
-            var getproduct = await _ProductService.GetAllProduct();
-            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
-            
-            return View(viewmodel);
-        }
-        public async Task<ActionResult<List<EditProduct>>> Index6()
-        {
-            var getproduct = await _ProductService.GetAllProduct();
-            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
-            
-            return View(viewmodel);
-        }
-        public async Task<ActionResult<List<EditProduct>>> Index7()
-        {
-            var getproduct = await _ProductService.GetAllProduct();
-            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
-            
-            return View(viewmodel);
-        }
-
-        public async Task<ActionResult<List<EditProduct>>> Index8()
-        {
-            var getproduct = await _ProductService.GetAllProduct();
-            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
-            
-            return View(viewmodel);
-        }
-        public async Task<ActionResult<List<EditProduct>>> DisplayProduct()
+        [HttpGet]
+        public async Task<ActionResult<List<EditProduct>>> DisplayProduct(int page = 1)
         {
 
             var getproduct = await _ProductService.GetAllProduct();
             var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+            
+            var distributorPgn = new PageNation<EditProduct>(viewmodel, _Configuration, page);
+
+            var paginatedData = distributorPgn.GetPaginatedData(viewmodel);
+            ViewBag.Pages = distributorPgn;
+
             var category1 = await _CategoryService.GetCategories();
             DisplayProduct_View viewmodel1 = new DisplayProduct_View
             {
                 CategoryList = category1,
-                product = viewmodel
+                product = paginatedData
 
             };
 
             return View(viewmodel1);
         }
+
+
         [HttpPost]
         public async Task<ActionResult<List<EditProduct>>> DisplayProduct(SearchProduct search)
         {
@@ -118,16 +60,81 @@ namespace NatDMS.Controllers
             var getproduct = await _ProductService.SearchProduct(Searchmodel);
             var SearchResult = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
 
+           
+            
+
             var category1 = await _CategoryService.GetCategories();
-            DisplayProduct_View viewmodel1 = new DisplayProduct_View
+            DisplayProduct_View viewmodel = new DisplayProduct_View
             {
                 CategoryList = category1,
                 product = SearchResult
-
             };
-
-            return View(viewmodel1);
+            return View(viewmodel);
         }
+
+
+        //    [HttpPost]
+
+
+        //public async Task<ActionResult<List<EditProduct>>> DisplayProduct(SearchProduct search)
+        //{
+
+        //    var Searchmodel = _Mapper.Map<SearchProduct, ProductSearch>(search);
+        //    var getproduct = await _ProductService.SearchProduct(Searchmodel);
+        //    var SearchResult = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+
+        //    var category1 = await _CategoryService.GetCategories();
+        //    DisplayProduct_View viewmodel = new DisplayProduct_View
+        //    {
+        //        CategoryList = category1,
+        //        product = SearchResult
+
+        //    };
+
+        //    return View(viewmodel);
+        //}
+
+        //[HttpPost]
+        //public async Task<ActionResult<List<EditProduct>>> DisplayProduct(SearchProduct search, int page = 1)
+        //{
+        //    var Searchmodel = _Mapper.Map<SearchProduct, ProductSearch>(search);
+        //    var getproduct = await _ProductService.SearchProduct(Searchmodel);
+        //    var SearchResult = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+
+        //    var distributorPgn = new PageNation<EditProduct>(SearchResult, _Configuration, page);
+        //    var paginatedData = distributorPgn.GetPaginatedData(SearchResult);
+
+        //    var category1 = await _CategoryService.GetCategories();
+        //    DisplayProduct_View viewmodel = new DisplayProduct_View
+        //    {
+        //        CategoryList = category1,
+        //        product = paginatedData
+        //    };
+
+        //    return View(viewmodel);
+        //}
+
+        //public async Task<ActionResult<List<EditProduct>>> DisplayProduct(SearchProduct search, int page = 1)
+        //{
+
+        //    var Searchmodel = _Mapper.Map<SearchProduct, ProductSearch>(search);
+        //    var getproduct = await _ProductService.SearchProduct(Searchmodel);
+        //    var SearchResult = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+        //    var distributorPgn1 = new PageNation<EditProduct>(SearchResult, _Configuration, page);
+
+        //    var paginatedData1 = distributorPgn1.GetPaginatedData(SearchResult);
+        //    ViewBag.Pages = distributorPgn1;
+        //    var category1 = await _CategoryService.GetCategories();
+        //    DisplayProduct_View viewmodel = new DisplayProduct_View
+        //    {
+        //        CategoryList = category1,
+        //        product = paginatedData1
+
+        //    };
+
+        //    return PartialView("_DisplayProduct", viewmodel);
+        //}
+
         // GET: ProductController/Details/5
         public async Task<ActionResult> Details(string id)
         {

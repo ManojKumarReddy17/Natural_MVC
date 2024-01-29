@@ -9,8 +9,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        @* @using (Html.BeginForm("Create", "Product", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
-            {*@
+        
         <form enctype="multipart/form-data" asp-action="Create" asp-controller="Product" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -21,7 +20,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="ProductName" class="control-label"></label>
-                @* <input asp-for="Product1" class="form-control" />*@
+               
                 @Html.TextBoxFor(model => model.ProductName, new
                 {
                     @class = "form-control",
@@ -32,7 +31,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
-                @*<input asp-for="Price" class="form-control" />*@
+               
                 @Html.TextBoxFor(model => model.Price, new
                 {
                     @class = "form-control",
@@ -43,7 +42,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Quantity" class="control-label"></label>
-                @*<input asp-for="Quantity" class="form-control" />*@
+              
                 @Html.TextBoxFor(model => model.Quantity, new
                 {
                     @class = "form-control",
@@ -54,7 +53,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Weight" class="control-label"></label>
-                @*  <input asp-for="Weight" class="form-control" />*@
+              
                 @Html.TextBoxFor(model => model.Weight, new
                 {
                     @class = "form-control",
@@ -68,20 +67,13 @@
                 <input asp-for="UploadImage" class="form-control custom-file-input" type="file" id=“fileInput” onchange="return ShowImagePreview(this)">
             </div>
             <div class="col-md-4" id="imagePreviewContainer" style="display:none;">
-                @*<div id="imgPreview" class="thumbnail" style="display:none">
-                        <img  class="img-responsive" id="targetImg"/>
-                        <div class="caption">
-                            <a href="#" onclick="ClearPreview()"><i class="glyphicon glyphicon-trash"></a>
-                        </div>
-                    </div>*@
-                @*<img src="#" alt="preview" style="border: 1px solid red; height: 169px; width: 176px; margin: auto; display: block;" id="imagePreview" disabled>*@
-                @*<img src="#" alt="preview" style="border: 1px solid red; height: 169px; width: 176px; margin: auto; display: block;" id="imagePreview" >*@
+               
                 <img src="#" alt="preview" id="imagePreview" style="border: 1px solid red; height: 169px; width: 176px; margin: auto; display: block;" />
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
             </div>
-            @*}*@
+            
         </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
@@ -107,9 +99,7 @@
             }
         }</script>
 </div>
-@*<div>
-        <a asp-action="Index">Back to List</a>
-    </div>*@
+
 <div class="text-center py-1">
     <a href="@Url.Action("DisplayProduct")" class="d-flex align-items-center">
         <i class="material-icons" style="font-size:20px;">arrow_back</i>
