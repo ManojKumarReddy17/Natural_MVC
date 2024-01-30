@@ -100,7 +100,7 @@
             <div class="form-group" id="fileInputContainer">
                 <label asp-for="UploadImage" class="control-label">Choose image</label>
                 <input asp-for="UploadImage" class="form-control custom-file-input" type="file"  id="fileInput" disabled onchange="ShowImagePreview(this)">
->
+
             </div>
             <div class="col-md-4" id="imagePreviewContainer" style="display:none;">
                
@@ -183,7 +183,7 @@
     <script src="~/js/jquery-3.6.0.min.js"></script>
  
 
-<script>var isDeleteSuccessful = false; // added yesterday
+<script>var isDeleteSuccessful = false;
 
     
     function confirmDelete(id) {
@@ -271,7 +271,7 @@
                 };
                 reader.readAsDataURL(input.files[0]);
                 $("#imagePreviewContainer").show();
-            }
+            } 
         }
     }
     </script>

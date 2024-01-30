@@ -135,15 +135,13 @@ namespace NatDMS.Controllers
         //    return PartialView("_DisplayProduct", viewmodel);
         //}
 
+
         // GET: ProductController/Details/5
         public async Task<ActionResult> Details(string id)
         {
-
             var ProductById = await _ProductService.GetproductDetailsById(id);
             var mapped = _Mapper.Map<GetProduct, EditProduct>(ProductById);
             return View(mapped);
-
-
         }
 
         // GET: ProductController/Create
@@ -164,8 +162,7 @@ namespace NatDMS.Controllers
         public async Task<ActionResult> CreateAsync(/*IFormCollection*/ Product collection)
         {
             var UpdateProduct = _Mapper.Map<Product, ProductModel>(collection);
-            var RESPONSE = await _ProductService.CreateProduct(UpdateProduct);
-            
+            var RESPONSE = await _ProductService.CreateProduct(UpdateProduct); 
             var result = _Mapper.Map<ProductResponse, ProductResult>(RESPONSE);
 
             return RedirectToAction("Details", new { id = result.Id });
@@ -175,9 +172,7 @@ namespace NatDMS.Controllers
         public async Task<ActionResult> EditProduct(string id)
         {
 
-            var produttdetails = await _ProductService.GetproductById(id);
-
-            
+            var produttdetails = await _ProductService.GetproductById(id);   
             var viewModel = _Mapper.Map<GetProduct, EditProduct>(produttdetails);
             viewModel.Categorylist = await _CategoryService.GetCategories();
             return View(viewModel);
