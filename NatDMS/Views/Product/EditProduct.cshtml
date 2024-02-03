@@ -80,20 +80,48 @@
                 <label for="presignedurl-label" class="control-label" id="image" style="font-weight: bold;">  <span>@Model.ProductName</span></label>
                
 
+<<<<<<< HEAD
                 @if (!string.IsNullOrEmpty(@Model.PresignedUrl))
                 {
                     
                     <img src="@Model.PresignedUrl" alt="ProfileImage" width="200" height="200" class="img-responsive" onclick="confirmDelete('@Model.Id', true)" id="presignedurl" enabled>
                 
+=======
+                <!--<div id="image">-->
+                @*@{
+            string imageUrl = string.IsNullOrWhiteSpace(Model.PresignedUrl)
+                ? "/wwwroot/image/back.jpg.jpeg"  // Replace with your placeholder image path
+                : Model.PresignedUrl;
+        }*@
+
+                @if (!string.IsNullOrEmpty(@Model.PresignedUrl))
+                {
+                    @*<img class="card-img-top img-fluid" src="@product.PresignedUrl" alt="@product.ProductName">*@
+                    <img src="@Model.PresignedUrl" alt="ProfileImage" width="200" height="200" class="img-responsive" onclick="confirmDelete('@Model.Id', true)" id="presignedurl" enabled>
+                @*</div>*@
+>>>>>>> 486ae68 (conflicts ressolved)
                 }
                 else
                 {
                     <!-- Display a default "no image" placeholder -->
                     <img class="img-responsive" src="~/image/no-image-placeholder.svg" alt="ProfileImage" width="200" height="200" class="img-responsive" onclick="confirmDelete('@Model.Id', true)" id="presignedurl" enabled>
                 }
+<<<<<<< HEAD
 
 
                
+=======
+
+
+                @*<img src="@Model.PresignedUrl" alt="ProfileImage" width="200" height="200" class="img-responsive" onclick="confirmDelete('@Model.Id', true)" id="presignedurl" enabled>*@
+                @*</div>*@
+
+
+                @*<div style="display: flex; justify-content: center; align-items: center;">
+            <i onclick="confirmDelete('@Model.Id', true)" class="material-icons" style="color: red;cursor: pointer;">delete</i>b
+        </div>
+                <div>*@
+>>>>>>> 486ae68 (conflicts ressolved)
                 <i class="bi bi-image"></i>
             </div>
             
@@ -127,16 +155,26 @@
 
                             @if (!string.IsNullOrEmpty(@Model.PresignedUrl))
                             {
+<<<<<<< HEAD
                                
                                 <img src="@Model.PresignedUrl" alt="ProfileImage" width="200" height="200" class="img-responsive" onclick="confirmDelete('@Model.Id', true)" id="presignedurl" enabled>
                                 
+=======
+                                @*<img class="card-img-top img-fluid" src="@product.PresignedUrl" alt="@product.ProductName">*@
+                                <img src="@Model.PresignedUrl" alt="ProfileImage" width="200" height="200" class="img-responsive" onclick="confirmDelete('@Model.Id', true)" id="presignedurl" enabled>
+                                @*</div>*@
+>>>>>>> 486ae68 (conflicts ressolved)
                             }
                             else
                             {
                                 <!-- Display a default "no image" placeholder -->
                                 <img class="img-responsive" src="~/image/no-image-placeholder.svg" alt="ProfileImage" width="200" height="200" class="img-responsive" onclick="confirmDelete('@Model.Id', true)" id="presignedurl" enabled>
                             }
+<<<<<<< HEAD
                            
+=======
+                            @*<img src="@Model.PresignedUrl" alt="ProfileImage" width="200" height="200" class="img-responsive" />*@
+>>>>>>> 486ae68 (conflicts ressolved)
                             <p>Are you sure you want to delete this item?</p>
                         </div>
                         <div class="modal-footer">

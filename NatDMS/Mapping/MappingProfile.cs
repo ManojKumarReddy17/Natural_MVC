@@ -89,6 +89,10 @@ namespace NatDMS.Mapping
 
 >>>>>>> 551fb29 (commit)
 
+         
+            CreateMap<SearchProduct,ProductSearch>();
+
+
 
 
 

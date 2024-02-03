@@ -35,16 +35,20 @@ namespace NatDMS.Controllers
 
             var getproduct = await _ProductService.GetAllProduct();
             var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+<<<<<<< HEAD
             
             var distributorPgn = new PageNation<EditProduct>(viewmodel, _Configuration, page);
 
             var paginatedData = distributorPgn.GetPaginatedData(viewmodel);
             ViewBag.Pages = distributorPgn;
 
+=======
+>>>>>>> 486ae68 (conflicts ressolved)
             var category1 = await _CategoryService.GetCategories();
             DisplayProduct_View viewmodel1 = new DisplayProduct_View
             {
                 CategoryList = category1,
+<<<<<<< HEAD
                 product = paginatedData
 
             };
@@ -136,6 +140,31 @@ namespace NatDMS.Controllers
         //}
 
 
+=======
+                product = viewmodel
+
+            };
+
+            return View(viewmodel1);
+        }
+        [HttpPost]
+        public async Task<ActionResult<List<EditProduct>>> DisplayProduct(SearchProduct search)
+        {
+            var Searchmodel = _Mapper.Map<SearchProduct, ProductSearch>(search);
+            var getproduct = await _ProductService.SearchProduct(Searchmodel);
+            var SearchResult = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+
+            var category1 = await _CategoryService.GetCategories();
+            DisplayProduct_View viewmodel1 = new DisplayProduct_View
+            {
+                CategoryList = category1,
+                product = SearchResult
+
+            };
+
+            return View(viewmodel1);
+        }
+>>>>>>> 486ae68 (conflicts ressolved)
         // GET: ProductController/Details/5
         public async Task<ActionResult> Details(string id)
         {
