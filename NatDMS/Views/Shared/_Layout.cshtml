@@ -34,16 +34,36 @@
     @RenderSection("BannerStyles", required: false)
     <!-- Bootstrap CSS -->
     <style>
-        
+        /*#fix {
+            position: fixed;*/
+        /*            top: 0;*/
+        /*            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background-color: white;*/
+        /*}*/
+
+
         #fix {
+            position: fixed;
+            top: 0;
+            /*            left: 15;*/
+            width: 100%;
+            z-index: 1000;
+        }
+        /*        #menu {
+            position: fixed;
+        }*/
+        /*        .banner-container {
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
-        }
-       
+        }*/
         #ver {
-            
+            /*            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;*/
             overflow-x: hidden; /* Hide horizontal scrollbar */
             overflow-y: auto;
             display: flex;
@@ -53,7 +73,15 @@
             justify-content: flex-start;
             height: 100vh;
         }
-       
+        /*.footer-copyright {
+            position: fixed;
+            bottom: 0;*/ /* Stick to the bottom of the screen */
+        /*width: 100%;*/ /* Full width */
+        /*background-color: #333;*/ /* Example background color, you can change this */
+        /*color: white;*/ /* Example text color, you can change this */
+        /*padding: 10px;*/ /* Add some padding for better visibility */
+        /*height: 10vh;*/ /* Set the height to 50% of the viewport height */
+        /*}*/
     </style>
 </head>
 <body>
@@ -88,20 +116,6 @@
                                 <a class="dropdown-item text-black" href="#">Retailor Reports</a>
                             </div>
                         </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    </div>
-=======
-=======
-
->>>>>>> ac13e5f (layout file changed)
-            </div>
-                    
->>>>>>> 551fb29 (commit)
-
-=======
->>>>>>> 0eba59a (uncommented code removedand layout fixed)
                     </div>
 
                     <!-- Add more options as needed -->
@@ -110,10 +124,6 @@
             </div>
             <div class="col-10 min-vh-100">
                 <!-- Banner Section -->
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> ac13e5f (layout file changed)
                 @*<div class="jumbotron" style="height:20%;">*@
                 <div>
                     <div id="fix">
@@ -123,76 +133,33 @@
                         @*<img src="~/image/Screenshot 2024-01-25 at 12.00.53 AM.png" alt="Banner Image" class="img-fluid" style="max-height: 300px; height:100%;">*@
                         @*<img src="~/image/Screenshot 2024-01-25 at 12.00.48 AM.png" alt="Banner Image" class="img-fluid" style="max-height: 300px; height:100%;">*@
                         <img src="~/image/Screenshot 2024-01-25 at 12.00.58 AM.png" alt="Banner Image" class="img-fluid" style="max-height: 200px; height:70%;">
-                        @*<img src="~/image/logo1.jpg" alt="Banner Image" class="img-fluid" style="max-height: 200px; height:100%;">*@
                     </div>
-<<<<<<< HEAD
                     @*<<<<<<< HEAD
 
-                    =======
-=======
-                <div class="jumbotron" style="height:30%;">
-                    <!-- Add your banner content for this page -->
-                    <img src="~/image/photo-indian-spices-background-with-copy-space_763111-23461.jpeg" alt="Banner Image" class="img-fluid" style="max-height:100%;">
-
->>>>>>> 486ae68 (conflicts ressolved)
+                        =======
 
 
-<<<<<<< HEAD
-                    >>>>>>> b006637 (commit)*@
-=======
-                    
->>>>>>> ac13e5f (layout file changed)
+                        >>>>>>> b006637 (commit)*@
                 </div>
                 <div id="ver">
                     <div style="padding-top: 30vh;">
                         @RenderBody()
                     </div>
-<<<<<<< HEAD
                     @*<section class="footer-copyright" >
-                        <div class="container">
-                            <div class="row">
-                                <div class="col">
-                                    <ul class="f-bottom">
-                                        <li class="f-c f-copyright">
-                                            <p>Copyright <i class="fa fa-copyright"></i> 2023 Natural</p>
-                                        </li>
-                                    </ul>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <ul class="f-bottom">
+                                            <li class="f-c f-copyright">
+                                                <p>Copyright <i class="fa fa-copyright"></i> 2023 Natural</p>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-                    </section>*@
-<<<<<<< HEAD
-=======
-
->>>>>>> 551fb29 (commit)
-=======
->>>>>>> ac13e5f (layout file changed)
+                        </section>*@
                 </div>
             </div>
-<<<<<<< HEAD
-                @*<<<<<<< HEAD*@
-            </div>
-
-
-
-    <!-------------------------------------------------------COPY RIGHT-------------------------------------->
-
-    <section class="footer-copyright" positon ="fixed" style="height: 05vh;" >
-        <div class="container" >
-            <div class="row">
-                <div class="col">
-                    <ul class="f-bottom">
-                        <li class="f-c f-copyright">
-                            <p>Copyright <i class="fa fa-copyright"></i> 2023 Natural</p>
-                        </li>
-                    </ul>
-        </div>
-        </div>
-            </section>
-=======
-                  
-                </div>
-            </div>
-            
+            @*<<<<<<< HEAD*@
         </div>
 
 
@@ -210,63 +177,11 @@
                         </ul>
                     </div>
                 </div>
-            </div>
         </section>
->>>>>>> 0eba59a (uncommented code removedand layout fixed)
 
         <!-------------------------------------------------------COPY RIGHT-------------------------------------->
 
 
-<<<<<<< HEAD
-=======
-
-    </div>
-    
-
-
-
-        <!-------------------------------------------------------COPY RIGHT-------------------------------------->
-
-        <section class="footer-copyright">
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <ul class="f-bottom">
-                            <li class="f-c f-copyright">
-                                <p>Copyright <i class="fa fa-copyright"></i> 2023 Natural</p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-<<<<<<< HEAD
->>>>>>> 551fb29 (commit)
-=======
-            </div>
-
-
-
-    <!-------------------------------------------------------COPY RIGHT-------------------------------------->
-
-    <section class="footer-copyright" positon ="fixed" style="height: 05vh;" >
-        <div class="container" >
-            <div class="row">
-                <div class="col">
-                    <ul class="f-bottom">
-                        <li class="f-c f-copyright">
-                            <p>Copyright <i class="fa fa-copyright"></i> 2023 Natural</p>
-                        </li>
-                    </ul>
-        </div>
-        </div>
-            </section>
-
-        <!-------------------------------------------------------COPY RIGHT-------------------------------------->
-
->>>>>>> ac13e5f (layout file changed)
-=======
->>>>>>> 0eba59a (uncommented code removedand layout fixed)
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <!-- fontawesome -->
         <script src="~/js/fontawesome.min.js"></script>
