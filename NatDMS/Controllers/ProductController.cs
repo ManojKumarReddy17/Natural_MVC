@@ -36,18 +36,25 @@ namespace NatDMS.Controllers
             var getproduct = await _ProductService.GetAllProduct();
             var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ac13e5f (layout file changed)
             
             var distributorPgn = new PageNation<EditProduct>(viewmodel, _Configuration, page);
 
             var paginatedData = distributorPgn.GetPaginatedData(viewmodel);
             ViewBag.Pages = distributorPgn;
 
+<<<<<<< HEAD
 =======
 >>>>>>> 486ae68 (conflicts ressolved)
+=======
+>>>>>>> ac13e5f (layout file changed)
             var category1 = await _CategoryService.GetCategories();
             DisplayProduct_View viewmodel1 = new DisplayProduct_View
             {
                 CategoryList = category1,
+<<<<<<< HEAD
 <<<<<<< HEAD
                 product = paginatedData
 
@@ -142,11 +149,16 @@ namespace NatDMS.Controllers
 
 =======
                 product = viewmodel
+=======
+                product = paginatedData
+>>>>>>> ac13e5f (layout file changed)
 
             };
 
             return View(viewmodel1);
         }
+
+
         [HttpPost]
         public async Task<ActionResult<List<EditProduct>>> DisplayProduct(SearchProduct search)
         {
@@ -154,17 +166,85 @@ namespace NatDMS.Controllers
             var getproduct = await _ProductService.SearchProduct(Searchmodel);
             var SearchResult = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
 
+           
+            
+
             var category1 = await _CategoryService.GetCategories();
-            DisplayProduct_View viewmodel1 = new DisplayProduct_View
+            DisplayProduct_View viewmodel = new DisplayProduct_View
             {
                 CategoryList = category1,
                 product = SearchResult
-
             };
-
-            return View(viewmodel1);
+            return View(viewmodel);
         }
+<<<<<<< HEAD
 >>>>>>> 486ae68 (conflicts ressolved)
+=======
+
+
+        //    [HttpPost]
+
+
+        //public async Task<ActionResult<List<EditProduct>>> DisplayProduct(SearchProduct search)
+        //{
+
+        //    var Searchmodel = _Mapper.Map<SearchProduct, ProductSearch>(search);
+        //    var getproduct = await _ProductService.SearchProduct(Searchmodel);
+        //    var SearchResult = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+
+        //    var category1 = await _CategoryService.GetCategories();
+        //    DisplayProduct_View viewmodel = new DisplayProduct_View
+        //    {
+        //        CategoryList = category1,
+        //        product = SearchResult
+
+        //    };
+
+        //    return View(viewmodel);
+        //}
+
+        //[HttpPost]
+        //public async Task<ActionResult<List<EditProduct>>> DisplayProduct(SearchProduct search, int page = 1)
+        //{
+        //    var Searchmodel = _Mapper.Map<SearchProduct, ProductSearch>(search);
+        //    var getproduct = await _ProductService.SearchProduct(Searchmodel);
+        //    var SearchResult = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+
+        //    var distributorPgn = new PageNation<EditProduct>(SearchResult, _Configuration, page);
+        //    var paginatedData = distributorPgn.GetPaginatedData(SearchResult);
+
+        //    var category1 = await _CategoryService.GetCategories();
+        //    DisplayProduct_View viewmodel = new DisplayProduct_View
+        //    {
+        //        CategoryList = category1,
+        //        product = paginatedData
+        //    };
+
+        //    return View(viewmodel);
+        //}
+
+        //public async Task<ActionResult<List<EditProduct>>> DisplayProduct(SearchProduct search, int page = 1)
+        //{
+
+        //    var Searchmodel = _Mapper.Map<SearchProduct, ProductSearch>(search);
+        //    var getproduct = await _ProductService.SearchProduct(Searchmodel);
+        //    var SearchResult = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+        //    var distributorPgn1 = new PageNation<EditProduct>(SearchResult, _Configuration, page);
+
+        //    var paginatedData1 = distributorPgn1.GetPaginatedData(SearchResult);
+        //    ViewBag.Pages = distributorPgn1;
+        //    var category1 = await _CategoryService.GetCategories();
+        //    DisplayProduct_View viewmodel = new DisplayProduct_View
+        //    {
+        //        CategoryList = category1,
+        //        product = paginatedData1
+
+        //    };
+
+        //    return PartialView("_DisplayProduct", viewmodel);
+        //}
+
+>>>>>>> ac13e5f (layout file changed)
         // GET: ProductController/Details/5
         public async Task<ActionResult> Details(string id)
         {
