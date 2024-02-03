@@ -39,8 +39,10 @@ namespace Naturals.Service.Service
         {
 
             var DistributorDetails = await _HttpCleintWrapper.GetByIdAsync<DistributorModel>("/Distributor/Details", detailsid);
+
             return DistributorDetails;
         }
+
         /// <summary>
         /// GET DISTRIBUTOR BY ID //
         /// </summary>
@@ -116,6 +118,11 @@ namespace Naturals.Service.Service
             return SearchedResult;
         }
 
+        public async Task<List<AssignedRetailorToDistributorIdModel>> GetAssignedRetailorByDistributor(string Disid)
+        {
+            var result = await _HttpCleintWrapper.GetByIdAsync<List<AssignedRetailorToDistributorIdModel>>("/AssignRetailorToDistributor/details",Disid);
+             return result;
+        }
     }
 }
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using NatDMS.Models;
 using Natural.Core.Models;
+using Natural.NatDMS.Models;
 
 namespace NatDMS.Mapping
 {
@@ -41,7 +42,11 @@ namespace NatDMS.Mapping
 
             CreateMap<ProductResponse,ProductResult>();
             CreateMap<RetailorToDistributor,AssignRetailorToDistributorViewModel>();
+            CreateMap<AssignedRetailorsModel, AssignedRetailorsViewModel>();
 
+
+            CreateMap<DistributorModel, DistributorDetailsViewModel>();
+            CreateMap<AssignedRetailorsModel, DistributorDetailsViewModel>();
 
 
             // Resource to Domain
@@ -67,9 +72,22 @@ namespace NatDMS.Mapping
             CreateMap<AssignRetailorToDistributorViewModel, RetailorToDistributor>();
             CreateMap<DSRViewModel,DSRModel>();
             CreateMap<Product, ProductModel>();
+<<<<<<< HEAD
             CreateMap<GetProduct,EditProduct>();
             CreateMap<EditProduct,ProductModel>();
             CreateMap<SearchProduct,ProductSearch>();
+=======
+            CreateMap<GetProduct, EditProduct>();
+            CreateMap<EditProduct, ProductModel>();
+            CreateMap<DistributorModel,AssignedRetailorsViewModel>();
+
+
+
+            CreateMap<DistributorDetailsViewModel,DistributorModel>();
+            CreateMap<DistributorDetailsViewModel,AssignedRetailorsModel>();
+
+
+>>>>>>> 551fb29 (commit)
 
 
 

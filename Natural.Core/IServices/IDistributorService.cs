@@ -18,6 +18,8 @@ namespace Natural.Core.IServices
         Task<List<DistributorModel>> SearchDistributor(SearchModel searchdistributor);
         Task<List<RetailorModel>> GetNonAssignedRetailors();
         Task<List<RetailorModel>> SearchRetailor(SearchModel searchretailor);
+        Task<List<AssignedRetailorToDistributorIdModel>> GetAssignedRetailorByDistributor(string Disid);
+
 
 
     }
