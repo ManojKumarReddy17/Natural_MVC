@@ -84,67 +84,6 @@ namespace NatDMS.Controllers
         }
 
 
-        //    [HttpPost]
-
-
-        //public async Task<ActionResult<List<EditProduct>>> DisplayProduct(SearchProduct search)
-        //{
-
-        //    var Searchmodel = _Mapper.Map<SearchProduct, ProductSearch>(search);
-        //    var getproduct = await _ProductService.SearchProduct(Searchmodel);
-        //    var SearchResult = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
-
-        //    var category1 = await _CategoryService.GetCategories();
-        //    DisplayProduct_View viewmodel = new DisplayProduct_View
-        //    {
-        //        CategoryList = category1,
-        //        product = SearchResult
-
-        //    };
-
-        //    return View(viewmodel);
-        //}
-
-        //[HttpPost]
-        //public async Task<ActionResult<List<EditProduct>>> DisplayProduct(SearchProduct search, int page = 1)
-        //{
-        //    var Searchmodel = _Mapper.Map<SearchProduct, ProductSearch>(search);
-        //    var getproduct = await _ProductService.SearchProduct(Searchmodel);
-        //    var SearchResult = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
-
-        //    var distributorPgn = new PageNation<EditProduct>(SearchResult, _Configuration, page);
-        //    var paginatedData = distributorPgn.GetPaginatedData(SearchResult);
-
-        //    var category1 = await _CategoryService.GetCategories();
-        //    DisplayProduct_View viewmodel = new DisplayProduct_View
-        //    {
-        //        CategoryList = category1,
-        //        product = paginatedData
-        //    };
-
-        //    return View(viewmodel);
-        //}
-
-        //public async Task<ActionResult<List<EditProduct>>> DisplayProduct(SearchProduct search, int page = 1)
-        //{
-
-        //    var Searchmodel = _Mapper.Map<SearchProduct, ProductSearch>(search);
-        //    var getproduct = await _ProductService.SearchProduct(Searchmodel);
-        //    var SearchResult = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
-        //    var distributorPgn1 = new PageNation<EditProduct>(SearchResult, _Configuration, page);
-
-        //    var paginatedData1 = distributorPgn1.GetPaginatedData(SearchResult);
-        //    ViewBag.Pages = distributorPgn1;
-        //    var category1 = await _CategoryService.GetCategories();
-        //    DisplayProduct_View viewmodel = new DisplayProduct_View
-        //    {
-        //        CategoryList = category1,
-        //        product = paginatedData1
-
-        //    };
-
-        //    return PartialView("_DisplayProduct", viewmodel);
-        //}
 
 
 =======

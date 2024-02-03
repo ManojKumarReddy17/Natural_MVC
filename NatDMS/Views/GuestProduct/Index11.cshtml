@@ -38,14 +38,7 @@
             justify-content: flex-start;
             height: 100vh;
         }
-/*        #fix {
-            position: fixed;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            background-color: white;
-        }*/
+
 
         #logo {
             width: 50%;
@@ -182,7 +175,7 @@
             {
                 <div class="form-group">
 
-                    @*@Html.LabelFor(model => model.ProductName, new { @class = "font-weight-bold" })*@
+                   
                     <label for="presignedurl-label" class="control-label" id="image" style="font-weight: bold;">  <span>Product</span></label>
                     @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control", placeholder = "Enter Product Name" })
 

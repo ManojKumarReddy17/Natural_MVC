@@ -23,60 +23,61 @@
 
 <body>
 
-    @using (Html.BeginForm("EditProduct", "Product", FormMethod.Post, new { @class = "needs-validation", enctype = "multipart/form-data" ,novalidate = "novalidate" }))
-        {
+    @using (Html.BeginForm("EditProduct", "Product", FormMethod.Post, new { @class = "needs-validation", enctype = "multipart/form-data", novalidate = "novalidate" }))
+    {
         <div class="row justify-content-center">
-
-            @Html.Hidden("Id", Model.Id)
-
-
-            <div class="form-group">
-                <b>
-                    @Html.LabelFor(model => model.Category, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.Category, new SelectList(Model.Categorylist, "Id", "CategoryName"),
-                "--Select category--", new { @id = "category", @class = "form-select" })
-
-                </b>
-            </div>
-
-            <div class="form-group">
-                <b>
-                    @Html.LabelFor(model => model.ProductName, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control" })
-                   
-                </b>
-            </div>
-            <div class="form-group">
-                <b>
-                    @Html.LabelFor(model => model.Price, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.Price, new { @class = "form-control" })
-                 
-                </b>
-            </div>
-            <div class="form-group">
-                <b>
-                    @Html.LabelFor(model => model.Quantity, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control" })
-                   
-                </b>
-            </div>
-
-            <div class="form-group">
-                <b>
-                    @Html.LabelFor(model => model.Weight, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.Weight, new { @class = "form-control" })
-                </b>
-            </div>
+            <div class="col-md-4">
+                @Html.Hidden("Id", Model.Id)
 
 
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.Category, new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.Category, new SelectList(Model.Categorylist, "Id", "CategoryName"),
+                    "--Select category--", new { @id = "category", @class = "form-select" })
+
+                    </b>
+                </div>
+
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.ProductName, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control" })
+
+                    </b>
+                </div>
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.Price, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.Price, new { @class = "form-control" })
+
+                    </b>
+                </div>
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.Quantity, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control" })
+
+                    </b>
+                </div>
+
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.Weight, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.Weight, new { @class = "form-control" })
+                    </b>
+                </div>
 
 
 
 
 
-            <div class="form-group">
 
 
+                <div class="form-group">
+
+
+<<<<<<< HEAD
                 <label for="presignedurl-label" class="control-label" id="image" style="font-weight: bold;">  <span>@Model.ProductName</span></label>
                
 <<<<<<< HEAD
@@ -139,31 +140,39 @@
             <div class="form-group" id="fileInputContainer">
                 <label asp-for="UploadImage" class="control-label">Choose image</label>
                 <input asp-for="UploadImage" class="form-control custom-file-input" type="file"  id="fileInput" disabled onchange="ShowImagePreview(this)">
-
-            </div>
-            <div class="col-md-4" id="imagePreviewContainer" style="display:none;">
-               
-                <img src="#" alt="preview" id="imagePreview" style="border: 1px solid red; height: 169px; width: 176px; margin: auto; display: block;" />
+=======
+                    <label for="presignedurl-label" class="control-label" id="image" style="font-weight: bold;">  <span>@Model.ProductName</span></label>
 
 
-            </div>
+                    @if (!string.IsNullOrEmpty(@Model.PresignedUrl))
+                    {
+>>>>>>> 0eba59a (uncommented code removedand layout fixed)
 
-          
+                        <img src="@Model.PresignedUrl" alt="ProfileImage" width="200" height="200" class="img-responsive" onclick="confirmDelete('@Model.Id', true)" id="presignedurl" enabled>
 
-
-
-            <div id="deleteConfirmationModal_@Model.Id" class="modal" style="display:none">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Delete Confirmation</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
+                    }
+                    else
+                    {
+                        <!-- Display a default "no image" placeholder -->
+                        <img class="img-responsive" src="~/image/no-image-placeholder.svg" alt="ProfileImage" width="200" height="200" class="img-responsive" onclick="confirmDelete('@Model.Id', true)" id="presignedurl" enabled>
+                    }
 
 
+
+                    <i class="bi bi-image"></i>
+                </div>
+
+                <div class="form-group" id="fileInputContainer">
+                    <label asp-for="UploadImage" class="control-label">Choose image</label>
+                    <input asp-for="UploadImage" class="form-control custom-file-input" type="file" id="fileInput" disabled onchange="ShowImagePreview(this)">
+
+                </div>
+                <div class="col-md-4" id="imagePreviewContainer" style="display:none;">
+
+                    <img src="#" alt="preview" id="imagePreview" style="border: 1px solid red; height: 169px; width: 176px; margin: auto; display: block;" />
+
+
+<<<<<<< HEAD
                             @if (!string.IsNullOrEmpty(@Model.PresignedUrl))
                             {
 <<<<<<< HEAD
@@ -200,61 +209,103 @@
                         </div>
                         <div class="modal-footer">
                            
+=======
+                </div>
+>>>>>>> 0eba59a (uncommented code removedand layout fixed)
 
-                            <button type="button" class="btn btn-secondary" onclick="cancelDelete('@Model.Id', true)">No</button>
-                          
-                            <button type="button" class="btn btn-danger" onclick="deleteItem('@Model.Id')">Yes</button>
+
+
+
+
+                <div id="deleteConfirmationModal_@Model.Id" class="modal" style="display:none">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Delete Confirmation</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+
+                                @if (!string.IsNullOrEmpty(@Model.PresignedUrl))
+                                {
+
+                                    <img src="@Model.PresignedUrl" alt="ProfileImage" width="200" height="200" class="img-responsive" onclick="confirmDelete('@Model.Id', true)" id="presignedurl" enabled>
+
+                                }
+                                else
+                                {
+                                    <!-- Display a default "no image" placeholder -->
+                                    <img class="img-responsive" src="~/image/no-image-placeholder.svg" alt="ProfileImage" width="200" height="200" class="img-responsive" onclick="confirmDelete('@Model.Id', true)" id="presignedurl" enabled>
+                                }
+
+                                <p>Are you sure you want to delete this item?</p>
+                            </div>
+                            <div class="modal-footer">
+
+
+                                <button type="button" class="btn btn-secondary" onclick="cancelDelete('@Model.Id', true)">No</button>
+
+                                <button type="button" class="btn btn-danger" onclick="deleteItem('@Model.Id')">Yes</button>
+                            </div>
                         </div>
                     </div>
+
+                </div>
+
+
+
+
+
+
+
+
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
                 </div>
             </div>
 
-
-
-
-
-        </div>
-
-
-
-
-
-        <div class="form-group">
-            <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
         </div>
 
     }
 
 
-<div class="row">
-    <div class="col-md-10 d-flex justify-content-between">
-        <a href="@Url.Action("EditProduct")" class="d-flex align-items-center mr-6">
-            <i class="material-icons" style="font-size:20px;">refresh</i>
-            <span class="ml-2" style="font-weight: bold;">RESET</span>
-        </a>
+    <div class="row">
+        <div class="col-md-10 d-flex justify-content-between">
+            <a href="@Url.Action("EditProduct")" class="d-flex align-items-center mr-6">
+                <i class="material-icons" style="font-size:20px;">refresh</i>
+                <span class="ml-2" style="font-weight: bold;">RESET</span>
+            </a>
 
-        <a href="@Url.Action("DisplayProduct")" class="d-flex align-items-center">
-            <i class="material-icons" style="font-size:20px;">arrow_back</i>
-            <span class="ml-2" style="font-weight: bold;">BACK TO LIST</span>
-        </a>
-    </div>
+            <a href="@Url.Action("DisplayProduct")" class="d-flex align-items-center">
+                <i class="material-icons" style="font-size:20px;">arrow_back</i>
+                <span class="ml-2" style="font-weight: bold;">BACK TO LIST</span>
+            </a>
+        </div>
 
-    <script src="~/js/jquery-3.6.0.min.js"></script>
- 
+        <script src="~/js/jquery-3.6.0.min.js"></script>
 
+
+        <script>var isDeleteSuccessful = false;
+
+<<<<<<< HEAD
 <<<<<<< HEAD
 <script>var isDeleteSuccessful = false;
 =======
 <script>var isDeleteSuccessful = false; // added yesterday
 >>>>>>> ac13e5f (layout file changed)
+=======
+>>>>>>> 0eba59a (uncommented code removedand layout fixed)
 
-    
     function confirmDelete(id) {
         var modal = $('#deleteConfirmationModal_' + id);
         modal.modal('show');
     }
 
-   
+
     function cancelDelete(id) {
           var model=  $('#deleteConfirmationModal_' + id).modal('hide');
         }
@@ -271,9 +322,9 @@
                     // Handle the success case (e.g., update UI, close modal)
                     console.log('Item deleted successfully');
                     $('#deleteConfirmationModal_' + id).modal('hide');
-                    isDeleteSuccessful = true; // added yesterday
-                    enableForm(); // added yesterday
-                    
+                    isDeleteSuccessful = true; 
+                    enableForm(); 
+
                     disableImage();
                 },
                 error: function (error) {
@@ -286,27 +337,27 @@
     function enableForm() {
             if (isDeleteSuccessful) {
                 $('#fileInput').prop('disabled', false);
-                //$('#fileInput').show(); // Enable the entire div
+                
             }
         }
 
-   
+
 
         $(document).ready(function () {
             enableForm();
-            
+
         });
 
     $(document).ready(function () {
         disableImage();
 
     });
-    
+
     function disableImage() {
         if (isDeleteSuccessful) {
             $('#presignedurl').off('click'); // Remove click event
             $('#presignedurl').css('pointer-events', 'none'); // Disable pointer events (optional)
-           
+
             $('#presignedurl').attr('src', ''); // Set src attribute to empty string
             $('#presignedurl').css('display', 'none');
             $('#image').css('display', 'none');
@@ -334,17 +385,17 @@
                 };
                 reader.readAsDataURL(input.files[0]);
                 $("#imagePreviewContainer").show();
-            } 
+            }
         }
     }
-    </script>
-
-  
-</div>
+        </script>
 
 
+    </div>
 
-   
+
+
+
 
 </body>
 </html>
