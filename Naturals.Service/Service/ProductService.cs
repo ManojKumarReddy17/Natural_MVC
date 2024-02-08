@@ -23,12 +23,14 @@ namespace Naturals.Service.Service
             return getproduct;
         }
 
+
         public async Task<GetProduct> GetproductDetailsById(string ID)
         {
             
             var excdtlid = await _httpClient.GetByIdAsync<GetProduct>("/Product/details", ID);
             return excdtlid;
         }
+
 
         public async Task<GetProduct> GetproductById(string ID)
         {
@@ -112,6 +114,8 @@ namespace Naturals.Service.Service
             }
 
         }
+
+
         public async Task<bool> DeleteImage(string Id)
         {
             try
@@ -140,6 +144,7 @@ namespace Naturals.Service.Service
                 throw new Exception($"Failed to delete distributor. Error: {ex.Message}");
             }
         }
+
 
        public async Task<List<GetProduct>> SearchProduct(ProductSearch SearchProduct)
         {
