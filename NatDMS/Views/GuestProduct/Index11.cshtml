@@ -92,6 +92,7 @@
         <!-- Search Section -->
         <div class="container my-4" id="search">
             @using (Html.BeginForm("Index11", "GuestProduct", FormMethod.Post, new { @class = "form-inline" }))
+
             {
                 <div class="form-group">
 
@@ -133,15 +134,10 @@
                                 <!-- Display a default "no image" placeholder -->
                                 <img class="card-img-top img-fluid" src="~/image/no-image-placeholder.svg" alt="No Image">
                                 }
-                                <!--<div class="card-body">-->
-                                @*<h5 class="card-title">@product.Category</h5>*@
-                                <!--<p class="card-text">@product.ProductName</p>
-                            <p class="card-text"> ₹ @product.Price</p>
-                            <p class="card-text">@product.Weight gms</p>
-                        </div>-->
+                               
                                 <div class="card-body text-center">
 
-
+                                    <h5 class="card-title">@product.Category</h5>
                                     <p class="card-text">@product.ProductName</p>
 
                                     <div class="d-flex justify-content-between">
