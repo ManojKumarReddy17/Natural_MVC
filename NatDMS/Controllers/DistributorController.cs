@@ -210,7 +210,7 @@ namespace NatDMS.Controllers
             var viewModel = new EDR_DisplayViewModel
             {
                 DistributorList = SearchResult,
-                StateList = statesResult,
+                StateList = statesResult, 
             };
 
             return PartialView("_SearchDistributorPartial", viewModel);
@@ -248,7 +248,7 @@ namespace NatDMS.Controllers
             var viewModel = new EDR_DisplayViewModel
             {
                 RetailorList = SearchResult,
-                StateList = statesResult,
+                StateList = statesResult
             };
             return Json(viewModel);
 

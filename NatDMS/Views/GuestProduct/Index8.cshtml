@@ -31,10 +31,12 @@
                             <!-- Display a default "no image" placeholder -->
                             <img class="card-img-top img-fluid" src="~/image/no-image-placeholder.svg" alt="No Image">
                         }
-                        <div class="card-body">
-                            <h5 class="card-title">@product.Category</h5>
-                            <p class="card-text">@product.ProductName</p>
-                        </div>
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Category</h5>
+                        <p class="card-text">@product.ProductName</p>
+                        <p class="card-text"> ₹ @product.Price</p>
+                        <p class="card-text">@product.Weight gms</p>
+                    </div>
                     </div>
                 </div>
             }

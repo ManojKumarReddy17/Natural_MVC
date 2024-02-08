@@ -87,6 +87,7 @@
                     ? "/wwwroot/image/back.jpg.jpeg"  // Replace with your placeholder image path
                     : Model.PresignedUrl;
             }*@
+
                 <img src="@Model.PresignedUrl" alt="ProfileImage" width="200" height="200" class="img-responsive" onclick="confirmDelete('@Model.Id', true)" id="presignedurl" enabled>
                 @*</div>*@
 
