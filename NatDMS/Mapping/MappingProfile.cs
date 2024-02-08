@@ -72,15 +72,11 @@ namespace NatDMS.Mapping
             CreateMap<AssignRetailorToDistributorViewModel, RetailorToDistributor>();
             CreateMap<DSRViewModel,DSRModel>();
             CreateMap<Product, ProductModel>();
-
             CreateMap<GetProduct,EditProduct>();
             CreateMap<EditProduct,ProductModel>();
             CreateMap<SearchProduct,ProductSearch>();
 
-            
             CreateMap<DistributorModel,AssignedRetailorsViewModel>();
-
-
 
             CreateMap<DistributorDetailsViewModel,DistributorModel>();
             CreateMap<DistributorDetailsViewModel,AssignedRetailorsModel>();
