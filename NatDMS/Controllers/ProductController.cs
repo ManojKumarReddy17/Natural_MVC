@@ -27,8 +27,6 @@ namespace NatDMS.Controllers
 
 
         // GET: ProductController
-      
-
         [HttpGet]
         public async Task<ActionResult<List<EditProduct>>> DisplayProduct(int page = 1)
         {
@@ -55,34 +53,6 @@ namespace NatDMS.Controllers
             return View(viewmodel1);
         }
 
-
-        //[HttpPost]
-        //public async Task<ActionResult<List<EditProduct>>> DisplayProduct(SearchProduct search)
-        //{
-        //    var Searchmodel = _Mapper.Map<SearchProduct, ProductSearch>(search);
-        //    var getproduct = await _ProductService.SearchProduct(Searchmodel);
-        //    var SearchResult = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
-
-           
-            
-
-        //    var category1 = await _CategoryService.GetCategories();
-        //    DisplayProduct_View viewmodel = new DisplayProduct_View
-        //    {
-        //        CategoryList = category1,
-        //        product = SearchResult
-        //    };
-        //    return View(viewmodel);
-        //}
-
-
-  
-        //        product = viewmodel
-
-        //    };
-
-        //    return View(viewmodel1);
-        //}
         [HttpPost]
         public async Task<ActionResult<List<EditProduct>>> DisplayProduct(SearchProduct search)
         {
@@ -101,6 +71,7 @@ namespace NatDMS.Controllers
             return View(viewmodel1);
         }
 
+
         // GET: ProductController/Details/5
         public async Task<ActionResult> Details(string id)
         {
@@ -108,6 +79,7 @@ namespace NatDMS.Controllers
             var mapped = _Mapper.Map<GetProduct, EditProduct>(ProductById);
             return View(mapped);
         }
+
 
         // GET: ProductController/Create
         public async Task<ActionResult> CreateAsync()
@@ -129,7 +101,6 @@ namespace NatDMS.Controllers
             var UpdateProduct = _Mapper.Map<Product, ProductModel>(collection);
             var RESPONSE = await _ProductService.CreateProduct(UpdateProduct); 
             var result = _Mapper.Map<ProductResponse, ProductResult>(RESPONSE);
-
             return RedirectToAction("Details", new { id = result.Id });
         }
 
@@ -150,24 +121,22 @@ namespace NatDMS.Controllers
         [HttpPost]
         public async Task<ActionResult> EditProduct(EditProduct collection, string id)
         {
-            var UpdateProduct = _Mapper.Map<EditProduct, ProductModel>(collection);
-            
-            var res = await _ProductService.UpdateProduct(id, UpdateProduct);
-            
+            var UpdateProduct = _Mapper.Map<EditProduct, ProductModel>(collection); 
+            var res = await _ProductService.UpdateProduct(id, UpdateProduct);     
             return RedirectToAction("Details", new { id = id });
            
         }
+
 
         // GET: ProductController/Delete/5
         //to delete image
         public async Task<ActionResult> DeleteAsync(String Id)
         {
             var result = await _ProductService.DeleteImage(Id);
-
             return Json(result);
-
             
         }
+
 
         //to delete product data(image also)
         public async Task<IActionResult> DeleteProduct(string ProductId)
@@ -176,10 +145,6 @@ namespace NatDMS.Controllers
             await _ProductService.DeleteProduct(ProductId);
             return RedirectToAction("DisplayProduct", "Product");
         }
-
-
-
-
 
     }
 }
