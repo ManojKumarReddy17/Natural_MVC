@@ -45,9 +45,22 @@
     <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha384-GLhlTQ8iN17U487F1dXoWSfR5/2Ipxi1RMEYz4J8r59b6EGGoI1Wwx4F7KsWSktQ" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Bootstrap CSS -->
 
+    <style>
+
+        .login-box {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 </head>
 
 <body class="home-1 back">
@@ -83,18 +96,15 @@
                                 <div class="megamenu-content">
                                     <div class="mainwrap">
                                         <ul class="main-menu">
-                                            <li class="menu-link parent">
-                                                @*<a href="Test/ManageCategories" class="link-title">
-                                                    <b><span class="sp-link-title">CATEGORIES</span></b>
-                                                </a>*@
 
-                                            </li>
                                             <li class="menu-link parent">
-                                                <a href="/GuestProduct/Index11"  class="link-title">
-                                                    <b><span class="sp-link-title">PRODUCTS</span></b>
+                                                <a href="/GuestProduct/Index11" class="link-title">
+                                                    <b><span class="nav-link">PRODUCTS</span></b>
                                                 </a>
 
                                             </li>
+
+       
                                         </ul>
                                     </div>
                                 </div>
@@ -124,7 +134,7 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <div class="login-area">
+                    <div class="login-area"   >
                         <div class="login-box bg-light">
 
                             <h1>
@@ -134,35 +144,44 @@
 
                             </h1>
 
-                            <p>Please login below account detail</p>
+   
                             @using (Html.BeginForm("Login", "Home", FormMethod.Post))
                             {
+
                                 <b>
                                     <label>
                                         <i class="material-icons">person</i>
                                         UserName
                                     </label>
-                                    <input type="text" name="UserName" placeholder="User Name" required>
+                                    <input  id ="12" type="text" name="UserName" placeholder="User Name" required>
                                     <label for="password">
                                         <i class="material-icons">lock</i>
                                         Password
                                     </label>
-                                    <input type="password" id="password" name="password" placeholder="Enter Password" pattern=".{6,}" title="Password must be at least 6 characters long" required>
+                                 
+                                    <div class="input-group" id="show_hide_password">
+                                        <input class="form-control" type="password"id="password" name="password" placeholder="Enter Password" pattern=".{6,}" title="Password must be at least 6 characters long" required>
+                                        <div class="input-group-addon">
+                                            <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                        </div>
+                                    </div>
                                 </b>
-
+                                <label class="row text-center">
                                 <div class="row text-center">
-                                    <b><button type="submit" class="btn btn-outline-danger col-12">SIGN IN</button></b>
+              
+                                    <b><button type="submit" class="btn btn-primary col-6">SIGN IN</button></b>
+              
                                 </div>
-
+                                </label>
                                 <b>
-                                    @Html.ValidationSummary(false, "", new { @class = "text-danger"} )
+                                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                                 </b>
 
                             }
 
                         </div>
 
-                    </div>
+                                </div>
                 </div>
             </div>
         </div>
@@ -170,8 +189,8 @@
 
     <!-------------------------------------------------FORM END--------------------------------------------------->
     <!-- footer copyright start -->
-
-    <section class="footer-copyright">
+   
+    <section class="footer-copyright" positon="fixed" style="height: 10vh;" >
         <div class="container">
             <div class="row">
                 <div class="col">
@@ -184,6 +203,8 @@
             </div>
         </div>
     </section>
+    
+
     <!-- footer copyright End -->
 
 
@@ -201,5 +222,20 @@
     <script src="~/js/swiper.min.js"></script>
     <!-- custom -->
     <script src="~/js/custom.js"></script>
+
+    <script>$(document).ready(function () {
+            $("#show_hide_password a").on('click', function (event) {
+                event.preventDefault();
+                if ($('#show_hide_password input').attr("type") == "text") {
+                    $('#show_hide_password input').attr('type', 'password');
+                    $('#show_hide_password i').addClass("fa-eye-slash");
+                    $('#show_hide_password i').removeClass("fa-eye");
+                } else if ($('#show_hide_password input').attr("type") == "password") {
+                    $('#show_hide_password input').attr('type', 'text');
+                    $('#show_hide_password i').removeClass("fa-eye-slash");
+                    $('#show_hide_password i').addClass("fa-eye");
+                }
+            });
+        });</script>
 </body>
 </html>
