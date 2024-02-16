@@ -50,7 +50,6 @@
 
         //-------------SCRIPT FOR SEARCH------------//
 
-
         $(document).ready(function () {
             $("#SearchResultmodel").submit(function (event) {
                 event.preventDefault();
@@ -66,53 +65,41 @@
             });
         });
 
-
-
-
-        function redirectToDisplayDistributors() {
-            var url = '@Url.Action("DisplayDistributors", "Distributor")';
-            console.log('Redirect URL:', url);
-            window.location.href = url;
-        }
-
-
-        function loadDisplayRetailorsPopup(distributorId) {
-            var modalBody = $('#modalBody');
-            var url = '/Distributor/ListOfRetailors/' + distributorId;
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function (data) {
-                    modalBody.html(data);
-                    $('#exampleModal').modal('show');
-                    $('#assignRetailorsBtn').on('click', function () {
-                        var selectedRetailorIds = [];
-                        $('.selectRetailor:checked').each(function () {
-                            selectedRetailorIds.push($(this).data('id'));
-
+        $(function () {
+            $("#btnSubmit").click(function () {
+                debugger;
+                var searchResultmodel = new Object();
+                searchResultmodel.State = $("#state").val();
+                searchResultmodel.City = $("#city").val();
+                searchResultmodel.Area = $("#area").val();
+                searchResultmodel.FullName = $("#FullName").val();
+                $.ajax({
+                    url: "/Distributor/SearchDistributor",
+                    type: 'POST',
+                    content: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: searchResultmodel,
+                    success: function (response) {
+                        let result = JSON.stringify(response.distributorList);
+                        $("#Distributorlist").empty();
+                        $.each(response.distributorList, function (i, distributors) {
+                            let result1 = distributors;
+                            $("#Distributorlist").append('<tr>' + '<td>' + distributors.firstName + '</td> <td>' +
+                                distributors.lastName + '</td> <td>' + distributors.email + '</td> <td>' +
+                                distributors.mobileNumber + '</td> <td>' + distributors.address + '</td> <td>' +
+                                distributors.state + '</td> <td>' + distributors.city + ' </td> <td>' + distributors.area 
+                                // '<td>' +
+                                // '<a href=' + @Url//.Action("EditDistributor", new { id =// distributors.id }) + ' style="display: flex; justify-content: center; align-items: center; color: orange;"> <i class="material-icons"> edit </i></a>'
+                                //         '</td>' +
+                                '</tr>');
                         });
-                        $.ajax({
-                            url:'/AssignRetailorToDistributor/AssignRetailors',
-                            type: 'POST',
-                            data: {
-                                distributorId: distributorId,
-                                selectedRetailorIds: selectedRetailorIds
-
-                            },
-                            success: function (result) {
-                                $('#exampleModal').modal('hide');
-                            },
-                            error: function (error) {
-                                console.error('Error assigning retailors:', error);
-                            }
-                        });
-                    });
-                },
-                error: function (error) {
-                    console.error('Error loading retailors:', error);
-                }
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
+                });
             });
-        }
+        });
 
     </script>
 </head>
@@ -127,11 +114,11 @@
         </a>
     </div>
 
+
     <!-----------------------------------------------SEARCH DISTRIBUTOR----------------------------------------------------->
 
+
     <div class="container my-4">
-        @using (Html.BeginForm(FormMethod.Post, new { id = "SearchResultmodel" }))
-        {
             <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
@@ -181,21 +168,20 @@
 
                 <div class="col-md-2">
                     <div class="form-group">
-                        <button type="submit" class="btn btn-secondary my-4">
+                    <button id="btnSubmit" class="btn btn-secondary my-4">
                             <i class="material-icons" style="font-size:20px;display:flex;justify-content:center;
                                 align-items:center;">search</i>
                         </button>
                     </div>
                 </div>
             </div>
-        }
+        
     </div>
 
     <!----------------------------------------------------DISPLAY RETAILOR LIST-------------------------------------------------------------->
 
         <div class="table-responsive">
-
-            <table class="table table-bordered table-striped custom-table" id="Distributorlist">
+            <table class="table table-bordered table-striped custom-table">
                 <thead>
                     <tr>
                         <th>FirstName</th>
@@ -206,13 +192,13 @@
                         <th>State</th>
                         <th>City</th>
                         <th>Area</th>
-                        <th>AssignRetailor</th>
                         <th>Edit</th>
                         <th>Delete</th>
                         <th>Details</th>
                     </tr>
                 </thead>
-                <tbody>
+
+            <tbody id="Distributorlist">
 
                     @foreach (var item in Model.DistributorList)
                     {
@@ -226,35 +212,7 @@
                             <td>@Html.DisplayFor(modelItem => item.City)</td>
                             <td>@Html.DisplayFor(modelItem => item.Area)</td>
 
-                        <!------------------------------------------------ASSIGN RETAILOR POPUP------------------------------------------------------------>
-
-                        <td data-bs-toggle="modal" data-bs-target="#exampleModal_@item.Id">
-                            <div style="display: flex; justify-content: center; align-items: center;">
-                                <a href="#" onclick="loadDisplayRetailorsPopup('@item.Id', true)"style="color:brown">
-                                    <i class="material-icons">people</i>
-                                </a>
-                            </div>
-
-                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-fullscreen">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">ListOfRetailors</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body" id="modalBody">
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button class="btn btn-outline-success" id="assignRetailorsBtn">Assign</button>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-primary" onclick="redirectToDisplayDistributors()">Close</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-
+                      
 <!------------------------------------------------------------------------------------------------------------------------------------------------------------>
                         <td>
                             <a href="@Url.Action("EditDistributor", new { id = item.Id })" style="display: flex; justify-content: center; align-items: center; color:orange;">
@@ -333,8 +291,6 @@
 
 
     <!---------------------------------------------------------AJAX CODE FOR CITY CHANGE AND AREA-------------------------------------------------->
-
-
 
     <script type="text/javascript">
 

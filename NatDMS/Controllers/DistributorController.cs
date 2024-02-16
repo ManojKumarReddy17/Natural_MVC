@@ -52,6 +52,27 @@ namespace NatDMS.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// SEARCH DISTRIBUTOR PARTIAL VIEW
+        /// </summary>
+
+
+        [HttpPost]
+        public async Task<JsonResult> SearchDistributors(EDR_DisplayViewModel SearchResultmodel)
+        {
+            var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
+            var SearchResult = await _distributorservice.SearchDistributor(search);
+            var statesResult = await _unifiedservice.GetStates();
+
+            var viewModel = new EDR_DisplayViewModel
+            {
+                DistributorList = SearchResult,
+                StateList = statesResult,
+            };
+            return Json(viewModel);
+
+        }
+
 
         /// <summary>
         /// GETTING DISTRIBUTOR DETAILS BY ID
@@ -62,7 +83,7 @@ namespace NatDMS.Controllers
         {
           
                 var distributors = await _distributorservice.GetDistributorDetailsById(id);
-                var assignedDistributors = await _distributorservice.GetAssignedRetailorByDistributor(id);
+                var assignedDistributors = await _distributorservice.GetAssignedRetailorByDistributorId(id);
 
                 if (distributors == null || assignedDistributors == null)
                 {
@@ -73,7 +94,7 @@ namespace NatDMS.Controllers
 
                 var distributorDetailsViewModel = new DistributorDetailsViewModel
                 {
-                    Distributors = mappedDistributors,
+                    DistributorDetails = mappedDistributors,
                     AssignedRetailors = assignedDistributors,
                 };
 
@@ -237,12 +258,17 @@ namespace NatDMS.Controllers
 
             return View("_ListOfRetailors",viewModel);
         }
-       
+
+        /// <summary>
+        /// SEARCH NON_ASSIGN_RETAILORS 
+        /// </summary>
+        
+
         [HttpPost]
-        public async Task<JsonResult>SearchRetailor(EDR_DisplayViewModel SearchResultmodel)
+        public async Task<JsonResult> SearchNonAssignedRetailors(EDR_DisplayViewModel SearchResultmodel)
         {
             var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
-            var SearchResult = await _distributorservice.SearchRetailor(search);
+            var SearchResult = await _distributorservice.SearchNonAssignedRetailors(search);
             var statesResult = await _unifiedservice.GetStates();
 
             var viewModel = new EDR_DisplayViewModel
@@ -254,6 +280,14 @@ namespace NatDMS.Controllers
 
         }
 
+        public async Task<IActionResult> DeleteAssignedRetailor(string retailorId, string distributorId)
+        {
+
+            var result = await _distributorservice.DeleteAssignedRetailor(retailorId, distributorId);
+
+            return Json(result);
+        }
 
     }
 }
+

@@ -8,6 +8,9 @@ namespace NatDMS.Models
 {
     public class EDR_DisplayViewModel
     {
+
+        public string Id { get; set; }
+
         [RegularExpression("[a-zA-Z]{1,40}", ErrorMessage = "must contain upto 40 alphabets only")]
         public string FirstName { get; set; }
 

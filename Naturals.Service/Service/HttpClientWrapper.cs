@@ -30,13 +30,16 @@ namespace Naturals.Service.Service
         /// <summary>
         /// GET ASYNC
         /// </summary>
+ 
+        
         public async Task<T> GetAsync<T>(string endpoint)
         {
             var response = await _httpClient.GetAsync(_httpClient.BaseAddress + endpoint);
-            var responseContent = await response.Content.ReadAsStringAsync();
-
+            var responseContent = await response.Content.ReadAsStringAsync();   
             return JsonConvert.DeserializeObject<T>(responseContent);
         }
+
+
         /// <summary>
         /// GET BY ID ASYNC
         /// </summary>
