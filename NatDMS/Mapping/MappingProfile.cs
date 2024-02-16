@@ -73,8 +73,6 @@ namespace NatDMS.Mapping
             CreateMap<EditProduct,ProductModel>();
             CreateMap<SearchProduct,ProductSearch>();
 
-            CreateMap<DistributorModel,AssignedRetailorsViewModel>();
-
             CreateMap<DistributorDetailsViewModel,DistributorModel>();
 
 
