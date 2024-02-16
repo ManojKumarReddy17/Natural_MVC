@@ -11,6 +11,9 @@ namespace Natural.Core.IServices
     {
         Task<List<DSRModel>> GetDsrAll();
         Task<DSRModel> CreateDsr(DSRModel dsr);
-
+        Task<List<DsrDistributor>> AssignedDistributorDetailsByExecutiveId(string Id);
+        Task<List<DsrRetailor>> GetAssignedRetailorDetailsByDistributorId(string DistributorId);
+        Task<List<DsrProduct>> GetProductAsync();
+        Task<Dsrcreate> CreateDsr();
     }
 }
