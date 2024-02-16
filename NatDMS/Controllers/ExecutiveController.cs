@@ -188,6 +188,7 @@ namespace NatDMS.Controllers
         /// SEARCH EXECUTIVE PARTIAL VIEW
         /// </summary>
 
+
         [HttpPost]
         public async Task<ActionResult<EDR_DisplayViewModel>> SearchExecutive(EDR_DisplayViewModel SearchResultmodel)
         {
@@ -208,13 +209,18 @@ namespace NatDMS.Controllers
         /// DISPLAYING LIST OF ALL DISTRIBUTORS 
         /// </summary>
 
-
-        [HttpGet]
-        public async Task<ActionResult<List<DistributorModel>>> ListOfDistributors(int page = 1)
+        private async Task<(List<DistributorModel> PaginatedData, PageNation<DistributorModel> DistributorPgn)> GetPaginatedDistributorData (List<DistributorModel> distributorResult, int page)
         {
-            var distributorResult = await _ExecutiveService.GetNonAssignedDistributors();
             var distributorPgn = new PageNation<DistributorModel>(distributorResult, _configuration, page);
             var paginatedData = distributorPgn.GetPaginatedData(distributorResult);
+            return (paginatedData, distributorPgn);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<DistributorModel>>> ListOfDistributors (int page = 1)
+        {
+            var distributorResult = await _ExecutiveService.GetNonAssignedDistributors();
+            var (paginatedData, distributorPgn) = await GetPaginatedDistributorData(distributorResult, page);
             ViewBag.Pages = distributorPgn;
             var statesResult = await _unifiedservice.GetStates();
             var viewModel = new EDR_DisplayViewModel
@@ -223,28 +229,35 @@ namespace NatDMS.Controllers
                 StateList = statesResult
             };
             return View("_ListOfDistributors", viewModel);
-
         }
 
-        /// <summary>
-        /// SEARCH DISTRIBUTOR PARTIAL VIEW
-        /// </summary>
         [HttpPost]
-        public async Task<JsonResult> SearchNonAssignedDistributors(EDR_DisplayViewModel SearchResultmodel)
+        public async Task<JsonResult> SearchNonAssignedDistributors(EDR_DisplayViewModel SearchResultmodel, int page = 1)
         {
             var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
-            var SearchResult = await _ExecutiveService.SearchNonAssignedDistributors(search);
+            var searchResult = await _ExecutiveService.SearchNonAssignedDistributors(search);
+
+            // Paginate search results
+            var (paginatedData, distributorPgn) = await GetPaginatedDistributorData(searchResult, page);
+            ViewBag.Pages = distributorPgn;
 
             var statesResult = await _unifiedservice.GetStates();
 
             var viewModel = new EDR_DisplayViewModel
             {
-                DistributorList = SearchResult,
+                DistributorList = paginatedData,
                 StateList = statesResult,
             };
 
             return Json(viewModel);
         }
+
+
+
+        /// <summary>
+        /// DELETE ASSIGNED DISTRIBUTOR
+        /// </summary>
+
         public async Task<IActionResult> DeleteAssignedDistributor(string distributorId,string executiveId)
         {
            

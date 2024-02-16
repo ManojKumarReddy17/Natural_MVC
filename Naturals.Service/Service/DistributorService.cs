@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-
+#nullable disable
 
 namespace Naturals.Service.Service
 {
@@ -76,8 +76,6 @@ namespace Naturals.Service.Service
             return output;
 
         }
-
-
         /// <summary>
         /// DELETE DISTRIBUTOR BY ID //
         /// </summary>
@@ -111,18 +109,29 @@ namespace Naturals.Service.Service
             return getretailor;
 
         }
-
         public async Task<List<RetailorModel>> SearchRetailor(SearchModel searchretailor)
         {
             var SearchedResult = await _HttpCleintWrapper.PostAsync<List<RetailorModel>>("/Retailor/Search", searchretailor);
             return SearchedResult;
         }
 
-        public async Task<List<AssignedRetailorToDistributorIdModel>> GetAssignedRetailorByDistributor(string Disid)
+        public async Task<List<RetailorModel>> GetAssignedRetailorByDistributorId(string Disid)
         {
-            var result = await _HttpCleintWrapper.GetByIdAsync<List<AssignedRetailorToDistributorIdModel>>("/AssignRetailorToDistributor/details",Disid);
+            var result = await _HttpCleintWrapper.GetByIdAsync<List<RetailorModel>>("/AssignRetailorToDistributor/details",Disid);
              return result;
         }
+        public async Task<List<RetailorModel>> SearchNonAssignedRetailors(SearchModel searchdistributor)
+        {
+            var SearchedResult = await _HttpCleintWrapper.PostAsync<List<RetailorModel>>("/Retailor/SearchNonAssign", searchdistributor);
+            return SearchedResult;
+        }
+
+        public async Task<string> DeleteAssignedRetailor(string retailorId, string distributorId)
+        {
+            var delete = await _HttpCleintWrapper.DeleteAssignedDistirbutorAsync("/AssignRetailorToDistributor",$"{retailorId}/{distributorId}");
+            return delete;
+        }
+
     }
 }
 

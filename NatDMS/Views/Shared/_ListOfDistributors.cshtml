@@ -36,7 +36,7 @@
                     content: "application/json; charset=utf-8",
                     dataType: "json",
                     data: searchResultmodel,
-                    success: function (response){
+                    success: function (response) {
                         let result = JSON.stringify(response.distributorList);
                         $("#Distributorlist").empty();
                         $.each(response.distributorList, function (i, distributors) {
@@ -45,19 +45,19 @@
                                 distributors.lastName + '</td> <td>' + distributors.email + '</td> <td>' +
                                 distributors.mobileNumber + '</td> <td>' + distributors.address + '</td> <td>' +
                                 distributors.state + '</td> <td>' + distributors.city + ' </td> <td>' + distributors.area +
-                                '<td style="text-align: center;">'+
+                                '<td style="text-align: center;">' +
                                 '<input type="checkbox" class="selectDistributor" data-id="' + distributors.Id + '"/>' +
                                 '</td>' +
                                 '</tr>');
-                        });
-                                },
-                                error: function (error) {
-                                    console.error('Error:', error);
-                                }
+                        });            
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
                 });
             });
         });
-     </script>
+    </script>
 
 </head>
 
@@ -68,71 +68,71 @@
     <!-----------------------------------------------SEARCH DISTRIBUTOR----------------------------------------------------->
 
     <div class="container my-4">
-             <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <b>
-                            @Html.Label("SearchName", "Search by Name")
-                            @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Search By FirstName or LastName", @id = "FullName" })
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <b>
+                        @Html.Label("SearchName", "Search by Name")
+                        @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Search By FirstName or LastName", @id = "FullName" })
                     </b>
-                    </div>
                 </div>
-
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <b>
-                            @Html.LabelFor(model => model.State)
-                            @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"),
-                        "-SelectState-", new { @id = "Dstate", onchange = "Statechange()", @class = "form-select" })
-                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
-                        </b>
-                    </div>
-                </div>
-
-
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <b>
-                            @Html.LabelFor(model => model.City)
-                            @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
-                        {
-                        new SelectListItem { Text = "", Value =""},
-                        }, "Value","Text"), new { @id = "Dcity", @onchange = "Citychange()", @class = "form-select" })
-                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-                        </b>
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <b>
-                            @Html.LabelFor(model => model.Area)
-                            @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
-                        {
-                        new SelectListItem {Text = ""}
-                        }, new { id = "Darea", @class = "form-select" })
-                            @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
-                        </b>
-                    </div>
-                </div>
+            </div>
 
             <div class="col-md-2">
                 <div class="form-group">
-                    <button type="submit" class="btn btn-secondary my-4">
+                    <b>
+                        @Html.LabelFor(model => model.State)
+                        @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"),
+                        "-SelectState-", new { @id = "Dstate", onchange = "Statechange()", @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+            </div>
+
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.City)
+                        @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
+                        {
+                        new SelectListItem { Text = "", Value =""},
+                        }, "Value","Text"), new { @id = "Dcity", @onchange = "Citychange()", @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.Area)
+                        @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
+                        {
+                        new SelectListItem {Text = ""}
+                        }, new { id = "Darea", @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <button id="btnSubmit" class="btn btn-secondary my-4">
                         <i class="material-icons" style="font-size:20px;display:flex;justify-content:center;
-                                align-items:center;">search</i>
+                             align-items:center;">search</i>
                     </button>
                 </div>
             </div>
-            </div>
-         
- 
+        </div>
+
+
 
         <!----------------------------------------------------DISPLAY RETAILOR LIST-------------------------------------------------------------->
 
         <div class="table-responsive">
 
-            <table class="table table-bordered table-striped custom-table" >
+            <table class="table table-bordered table-striped custom-table">
                 <thead>
                     <tr>
                         <th>FirstName</th>
@@ -150,7 +150,7 @@
                     @foreach (var item in Model.DistributorList)
                     {
                         <tr>
-                          
+
                             <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
                             <td>@Html.DisplayFor(modelItem => item.LastName)</td>
                             <td>@Html.DisplayFor(modelItem => item.Email)</td>
@@ -200,13 +200,18 @@
         }
     </div>
 
+
+
+    <!-------------------------------------------------------------Pagination------------------------------------------------------------------->
+
+  
     <!---------------------------------------------------------AJAX CODE FOR CITY CHANGE AND AREA-------------------------------------------------->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript">
 
-        function Statechange(){
-          
+        function Statechange() {
+
             var stid = $('#Dstate').val();
             if (stid.trim() != '') {
                 var ddlcity = $('#Dcity');
@@ -232,8 +237,8 @@
             }
         }
 
-        function Citychange(){
-            
+        function Citychange() {
+
             var cityid = $('#Dcity').val();
             if (cityid.trim() != '') {
                 var ddlarea = $('#Darea');

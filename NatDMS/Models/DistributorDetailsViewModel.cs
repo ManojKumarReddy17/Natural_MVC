@@ -7,9 +7,9 @@ namespace NatDMS.Models
     public class DistributorDetailsViewModel
     {
 
-        public DistributorViewModel Distributors { get; set; }
+        public DistributorViewModel DistributorDetails { get; set; }
 
-        public List<AssignedRetailorToDistributorIdModel> AssignedRetailors { get; set; }
+        public List<RetailorModel> AssignedRetailors { get; set; }
 
 
     }

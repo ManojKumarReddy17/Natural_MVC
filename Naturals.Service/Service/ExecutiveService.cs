@@ -117,7 +117,7 @@ namespace Naturals.Service.Service
         }
         public async Task<List<DistributorModel>> SearchNonAssignedDistributors(SearchModel searchdistributor)
         {
-            var SearchedResult = await _httpClient.PostAsync<List<DistributorModel>>("/Distributor/Search", searchdistributor);
+            var SearchedResult = await _httpClient.PostAsync<List<DistributorModel>>("/Distributor/SearchNonAssign", searchdistributor);
             return SearchedResult;
         }
         public async Task<string> DeleteAssignedDistributor(string distributorId, string executiveId)
