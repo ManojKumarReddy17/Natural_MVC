@@ -15,5 +15,11 @@ namespace Natural.Core.IServices
         Task<List<DsrRetailor>> GetAssignedRetailorDetailsByDistributorId(string DistributorId);
         Task<List<DsrProduct>> GetProductAsync();
         Task<Dsrcreate> CreateDsr();
+        //Task<List<DsrProduct>> SearchProductsAsync(ProductSearch search, List<DsrProduct> productlist);
+        //Task<List<DsrProduct>> UpdateSession(List<DsrProduct> ExistingSession, List<DsrProduct> UpadeSession);
+        Task<Dsrcreate> UpdateSession(Dsrcreate ExistingSession, Dsrcreate UpadeSession);
+        Task<List<DsrProduct>> SearchProductsAsync(Dsrcreate ExistingSession, Dsrcreate UpadeSession);
+        Task<Dsrcreate> Insert(Dsrcreate ExistingSession);
+
     }
 }

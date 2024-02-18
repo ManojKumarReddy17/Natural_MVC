@@ -38,13 +38,9 @@ namespace NatDMS.Mapping
             CreateMap<DistributorToExecutive, AssignDistributorToExecutiveViewModel>();
             CreateMap<SearchModel , SearchViewModel>();
             CreateMap<DSRModel,DSRViewModel>();
-
             CreateMap<ProductResponse,ProductResult>();
             CreateMap<RetailorToDistributor,AssignRetailorToDistributorViewModel>();
-
-
             CreateMap<DistributorModel, DistributorDetailsViewModel>();
-
 
             // Resource to Domain
 

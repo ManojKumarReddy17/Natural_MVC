@@ -26,10 +26,12 @@ builder.Services.AddScoped<IProductService,ProductService>();
 builder.Services.AddScoped<IDSRService,DSRService>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddHttpContextAccessor();
+//builder.Services.AddHttpContextAccessor();
+builder.Services.AddDistributedMemoryCache();
+
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
 });
 
 builder.Services.AddAutoMapper(typeof(Program));
@@ -53,9 +55,10 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseSession(); 
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseSession();
 
 app.UseRouting();
 app.UseAuthentication();

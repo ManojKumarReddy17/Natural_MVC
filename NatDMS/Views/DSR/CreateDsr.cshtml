@@ -67,7 +67,8 @@
                         success: function (d) {
                             ddlret.append($("<option></option>").val('').html('--Select Retailors--'));
                             $.each(d, function (i, retailors) {
-                                ddlret.append($("<option>" + retailors.retailor + "</option>").val(retailors.Id).html(retailors.retailor));
+                                //ddlret.append($("<option>" + retailors.retailor + "</option>").val(retailors.Id).html(retailors.retailor));
+                                ddlret.append($("<option>" + retailors.retailor + "</option>").val(retailors.id).html(retailors.retailor));
                             });
                         },
                         error: function () {
@@ -75,7 +76,150 @@
                         }
                     });
             }
-        }</script>
+        }
+
+        function calculateTotalAmount(row) {
+            var price = parseFloat(row.find('.price').val());
+            var quantity = parseFloat(row.find('.quantity').val());
+            var total = price * quantity;
+            row.find('.total').text(total.toFixed(2));
+            
+        }
+
+        $(document).on('input', '.price, .quantity', function () {
+            var row = $(this).closest('tr');
+            calculateTotalAmount(row);
+        });
+
+        $(document).ready(function () {
+            $('.price, .quantity').each(function () {
+                var row = $(this).closest('tr');
+                calculateTotalAmount(row);
+            });
+        });
+
+        function Save() {
+            debugger;
+
+            var modelData = {
+                Executive: $("#executive").val(),
+                //ExecutiveList: $("#executiveListHidden").val(),
+                Retailor: $("#retailor").val(),
+                Distributor: $("#distributor").val(),
+
+                Category: $("#Category").val(),
+                Product: $("#Product").val(),
+                ProductList: []
+            };
+            $("#Productlist TBODY TR").each(function () {
+                var rowData = {
+                    Category: $(this).find("td:eq(0)").text().trim(),
+                    ProductName: $(this).find("td:eq(1)").text().trim(),
+                    Quantity: $(this).find(".quantity").val(),
+                    Price: $(this).find(".price").val(),
+                    Weight: $(this).find("td:eq(4)").text().trim(),
+                    Total: $(this).find("td:eq(5)").text().trim(),
+                    Id: $(this).find("input[type=hidden]").val() // Assuming the hidden column is the 7th column (index 6)
+                };
+                modelData.ProductList.push(rowData);
+            });
+
+
+            $.ajax({
+                url: "/DSR/SearchProduct",
+                type: "POST",
+                data: JSON.stringify(modelData),
+                processData: false, // Prevent jQuery from automatically processing the data
+                contentType: "application/json",
+                dataType: "json", 
+                success: function (response) {
+                    let result = JSON.stringify(response.Productlist);
+                    $("#Productlist TBODY TR").empty();
+                    $.each(response.Productlist, function (i, distributors) {
+                        let result1 = distributors;
+                        $("#Productlist").append('<tr>' + '<td>' + distributors.category + '</td> <td>' +
+                            distributors.productName + '</td> <td>' + distributors.quantity + '</td> <td>' +
+                            distributors.price + '</td> <td>' + distributors.weight + '</td> <td>' +
+                           
+                            '<td style="text-align: center;">' +
+                            '<input type="checkbox" class="selectDistributor" data-id="' + distributors.Id + '"/>' +
+                            '</td>' +
+                            '</tr>');
+                    });
+                    //alert(success);
+                    ////$("#Productlist tbody").empty();
+
+                    //$("#Productlist tbody").empty();
+
+                    //// Loop through the JSON data and append rows to the table
+                    //$.each(response, function (index, item) {
+                    //    var newRow = $("<tr>");
+                    //    newRow.append("<td>" + item.Category + "</td>");
+                    //    newRow.append("<td>" + item.ProductName + "</td>");
+                    //    newRow.append("<td><input type='number' class='form-control quantity' value='" + item.Quantity + "' /></td>");
+                    //    newRow.append("<td><input type='number' class='form-control price' value='" + item.Price + "' /></td>");
+                    //    newRow.append("<td>" + item.Weight + "</td>");
+                    //    newRow.append("<td class='total'></td>");
+                    //    $("#Productlist tbody").append(newRow);
+                    //});
+                    //// Calculate total amounts for newly added rows
+                    //calculateTotalAmounts();
+                },
+                error: function (request, status, error) {
+                    alert(request.responseText);
+                }
+            });
+        }
+
+        function Insert() {
+            debugger;
+
+            var modelData = {
+                Executive: $("#executive").val(),
+                //ExecutiveList: $("#executiveListHidden").val(),
+                Retailor: $("#retailor").val(),
+                Distributor: $("#distributor").val(),
+
+                Category: $("#Category").val(),
+                Product: $("#Product").val(),
+                ProductList: []
+            };
+            $("#Productlist TBODY TR").each(function () {
+                var rowData = {
+                    Category: $(this).find("td:eq(0)").text().trim(),
+                    ProductName: $(this).find("td:eq(1)").text().trim(),
+                    Quantity: $(this).find(".quantity").val(),
+                    Price: $(this).find(".price").val(),
+                    Weight: $(this).find("td:eq(4)").text().trim(),
+                    //Total: $(this).find(".total").text().trim(),
+                    Total: $(this).find("td:eq(5)").text().trim(),
+                    Id: $(this).find("input[type=hidden]").val()
+                };
+                modelData.ProductList.push(rowData);
+            });
+
+
+            $.ajax({
+                url: "/DSR/CreateDsr",
+                type: "POST",
+                data: JSON.stringify(modelData),
+                //processData: false, // Prevent jQuery from automatically processing the data
+                contentType: "application/json",
+                success: function (response) {
+                    alert(response);
+
+
+                    // Calculate total amounts for newly added rows
+                    calculateTotalAmounts();
+                },
+                error: function (request, status, error) {
+                    alert(request.responseText);
+                }
+            });
+        }
+
+
+    </script>
 </head>
 
 <body>
@@ -83,8 +227,8 @@
     <div class="row">
         <div>
             @*<form asp-action="CreateDsr" id="complete">*@
-            @using (Html.BeginForm("CreateDsr", "DSR", FormMethod.Post, new { @class = "needs-validation", novalidate = "true", id = "complete" }))
-            {
+            @*@using (Html.BeginForm("CreateDsr", "DSR", FormMethod.Post, new { @class = "needs-validation", novalidate = "true", id = "complete" }))
+            {*@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <style>
                     .form-group {
@@ -195,6 +339,7 @@
                                             <th>Price</th>
                                             <th>Weight</th>
                                             <th>Total</th>
+                                            <th style="display:none;">Id</th> <!-- Hidden column for ID -->
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -210,7 +355,10 @@
                                                     <input type="number" class="form-control price" value="@item.Price" />
                                                 </td>
                                                 <td>@Html.DisplayFor(modelItem => item.Weight)</td>
-                                                <td class="total"></td>
+                                                @*<td class="total"></td>*@
+                                               
+                                                <td class="total">@Html.DisplayFor(modelItem => item.Total)</td>
+                                                <td style="display:none;">@Html.HiddenFor(modelItem => item.Id)</td> <!-- Hidden field for ID -->
                                             </tr>
                                         }
                                     </tbody>
@@ -225,7 +373,7 @@
                     <input type="submit" value="Create" class="btn btn-primary" onclick="Insert()" />
                 </div>
                 @*</form>*@
-            }
+            @*}*@
         </div>
 
 
@@ -238,303 +386,6 @@
     <div>
         <a asp-action="Index">Back to List</a>
     </div>
-
-
-    <script src="~/js/jquery-3.6.0.min.js"></script>
-
-    
-
-    <script>function calculateTotalAmount(row) {
-            var price = parseFloat(row.find('.price').val());
-            var quantity = parseFloat(row.find('.quantity').val());
-            var total = price * quantity;
-            row.find('.total').text(total.toFixed(2));
-        }
-
-        $(document).on('input', '.price, .quantity', function () {
-            var row = $(this).closest('tr');
-            calculateTotalAmount(row);
-        });
-
-        $(document).ready(function () {
-            $('.price, .quantity').each(function () {
-                var row = $(this).closest('tr');
-                calculateTotalAmount(row);
-            });
-        });
-
-
-
-
-        //function Save() {
-        //    debugger;
-        //    //get all selected radio button. In our case we gave same name to radio button
-        //    //so only one radio button will be selected either Male or Female
-
-        //    let formData = {
-        //        Product: $("#Product").val(),
-        //        Category: $("#Category").val(),
-        //        ProductList: $("#ProductList").val(),
-
-        //    }
-        //    console.log(formData)
-        //    $.ajax({
-        //        url: "/DSR/SearchProduct",
-        //        type: "POST",
-        //        data: formData,
-        //        success: function (response) {
-        //            alert(response);
-        //        },
-        //        error: function (request, status, error) {
-        //            alert(request.responseText);
-        //        }
-        //    });
-        //}
-
-        //function Save() {
-        //    debugger;
-        //    //get all selected radio button. In our case we gave same name to radio button
-        //    //so only one radio button will be selected either Male or Female
-
-        //    //let formData = {
-        //    //    Product: $("#Product").val(),
-        //    //    Category: $("#Category").val(),
-        //    //    ProductList: $("#ProductList").val(),
-
-        //    var formData = new FormData();
-        //    // Append the dropdown values to the FormData object
-        //    formData.append("Executive", $("#Executive").val());
-        //    formData.append("Distributor", $("#Distributor").val());
-        //    formData.append("Retailor", $("#Retailor").val());
-        //    formData.append("Category", $("#Category").val());
-        //    formData.append("Product", $("#Product").val());
-        //    $("#Productlist").each(function () {
-        //        formData.append("ProductList[" + $(this).index() + "].Category", $(this).find("td:eq(0)").text().trim());
-        //        formData.append("ProductList[" + $(this).index() + "].ProductName", $(this).find("td:eq(1)").text().trim());
-        //        formData.append("ProductList[" + $(this).index() + "].Quantity", $(this).find(".quantity").val());
-        //        formData.append("ProductList[" + $(this).index() + "].Price", $(this).find(".price").val());
-        //        formData.append("ProductList[" + $(this).index() + "].Weight", $(this).find("td:eq(4)").text().trim());
-        //        formData.append("ProductList[" + $(this).index() + "].Total", $(this).find(".total").text().trim());
-        //    });
-
-        //    console.log(formData)
-        //    $.ajax({
-        //        url: "/DSR/SearchProduct",
-        //        type: "POST",
-        //        data: formData,
-        //        processData: false, // Prevent jQuery from automatically processing the data
-        //        contentType: false,
-        //        success: function (response) {
-        //            alert(response);
-        //        },
-        //        error: function (request, status, error) {
-        //            alert(request.responseText);
-        //        }
-        //    });
-        //}
-        //function Save() {
-        //    debugger;
-
-        //    var modelData = {
-        //        Executive: $("#executive").val(),
-        //        //ExecutiveList: $("#executiveListHidden").val(),
-        //        Retailor: $("#retailor").val(),
-        //        Distributor: $("#distributor").val(),
-
-        //        Category: $("#Category").val(),
-        //        Product: $("#Product").val(),
-        //        ProductList: []
-        //    };
-        //    $("#Productlist TBODY TR").each(function () {
-        //        var rowData = {
-        //            Category: $(this).find("td:eq(0)").text().trim(),
-        //            ProductName: $(this).find("td:eq(1)").text().trim(),
-        //            Quantity: $(this).find(".quantity").val(),
-        //            Price: $(this).find(".price").val(),
-        //            Weight: $(this).find("td:eq(4)").text().trim(),
-        //            Total: $(this).find(".total").text().trim()
-        //        };
-        //        modelData.ProductList.push(rowData);
-        //    });
-
-
-        //    $.ajax({
-        //        url: "/DSR/SearchProduct",
-        //        type: "POST",
-        //        data: JSON.stringify(modelData),
-        //        //processData: false, // Prevent jQuery from automatically processing the data
-        //        contentType: "application/json",
-        //        success: function (response) {
-        //            alert(response);
-        //            $("#Productlist tbody").html(response);
-        //        },
-        //        error: function (request, status, error) {
-        //            alert(request.responseText);
-        //        }
-        //    });
-        //}
-
-
-
-        function Save() {
-            debugger;
-
-            var modelData = {
-                Executive: $("#executive").val(),
-                //ExecutiveList: $("#executiveListHidden").val(),
-                Retailor: $("#retailor").val(),
-                Distributor: $("#distributor").val(),
-
-                Category: $("#Category").val(),
-                Product: $("#Product").val(),
-                ProductList: []
-            };
-            $("#Productlist TBODY TR").each(function () {
-                var rowData = {
-                    Category: $(this).find("td:eq(0)").text().trim(),
-                    ProductName: $(this).find("td:eq(1)").text().trim(),
-                    Quantity: $(this).find(".quantity").val(),
-                    Price: $(this).find(".price").val(),
-                    Weight: $(this).find("td:eq(4)").text().trim(),
-                    Total: $(this).find(".total").text().trim()
-                };
-                modelData.ProductList.push(rowData);
-            });
-
-
-            $.ajax({
-                url: "/DSR/SearchProduct",
-                type: "POST",
-                data: JSON.stringify(modelData),
-                processData: false, // Prevent jQuery from automatically processing the data
-                contentType: "application/json",
-                success: function (response) {
-                    alert(response);
-                    let result = JSON.stringify(response.ProductList);
-                    $(#Productlist).empty();
-                    $each(response.ProductList, function (i, p) {
-                        let result1 = p;
-                        $("#Productlist").append('<tr>' + '<td>' + p.Category + '</td><td>' + p.ProductName + '</td><td>' + p.Quantity + '</td><td>' + p.Price + '</td><td>' +
-                            p.Weight + '</td><td>' + p.Total + '<td style="text-align:center;">' + '</td>' + '</tr>'
-                        );
-
-                    });
-                    //$("#Productlist tbody").html(response);
-
-                    //// Loop through the JSON data and append rows to the table
-                    //$.each(response, function (index, item) {
-                    //    var newRow = $("<tr>");
-                    //    newRow.append("<td>" + item.Category + "</td>");
-                    //    newRow.append("<td>" + item.ProductName + "</td>");
-                    //    newRow.append("<td><input type='number' class='form-control quantity' value='" + item.Quantity + "' /></td>");
-                    //    newRow.append("<td><input type='number' class='form-control price' value='" + item.Price + "' /></td>");
-                    //    newRow.append("<td>" + item.Weight + "</td>");
-                    //    newRow.append("<td class='total'></td>");
-                    //    $("#Productlist tbody").append(newRow);
-                    //});
-
-                    //// Calculate total amounts for newly added rows
-                    //calculateTotalAmounts();
-                },
-                error: function (request, status, error) {
-                    alert(request.responseText);
-                }
-            });
-        }
-
-        function Insert() {
-            debugger;
-
-            var modelData = {
-                Executive: $("#executive").val(),
-                //ExecutiveList: $("#executiveListHidden").val(),
-                Retailor: $("#retailor").val(),
-                Distributor: $("#distributor").val(),
-
-                Category: $("#Category").val(),
-                Product: $("#Product").val(),
-                ProductList: []
-            };
-            $("#Productlist TBODY TR").each(function () {
-                var rowData = {
-                    Category: $(this).find("td:eq(0)").text().trim(),
-                    ProductName: $(this).find("td:eq(1)").text().trim(),
-                    Quantity: $(this).find(".quantity").val(),
-                    Price: $(this).find(".price").val(),
-                    Weight: $(this).find("td:eq(4)").text().trim(),
-                    Total: $(this).find(".total").text().trim()
-                };
-                modelData.ProductList.push(rowData);
-            });
-
-
-            $.ajax({
-                url: "/DSR/CreateDsr",
-                type: "POST",
-                data: JSON.stringify(modelData),
-                //processData: false, // Prevent jQuery from automatically processing the data
-                contentType: "application/json",
-                success: function (response) {
-                    alert(response);
-
-
-                    // Calculate total amounts for newly added rows
-                    calculateTotalAmounts();
-                },
-                error: function (request, status, error) {
-                    alert(request.responseText);
-                }
-            });
-        }
-
-            //function Save() {
-            //    debugger;
-
-            //    var modelData = {
-            //        Executive: $("#executive").val(),
-            //        //ExecutiveList: $("#executiveListHidden").val(),
-            //        Retailor: $("#retailor").val(),
-            //        Distributor: $("#distributor").val(),
-
-            //        Category: $("#Category").val(),
-            //        Product: $("#Product").val(),
-            //        ProductList: []
-            //    };
-            //    $("#Productlist TBODY TR").each(function () {
-            //        var rowData = {
-            //            Category: $(this).find("td:eq(0)").text().trim(),
-            //            ProductName: $(this).find("td:eq(1)").text().trim(),
-            //            Quantity: $(this).find(".quantity").val(),
-            //            Price: $(this).find(".price").val(),
-            //            Weight: $(this).find("td:eq(4)").text().trim(),
-            //            Total: $(this).find(".total").text().trim()
-            //        };
-            //        modelData.ProductList.push(rowData);
-            //    });
-
-
-            //    $.ajax({
-            //        url: "/DSR/SearchProduct",
-            //        type: "POST",
-            //        data: JSON.stringify(modelData),
-            //        //processData: false, // Prevent jQuery from automatically processing the data
-            //        contentType: "application/json",
-            //        success: function (response) {
-            //            alert(success);
-
-
-            //            // Calculate total amounts for newly added rows
-            //            calculateTotalAmounts();
-            //        },
-            //        error: function (request, status, error) {
-            //            alert(request.responseText);
-            //        }
-            //    });
-            //}</script>
-
-
-
-
 
 </body>
 @section Scripts {
