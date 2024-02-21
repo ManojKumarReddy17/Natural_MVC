@@ -56,7 +56,8 @@ namespace Naturals.Service.Service
                 }
                 formData.Add(new StringContent(mdl.Category), "Category");
                 formData.Add(new StringContent(mdl.ProductName), "ProductName");
-                formData.Add(new StringContent(mdl.Quantity), "Quantity");
+                //formData.Add(new StringContent(mdl.Quantity), "Quantity");
+                formData.Add(new StringContent(mdl.Quantity.ToString()), "Quantity");
                 formData.Add(new StringContent(mdl.Weight.ToString()), "Weight");
                 formData.Add(new StringContent(mdl.Price.ToString()), "Price");
                 formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.UploadImage.FileName);
@@ -85,7 +86,9 @@ namespace Naturals.Service.Service
                     formData.Add(new StringContent(mdl.Id), "Id");
                     formData.Add(new StringContent(mdl.Category), "Category");
                     formData.Add(new StringContent(mdl.ProductName), "ProductName");
-                    formData.Add(new StringContent(mdl.Quantity), "Quantity");
+                    //formData.Add(new StringContent(mdl.Quantity), "Quantity");
+                    formData.Add(new StringContent(mdl.Quantity.ToString()), "Quantity");
+
                     formData.Add(new StringContent(mdl.Weight.ToString()), "Weight");
                     formData.Add(new StringContent(mdl.Price.ToString()), "Price");
 
@@ -102,7 +105,8 @@ namespace Naturals.Service.Service
                     formData.Add(new StringContent(mdl.Id), "Id");
                     formData.Add(new StringContent(mdl.Category), "Category");
                     formData.Add(new StringContent(mdl.ProductName), "ProductName");
-                    formData.Add(new StringContent(mdl.Quantity), "Quantity");
+                    //formData.Add(new StringContent(mdl.Quantity), "Quantity");
+                    formData.Add(new StringContent(mdl.Quantity.ToString()), "Quantity");
                     formData.Add(new StringContent(mdl.Weight.ToString()), "Weight");
                     formData.Add(new StringContent(mdl.Price.ToString()), "Price");
                     

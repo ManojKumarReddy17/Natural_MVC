@@ -1,10 +1,10 @@
 ﻿using System;
-#nullable disable
-namespace Natural.Core.Models
+namespace NatDMS.Models
 {
-	public class DsrDistributorDrop
+	public class DsrDistributorResouse
 	{
         public string Id { get; set; }
+
         public string DistributorName { get; set; }
     }
 }

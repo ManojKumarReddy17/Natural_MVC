@@ -3,8 +3,7 @@
 
 @{
     ViewData["Title"] = "CreateDsr";
-    // string dsrjsonFromSession = Accessor.HttpContext.Session.GetString("DSR");
-    // Dsrcreate deserializedViewModel = JsonConvert.DeserializeObject<Dsrcreate>(dsrjsonFromSession);
+    
 }
 
 <h1>CreateDsr</h1>
@@ -67,7 +66,7 @@
                         success: function (d) {
                             ddlret.append($("<option></option>").val('').html('--Select Retailors--'));
                             $.each(d, function (i, retailors) {
-                                //ddlret.append($("<option>" + retailors.retailor + "</option>").val(retailors.Id).html(retailors.retailor));
+                                
                                 ddlret.append($("<option>" + retailors.retailor + "</option>").val(retailors.id).html(retailors.retailor));
                             });
                         },
@@ -78,13 +77,23 @@
             }
         }
 
+       
+
         function calculateTotalAmount(row) {
             var price = parseFloat(row.find('.price').val());
             var quantity = parseFloat(row.find('.quantity').val());
-            var total = price * quantity;
-            row.find('.total').text(total.toFixed(2));
-            
+
+            // Check if either price or quantity is null
+            if (isNaN(price) || isNaN(quantity)) {
+                // If either price or quantity is null, set total to null
+                row.find('.total').text(''); // Clear total field
+            } else {
+                // Calculate total only if both price and quantity are valid
+                var total = price * quantity;
+                row.find('.total').text(total.toFixed(2));
+            }
         }
+
 
         $(document).on('input', '.price, .quantity', function () {
             var row = $(this).closest('tr');
@@ -98,72 +107,68 @@
             });
         });
 
+       
+
+        // search ajax
+
         function Save() {
             debugger;
 
             var modelData = {
                 Executive: $("#executive").val(),
-                //ExecutiveList: $("#executiveListHidden").val(),
                 Retailor: $("#retailor").val(),
                 Distributor: $("#distributor").val(),
-
                 Category: $("#Category").val(),
                 Product: $("#Product").val(),
                 ProductList: []
             };
+
             $("#Productlist TBODY TR").each(function () {
                 var rowData = {
                     Category: $(this).find("td:eq(0)").text().trim(),
                     ProductName: $(this).find("td:eq(1)").text().trim(),
-                    Quantity: $(this).find(".quantity").val(),
-                    Price: $(this).find(".price").val(),
+                    Quantity: $(this).find(".quantity").val() || null, // Use null if value is falsy
+                    Price: $(this).find(".price").val() || null, // Use null if value is falsy
                     Weight: $(this).find("td:eq(4)").text().trim(),
-                    Total: $(this).find("td:eq(5)").text().trim(),
-                    Id: $(this).find("input[type=hidden]").val() // Assuming the hidden column is the 7th column (index 6)
+                    Total: $(this).find("td:eq(5)").text().trim() || null, // Use null if value is falsy
+                    Id: $(this).find("input[type=hidden]").val()
                 };
                 modelData.ProductList.push(rowData);
             });
 
+            // Custom replacer function to include null values
+            var jsonString = JSON.stringify(modelData, function (key, value) {
+                // Include null values
+                return value === undefined ? null : value;
+            });
 
             $.ajax({
                 url: "/DSR/SearchProduct",
                 type: "POST",
-                data: JSON.stringify(modelData),
-                processData: false, // Prevent jQuery from automatically processing the data
+                data: jsonString,
+                processData: false,
                 contentType: "application/json",
-                dataType: "json", 
                 success: function (response) {
-                    let result = JSON.stringify(response.Productlist);
-                    $("#Productlist TBODY TR").empty();
-                    $.each(response.Productlist, function (i, distributors) {
-                        let result1 = distributors;
-                        $("#Productlist").append('<tr>' + '<td>' + distributors.category + '</td> <td>' +
-                            distributors.productName + '</td> <td>' + distributors.quantity + '</td> <td>' +
-                            distributors.price + '</td> <td>' + distributors.weight + '</td> <td>' +
-                           
-                            '<td style="text-align: center;">' +
-                            '<input type="checkbox" class="selectDistributor" data-id="' + distributors.Id + '"/>' +
-                            '</td>' +
-                            '</tr>');
+                    let result = JSON.stringify(response);
+                    $("#Productlist TBODY").empty();
+                    // Append new rows based on the response
+                    $.each(response, function (i, ds) {
+                        var formattedPrice = parseFloat(ds.price).toFixed(3);
+                        var inputField = '<input type="number" name="price" class="form-control price" style="width: 100px" step="0.001" value="' + formattedPrice + '"/>';
+
+                        $("#Productlist").append(
+                            '<tr>' +
+                            '<td>' + ds.category + '</td>' +
+                            '<td>' + ds.productName + '</td>' +
+                            '<td>' + '<input type="number" name="quantity" class="form-control quantity" style="width: 100px" value="' + ds.quantity + '"/>' + '</td>' +
+                            '<td>' + inputField + '</td>' +
+                            '<td>' + ds.weight + '</td>' +
+                            //'<td class="total">' + ds.total + '</td>' +
+                            '<td class="total">' + (ds.total !== null ? ds.total : '') + '</td>' +
+                            '<td style="display:none;">' + ds.id + '</td>' +
+                            '</tr>'
+                        );
                     });
-                    //alert(success);
-                    ////$("#Productlist tbody").empty();
-
-                    //$("#Productlist tbody").empty();
-
-                    //// Loop through the JSON data and append rows to the table
-                    //$.each(response, function (index, item) {
-                    //    var newRow = $("<tr>");
-                    //    newRow.append("<td>" + item.Category + "</td>");
-                    //    newRow.append("<td>" + item.ProductName + "</td>");
-                    //    newRow.append("<td><input type='number' class='form-control quantity' value='" + item.Quantity + "' /></td>");
-                    //    newRow.append("<td><input type='number' class='form-control price' value='" + item.Price + "' /></td>");
-                    //    newRow.append("<td>" + item.Weight + "</td>");
-                    //    newRow.append("<td class='total'></td>");
-                    //    $("#Productlist tbody").append(newRow);
-                    //});
-                    //// Calculate total amounts for newly added rows
-                    //calculateTotalAmounts();
                 },
                 error: function (request, status, error) {
                     alert(request.responseText);
@@ -171,15 +176,18 @@
             });
         }
 
+
+
+       
+    // creste dsr ajax
+
         function Insert() {
             debugger;
 
             var modelData = {
                 Executive: $("#executive").val(),
-                //ExecutiveList: $("#executiveListHidden").val(),
                 Retailor: $("#retailor").val(),
                 Distributor: $("#distributor").val(),
-
                 Category: $("#Category").val(),
                 Product: $("#Product").val(),
                 ProductList: []
@@ -188,22 +196,26 @@
                 var rowData = {
                     Category: $(this).find("td:eq(0)").text().trim(),
                     ProductName: $(this).find("td:eq(1)").text().trim(),
-                    Quantity: $(this).find(".quantity").val(),
-                    Price: $(this).find(".price").val(),
+                    Quantity: $(this).find(".quantity").val() || null, // Use null if value is falsy
+                    Price: $(this).find(".price").val() || null, // Use null if value is falsy
                     Weight: $(this).find("td:eq(4)").text().trim(),
-                    //Total: $(this).find(".total").text().trim(),
-                    Total: $(this).find("td:eq(5)").text().trim(),
+                    Total: $(this).find("td:eq(5)").text().trim() || null, // Use null if value is falsy
                     Id: $(this).find("input[type=hidden]").val()
                 };
                 modelData.ProductList.push(rowData);
             });
 
 
+            var jsonString = JSON.stringify(modelData, function (key, value) {
+                // Include null values
+                return value === undefined ? null : value;
+            });
+
+
             $.ajax({
                 url: "/DSR/CreateDsr",
                 type: "POST",
-                data: JSON.stringify(modelData),
-                //processData: false, // Prevent jQuery from automatically processing the data
+                data: jsonString,
                 contentType: "application/json",
                 success: function (response) {
                     alert(response);
@@ -218,17 +230,14 @@
             });
         }
 
-
     </script>
 </head>
 
 <body>
-    @* <hr /> *@
+    
     <div class="row">
         <div>
-            @*<form asp-action="CreateDsr" id="complete">*@
-            @*@using (Html.BeginForm("CreateDsr", "DSR", FormMethod.Post, new { @class = "needs-validation", novalidate = "true", id = "complete" }))
-            {*@
+            
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <style>
                     .form-group {
@@ -269,9 +278,7 @@
 
                 </div>
                 <div>
-                    @*@using (Html.BeginForm(FormMethod.Post, new { id = "SearchResultmodel" }))
-                        {*@
-                    @*<form id ="SearchResultmodel">*@
+                   
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -313,12 +320,11 @@
                                     <i class="material-icons" style="font-size:20px;display:flex;justify-content:center;
                                   align-items:center;">search</i>
                                 </button>
-                                @*<button class="btn btn-primary" type="button" onclick="Save()"> Search </button>*@
+                               
                             </div>
                         </div>
                     </div>
-                    @*}*@
-                    @*</form>*@
+                   
                 </div>
 
 
@@ -349,13 +355,14 @@
                                                 <td>@Html.DisplayFor(modelItem => item.Category)</td>
                                                 <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
                                                 <td>
-                                                    <input type="number" class="form-control quantity" value="@item.Quantity" />
+                                                    <input type="number" class="form-control quantity"  style="width: 100px" value="@item.Quantity" />
+                                                   
                                                 </td>
                                                 <td>
-                                                    <input type="number" class="form-control price" value="@item.Price" />
+                                                    <input type="number" class="form-control price" style="width: 100px" value="@item.Price" />
                                                 </td>
                                                 <td>@Html.DisplayFor(modelItem => item.Weight)</td>
-                                                @*<td class="total"></td>*@
+                                               
                                                
                                                 <td class="total">@Html.DisplayFor(modelItem => item.Total)</td>
                                                 <td style="display:none;">@Html.HiddenFor(modelItem => item.Id)</td> <!-- Hidden field for ID -->
@@ -372,8 +379,7 @@
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" onclick="Insert()" />
                 </div>
-                @*</form>*@
-            @*}*@
+             
         </div>
 
 
@@ -383,11 +389,12 @@
     </div>
 
 
-    <div>
+    @*<div>
         <a asp-action="Index">Back to List</a>
-    </div>
+    </div>*@
 
 </body>
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

@@ -1,14 +1,7 @@
-﻿using Natural.Core.IServices;
+﻿using AutoMapper;
+using Natural.Core.IServices;
 using Natural.Core.Models;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Reflection;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
+
 
 
 namespace Naturals.Service.Service
@@ -21,25 +14,41 @@ namespace Naturals.Service.Service
         private readonly IExecutiveService _ExecutiveService;
         private readonly ICategoryService _categoryservice;
         private readonly IProductService _ProductService;
+        private readonly IMapper _mapper;
 
-        public DSRService(IHttpClientWrapper httpCleintWrapper, IUnifiedService unifiedService, IExecutiveService executiveService, ICategoryService  categoryservice, IProductService ProductService)
+        public DSRService(IHttpClientWrapper httpCleintWrapper, IUnifiedService unifiedService, IExecutiveService executiveService, ICategoryService  categoryservice, IProductService ProductService, IMapper mapper)
         {
             _HttpCleintWrapper = httpCleintWrapper;
             _unifiedService = unifiedService;
             _ExecutiveService = executiveService;
             _categoryservice = categoryservice;
               _ProductService = ProductService;
-    }
+            _mapper = mapper;
+        }
 
         public Task<DSRModel> CreateDsr(DSRModel dsr)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<List<DSRModel>> GetDsrAll()
+        public async Task<DsrDisplay> GetDsrAll()
         {
+
+            List<ExecutiveModel> executives = await _ExecutiveService.GetAllExecutives();
+            List<DsrExecutiveDrop> executiveList = executives.Select(c => new DsrExecutiveDrop
+            {
+                Id = c.Id,
+                Executive = string.Concat(c.FirstName, " ", c.LastName),
+            }).ToList();
+
             var response = await _HttpCleintWrapper.GetAsync<List<DSRModel>>("/Dsr/");
-            return response;
+
+            DsrDisplay dsrDisplay = new DsrDisplay()
+            {
+                ExecutiveList = executiveList,
+                dsr = response
+            };
+            return dsrDisplay;
             
         }
 
@@ -77,95 +86,41 @@ namespace Naturals.Service.Service
             }).ToList();
 
             List<CategoryModel> categories = await _categoryservice.GetCategories();
+           
+            var products = await GetProductAsync();
 
-            List<DsrProduct> products = await GetProductAsync();
+            var create = products.Select(c => new DsrProduct
+            {
+                Id = c.Id,
+                ProductName = c.ProductName,
+                Category = c.Category,
+                Price = c.Price,
+                Weight = c.Weight
+
+            }).ToList();
 
             Dsrcreate viewmodel = new Dsrcreate()
             {
                 ExecutiveList = executiveList,
                 CategoryList = categories,
-                ProductList = products
+                ProductList = create
             };
 
-      
             return viewmodel;
-
         }
 
-       // public async Task<List<DsrProduct>> SearchProductsAsync(ProductSearch search, List<DsrProduct> productlist)
-       // {
-           
-          
-       //     var categoryName = await _categoryservice.GetCategoryById(search.Category);
-       //     string category = categoryName.CategoryName;
-
-       //     //List<DsrProduct> SearchedProduct = new List<DsrProduct>();
-       //var      SearchedProduct = productlist
-       //     .Where(c =>
-       //            (string.IsNullOrEmpty(category) || c.Category.StartsWith(category)) &&
-       //            (string.IsNullOrEmpty(search.ProductName) || c.ProductName.StartsWith(search.ProductName, StringComparison.OrdinalIgnoreCase))
-       //        )
-       //        .Select(c => new DsrProduct
-       //        {
-       //            Id = c.Id,
-       //            Category = c.Category,
-       //            ProductName = c.ProductName,
-       //            Price = c.Price,
-       //            Quantity = c.Quantity,
-       //            Weight = c.Weight
-
-       //        })
-       //        .ToList();
-
-       //     return SearchedProduct;
-
-       // }
-
-
-        //public async Task<List<DsrProduct>> SearchProductsAsync(Dsrcreate ExistingSession, Dsrcreate UpadeSession)
-        //{
-
-        //    ProductSearch search = new ProductSearch();
-        //    search.Category = UpadeSession.Category;
-        //    search.ProductName = UpadeSession.Product;
-        //    List<DsrProduct> productlist = ExistingSession.ProductList;
-
-        //    var categoryName = await _categoryservice.GetCategoryById(search.Category);
-        //    string category = categoryName.CategoryName;
-
-        //    //List<DsrProduct> SearchedProduct = new List<DsrProduct>();
-        //    var SearchedProduct = productlist
-        //         .Where(c =>
-        //                (string.IsNullOrEmpty(category) || c.Category.StartsWith(category)) &&
-        //                (string.IsNullOrEmpty(search.ProductName) || c.ProductName.StartsWith(search.ProductName, StringComparison.OrdinalIgnoreCase))
-        //            )
-        //            .Select(c => new DsrProduct
-        //            {
-        //                Id = c.Id,
-        //                Category = c.Category,
-        //                ProductName = c.ProductName,
-        //                Price = c.Price,
-        //                Quantity = c.Quantity,
-        //                Weight = c.Weight
-
-        //            })
-        //            .ToList();
-
-        //    return SearchedProduct;
-
-        //}
+ 
 
         public async Task<List<DsrProduct>> SearchProductsAsync(Dsrcreate ExistingSession, Dsrcreate UpadeSession)
         {
             ProductSearch search = new ProductSearch();
             string? category;
-            //if (UpadeSession.Category != null)
-            // in case category is empty
+          
             if (!string.IsNullOrEmpty(UpadeSession.Category))
             {
-                 search.Category = UpadeSession.Category;
-                 var categoryName = await _categoryservice.GetCategoryById(search.Category);
-                 category = categoryName.CategoryName;
+                 search.Category  =   UpadeSession.Category;
+                 var categoryName =   await _categoryservice.GetCategoryById(search.Category);
+                 category         =   categoryName.CategoryName;
             }
             else
             {
@@ -196,16 +151,7 @@ namespace Naturals.Service.Service
 
         }
 
-        //public async Task<List<DsrProduct>> UpdateSession(List<DsrProduct> ExistingSession, List<DsrProduct> UpadeSession)
-        //{
-        //    var updatedprodctList = (from s1 in ExistingSession
-        //                             join s2 in UpadeSession on s1.Id equals s2.Id into gj
-        //                             from s2 in gj.DefaultIfEmpty()
-        //                             select s2 != null ? s2 : s1).ToList();
-        //    return updatedprodctList;
-
-        //}
-
+        
 
         //before updating the session while creating we bind the differnce from updated data to existing data
         public async Task<Dsrcreate> UpdateSession(Dsrcreate ExistingSession, Dsrcreate UpadeSession)
@@ -221,12 +167,12 @@ namespace Naturals.Service.Service
                 //those lists in session so that no need to call api
                 Dsrcreate updatemodel = new Dsrcreate()
                 {
-                    ExecutiveList = ExistingSession.ExecutiveList,
-                    CategoryList = ExistingSession.CategoryList,
-                    Executive = UpadeSession.Executive,
-                    Distributor = UpadeSession.Distributor,
-                    Retailor = UpadeSession.Retailor,
-                    ProductList = updatedprodctList
+                    ExecutiveList  =   ExistingSession.ExecutiveList,
+                    CategoryList   =   ExistingSession.CategoryList,
+                    Executive      =   UpadeSession.Executive,
+                    Distributor    =   UpadeSession.Distributor,
+                    Retailor       =   UpadeSession.Retailor,
+                    ProductList    =   updatedprodctList
                 };
 
                 return updatemodel;
@@ -234,13 +180,35 @@ namespace Naturals.Service.Service
             
         }
 
-      public async  Task<Dsrcreate> Insert(Dsrcreate ExistingSession)
+      
+
+        public async Task<ProductResponse> Insert(Dsrcreate ExistingSession)
         {
-            var id = ExistingSession.ProductList.Sum(item => item.Total);
-            var result = await _HttpCleintWrapper.PostAsync<Dsrcreate>("/Dsr/", ExistingSession);
+            var Total = ExistingSession.ProductList.Sum(item => item.Total);
+            List<DsrProduct> oldproduct = await GetProductAsync();
+            List<DsrProduct> newproduct = ExistingSession.ProductList;
+
+            var differentProducts =  ExistingSession.ProductList.Where(s =>  s.Quantity != null)
+                                                                .Select(s => new DsrInsertProduct
+                                                                 {
+                                                                   Product = s.Id,
+                                                                   Quantity = s.Quantity,
+                                                                   Price = s.Price
+                                                                  })
+                                                                .ToList();
+            
+            var inserter =  _mapper.Map<Dsrcreate, DsrInsert>(ExistingSession);
+
+            inserter.product = differentProducts;
+            inserter.TotalAmount = Total;
+            inserter.OrderBy = "Admin123";
+
+            var result = await _HttpCleintWrapper.PostAsync<ProductResponse>("/Dsr/", inserter);
             return result;
 
         }
+
+
     }
 
 }
