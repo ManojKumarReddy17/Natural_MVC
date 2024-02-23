@@ -1,63 +1,276 @@
-﻿@model IEnumerable<NatDMS.Models.DSRViewModel>
+﻿@model NatDMS.Models.DSRViewModel
 
 @{
     ViewData["Title"] = "DisplayDsrs";
 }
 
-<h1>DisplayDsrs</h1>
+<!DOCTYPE html>
+<html lang="en">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Executive)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Distributor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Retailor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderBy)
-            </th>
-            <th>@Html.DisplayNameFor(model => model.TotalAmount)</th>
-        <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Executive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Distributor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Retailor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderBy)
-            </td>
-          <td>
-              @Html.DisplayFor(modelItem =>item.TotalAmount)
-          </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<head>
+
+    <h1>DisplayDsrs</h1>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+
+    <script type="text/javascript">function executivechange() {
+            debugger;
+            var exid = $('#executive').val();
+            if (exid.trim() != '') {
+                var ddldis = $('#distributor');
+                alert("success")
+                ddldis.empty();
+
+                $.ajax(
+                    {
+                        url: "/Dsr/GetDistributorByExecutiveId",
+                        type: 'GET',
+                        dataType: 'json',
+
+                        data: { executiveId: exid },
+
+                        success: function (d) {
+                            ddldis.append($("<option></option>").val('').html('--Select Distributor--'));
+                            $.each(d, function (i, distributors) {
+                                ddldis.append($("<option>" + distributors.distributorName + "</option>").val(distributors.id).html(distributors.distributorName));
+                            });
+                        },
+                        error: function () {
+                            alert('Error!');
+                        }
+                    });
+            }
+        }
+
+
+        function distributorchange() {
+            debugger;
+            var disid = $('#distributor').val();
+            if (disid.trim() != '') {
+                var ddlret = $('#retailor');
+                alert("success")
+                ddlret.empty();
+
+                $.ajax(
+                    {
+                        url: "/DSR/GetRetailorByDistributorId",
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { distributorId: disid },
+                        success: function (d) {
+                            ddlret.append($("<option></option>").val('').html('--Select Retailors--'));
+                            $.each(d, function (i, retailors) {
+                           
+                                ddlret.append($("<option>" + retailors.retailor + "</option>").val(retailors.id).html(retailors.retailor));
+                            });
+                        },
+                        error: function () {
+                            alert('Error!');
+                        }
+                    });
+            }
+        }
+
+     
+
+     
+
+
+       
+
+      
+
+
+        function Save() {
+            debugger;
+
+            var modelData = {
+                Executive: $("#executive").val(),
+                Retailor: $("#retailor").val(),
+                Distributor: $("#distributor").val(),
+                Category: $("#Category").val(),
+                Product: $("#Product").val(),
+                ProductList: []
+            };
+
+            $("#Productlist TBODY TR").each(function () {
+                var rowData = {
+                    Category: $(this).find("td:eq(0)").text().trim(),
+                    ProductName: $(this).find("td:eq(1)").text().trim(),
+                    Quantity: $(this).find(".quantity").val() || null, // Use null if value is falsy
+                    Price: $(this).find(".price").val() || null, // Use null if value is falsy
+                    Weight: $(this).find("td:eq(4)").text().trim(),
+                    Total: $(this).find("td:eq(5)").text().trim() || null, // Use null if value is falsy
+                    Id: $(this).find("input[type=hidden]").val()
+                };
+                modelData.ProductList.push(rowData);
+            });
+
+            // Custom replacer function to include null values
+            var jsonString = JSON.stringify(modelData, function (key, value) {
+                // Include null values
+                return value === undefined ? null : value;
+            });
+
+            $.ajax({
+                url: "/DSR/SearchProduct",
+                type: "POST",
+                data: jsonString,
+                processData: false,
+                contentType: "application/json",
+                success: function (response) {
+                    let result = JSON.stringify(response);
+                    $("#Productlist TBODY").empty();
+                    // Append new rows based on the response
+                    $.each(response, function (i, ds) {
+                        var formattedPrice = parseFloat(ds.price).toFixed(3);
+                        var inputField = '<input type="number" name="price" class="form-control price" style="width: 100px" step="0.001" value="' + formattedPrice + '"/>';
+
+                        $("#Productlist").append(
+                            '<tr>' +
+                            '<td>' + ds.category + '</td>' +
+                            '<td>' + ds.productName + '</td>' +
+                            '<td>' + '<input type="number" name="quantity" class="form-control quantity" style="width: 100px" value="' + ds.quantity + '"/>' + '</td>' +
+                            '<td>' + inputField + '</td>' +
+                            '<td>' + ds.weight + '</td>' +
+                            //'<td class="total">' + ds.total + '</td>' +
+                            '<td class="total">' + (ds.total !== null ? ds.total : '') + '</td>' +
+                            '<td style="display:none;">' + ds.id + '</td>' +
+                            '</tr>'
+                        );
+                    });
+                },
+                error: function (request, status, error) {
+                    alert(request.responseText);
+                }
+            });
+        }
+
+
+
+     
+
+        
+    </script>
+</head>
+
+<body>
+    <p>
+        
+        <a asp-action="Create">Create New</a>
+        <a href="@Url.Action("CreateDsr")" class="d-flex align-items-center">
+            <i class="material-icons">add</i>
+            <b><span style="font-weight:bold;">CREATE NEW</span></b>
+        </a>
+
+    </p>
+
+  
+
+    <script>
+    $(document).ready(function () {
+        $('#createNewLink').click(function (e) {
+            e.preventDefault(); // Prevent default action of link click
+
+            $('#spinner').removeClass('d-none'); // Show the spinner
+
+            // Perform your action (e.g., navigating to the "CreateDsr" page)
+            window.location.href = '@Url.Action("CreateDsr")';
+        });
+    });
+    </script>
+
+
+    <div class="form-group">
+        <style>
+            .form-group {
+                display: flex;
+                justify-content: space-between;
+            }
+
+                .form-group b {
+                    width: 30%;
+                    box-sizing: border-box;
+                }
+        </style>
+        <b>
+            @Html.LabelFor(model => model.Executive)
+            @Html.DropDownListFor(model => model.Executive, new SelectList(Model.ExecutiveList, "Id", "Executive"),
+                                               "--Select Executive--", new { @id = "executive", onchange = "executivechange()", @class = "form-select" })
+            @*<span asp-validation-for="Executive" class="text-danger"></span>*@
+            @Html.HiddenFor(model => model.ExecutiveList, new { id = "executiveListHidden" })
+
+        </b>
+        <b>
+            @Html.LabelFor(model => model.Distributor)
+            @Html.DropDownListFor(model => model.Distributor, new List<SelectListItem>
+                                                        {
+        new SelectListItem { Text = "", Value = "select" }
+        }, new { @id = "distributor", onchange = "distributorchange()", @class = "form-select" })
+            @*@Html.ValidationMessageFor(model => model.Distributor, "", new { @class = "text-danger" })*@
+        </b>
+        <b>
+            @Html.LabelFor(model => model.Retailor)
+            @Html.DropDownListFor(model => model.Retailor, new List<SelectListItem>
+                                                        {
+        new SelectListItem { Text = "", Value = "select" }
+        }, new { @id = "retailor", @class = "form-select" })
+            @*  @Html.ValidationMessageFor(model => model.Retailor, "", new { @class = "text-danger" }) *@
+        </b>
+
+    </div>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+              
+                <th>Executive</th>
+                <th>Distributor</th>
+                <th>Retailor</th>
+                <th>Price</th>
+                <th>OrderBy</th>
+                <th>TotalAmount</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.dsr)
+            {
+                <tr>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Executive)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Distributor)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Retailor)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderBy)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalAmount)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

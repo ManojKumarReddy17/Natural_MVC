@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using NatDMS.Models;
 using Natural.Core.Models;
 
@@ -37,14 +38,10 @@ namespace NatDMS.Mapping
             CreateMap<SearchModel,EDR_DisplayViewModel>();
             CreateMap<DistributorToExecutive, AssignDistributorToExecutiveViewModel>();
             CreateMap<SearchModel , SearchViewModel>();
-            CreateMap<DSRModel,DSRViewModel>();
-
+            //CreateMap<DSRModel,DSRViewModel>();
             CreateMap<ProductResponse,ProductResult>();
             CreateMap<RetailorToDistributor,AssignRetailorToDistributorViewModel>();
-
-
             CreateMap<DistributorModel, DistributorDetailsViewModel>();
-
 
             // Resource to Domain
 
@@ -74,6 +71,11 @@ namespace NatDMS.Mapping
             CreateMap<SearchProduct,ProductSearch>();
 
             CreateMap<DistributorDetailsViewModel,DistributorModel>();
+
+            CreateMap<Dsrcreate, DsrInsert>();
+            CreateMap<DsrExecutiveDrop, DsrExecutiveResourse>();
+            CreateMap<DSRModel, DsrResourse>();
+           
 
 
 

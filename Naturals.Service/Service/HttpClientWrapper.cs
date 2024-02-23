@@ -64,16 +64,16 @@ namespace Naturals.Service.Service
 
             var response = await _httpClient.PostAsync(_httpClient.BaseAddress + endpoint, content);
 
-            if(response.IsSuccessStatusCode)
-            {
+            //if(response.IsSuccessStatusCode)
+            //{
                 var responseContent = await response.Content.ReadAsStringAsync();
 
                 return JsonConvert.DeserializeObject<T>(responseContent);
-            }
-            else
-            {
-                throw new Exception("Failed to post the data");
-            }
+            //}
+            //else
+            //{
+            //    //throw new Exception("Failed to post the data");
+            //}
 
         }
 

@@ -46,7 +46,7 @@ namespace NatDMS.Controllers
             {
                 CategoryList = category1,
 
-                product = paginatedData
+                product = paginatedData 
 
             };
 
