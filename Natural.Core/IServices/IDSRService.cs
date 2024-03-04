@@ -17,7 +17,16 @@ namespace Natural.Core.IServices
         Task<Dsrcreate> CreateDsr();
         Task<Dsrcreate> UpdateSession(Dsrcreate ExistingSession, Dsrcreate UpadeSession);
         Task<List<DsrProduct>> SearchProductsAsync(Dsrcreate ExistingSession, Dsrcreate UpadeSession);
-        Task<ProductResponse> Insert(Dsrcreate ExistingSession);
+        //Task<ProductResponse> Insert(Dsrcreate ExistingSession); // before edit 
+        Task<ProductResponse> Insert(DsrInsert Insertdata);
+        Task<ProductResponse> Updatedsr(DsrInsert updatedata);
+        Task<DsrInsert> onlyUpdateaInsert(Dsrcreate ExistingSession);
+
+        Task<DsrInsert> Details(string dsrid);
+        Task<List<DSRModel>> dsrsearch(Dsrview dsr);
+        Task<bool> DeleteDsr(string DsrId);
+        Task<Dsrcreate> editDsr(string dsrid);
+
 
     }
 }

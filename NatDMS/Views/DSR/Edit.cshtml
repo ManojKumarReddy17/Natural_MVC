@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<h1>CreateDsr</h1>
+<h1>EditDsr</h1>
 
 <head>
 
@@ -20,7 +20,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-   
+  
 
  
 
@@ -150,7 +150,7 @@
             });
 
             $.ajax({
-                url: "/DSR/SearchProduct",
+                url: "/DSR/EditSearchProduct",
                 type: "POST",
                 data: jsonString,
                 processData: false,
@@ -210,7 +210,7 @@
                     Price: $(this).find(".price").val() || null, // Use null if value is falsy
                     Weight: $(this).find("td:eq(4)").text().trim(),
                     Total: $(this).find("td:eq(5)").text().trim() || null, // Use null if value is falsy
-                    //Id: $(this).find("input[type=hidden]").val()
+                  
                     Id: $(this).find("input[type=hidden][name$='.Id']").val()
 
                 };
@@ -225,7 +225,7 @@
 
 
             $.ajax({
-                url: "/DSR/CreateDsr",
+                url: "/DSR/EditDsr",
                 type: "POST",
                 data: jsonString,
                 contentType: "application/json",
@@ -236,6 +236,7 @@
                                 window.location.href = url;
                     // Calculate total amounts for newly added rows
                     //calculateTotalAmounts();
+
                 },
                 error: function (request, status, error) {
                     alert(request.responseText);
@@ -268,25 +269,37 @@
                     @Html.LabelFor(model => model.Executive)
                     @Html.DropDownListFor(model => model.Executive, new SelectList(Model.ExecutiveList, "Id", "Executive"),
                                                        "--Select Executive--", new { @id = "executive", onchange = "executivechange()", @class = "form-select" })
-                   
+                    
                     @Html.HiddenFor(model => model.ExecutiveList, new { id = "executiveListHidden" })
 
                 </b>
                 <b>
                     @Html.LabelFor(model => model.Distributor)
-                    @Html.DropDownListFor(model => model.Distributor, new List<SelectListItem>
-                                                                {
-                new SelectListItem { Text = "", Value = "select" }
-                }, new { @id = "distributor", onchange = "distributorchange()", @class = "form-select" })
-                   
+
+
+                    
+                    @Html.DropDownListFor(model => model.Distributor, new SelectList(Model.DistributorList, "Id", "DistributorName"),
+
+
+          "--Select distributor--",    new { @id = "distributor", onchange = "distributorchange()", @class = "form-select" })
+
+
+
                 </b>
                 <b>
                     @Html.LabelFor(model => model.Retailor)
-                    @Html.DropDownListFor(model => model.Retailor, new List<SelectListItem>
-                                                                {
-                new SelectListItem { Text = "", Value = "select" }
-                }, new { @id = "retailor", @class = "form-select" })
-                   
+
+                  
+
+
+
+                    @Html.DropDownListFor(model => model.Retailor, new SelectList(Model.RetailorList, "Id", "Retailor"),
+                     "--Select reatilor--",                                          
+             
+              new { @id = "retailor", @class = "form-select" })
+
+       
+
                 </b>
 
             </div>
@@ -396,13 +409,12 @@
         </div>
 
 
-
-
-
     </div>
 
 
-
+    @*<div>
+            <a asp-action="Index">Back to List</a>
+        </div>*@
 
 </body>
 

@@ -56,7 +56,7 @@ namespace Naturals.Service.Service
         /// <summary>
         /// POST ASYNC
         /// </summary>
-        
+
         public async Task<T> PostAsync<T>(string endpoint, object model)
         {
             var jsonContent = JsonConvert.SerializeObject(model);
@@ -64,16 +64,9 @@ namespace Naturals.Service.Service
 
             var response = await _httpClient.PostAsync(_httpClient.BaseAddress + endpoint, content);
 
-            //if(response.IsSuccessStatusCode)
-            //{
                 var responseContent = await response.Content.ReadAsStringAsync();
 
                 return JsonConvert.DeserializeObject<T>(responseContent);
-            //}
-            //else
-            //{
-            //    //throw new Exception("Failed to post the data");
-            //}
 
         }
 
@@ -94,13 +87,17 @@ namespace Naturals.Service.Service
         /// </summary>
         public async Task<T> PutAsync<T>(string endpoint, string Id, object model)
         {
+           
             var jsonContent = JsonConvert.SerializeObject(model);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PutAsync($"{_httpClient.BaseAddress}{endpoint}/{Id}", content);
             var responseContent = await response.Content.ReadAsStringAsync();
 
-            return JsonConvert.DeserializeObject<T>(responseContent);
+            return JsonConvert.DeserializeObject<T>(responseContent); 
+            
+
+
         }
 
         /// </summary>
