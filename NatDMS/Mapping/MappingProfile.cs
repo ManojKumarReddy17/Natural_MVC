@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
+using Microsoft.CodeAnalysis.Differencing;
 using NatDMS.Models;
 using Natural.Core.Models;
 
@@ -42,6 +43,12 @@ namespace NatDMS.Mapping
             CreateMap<ProductResponse,ProductResult>();
             CreateMap<RetailorToDistributor,AssignRetailorToDistributorViewModel>();
             CreateMap<DistributorModel, DistributorDetailsViewModel>();
+            CreateMap<DSRViewModel, Dsrview>();
+            CreateMap<DsrInsertProduct, DsrProduct>();
+            CreateMap<DsrInsert, Dsrcreate>();
+            CreateMap<DsrRetailor, DsrRetailorDrop>();
+            CreateMap< DsrDistributor,DsrDistributorDrop>();
+            CreateMap<Dsredit, Dsrcreate>();
 
             // Resource to Domain
 

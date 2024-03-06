@@ -20,7 +20,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-   
+    @*<script src="~/js/jquery-3.6.0.min.js"></script>*@
 
  
 
@@ -268,7 +268,7 @@
                     @Html.LabelFor(model => model.Executive)
                     @Html.DropDownListFor(model => model.Executive, new SelectList(Model.ExecutiveList, "Id", "Executive"),
                                                        "--Select Executive--", new { @id = "executive", onchange = "executivechange()", @class = "form-select" })
-                   
+                    @*<span asp-validation-for="Executive" class="text-danger"></span>*@
                     @Html.HiddenFor(model => model.ExecutiveList, new { id = "executiveListHidden" })
 
                 </b>
@@ -278,7 +278,7 @@
                                                                 {
                 new SelectListItem { Text = "", Value = "select" }
                 }, new { @id = "distributor", onchange = "distributorchange()", @class = "form-select" })
-                   
+                    @*@Html.ValidationMessageFor(model => model.Distributor, "", new { @class = "text-danger" })*@
                 </b>
                 <b>
                     @Html.LabelFor(model => model.Retailor)
@@ -286,7 +286,7 @@
                                                                 {
                 new SelectListItem { Text = "", Value = "select" }
                 }, new { @id = "retailor", @class = "form-select" })
-                   
+                    @*  @Html.ValidationMessageFor(model => model.Retailor, "", new { @class = "text-danger" }) *@
                 </b>
 
             </div>
@@ -402,7 +402,9 @@
     </div>
 
 
-
+    @*<div>
+            <a asp-action="Index">Back to List</a>
+        </div>*@
 
 </body>
 

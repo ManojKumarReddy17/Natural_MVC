@@ -1,13 +1,8 @@
-﻿
-using Natural.Core.Models;
-
-#nullable disable
-namespace NatDMS.Models
+﻿using System;
+namespace Natural.Core.Models
 {
-    public class DSRViewModel
-    {
-       
-        public List<DsrExecutiveResourse> ExecutiveList { get; set; }
+	public class Dsrview
+	{
 
         public string Executive { get; set; }
 
@@ -18,8 +13,6 @@ namespace NatDMS.Models
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
-
-        public List<DsrResourse> dsr { get; set; }
-
     }
 }
+

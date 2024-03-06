@@ -18,7 +18,7 @@ namespace Natural.Core.IServices
         Task<string> DeleteAssignedDistirbutorAsync(string endpoint,string id);
 
 
-
+        
 
 
 
