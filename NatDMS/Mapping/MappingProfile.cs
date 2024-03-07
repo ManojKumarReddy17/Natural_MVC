@@ -49,6 +49,10 @@ namespace NatDMS.Mapping
             CreateMap<DsrRetailor, DsrRetailorDrop>();
             CreateMap< DsrDistributor,DsrDistributorDrop>();
             CreateMap<Dsredit, Dsrcreate>();
+            CreateMap<DistributorSalesReport, DistributorSalesReportViewModel>();
+            CreateMap<DsrDistributor, DsrDistributorDrop>();
+            CreateMap<DsrRetailor, DsrRetailorDrop>();
+
 
             // Resource to Domain
 
@@ -82,8 +86,8 @@ namespace NatDMS.Mapping
             CreateMap<Dsrcreate, DsrInsert>();
             CreateMap<DsrExecutiveDrop, DsrExecutiveResourse>();
             CreateMap<DSRModel, DsrResourse>();
-           
 
+            CreateMap<DistributorSalesReportViewModel, DistributorSalesReport>();
 
 
         }

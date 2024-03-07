@@ -43,7 +43,7 @@ namespace Naturals.Service.Service
         /// <summary>
         /// GET BY ID ASYNC
         /// </summary>
-        public async Task<T> GetByIdAsync<T>(string endpoint, string id)
+        public async Task<T> GetByIdAsync<T>(string endpoint, object id)
         {
             var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}{endpoint}/{id}");
 
