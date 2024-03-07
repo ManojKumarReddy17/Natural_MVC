@@ -1,0 +1,362 @@
+﻿@model Natural.Core.Models.DistributorSalesReport
+
+@{
+    ViewData["Title"] = "Displayreports";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <br />
+    <h3>DisplayDsrs</h3>
+
+
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+
+
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+
+
+
+
+    <script type="text/javascript">
+
+        function executivechange() {
+            debugger;
+            var exid = $('#executive').val();
+            if (exid.trim() != '') {
+                var ddldis = $('#distributor');
+                alert("success")
+                ddldis.empty();
+
+                $.ajax(
+                    {
+                        url: "/Dsr/GetDistributorByExecutiveId",
+                        type: 'GET',
+                        dataType: 'json',
+
+                        data: { executiveId: exid },
+
+                        success: function (d) {
+                            ddldis.append($("<option></option>").val('').html('--Select Distributor--'));
+                            $.each(d, function (i, distributors) {
+                                ddldis.append($("<option>" + distributors.distributorName + "</option>").val(distributors.id).html(distributors.distributorName));
+                            });
+                        },
+                        error: function () {
+                            alert('Error!');
+                        }
+                    });
+            }
+        }
+
+
+        function distributorchange() {
+            debugger;
+            var disid = $('#distributor').val();
+            if (disid.trim() != '') {
+                var ddlret = $('#retailor');
+                alert("success")
+                ddlret.empty();
+
+                $.ajax(
+                    {
+                        url: "/DSR/GetRetailorByDistributorId",
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { distributorId: disid },
+                        success: function (d) {
+                            ddlret.append($("<option></option>").val('').html('--Select Retailors--'));
+                            $.each(d, function (i, retailors) {
+
+                                ddlret.append($("<option>" + retailors.retailor + "</option>").val(retailors.id).html(retailors.retailor));
+                            });
+                        },
+                        error: function () {
+                            alert('Error!');
+                        }
+                    });
+            }
+        }
+
+
+        function Save() {
+            debugger;
+
+            var modelData = {
+                Executive: $("#executive").val(),
+                Retailor: $("#retailor").val(),
+                Distributor: $("#distributor").val(),
+                StartDate: $("#StartDate").val(),
+                EndDate: $("#EndDate").val(),
+                //ProductList: []
+            };
+
+          
+            var jsonString = JSON.stringify(modelData, function (key, value) {
+                // Include null values
+                return value === undefined ? null : value;
+            });
+
+            $.ajax({
+                url: "/DailySaleReports/DisplayDsreport",
+                type: "POST",
+                data: jsonString,
+                processData: false,
+                contentType: "application/json",
+                success: function (response) {
+                    let result = JSON.stringify(response);
+                    $("#Productlist TBODY").empty();
+                    // Append new rows based on the response
+                    $.each(response, function (i, ds) {
+
+
+
+                        $("#Productlist").append(
+                            '<tr>' +
+                          
+                            '<td>' + ds.product + '</td>' +
+                            '<td>' + ds.product_Name + '</td>' +
+                            '<td>' + ds.quantity + '</td>' +
+                            '<td>' + ds.price + '</td>' +
+                            '<td>' + ds.saleAmount + '</td>' +
+                           
+                            '</tr>'
+                        );
+                    });
+                },
+                error: function (request, status, error) {
+                    alert(request.responseText);
+                }
+            });
+        }
+
+
+        //print Logic
+
+        $(document).ready(function () {
+            $('#generatePdfBtn').click(function () {
+                var search = {
+                    Executive: $('#executive').val(),
+                    Retailor: $('#retailor').val(),
+                    Distributor: $('#distributor').val(),
+                    StartDate: $('#StartDate').val(),
+                    EndDate: $('#EndDate').val()
+                };
+
+                $.ajax({
+                    url: '/DailySaleReports/GeneratePdf',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(search),
+                    success: function (response) {
+                        // Assuming response contains HTML content to be printed
+                        printContent(response);
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error
+                        console.error(error);
+                    }
+                });
+            });
+
+            $('#printBtn').click(function () {
+                var content = $('.result-container').html();
+                printContent(content);
+            });
+
+            function printContent(content) {
+                var executiveName = $('#executive option:selected').text();
+                var distributorName = $('#distributor option:selected').text();
+                var retailerName = $('#retailor option:selected').text();
+
+                // Create a header with executive, distributor, and retailer information
+                var header = '<div><b>Executive:</b> ' + executiveName + '</div>' +
+                    '<div><b>Distributor:</b> ' + distributorName + '</div>' +
+                    '<div><b>Retailer:</b> ' + retailerName + '</div><br>';
+
+                // Calculate total quantity, total price, and total sale amount
+                var totalQuantity = 0;
+                var totalPrice = 0;
+                var totalSaleAmount = 0;
+                $(content).find('tr').each(function () {
+                    var quantity = parseFloat($(this).find('td:eq(2)').text()) || 0;
+                    var price = parseFloat($(this).find('td:eq(3)').text()) || 0;
+                    var saleAmount = parseFloat($(this).find('td:eq(4)').text()) || 0;
+                    totalQuantity += quantity;
+                    totalPrice += price;
+                    totalSaleAmount += saleAmount;
+                });
+
+                // Create a footer with total quantity, total price, and total sale amount
+                var footer = '<div style="text-align:right;"><b>Total Quantity:</b> ' + totalQuantity.toFixed(2) + '</div>' +
+                    '<div style="text-align:right;"><b>Total Price:</b> ' + totalPrice.toFixed(2) + '</div>' +
+                    '<div style="text-align:right;"><b>Total Sale Amount:</b> ' + totalSaleAmount.toFixed(2) + '</div><br>';
+
+                // Combine the header, content, and footer
+                var printableContent = header + content + footer;
+
+                // Replace the body content with the printable content, print, and restore the original content
+                var originalContent = $('body').html();
+                $('body').html(printableContent);
+                window.print();
+                $('body').html(originalContent);
+            }
+
+
+
+        });
+
+        // $('#StarDate').datepicker({
+        //     "setDate": new Date(),
+        //     "autoclose": true
+        // });
+
+       
+    </script>
+
+
+</head>
+
+<body>
+
+    <div class="form-group">
+        <style>
+            .form-group {
+                display: flex;
+                justify-content: space-between;
+            }
+
+                .form-group b {
+                    width: 30%;
+                    box-sizing: border-box;
+                }
+        </style>
+
+        <b>
+            @Html.LabelFor(model => model.Executive)
+            @Html.DropDownListFor(model => model.Executive, new SelectList(Model.Executivelist, "Id", "Executive"),
+            "--Select Executive--", new { @id = "executive", onchange = "executivechange()", @class = "form-select" })
+            @*<span asp-validation-for="Executive" class="text-danger"></span>*@
+            @Html.HiddenFor(model => model.Executivelist, new { id = "executiveListHidden" })
+
+        </b>
+        <b>
+            @Html.LabelFor(model => model.Distributor)
+            @Html.DropDownListFor(model => model.Distributor, new List<SelectListItem>
+            {
+            new SelectListItem { Text = "", Value = "" }
+            }, new { @id = "distributor", onchange = "distributorchange()", @class = "form-select" })
+            @*@Html.ValidationMessageFor(model => model.Distributor, "", new { @class = "text-danger" })*@
+        </b>
+        <b>
+            @Html.LabelFor(model => model.Retailor)
+            @Html.DropDownListFor(model => model.Retailor, new List<SelectListItem>
+            {
+            new SelectListItem { Text = "", Value = "" }
+            }, new { @id = "retailor", @class = "form-select" })
+            @*@Html.ValidationMessageFor(model => model.Retailor, "", new { @class = "text-danger" })*@
+        </b>
+
+
+        <b>
+            @Html.LabelFor(model => model.StartDate)
+            @Html.EditorFor(model => model.StartDate, new { @class = "datepicker", @id = "StarDate" })
+           
+            @Html.LabelFor(model => model.EndDate)
+            @Html.EditorFor(model => model.EndDate, new { @class = "datepicker", @id = "EndDate" })
+
+
+
+        </b>
+        <div class="col-md-2">
+            <div class="form-group">
+                <button type="submit" class="btn btn-secondary my-4" onclick="Save()">
+                    <i class="material-icons" style="font-size:15px;display:flex;justify-content:center;
+                                  align-items:center;">search</i>
+                </button>
+
+                <button class="btn btn-secondary my-4" id="printBtn">
+                    <i class="material-icons" style="font-size:15px;display:flex;justify-content:center;align-items:center;">print</i> Print
+                </button>
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+    @*  <table class="table" id="Productlist">
+    <thead>
+    <tr>
+    <th>DsrId</th>
+    <th>CreatedDate</th>
+    <th>ProductId</th>
+    <th>Product</th>
+    <th>Quantity</th>
+    <th>Price</th>
+    <th>SaleAmount</th>
+    </tr>
+
+
+    </thead>
+
+    </table> *@
+
+    <div class="result-container" style="overflow-y: auto; max-height: 200px;">
+        <!-- Your result section -->
+        <table class="table" id="Productlist">
+            <thead>
+                <tr>
+
+
+                    <th>ProductId</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>SaleAmount</th>
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+
+
+    @*  <script type="text/javascript">
+    window.onload = function () {
+    var totalRowCount = $("#Productlist tbody tr").length;
+    $('.result-container').append("Total Row Count: " + totalRowCount);
+    };
+    </script>
+    *@
+    <style>
+        table, th, td {
+            border: 1px solid black; /*  <<===== this one  */
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 5px;
+            text-align: left;
+        }
+    </style>
+</body>
+</html>
