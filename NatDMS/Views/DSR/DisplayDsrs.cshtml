@@ -153,9 +153,9 @@
 
 
                         var deleteContentnotification =
-                            '<td>' +
+
                             '<div style="display: flex; justify-content: center; align-items: center;">' +
-                            
+
                             '<i onclick="confirmDelete(\'' + ds.id + '\', true)" class="material-icons" style="color: red;cursor: pointer;">delete</i>' +
                             '</div>' +
                             '<div id="deleteConfirmationModal_' + ds.id + '" class="modal" role="dialog">' +
@@ -179,8 +179,8 @@
                             '</div>' +
                             '</div>' +
                             '</div>' +
-                            '</div>' +
-                            '</td>';
+                            '</div>';
+                          
 
 
 
@@ -242,12 +242,24 @@
 
 <body>
     <p>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="text-center">
+            </div>
+            <a href="@Url.Action("CreateDsr")" class="d-flex align-items-center">
+                @*<i class="material-icons">add</i>*@
+                @*<i class="material-icons">add</i>*@
+                <i class="material-icons">list_alt</i>
+                
+                 
+               
+                <b><span style="font-weight:bold;">CREATE DSR</span></b>
+            </a>
+        </div>
 
-       
-        <a href="@Url.Action("CreateDsr")" class="d-flex align-items-center">
+        @*<a href="@Url.Action("CreateDsr")" class="d-flex align-items-center">
             <i class="material-icons">add</i>
             <b><span style="font-weight:bold;">CREATE NEW</span></b>
-        </a>
+        </a>*@
 
     </p>
 
