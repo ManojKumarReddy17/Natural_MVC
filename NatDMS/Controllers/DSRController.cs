@@ -71,6 +71,7 @@ namespace NatDMS.Controllers
         public async Task<ActionResult<DsrInsert>> Details(string dsrid)
         {
            var dsr = await _dsrservice.Details(dsrid);
+            dsr.dsrid = dsrid;
             return View(dsr);
 
         }
@@ -100,7 +101,6 @@ namespace NatDMS.Controllers
 
 
 
-
         [HttpPost]
         public async Task<JsonResult> DsrSearchProduct([FromBody] DSRViewModel model)
         {
@@ -111,12 +111,6 @@ namespace NatDMS.Controllers
             return Json(se);
 
         }
-        
-
-    
-
-       
-
         
 
 
@@ -142,8 +136,6 @@ namespace NatDMS.Controllers
 
             return Json(result);
         }
-
-
 
 
         public async Task<ActionResult> Deletedsr(string dsrId)

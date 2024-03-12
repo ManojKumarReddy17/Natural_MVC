@@ -1,0 +1,206 @@
+﻿@model NatDMS.Models.NotificationViewmodel
+
+
+@{
+    ViewData["Title"] = "CreateDsr";
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+<head>
+
+
+
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link href="~/css/bootstrap-multiselect.css" rel="stylesheet" />
+
+    <h1>
+        New Notification <i class="material-icons">notifications</i>
+        @*<img src="your_notification_icon_path" alt="Notification Icon" style="width: 24px; height: 24px;">*@
+    </h1>
+    <style>
+        .email-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+        }
+
+    
+
+        .email-body {
+            display: flex;
+        }
+
+        .email-sidebar {
+            flex: 1;
+            padding: 10px;
+        }
+
+        .email-content {
+            flex: 3;
+            padding: 10px;
+        }
+
+        .email-form label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .email-form input,
+        .email-form select,
+        .email-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .email-form .btn-primary {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .email-form .btn-primary:hover {
+                background-color: #0056b3;
+            }
+
+        .text-danger {
+            color: #dc3545;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            font-size: 16px;
+            color: #495057;
+            display: flex;
+        }
+
+        .email-container .email-content .email-form .form-group label select#distributor {
+            height: 200px;
+            /* Adjust styling as needed */
+        }
+    </style>
+    <scrit scr="~/css/bootstrap-multiselect.js "></scrit>
+
+    <script type="text/javascript">function executivechange() {
+            debugger;
+            var exid = $('#executive').val();
+            if (exid.trim() != '') {
+                var ddldis = $('#distributor');
+                alert("success")
+                ddldis.empty();
+
+                $.ajax(
+                    {
+                        url: "/NotificationDistributor/GetDistributorByExecutiveId",
+                        type: 'GET',
+                        dataType: 'json',
+
+                        data: { executiveId: exid },
+
+                        success: function (d) {
+                            ddldis.append($("<option></option>").val('').html('--Select Distributor--'));
+                            $.each(d, function (i, distributors) {
+                                ddldis.append($("<option>" + distributors.distributorName + "</option>").val(distributors.id).html(distributors.distributorName));
+                            });
+                        },
+                        error: function () {
+                            alert('Error!');
+                        }
+                    });
+            }
+        }
+
+
+
+       </script>
+</head>
+
+<body>
+    @using (Html.BeginForm(FormMethod.Post, new { id = "SearchResultmodel" }))
+    {
+        <div class="email-container">
+          
+
+            <div class="email-body">
+                <div class="email-sidebar">
+                    <!-- Add sidebar content here -->
+                </div>
+
+                <div class="email-content">
+                    <div class="email-form">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-group">
+                            <label>
+                                Executive:
+                                @Html.DropDownListFor(model => model.Executive, new SelectList(Model.ExecutiveList, "Id", "Executive"), "--Select Executive--", new { @id = "executive", onchange = "executivechange()", @class = "form-select" })
+                                @Html.HiddenFor(model => model.ExecutiveList, new { id = "executiveListHidden" })
+                            </label>
+                            <label>
+                                Distributor:
+                                @Html.ListBoxFor(model => model.Distributor, new List<SelectListItem> { new SelectListItem { Text = "", Value = "select" } }, new {@id = "distributor", onchange = "distributorchange()", @class = "form-select" })
+                            </label>
+                            <label>
+                                Subject:
+                                @Html.TextBoxFor(model => model.Subject)
+                            </label>
+                            <label>
+                                Body:
+                                @Html.TextAreaFor(model => model.Body, new { rows = "15", cols = "25" })
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" value="Send" class="btn btn-primary" onclick="Insert()" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+    }
+
+
+
+
+
+
+
+</body>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+</html>

@@ -74,9 +74,11 @@
   <ItemGroup>
     <None Remove="Views\GuestProduct\" />
     <None Remove="Views\Dis\" />
+    <None Remove="Views\NotificationDistributor\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\GuestProduct\" />
     <Folder Include="Views\Dis\" />
+    <Folder Include="Views\NotificationDistributor\" />
   </ItemGroup>
 </Project>

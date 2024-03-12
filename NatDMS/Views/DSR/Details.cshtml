@@ -18,14 +18,19 @@
         <div class="row">
             <div class="col-md-10">
 
+                
+
                 <!-------------------------------------------------------EDIT ICON LINK --------------------------------------------------->
 
-                @*<div class="text-center position-relative">
-                    <a href="@Url.Action("EditDistributor", new { id = Model.DistributorDetails.Id })" class="d-flex align-items-center position-absolute" style="top: 0; right: 0;">
+                <div class="text-center position-relative">
+                    <a href="@Url.Action("Edit", new { dsrid = Model.dsrid})" class="d-flex align-items-center position-absolute" style="top: 0; right: 0; color: orange;">
                         <i class="material-icons" style="font-size:20px">edit</i>
                         <span class="ml-2" style="font-weight:bold;">Edit</span>
                     </a>
-                </div>*@
+
+
+                  
+                </div>
 
                 <!-------------------------------------------------------EXECUTIVE DETAILS --------------------------------------------------->
 
@@ -46,21 +51,10 @@
                         <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.TotalAmount)</dt>
                         <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.TotalAmount)</dd>
 
-                        @*<dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.DistributorDetails.City)</dt>
-                        <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.DistributorDetails.City)</dd>
-
-                        <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.DistributorDetails.Area)</dt>
-                        <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.DistributorDetails.Area)</dd>*@
                     </dl>
 
                     <!-------------------------------------------------------ASSIGN DISTRIBUTOR POPUP --------------------------------------------------->
-
-
-
                     <!------------------------------------------------ASSIGN DISTRIBUTOR ICON LINK --------------------------------------------->
-
-                     
-
                     <!--------------------------------------LIST OF ASSIGNED DISTIRBUTORS----------------------------------------->
 
 
@@ -72,7 +66,7 @@
                                 <th class="red-border">Quantity</th>
                                 <th class="red-border">Price</th>
                                 <th class="red-border">Total</th>
-                               
+
                             </tr>
                         </thead>
                         <tbody>
@@ -81,17 +75,13 @@
                                 <tr class="red-border">
                                     <td class="red-border">@dsrdetails.Category</td>
                                     <td class="red-border">@dsrdetails.Product</td>
-                                    @*<td class="red-border ">@dsrdetails.Quantity</td>
-        <td class="red-border ">@dsrdetails.Price</td>*@
+
                                     <td class=" red-border quantity">@dsrdetails.Quantity</td>
                                     <td class=" red-border price">@dsrdetails.Price</td>
                                     <td class="total"></td>
-                                    @*<td class="hidden">@dsrdetails.Id</td>*@
+
                                     <td style="display:none;">@Html.HiddenFor(modelItem => dsrdetails.Id)</td> <!-- Hidden field for ID -->
-                                    @*<td class="red-border">@retailor.MobileNumber</td>
-        <td class="red-border">@retailor.State</td>
-        <td class="red-border">@retailor.City</td>
-        <td class="red-border">@retailor.Area</td>*@
+
 
                                 </tr>
                             }

@@ -217,7 +217,8 @@ namespace Naturals.Service.Service
             inserter.dsrid = ExistingSession.dsrid;
             inserter.TotalAmount = Total;
             inserter.OrderBy = "Admin123";
-            
+
+
 
 
             return inserter;
@@ -313,6 +314,22 @@ namespace Naturals.Service.Service
             dsrempty.Retailor = dsrids.Retailor;
             return dsrempty;
 
+
+        }
+
+
+
+       public async Task<List<DsrExecutiveDrop>> GetExecutive()
+        {
+
+            List<ExecutiveModel> executives = await _ExecutiveService.GetAllExecutives();
+            List<DsrExecutiveDrop> executiveList = executives.Select(c => new DsrExecutiveDrop
+            {
+                Id = c.Id,
+                Executive = string.Concat(c.FirstName, " ", c.LastName),
+            }).ToList();
+
+            return executiveList;
 
         }
 

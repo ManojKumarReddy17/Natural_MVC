@@ -26,6 +26,7 @@ namespace Natural.Core.IServices
         Task<List<DSRModel>> dsrsearch(Dsrview dsr);
         Task<bool> DeleteDsr(string DsrId);
         Task<Dsrcreate> editDsr(string dsrid);
+        Task <List<DsrExecutiveDrop>> GetExecutive();
 
 
     }
