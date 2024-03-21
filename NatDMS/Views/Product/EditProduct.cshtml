@@ -12,8 +12,7 @@
 <head>
 
     <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     @*<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">*@
@@ -181,8 +180,84 @@
                 <span class="ml-2" style="font-weight: bold;">BACK TO LIST</span>
             </a>
         </div>
+        <script src="~/js/jquery-3.6.0.min.js"></script>
 
-      
+
+        <script>var isDeleteSuccessful = false;
+    function confirmDelete(id) {
+        var modal = $('#deleteConfirmationModal_' + id);
+        modal.modal('show');
+    }
+    function cancelDelete(id) {
+          var model=  $('#deleteConfirmationModal_' + id).modal('hide');
+        }
+    var isDeleteSuccess = false;
+        function deleteItem(id) {
+            $.ajax({
+                url: '/Product/Delete', // Specify the correct URL for your delete action
+                type: 'POST',
+                data: { Id:'@Model.Id' },
+                success: function (result) {
+                    alert("seccess")
+                    // Handle the success case (e.g., update UI, close modal)
+                    console.log('Item deleted successfully');
+                    $('#deleteConfirmationModal_' + id).modal('hide');
+                    isDeleteSuccessful = true;
+                    enableForm();
+                    disableImage();
+                },
+                error: function (error) {
+                    // Handle the error case (e.g., display an error message)
+                    console.error('Error deleting item', error);
+                }
+            });
+        }
+
+    function enableForm() {
+            if (isDeleteSuccessful) {
+                $('#fileInput').prop('disabled', false);
+
+            }
+        }
+        $(document).ready(function () {
+            enableForm();
+        });
+    $(document).ready(function () {
+        disableImage();
+    });
+    function disableImage() {
+        if (isDeleteSuccessful) {
+            $('#presignedurl').off('click'); // Remove click event
+            $('#presignedurl').css('pointer-events', 'none'); // Disable pointer events (optional)
+            $('#presignedurl').attr('src', ''); // Set src attribute to empty string
+            $('#presignedurl').css('display', 'none');
+            $('#image').css('display', 'none');
+        }
+    }
+    // for preview image after upload
+    function ShowImagePreview(input) {
+        debugger;
+        if (input.files && input.files[0]) {
+            var fname = input.files[0].name;
+            var re = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/i;
+            if (!re.exec(fname)) {
+                alert("Image not supported!");
+                $("#fileInput").val("");
+                $("#imagePreviewContainer").hide();
+                return false;
+            }
+            else {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imagePreview').prop('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+                $("#imagePreviewContainer").show();
+            }
+        }
+    }
+        </script>
+
     </div>
 </body>
 </html>

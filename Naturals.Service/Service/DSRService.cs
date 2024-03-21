@@ -182,7 +182,7 @@ namespace Naturals.Service.Service
                     Retailor = UpadeSession.Retailor,
                     ProductList = updatedprodctList,
                     dsrid = ExistingSession.dsrid != null ? ExistingSession.dsrid : null, // we neeed this while calling api
-                    
+                    CreatedDate = UpadeSession.CreatedDate
                 };
 
             return updatemodel;

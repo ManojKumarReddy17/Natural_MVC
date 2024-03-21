@@ -24,7 +24,7 @@
     <script src="~/js/jquery-3.6.0.min.js"></script>
 
 
-    
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
@@ -39,7 +39,7 @@
             var exid = $('#executive').val();
             if (exid.trim() != '') {
                 var ddldis = $('#distributor');
-                alert("success")
+                //alert("success")
                 ddldis.empty();
 
                 $.ajax(
@@ -69,7 +69,7 @@
             var disid = $('#distributor').val();
             if (disid.trim() != '') {
                 var ddlret = $('#retailor');
-                alert("success")
+                //alert("success")
                 ddlret.empty();
 
                 $.ajax(
@@ -111,10 +111,10 @@
                 Distributor: $("#distributor").val(),
                 StartDate: $("#StartDate").val(),
                 EndDate: $("#EndDate").val(),
-              
+
             };
 
-         
+
 
             // Custom replacer function to include null values
             var jsonString = JSON.stringify(modelData, function (key, value) {
@@ -133,7 +133,7 @@
                     $("#Productlist TBODY").empty();
                     // Append new rows based on the response
                     $.each(response, function (i, ds) {
-                       
+
 
                             var anchorTag = '<a href="' + '@Url.Action("Edit", new { dsrid = "replaceme" })'.replace("replaceme", ds.id) + '" style="text-decoration: none; display: inline-block; color: orange;">' +
                     '<i class="material-icons">edit</i>' +
@@ -149,7 +149,7 @@
 
 
                              // Construct the delete icon and confirmation modal HTML string
-    
+
 
 
                         var deleteContentnotification =
@@ -180,7 +180,7 @@
                             '</div>' +
                             '</div>' +
                             '</div>';
-                          
+
 
 
 
@@ -193,9 +193,9 @@
                             '<td>' + ds.totalAmount + '</td>' +
                             '<td>' + anchorTag + '</td>' +
                             '<td>' + details + '</td>' +
-                           
+
                             '<td>' + deleteContentnotification + '</td>' +
-    
+
                             '</tr>'
                         );
                     });
@@ -249,24 +249,24 @@
                 @*<i class="material-icons">add</i>*@
                 @*<i class="material-icons">add</i>*@
                 <i class="material-icons">list_alt</i>
-                
-                 
-               
+
+
+
                 <b><span style="font-weight:bold;">CREATE DSR</span></b>
             </a>
         </div>
 
         @*<a href="@Url.Action("CreateDsr")" class="d-flex align-items-center">
-            <i class="material-icons">add</i>
-            <b><span style="font-weight:bold;">CREATE NEW</span></b>
-        </a>*@
+                <i class="material-icons">add</i>
+                <b><span style="font-weight:bold;">CREATE NEW</span></b>
+            </a>*@
 
     </p>
 
 
 
-   
-   
+
+
 
 
     <div class="form-group">
@@ -281,46 +281,46 @@
                     box-sizing: border-box;
                 }
         </style>
-      
-            <b>
-                @Html.LabelFor(model => model.Executive)
-                @Html.DropDownListFor(model => model.Executive, new SelectList(Model.ExecutiveList, "Id", "Executive"),
-                                                        "--Select Executive--", new { @id = "executive", onchange = "executivechange()", @class = "form-select" })
-               
-                @Html.HiddenFor(model => model.ExecutiveList, new { id = "executiveListHidden" })
 
-            </b>
-            <b>
-                @Html.LabelFor(model => model.Distributor)
-                @Html.DropDownListFor(model => model.Distributor, new List<SelectListItem>
-                                                            {
-            new SelectListItem { Text = "", Value = "" }
-            }, new { @id = "distributor", onchange = "distributorchange()", @class = "form-select" })
-              
-            </b>
-            <b>
-                @Html.LabelFor(model => model.Retailor)
-                @Html.DropDownListFor(model => model.Retailor, new List<SelectListItem>
-                                                            {
-            new SelectListItem { Text = "", Value = "" }
-            }, new { @id = "retailor", @class = "form-select" })
-                 
-            </b>
+        <b>
+            @Html.LabelFor(model => model.Executive)
+            @Html.DropDownListFor(model => model.Executive, new SelectList(Model.ExecutiveList, "Id", "Executive"),
+                                                    "--Select Executive--", new { @id = "executive", onchange = "executivechange()", @class = "form-select" })
 
+            @Html.HiddenFor(model => model.ExecutiveList, new { id = "executiveListHidden" })
 
-            <b>
-                @Html.LabelFor(model => model.StartDate)
-                @Html.EditorFor(model => model.StartDate, new { @class = "datepicker", @id = "StarDate" })
-                @*@Html.EditorFor(model => model.StarDate, new { @class = "datepicker", @Value = DateTime.Now.ToString("12/12/2022") })*@
-                @*<input type="text" id="StartDate" name="StartDate" class="datepicker" value="@DateTime.Now.ToString("MM/dd/yyyy")">*@
-                @*<input type="text" id="StartDate" name="StartDate" class="datepicker" value="@Model.StarDate.ToString("MM/dd/yyyy")">*@
+        </b>
+        <b>
+            @Html.LabelFor(model => model.Distributor)
+            @Html.DropDownListFor(model => model.Distributor, new List<SelectListItem>
+                                                        {
+        new SelectListItem { Text = "", Value = "" }
+        }, new { @id = "distributor", onchange = "distributorchange()", @class = "form-select" })
 
-                @Html.LabelFor(model => model.EndDate)
-                @Html.EditorFor(model => model.EndDate, new { @class = "datepicker", @id = "EndDate" })
+        </b>
+        <b>
+            @Html.LabelFor(model => model.Retailor)
+            @Html.DropDownListFor(model => model.Retailor, new List<SelectListItem>
+                                                        {
+        new SelectListItem { Text = "", Value = "" }
+        }, new { @id = "retailor", @class = "form-select" })
+
+        </b>
 
 
+        <b>
+            @Html.LabelFor(model => model.StartDate)
+            @Html.EditorFor(model => model.StartDate, new { @class = "datepicker", @id = "StarDate" })
+            @*@Html.EditorFor(model => model.StarDate, new { @class = "datepicker", @Value = DateTime.Now.ToString("12/12/2022") })*@
+            @*<input type="text" id="StartDate" name="StartDate" class="datepicker" value="@DateTime.Now.ToString("MM/dd/yyyy")">*@
+            @*<input type="text" id="StartDate" name="StartDate" class="datepicker" value="@Model.StarDate.ToString("MM/dd/yyyy")">*@
 
-                @*<script>
+            @Html.LabelFor(model => model.EndDate)
+            @Html.EditorFor(model => model.EndDate, new { @class = "datepicker", @id = "EndDate" })
+
+
+
+            @*<script>
                     $('.datepicker').datepicker({
                         format: 'mm/dd/yyyy',
                         todayHighlight: true,
@@ -328,7 +328,7 @@
                         defaultViewDate: { year: new Date().getFullYear(), month: new Date().getMonth(), day: new Date().getDate() }
                     });
                 </script>*@
-                @*<script>$(document).ready(function () {
+            @*<script>$(document).ready(function () {
                     $('#datepicker').datepicker({
                         format: 'mm/dd/yyyy',
                         startDate: '01/01/2000', // Set the start date
@@ -340,23 +340,23 @@
                         //autoclose: true        // Close the datepicker when date is selected
                     });
                 });</script>*@
-            </b>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <button type="submit" class="btn btn-secondary my-4" onclick="Save()">
-                        <i class="material-icons" style="font-size:20px;display:flex;justify-content:center;
+        </b>
+        <div class="col-md-2">
+            <div class="form-group">
+                <button type="submit" class="btn btn-secondary my-4" onclick="Save()">
+                    <i class="material-icons" style="font-size:20px;display:flex;justify-content:center;
                                   align-items:center;">search</i>
-                    </button>
+                </button>
 
-                </div>
             </div>
-            
         </div>
 
-  
+    </div>
 
-    <table class="table" id="Productlist">
-        <thead>
+
+    <table class="table table-bordered table-striped " id="Productlist">
+        @*<table class="table" id="Productlist">*@
+        <thead class="table-light">
             <tr>
 
                 <th>Executive</th>
@@ -368,14 +368,14 @@
                 <th>Edit</th>
                 <th>Details</th>
                 <th>Delete</th>
-                <th></th>
+                @*<th></th>*@
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.dsr)
             {
                 <tr>
-                   
+
                     <td>
                         @Html.DisplayFor(modelItem => item.Executive, new { @id = "executive" })
                     </td>
@@ -403,7 +403,7 @@
                             <i class="material-icons">info</i>
                         </a>
                     </td>
-               
+
 
 
                     <td>

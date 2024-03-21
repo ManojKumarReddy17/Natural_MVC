@@ -10,7 +10,7 @@
 
 <head>
     <br />
-    <h3>DisplayDsrs</h3>
+    <h3>DSR Reports</h3>
 
 
 
@@ -42,7 +42,7 @@
             var exid = $('#executive').val();
             if (exid.trim() != '') {
                 var ddldis = $('#distributor');
-                alert("success")
+                //alert("success")
                 ddldis.empty();
 
                 $.ajax(
@@ -72,7 +72,7 @@
             var disid = $('#distributor').val();
             if (disid.trim() != '') {
                 var ddlret = $('#retailor');
-                alert("success")
+                //alert("success")
                 ddlret.empty();
 
                 $.ajax(
@@ -122,8 +122,19 @@
                 contentType: "application/json",
                 success: function (response) {
                     let result = JSON.stringify(response);
-                    $("#Productlist TBODY").empty();
+                    //$("#Productlist TBODY").empty();
                     // Append new rows based on the response
+
+                    $("#Productlist").empty();
+
+                    $("#Productlist").append('<tr style="font-weight:bold">' +
+                        '<td>Product</td>' +
+                        '<td>product_Name</td>' +
+                        '<td>quantity</td>' +
+                        '<td>price</td>' +
+                        '<td>saleAmount</td>' + '</tr>'
+                    );
+
                     $.each(response, function (i, ds) {
 
 
