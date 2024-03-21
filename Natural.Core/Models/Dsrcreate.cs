@@ -25,6 +25,8 @@ namespace Natural.Core.Models
         public string Product { get; set; }
 
         public string dsrid { get; set; } // added for edit
+
+        public DateTime CreatedDate { get; set; }
     }
 }
 

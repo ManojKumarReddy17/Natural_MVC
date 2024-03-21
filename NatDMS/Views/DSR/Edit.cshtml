@@ -20,9 +20,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  
 
- 
+
+
 
     <script type="text/javascript">
         function executivechange() {
@@ -30,7 +30,7 @@
             var exid = $('#executive').val();
             if (exid.trim() != '') {
                 var ddldis = $('#distributor');
-                alert("success")
+                //alert("success")
                 ddldis.empty();
 
                 $.ajax(
@@ -60,7 +60,7 @@
             var disid = $('#distributor').val();
             if (disid.trim() != '') {
                 var ddlret = $('#retailor');
-                alert("success")
+                //alert("success")
                 ddlret.empty();
 
                 $.ajax(
@@ -126,6 +126,7 @@
                 Distributor: $("#distributor").val(),
                 Category: $("#Category").val(),
                 Product: $("#Product").val(),
+                CreatedDate: $("#CreatedDate").val(),
                 ProductList: []
             };
 
@@ -138,7 +139,7 @@
                     Weight: $(this).find("td:eq(4)").text().trim(),
                     Total: $(this).find("td:eq(5)").text().trim() || null, // Use null if value is falsy
                     Id: $(this).find("input[type=hidden][name$='.Id']").val()
-                    
+
                 };
                 modelData.ProductList.push(rowData);
             });
@@ -162,7 +163,7 @@
                     $.each(response, function (i, ds) {
                         var formattedPrice = parseFloat(ds.price).toFixed(3);
                         var inputField = '<input type="number" name="price" class="form-control price" style="width: 100px" step="0.001" value="' + formattedPrice + '"/>';
-                         
+
                         var idField = '<input type="hidden" name="id" value="' + ds.id + '"/>';
 
 
@@ -173,7 +174,7 @@
                             '<td>' + '<input type="number" name="quantity" class="form-control quantity" style="width: 100px" value="' + ds.quantity + '"/>' + '</td>' +
                             '<td>' + inputField + '</td>' +
                             '<td>' + ds.weight + '</td>' +
-                            
+
                             '<td class="total">' + (ds.total !== null ? ds.total : '') + '</td>' +
                             '<input type="hidden" name=".Id" value="' + ds.id + '"/>' +
                             '</tr>'
@@ -200,6 +201,7 @@
                 Distributor: $("#distributor").val(),
                 Category: $("#Category").val(),
                 Product: $("#Product").val(),
+                CreatedDate: $("#CreatedDate").val(),
                 ProductList: []
             };
             $("#Productlist TBODY TR").each(function () {
@@ -210,7 +212,7 @@
                     Price: $(this).find(".price").val() || null, // Use null if value is falsy
                     Weight: $(this).find("td:eq(4)").text().trim(),
                     Total: $(this).find("td:eq(5)").text().trim() || null, // Use null if value is falsy
-                  
+
                     Id: $(this).find("input[type=hidden][name$='.Id']").val()
 
                 };
@@ -260,16 +262,22 @@
                 }
 
                     .form-group b {
-                        width: 30%;
+                        width: 20%;
                         box-sizing: border-box;
                     }
+
+                .search {
+                    display: flex;
+                    /*                    justify-content: space-evenly;*/
+                    justify-content: space-evenly;
+                }
             </style>
             <div class="form-group">
                 <b>
                     @Html.LabelFor(model => model.Executive)
                     @Html.DropDownListFor(model => model.Executive, new SelectList(Model.ExecutiveList, "Id", "Executive"),
                                                        "--Select Executive--", new { @id = "executive", onchange = "executivechange()", @class = "form-select" })
-                    
+
                     @Html.HiddenFor(model => model.ExecutiveList, new { id = "executiveListHidden" })
 
                 </b>
@@ -277,11 +285,11 @@
                     @Html.LabelFor(model => model.Distributor)
 
 
-                    
+
                     @Html.DropDownListFor(model => model.Distributor, new SelectList(Model.DistributorList, "Id", "DistributorName"),
 
 
-          "--Select distributor--",    new { @id = "distributor", onchange = "distributorchange()", @class = "form-select" })
+          "--Select distributor--", new { @id = "distributor", onchange = "distributorchange()", @class = "form-select" })
 
 
 
@@ -289,132 +297,135 @@
                 <b>
                     @Html.LabelFor(model => model.Retailor)
 
-                  
+
 
 
 
                     @Html.DropDownListFor(model => model.Retailor, new SelectList(Model.RetailorList, "Id", "Retailor"),
-                     "--Select reatilor--",                                          
-             
+                     "--Select reatilor--",
+
               new { @id = "retailor", @class = "form-select" })
 
-       
+
 
                 </b>
 
+                <b>
+                    @Html.LabelFor(model => model.CreatedDate)
+                    @Html.EditorFor(model => model.CreatedDate, new { @class = "datepicker", @id = "StarDate" })
+                </b>
+
             </div>
+
+
+
+
             <div>
+                @*<div class="form-group">*@
+                <div class="search">
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <b>
-                                @Html.LabelFor(model => model.Product)
-                                @Html.TextBoxFor(model => Model.Product, new
-                           {
-                               @class = "form-control",
-                               placeholder = "Enter ProductName",
-                               onfocus = "movePlaceholder(this)",
-                               id = "Product"
-                           })
+                    @*<div class="row">*@
+                    <div class="col-sm-2">
 
+                        <b>
+                            @Html.LabelFor(model => model.Category)
+                            @Html.DropDownListFor(model => model.Category, new SelectList(Model.CategoryList, "Id", "CategoryName"),
+                                                   "-SelectCategory-", new { @class = "form-select", id = "Category" })
 
-                            </b>
-                        </div>
+                        </b>
                     </div>
+                    <div class="col-sm-2">
 
-
-
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <b>
-                                @Html.LabelFor(model => model.Category)
-                                @Html.DropDownListFor(model => model.Category, new SelectList(Model.CategoryList, "Id", "CategoryName"),
-                                                       "-SelectCategory-", new { @class = "form-select", id = "Category" })
-
-                            </b>
-
-                        </div>
+                        <b>
+                            @Html.LabelFor(model => model.Product)
+                            @Html.TextBoxFor(model => Model.Product, new
+                       {
+                           @class = "form-control",
+                           placeholder = "Enter ProductName",
+                           onfocus = "movePlaceholder(this)",
+                           id = "Product"
+                       })
+                        </b>
                     </div>
+                    <div class="col-sm-2">
 
-
-
-                    <div class="col-md-2">
-                        <div class="form-group">
+                        <b>
                             <button type="submit" class="btn btn-secondary my-4" onclick="Save()">
                                 <i class="material-icons" style="font-size:20px;display:flex;justify-content:center;
                                   align-items:center;">search</i>
                             </button>
-
-                        </div>
+                        </b>
                     </div>
-                </div>
 
-            </div>
-
-
-
-
-
-
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped custom-table" id="Productlist">
-                                <thead>
-                                    <tr>
-                                        <th>Category</th>
-                                        <th>ProductName</th>
-                                        <th>Quantity</th>
-                                        <th>Price</th>
-                                        <th>Weight</th>
-                                        <th>Total</th>
-                                        <th style="display:none;">Id</th> <!-- Hidden column for ID -->
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model.ProductList)
-                                    {
-                                        <tr>
-                                            <td>@Html.DisplayFor(modelItem => item.Category)</td>
-                                            <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
-                                            <td>
-                                                <input type="number" class="form-control quantity" style="width: 100px" value="@item.Quantity" />
-
-                                            </td>
-                                            <td>
-                                                <input type="number" class="form-control price" style="width: 100px" value="@item.Price" />
-                                            </td>
-                                            <td>@Html.DisplayFor(modelItem => item.Weight)</td>
-
-
-                                            <td class="total">@Html.DisplayFor(modelItem => item.Total)</td>
-                                            <td style="display:none;">@Html.HiddenFor(modelItem => item.Id)</td> <!-- Hidden field for ID -->
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                 </div>
             </div>
 
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" onclick="Insert()" />
-            </div>
 
         </div>
+
+
+
+
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="table-responsive">
+                       
+                        <table class="table table-bordered table-striped " id="Productlist">
+                           
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Category</th>
+                                    <th>ProductName</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Weight</th>
+                                    <th>Total</th>
+                                    <th style="display:none;">Id</th> <!-- Hidden column for ID -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.ProductList)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.Category)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
+                                        <td>
+                                            <input type="number" class="form-control quantity" style="width: 100px" value="@item.Quantity" />
+
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control price" style="width: 100px" value="@item.Price" />
+                                        </td>
+                                        <td>@Html.DisplayFor(modelItem => item.Weight)</td>
+
+
+                                        <td class="total">@Html.DisplayFor(modelItem => item.Total)</td>
+                                        <td style="display:none;">@Html.HiddenFor(modelItem => item.Id)</td> <!-- Hidden field for ID -->
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <input type="submit" value="Edit" class="btn btn-primary" onclick="Insert()" />
+        </div>
+
+    </div>
 
 
     </div>
 
 
-    @*<div>
-            <a asp-action="Index">Back to List</a>
-        </div>*@
+   
 
 </body>
 

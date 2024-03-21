@@ -16,7 +16,7 @@ builder.Services.AddTransient<IUnifiedService, UnifiedService>();
 builder.Services.AddScoped<IDistributorService, DistributorService>();
 builder.Services.AddScoped<IRetailorService , RetailorService>(); 
 builder.Services.AddScoped<IExecutiveService, ExecutiveService>();
-builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IExecutiveService, ExecutiveService>();
 builder.Services.AddScoped<IAssignDistributorToExecutiveService, AssignDistributorToExecutiveService>();
 builder.Services.AddScoped<IAssignRetailorToDistributorService,AssignRetailorToDistributorService>();
@@ -72,7 +72,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Login}/{id?}");
- 
+pattern: "{controller=Home}/{action=Login}/{id?}");
+//pattern: "{controller=GuestProduct}/{action=Index11}/{id?}");
 
 app.Run();

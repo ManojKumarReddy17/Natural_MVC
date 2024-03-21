@@ -23,15 +23,6 @@ namespace NatDMS.Models
 
         public List<DsrDistributor> distributorlist { get; set; }
 
-
-
-        //added while  addeing search 
-
-        //public DateTime StartDate { get; set; }
-
-        //public DateTime EndDate { get; set; }
-
-        //public List<DsrResourse> dsr { get; set; }
     }
 }
 
