@@ -38,18 +38,26 @@ namespace NatDMS.Controllers
             return Json(result);
         }
 
+        //[HttpPost]
+        //public async Task<ActionResult> DisplayDsreport([FromBody] DistributorSalesReport Search)
+        //{
+        //    var viewmo = await _distributorSalesService.SearchDSR(Search);
+
+
+
+        //    //var viewmodel = await _distributorSalesService.GetDsreport();
+        //    //viewmodel.report = viewmo;
+
+
+        //    return Json(viewmo);
+        //}
         [HttpPost]
         public async Task<ActionResult> DisplayDsreport([FromBody] DistributorSalesReport Search)
         {
             var viewmo = await _distributorSalesService.SearchDSR(Search);
-
-
-
-            //var viewmodel = await _distributorSalesService.GetDsreport();
-            //viewmodel.report = viewmo;
-
-
             return Json(viewmo);
         }
+
+
     }
 }

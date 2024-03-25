@@ -10,7 +10,7 @@
 
 <head>
     <br />
-    <h3>DSR Reports</h3>
+    <h3>DSR</h3>
 
 
 
@@ -42,7 +42,9 @@
             var exid = $('#executive').val();
             if (exid.trim() != '') {
                 var ddldis = $('#distributor');
+
                 //alert("success")
+ 
                 ddldis.empty();
 
                 $.ajax(
@@ -96,6 +98,16 @@
         }
 
 
+
+
+
+    
+
+       
+
+      
+
+        
         function Save() {
             debugger;
 
@@ -108,7 +120,6 @@
                 //ProductList: []
             };
 
-          
             var jsonString = JSON.stringify(modelData, function (key, value) {
                 // Include null values
                 return value === undefined ? null : value;
@@ -122,7 +133,6 @@
                 contentType: "application/json",
                 success: function (response) {
                     let result = JSON.stringify(response);
-                    //$("#Productlist TBODY").empty();
                     // Append new rows based on the response
 
                     $("#Productlist").empty();
@@ -136,18 +146,13 @@
                     );
 
                     $.each(response, function (i, ds) {
-
-
-
                         $("#Productlist").append(
                             '<tr>' +
-                          
                             '<td>' + ds.product + '</td>' +
                             '<td>' + ds.product_Name + '</td>' +
                             '<td>' + ds.quantity + '</td>' +
                             '<td>' + ds.price + '</td>' +
                             '<td>' + ds.saleAmount + '</td>' +
-                           
                             '</tr>'
                         );
                     });
@@ -159,7 +164,17 @@
         }
 
 
+
+
+
+
+
+        
+        
         //print Logic
+
+
+
 
         $(document).ready(function () {
             $('#generatePdfBtn').click(function () {
