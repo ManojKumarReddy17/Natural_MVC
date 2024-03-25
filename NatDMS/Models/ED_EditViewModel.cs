@@ -49,6 +49,7 @@ namespace NatDMS.Models
         public List<CityModel> CityList { get; set; }
 
         public List<AreaModel> AreaList { get; set; }
-
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
     }
 }

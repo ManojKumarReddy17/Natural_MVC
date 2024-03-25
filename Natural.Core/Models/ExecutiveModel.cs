@@ -21,5 +21,7 @@ namespace Natural.Core.Models
         public string Password { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime ModifiedDate { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
     }
 }

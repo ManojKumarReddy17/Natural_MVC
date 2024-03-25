@@ -77,7 +77,6 @@
     <None Remove="Views\NotificationDistributor\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\GuestProduct\" />
     <Folder Include="Views\Dis\" />
     <Folder Include="Views\NotificationDistributor\" />
   </ItemGroup>

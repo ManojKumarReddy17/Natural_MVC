@@ -46,5 +46,7 @@ namespace NatDMS.Models
               "(A-Z),alowercase letter (a-z), a digit (0-9), and a special character (!@#$%^&*)")]
               public string Password { get; set; }
               public List<StateModel> States { get; set; }
-        }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
+    }
     }
