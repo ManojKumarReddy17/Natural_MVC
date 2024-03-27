@@ -16,7 +16,7 @@
 
 <body>
 
-    @using (Html.BeginForm("EditExecutive", "Executive", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+    @using (Html.BeginForm("EditExecutive", "Executive", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate", enctype = "multipart/form-data" }))
     {
         <div class="row justify-content-center">
 
@@ -109,6 +109,27 @@
                     "--Select Area--", new { id = "area", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
                     </b>
+                </div>
+
+                <div class="form-group">
+                    @* <label for="presignedurl-label" class="control-label" id="image" style="font-weight: bold;">
+                <span>@Model.FirstName</span>
+                </label> *@
+
+                    @if (!string.IsNullOrEmpty(@Model.PresignedUrl))
+                    {
+                        <img src="@Model.PresignedUrl" alt="ProfileImage" width="160" height="160" class="img-responsive" id="presignedurl">
+                    }
+                    else
+                    {
+                        <!-- Display a default "no image" placeholder -->
+                        <img src="~/image/no-image-placeholder.svg" alt="ProfileImage" width="160" height="160" class="img-responsive" id="presignedurl">
+                    }
+
+                    <input type="file" id="profileImageInput" name="profileImage" accept="image/*" style="display: none;">
+                    <label for="profileImageInput" class="btn btn-link">
+                        <i class="bi bi-image"></i> Change ProfileImage
+                    </label>
                 </div>
 
             </div>
@@ -208,6 +229,22 @@
 
         }
     </script>
+    <script>
+        // Function to handle file input change event
+        function handleFileInputChange(event) {
+            const file = event.target.files[0];
+            if (file) {
+                // Assuming you have an img element with id "presignedurl"
+                const imgElement = document.getElementById('presignedurl');
+                imgElement.src = URL.createObjectURL(file);
+            }
+        }
+
+        // Add event listener to the file input element
+        const fileInput = document.getElementById('profileImageInput');
+        fileInput.addEventListener('change', handleFileInputChange);
+    </script>
+
 </body>
 </html>
 

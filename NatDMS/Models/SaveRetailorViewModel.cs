@@ -8,13 +8,14 @@ namespace NatDMS.Models
     public class SaveRetailorViewModel
     {
 
-        [Required(ErrorMessage = "First Name is required.")]
-        [StringLength(40, MinimumLength = 2, ErrorMessage = "First Name must be between 2 and 40 characters.")]
+        [Required(ErrorMessage = "Shop Name is required.")]
+        [StringLength(40, MinimumLength = 2, ErrorMessage = "ShopName must be between 2 and 40 characters.")]
 
         public string FirstName { get; set; }
+        public string ShopName { get; set; }
 
-        [Required(ErrorMessage = "Last Name is required.")]
-        [StringLength(40, MinimumLength = 2, ErrorMessage = "Last Name must be between 2 and 40 characters.")]
+        //[Required(ErrorMessage = "Last Name is required.")]
+        //[StringLength(40, MinimumLength = 2, ErrorMessage = "Last Name must be between 2 and 40 characters.")]
         public string LastName { get; set; }
 
         [EmailAddress(ErrorMessage = "Invalid email address. The email domain must be @gmail.com.")]

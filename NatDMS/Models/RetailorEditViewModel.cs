@@ -5,13 +5,14 @@ namespace NatDMS.Models
 {
     public class RetailorEditViewModel
     {
-        [Required(ErrorMessage = "First Name is required.")]
-        [StringLength(40, MinimumLength = 3, ErrorMessage = "Last Name must be between 3 and 40 characters.")]
+        [Required(ErrorMessage = "Shop Name is required.")]
+        [StringLength(40, MinimumLength = 3, ErrorMessage = "Shop Name must be between 3 and 40 characters.")]
 
         public string FirstName { get; set; }
+        public string ShopName { get; set; }
 
-        [Required(ErrorMessage = "Last Name is required.")]
-        [StringLength(40, MinimumLength = 3, ErrorMessage = "Last Name must be between 3 and 40 characters.")]
+        //[Required(ErrorMessage = "Last Name is required.")]
+        //[StringLength(40, MinimumLength = 3, ErrorMessage = "Last Name must be between 3 and 40 characters.")]
         public string LastName { get; set; }
 
         [EmailAddress(ErrorMessage = "Invalid email address. The email domain must be @gmail.com.")]

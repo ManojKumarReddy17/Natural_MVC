@@ -35,11 +35,15 @@ namespace NatDMS.Controllers
         /// DISPLAYING LIST OF ALL EXECUTIVES 
         /// </summary>
 
+        
         public async Task<ActionResult<List<ExecutiveModel>>> DisplayExecutives(int page = 1)
         {
-            var executiveResult = await _ExecutiveService.GetAllExecutives();
-            var executivePgn = new PageNation<ExecutiveModel>(executiveResult, _configuration, page);
-            var paginatedData = executivePgn.GetPaginatedData(executiveResult);
+            var executiveResult = await _ExecutiveService.GetAllExecutivesAsync();
+            var viewmodel = _mapper.Map<List<GetExecutive>, List<ExecutiveModel>>(executiveResult);
+
+            var executivePgn = new PageNation<ExecutiveModel>(viewmodel, _configuration, page);
+            var paginatedData = executivePgn.GetPaginatedData(viewmodel);
+
             ViewBag.Pages = executivePgn;
             var statesResult = await _unifiedservice.GetStates();
             var viewModel = new EDR_DisplayViewModel
@@ -59,14 +63,14 @@ namespace NatDMS.Controllers
 
         public async Task<ActionResult<ExecutiveDetailsViewModel>> ExecutiveDetailsById(string id)
         {
-            var ExecutiveDetails = await _ExecutiveService.GetExecutiveDetailsById(id);
+            var ExecutiveDetails = await _ExecutiveService.GetExecutiveDetailsByIdAsync(id);
             var AssignedDetails = await _ExecutiveService.GetAssignedDistributorsByExecutiveId(id);
 
             if (ExecutiveDetails == null || AssignedDetails == null)
             {
                 return NotFound();
             }
-            var mapped = _mapper.Map<ExecutiveModel, ExecutiveViewModel>(ExecutiveDetails);
+            var mapped = _mapper.Map<GetExecutive, ExecutiveViewModel>(ExecutiveDetails);
 
             var executiveviewmodel = new ExecutiveDetailsViewModel
             {

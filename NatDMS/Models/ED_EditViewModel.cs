@@ -10,14 +10,15 @@ namespace NatDMS.Models
 {
     public class ED_EditViewModel
     {
-        [Required(ErrorMessage = "First Name is required.")]
-        [StringLength(40, MinimumLength = 3, ErrorMessage = "First Name must be between 3 and 40 characters.")]
-        [RegularExpression("^[a-zA-Z]*$", ErrorMessage = "FirstName must contain only Alphabets")]
-
+        [Required(ErrorMessage = "Company Name is required.")]
+        [StringLength(40, MinimumLength = 3, ErrorMessage = "Company Name must be between 3 and 40 characters.")]
+        [RegularExpression("^[a-zA-Z]*$", ErrorMessage = "CompanyName must contain only Alphabets")]
         public string FirstName { get; set; }
+        public string CompanyName { get; set; }
 
-        [Required(ErrorMessage = "Last Name is required.")]
-        [StringLength(40, MinimumLength = 3, ErrorMessage = "Last Name must be between 3 and 40 characters.")]
+
+        //[Required(ErrorMessage = "Last Name is required.")]
+        //[StringLength(40, MinimumLength = 3, ErrorMessage = "Last Name must be between 3 and 40 characters.")]
         public string LastName { get; set; }
 
         [EmailAddress(ErrorMessage = "Invalid email address. The email domain must be @gmail.com.")]
@@ -48,7 +49,11 @@ namespace NatDMS.Models
 
         public List<CityModel> CityList { get; set; }
 
+        public IFormFile ProfileImage { get; set; }
+
         public List<AreaModel> AreaList { get; set; }
+
+        public string PresignedUrl { get; set; }
 
     }
 }

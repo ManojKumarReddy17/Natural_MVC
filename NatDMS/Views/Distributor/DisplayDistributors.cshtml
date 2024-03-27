@@ -87,11 +87,11 @@
                             $("#Distributorlist").append('<tr>' + '<td>' + distributors.firstName + '</td> <td>' +
                                 distributors.lastName + '</td> <td>' + distributors.email + '</td> <td>' +
                                 distributors.mobileNumber + '</td> <td>' + distributors.address + '</td> <td>' +
-                                distributors.state + '</td> <td>' + distributors.city + ' </td> <td>' + distributors.area 
-                                // '<td>' +
-                                // '<a href=' + @Url//.Action("EditDistributor", new { id =// distributors.id }) + ' style="display: flex; justify-content: center; align-items: center; color: orange;"> <i class="material-icons"> edit </i></a>'
-                                //         '</td>' +
-                                '</tr>');
+                                distributors.state + '</td> <td>' + distributors.city + ' </td> <td>' + distributors.area
+                                        // '<td>' +
+                                        // '<a href=' + @Url//.Action("EditDistributor", new { id =// distributors.id }) + ' style="display: flex; justify-content: center; align-items: center; color: orange;"> <i class="material-icons"> edit </i></a>'
+                                        //         '</td>' +
+                                        '</tr>');
                         });
                     },
                     error: function (error) {
@@ -119,101 +119,101 @@
 
 
     <div class="container my-4">
-            <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <b>
-                                @Html.Label("SearchName", "Search by Name")
-                                @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Search By FirstName or LastName" })
-                            </b>
-                        </div>
-                    </div>
-
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <b>
-                            @Html.LabelFor(model => model.State)
-                            @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"),
-                        "-SelectState-", new { @id = "state", onchange = "statechange()", @class = "form-select" })
-                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
-                        </b>
-                    </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <b>
+                        @Html.Label("Search CompanyName", "Search by CompanyName")
+                        @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Search By CompanyName" })
+                    </b>
                 </div>
+            </div>
 
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <b>
-                            @Html.LabelFor(model => model.City)
-                            @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.State)
+                        @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"),
+                                 "-SelectState-", new { @id = "state", onchange = "statechange()", @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.City)
+                        @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
                         {
                         new SelectListItem { Text = "", Value =""},
-                        }, "Value","Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
-                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-                        </b>
-                    </div>
+                        }, "Value", "Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                    </b>
                 </div>
+            </div>
 
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <b>
-                            @Html.LabelFor(model => model.Area)
-                            @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.Area)
+                        @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
                         {
                         new SelectListItem {Text = ""}
                         }, new { id = "area", @class = "form-select" })
-                            @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
-                        </b>
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <div class="form-group">
-                    <button id="btnSubmit" class="btn btn-secondary my-4">
-                            <i class="material-icons" style="font-size:20px;display:flex;justify-content:center;
-                                align-items:center;">search</i>
-                        </button>
-                    </div>
+                        @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+                    </b>
                 </div>
             </div>
-        
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <button id="btnSubmit" class="btn btn-secondary my-4">
+                        <i class="material-icons" style="font-size:20px;display:flex;justify-content:center;
+                                align-items:center;">search</i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!----------------------------------------------------DISPLAY RETAILOR LIST-------------------------------------------------------------->
 
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped custom-table">
-                <thead>
-                    <tr>
-                        <th>FirstName</th>
-                        <th>LastName</th>
-                        <th>Email</th>
-                        <th>MobileNumber</th>
-                        <th>Address</th>
-                        <th>State</th>
-                        <th>City</th>
-                        <th>Area</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                        <th>Details</th>
-                    </tr>
-                </thead>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped custom-table">
+            <thead>
+                <tr>
+                    <th>CompanyName</th>
+                    @* <th>LastName</th> *@
+                    <th>Email</th>
+                    <th>MobileNumber</th>
+                    <th>Address</th>
+                    <th>State</th>
+                    <th>City</th>
+                    <th>Area</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
 
             <tbody id="Distributorlist">
 
-                    @foreach (var item in Model.DistributorList)
-                    {
-                        <tr>
-                            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
-                            <td>@Html.DisplayFor(modelItem => item.LastName)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                            <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Address)</td>
-                            <td>@Html.DisplayFor(modelItem => item.State)</td>
-                            <td>@Html.DisplayFor(modelItem => item.City)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Area)</td>
+                @foreach (var item in Model.DistributorList)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                        @* <td>@Html.DisplayFor(modelItem => item.LastName)</td> *@
+                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                        <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Address)</td>
+                        <td>@Html.DisplayFor(modelItem => item.State)</td>
+                        <td>@Html.DisplayFor(modelItem => item.City)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Area)</td>
 
-                      
-<!------------------------------------------------------------------------------------------------------------------------------------------------------------>
+
+                        <!------------------------------------------------------------------------------------------------------------------------------------------------------------>
                         <td>
                             <a href="@Url.Action("EditDistributor", new { id = item.Id })" style="display: flex; justify-content: center; align-items: center; color:orange;">
                                 <i class="material-icons">edit</i>
@@ -258,10 +258,10 @@
             </tbody>
         </table>
     </div>
-   
+
 
     <!-------------------------------------------------------------Pagination------------------------------------------------------------------->
-   
+
     <div class="text-center">
         @if (ViewBag.Pages != null && ViewBag.Pages.TotalPages > 0)
         {

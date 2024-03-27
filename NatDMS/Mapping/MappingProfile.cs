@@ -75,7 +75,10 @@ namespace NatDMS.Mapping
             CreateMap<Dsrcreate, DsrInsert>();
             CreateMap<DsrExecutiveDrop, DsrExecutiveResourse>();
             CreateMap<DSRModel, DsrResourse>();
-           
+
+            CreateMap<GetExecutive, ExecutiveModel>();
+            CreateMap<GetExecutive, ExecutiveViewModel>();
+
 
 
 

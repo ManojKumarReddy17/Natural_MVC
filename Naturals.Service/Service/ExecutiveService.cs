@@ -26,6 +26,12 @@ namespace Naturals.Service.Service
             return getexe;
         }
 
+        public async Task<List<GetExecutive>> GetAllExecutivesAsync()
+        {
+            var getexe = await _httpClient.GetAsync<List<GetExecutive>>("/Executive");
+            return getexe;
+        }
+
         /// <summary>
         /// GET EXECUTIVE DETAILS BY ID //
         /// </summary>
@@ -33,6 +39,13 @@ namespace Naturals.Service.Service
         {
 
             var excdtlid = await _httpClient.GetByIdAsync<ExecutiveModel>("/Executive/details", ID);
+            return excdtlid;
+        }
+
+        public async Task<GetExecutive> GetExecutiveDetailsByIdAsync(string ID)
+        {
+
+            var excdtlid = await _httpClient.GetByIdAsync<GetExecutive>("/Executive/details", ID);
             return excdtlid;
         }
 
@@ -63,21 +76,104 @@ namespace Naturals.Service.Service
         /// <summary>
         /// CREATE EXECUTIVE  //
         /// </summary>
+        //public async Task<ExecutiveModel> CreateExecutive(ExecutiveModel mdl)
+        //{
+        //    var createexe = await _httpClient.PostAsync<ExecutiveModel>("/Executive/", mdl);
+        //    return createexe;
+        //}
+
         public async Task<ExecutiveModel> CreateExecutive(ExecutiveModel mdl)
         {
-            var createexe = await _httpClient.PostAsync<ExecutiveModel>("/Executive/", mdl);
-            return createexe;
+            using (var formData = new MultipartFormDataContent())
+            {
+                byte[] filebytes;
+                using (var ms = new MemoryStream())
+
+                {
+                    await mdl.ProfileImage.CopyToAsync(ms);
+                    filebytes = ms.ToArray();
+                }
+                formData.Add(new StringContent(mdl.FirstName), "FirstName");
+                formData.Add(new StringContent(mdl.LastName), "LastName");
+                formData.Add(new StringContent(mdl.Email), "Email");
+                formData.Add(new StringContent(mdl.Address), "Address");
+                formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
+                formData.Add(new StringContent(mdl.UserName), "UserName");
+                formData.Add(new StringContent(mdl.Password), "Password");
+                formData.Add(new StringContent(mdl.State), "State");
+                formData.Add(new StringContent(mdl.City), "City");
+                formData.Add(new StringContent(mdl.Area), "Area");
+                formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.ProfileImage.FileName);
+
+
+                var createexe = await _httpClient.PostMultipartFormData<ExecutiveModel>("/Executive/", formData);
+                return createexe;
+            }
+
         }
 
         /// <summary>
         /// UPDATE EXECUTIVE  //
         /// </summary>
-        public async Task<ExecutiveModel> UpdateExecutive(string Id, ExecutiveModel executive)
+        //public async Task<ExecutiveModel> UpdateExecutive(string Id, ExecutiveModel executive)
+        //{
+        //    var output = await _httpClient.PutAsync<ExecutiveModel>("/Executive", Id, executive);
+
+        //    return output;
+
+        //}
+
+        public async Task<ExecutiveModel> UpdateExecutive(string Id, ExecutiveModel mdl)
         {
-            var output = await _httpClient.PutAsync<ExecutiveModel>("/Executive", Id, executive);
+            if (mdl.ProfileImage != null)
+            {
+                using (var formData = new MultipartFormDataContent())
+                {
+                    byte[] filebytes;
+                    using (var ms = new MemoryStream())
 
-            return output;
+                    {
+                        await mdl.ProfileImage.CopyToAsync(ms);
+                        filebytes = ms.ToArray();
+                    }
+                    formData.Add(new StringContent(mdl.FirstName), "FirstName");
+                    formData.Add(new StringContent(mdl.LastName), "LastName");
+                    formData.Add(new StringContent(mdl.Email), "Email");
+                    formData.Add(new StringContent(mdl.Address), "Address");
+                    formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
+                    formData.Add(new StringContent(mdl.UserName), "UserName");
+                    formData.Add(new StringContent(mdl.Password), "Password");
+                    formData.Add(new StringContent(mdl.State), "State");
+                    formData.Add(new StringContent(mdl.City), "City");
+                    formData.Add(new StringContent(mdl.Area), "Area");
+                    formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.ProfileImage.FileName);
+                    var output = await _httpClient.PutMultipartFormData<ExecutiveModel>($"/Executive?ExecutiveId={Id}", formData);
+                    return output;
+                }
+            }
+            else
+            {
+                using (var formData = new MultipartFormDataContent())
+                {
 
+                    formData.Add(new StringContent(mdl.FirstName), "FirstName");
+                    formData.Add(new StringContent(mdl.LastName), "LastName");
+                    formData.Add(new StringContent(mdl.Email), "Email");
+                    formData.Add(new StringContent(mdl.Address), "Address");
+                    formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
+                    formData.Add(new StringContent(mdl.UserName), "UserName");
+                    formData.Add(new StringContent(mdl.Password), "Password");
+                    formData.Add(new StringContent(mdl.State), "State");
+                    formData.Add(new StringContent(mdl.City), "City");
+                    formData.Add(new StringContent(mdl.Area), "Area");
+
+
+                    //var output = await _httpClient.PutAsync<ExecutiveModel>("/Executive/", Id, formData);
+                    var output = await _httpClient.PutMultipartFormData<ExecutiveModel>($"/Executive?ExecutiveId={Id}", formData);
+                    return output;
+
+                }
+            }
         }
 
         /// <summary>
