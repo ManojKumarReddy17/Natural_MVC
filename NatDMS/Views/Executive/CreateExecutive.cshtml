@@ -80,6 +80,7 @@
                         @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                     </b>
                 </div>
+
                 <div class="form-group">
                     @Html.LabelFor(model => model.ProfileImage, "Profile image")
                     @Html.TextBoxFor(model => model.ProfileImage, new
@@ -99,6 +100,8 @@
                        @*  @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" }) *@
                     </b>
                 </div>
+            </div>
+
             </div>
 
 
@@ -180,11 +183,22 @@
                       @*   @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" }) *@
                     </b>
                 </div>
+
+                @* Preview image panel *@
+                <div class="form-group">
+                    <div class="col-md-4" id="imagePreviewContainer" style="display:none;">
+                        <img src="#" alt="preview" id="imagePreview" style="border: 1px solid red; height: 160px; width: 160px; margin: auto; display: block;" />
+                    </div>
+                </div>
+
             </div>
 
         @*</div>*@
         <br/>
     <div class="text-center">
+        </div>
+
+        <div class="text-center">
             <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
         </div>
 

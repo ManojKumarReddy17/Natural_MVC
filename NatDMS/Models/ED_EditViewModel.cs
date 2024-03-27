@@ -63,5 +63,8 @@ namespace NatDMS.Models
 
         public string Id { get; set; }
 
+
+        public string PresignedUrl { get; set; }
+
     }
 }

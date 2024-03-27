@@ -109,6 +109,12 @@ namespace NatDMS.Mapping
             CreateMap<AreaCUmodel, AreaModel>();
           
 
+            CreateMap<GetExecutive, ExecutiveModel>();
+            CreateMap<GetExecutive, ExecutiveViewModel>();
+
+
+
+
         }
     }
 }
