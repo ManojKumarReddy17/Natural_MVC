@@ -10,6 +10,7 @@ namespace NatDMS.Models
         public DistributorViewModel DistributorDetails { get; set; }
 
         public List<RetailorModel> AssignedRetailors { get; set; }
+        public string CompanyName { get; set; }
 
 
     }

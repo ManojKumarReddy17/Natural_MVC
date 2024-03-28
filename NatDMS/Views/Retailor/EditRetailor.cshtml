@@ -22,7 +22,7 @@
 
                 <div class="form-group">
                     <b>
-                        @Html.LabelFor(model => model.FirstName, new { @class = "control-label" })
+                        @Html.LabelFor(model => model.ShopName, new { @class = "control-label" })
                         @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                     </b>
@@ -64,13 +64,13 @@
 
             <div class="col-md-3">
 
-                <div class="form-group">
+               @*  <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.LastName, new { @class = "control-label" })
                         @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                     </b>
-                </div>
+                </div> *@
 
 
 

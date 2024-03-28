@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-#nullable disable
+
 namespace Natural.Core.Models
 {
-    public class ExecutiveModel
+    public class GetExecutive
     {
         public string Id { get; set; }
         public string FirstName { get; set; }
@@ -21,10 +20,5 @@ namespace Natural.Core.Models
         public string UserName { get; set; }
         public string Password { get; set; }
         public string PresignedUrl { get; set; }
-        public IFormFile ProfileImage { get; set; }
-        public DateTime CreateDate { get; set; }
-        public DateTime ModifiedDate { get; set; }
-        public string Latitude { get; set; }
-        public string Longitude { get; set; }
     }
 }

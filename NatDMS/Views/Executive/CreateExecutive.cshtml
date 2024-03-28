@@ -11,21 +11,24 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
 
-   
+
 </head>
 
 <body>
-@using (Html.BeginForm("CreateExecutive","Executive", FormMethod.Post, new { @class = "needs-validation", novalidate = "true" }))
-{
+    @using (Html.BeginForm("CreateExecutive", "Executive", FormMethod.Post, new { @class = "needs-validation", novalidate = "true", enctype = "multipart/form-data" }))
+    {
 
-    <div class="row justify-content-center">
-        <div class="col-md-3">
+        <div class="row justify-content-center">
+            <div class="col-md-3">
 
                 <div class="form-group" style="margin-bottom: 9%;">
                     <b>
                         @Html.LabelFor(model => model.FirstName)
-                        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", 
-                        @placeholder = "Enter FirstName"})
+                        @Html.TextBoxFor(model => model.FirstName, new
+                            {
+                                @class = "form-control",
+                                @placeholder = "Enter FirstName"
+                            })
                         @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                     </b>
                 </div>
@@ -33,8 +36,11 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Email)
-                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control",
-                        @placeholder = "Enter Email"})
+                        @Html.TextBoxFor(model => model.Email, new
+                            {
+                                @class = "form-control",
+                                @placeholder = "Enter Email"
+                            })
                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                     </b>
                 </div>
@@ -42,8 +48,11 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.MobileNumber)
-                        @Html.TextBoxFor(model => model.MobileNumber, new { @class = "form-control",
-                        @placeholder = "Enter MobileNumber"})
+                        @Html.TextBoxFor(model => model.MobileNumber, new
+                            {
+                                @class = "form-control",
+                                @placeholder = "Enter MobileNumber"
+                            })
                         @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
                     </b>
                 </div>
@@ -51,8 +60,11 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Password)
-                        @Html.PasswordFor(model => model.Password, new { @class = "form-control",
-                        @placeholder = "Enter Password"})
+                        @Html.PasswordFor(model => model.Password, new
+                            {
+                                @class = "form-control",
+                                @placeholder = "Enter Password"
+                            })
                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                     </b>
                 </div>
@@ -64,9 +76,20 @@
                         @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
                     {
                     new SelectListItem { Text = "", Value = "" },
-                    }, "Value", "Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select"})
+                    }, "Value", "Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                     </b>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProfileImage, "Profile image")
+                    @Html.TextBoxFor(model => model.ProfileImage, new
+                        {
+                            type = "file",
+                            @class = "form-control custom-file-input",
+                            @placeholder = "Choose Profile Image",
+                            @onchange = "return ShowImagePreview(this)"
+                        })
+                    @Html.ValidationMessageFor(model => model.ProfileImage, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group">
                     <b>
@@ -86,15 +109,19 @@
                         @Html.LabelFor(model => model.LastName)
                         @Html.TextBoxFor(model => model.LastName, new { @class = "form-control",
                         @placeholder = "Enter LastName"})
-                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                      @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                     </b>
                 </div>
 
                 <div class="form-group emphasized-section">
                     <b>
                         @Html.LabelFor(model => model.Address)
-                        @Html.TextAreaFor(model => model.Address, new { @class = "form-control", style = "overflow-y:scroll;",
-                        @placeholder = "Enter Address"})
+                        @Html.TextAreaFor(model => model.Address, new
+                            {
+                                @class = "form-control",
+                                style = "overflow-y:scroll;",
+                                @placeholder = "Enter Address"
+                            })
                         @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
 
                     </b>
@@ -102,8 +129,11 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.UserName)
-                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control",
-                     @placeholder = "Enter UserName"})
+                        @Html.TextBoxFor(model => model.UserName, new
+                            {
+                                @class = "form-control",
+                                @placeholder = "Enter UserName"
+                            })
                         @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
                     </b>
                 </div>
@@ -113,7 +143,7 @@
                     <b>
                         @Html.LabelFor(model => model.State)
                         @Html.DropDownListFor(model => model.State, new SelectList(Model.States, "Id", "StateName"),
-                    "--Select State--", new { @id = "state", onchange = "statechange()", @class = "form-select" })
+                                 "--Select State--", new { @id = "state", onchange = "statechange()", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                     </b>
                 </div>
@@ -130,6 +160,18 @@
                         @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
                     </b>
                 </div>
+              @* Preview image panel *@
+                <div class="form-group">
+                    <div class="col-md-4" id="imagePreviewContainer" style="display:none;">
+                        <img src="#" alt="preview" id="imagePreview" style="border: 1px solid red; height: 160px; width: 160px; margin: auto; display: block;" />
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="text-center">
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Longitude)
@@ -144,9 +186,9 @@
         <br/>
     <div class="text-center">
             <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
-    </div>
+        </div>
 
-}
+    }
 
     <div class="row">
         <div class="col-md-10 d-flex justify-content-between">
@@ -166,61 +208,86 @@
 
 
 
-<script src="~/js/jquery-3.6.0.min.js"></script>
+    <script src="~/js/jquery-3.6.0.min.js"></script>
 
-<script type="text/javascript">
-    function statechange() {
-        debugger;
-        var stid = $('#state').val();
-        if (stid.trim() != '') {
-            var ddlcity = $('#city');
-            ddlcity.empty();
+    <script type="text/javascript">
+        function statechange() {
+            debugger;
+            var stid = $('#state').val();
+            if (stid.trim() != '') {
+                var ddlcity = $('#city');
+                ddlcity.empty();
 
-            $.ajax(
-                {
-                    url: "/Executive/GetCitiesByStateId",
-                    type: 'GET',
-                    dataType: 'json',
-                    data: { stateId: stid },
-                    success: function (d) {
-                        ddlcity.append($("<option></option>").val('').html('--SelectCity--'));
-                        $.each(d, function (i, cities) {
-                            ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
-                        });
-                    },
-                    error: function () {
-                        alert('Error!');
-                    }
-                });
+                $.ajax(
+                    {
+                        url: "/Executive/GetCitiesByStateId",
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { stateId: stid },
+                        success: function (d) {
+                            ddlcity.append($("<option></option>").val('').html('--SelectCity--'));
+                            $.each(d, function (i, cities) {
+                                ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
+                            });
+                        },
+                        error: function () {
+                            alert('Error!');
+                        }
+                    });
+            }
         }
-    }
 
-    function citychange() {
-        debugger;
-        var cityid = $('#city').val();
-        if (cityid.trim() != '') {
-            var ddlarea = $('#area');
-            ddlarea.empty();
+        function citychange() {
+            debugger;
+            var cityid = $('#city').val();
+            if (cityid.trim() != '') {
+                var ddlarea = $('#area');
+                ddlarea.empty();
 
-            $.ajax(
-                {
-                    url: "/Executive/GetAreasByCityId",
-                    type: 'GET',
-                    dataType: 'json',
-                    data: { cityId: cityid },
-                    success: function (d) {
-                        ddlarea.append($("<option></option>").val('').html('--SelectArea--'));
-                        $.each(d, function (i, areas) {
-                            ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
-                        });
-                    },
-                    error: function () {
-                        alert('Error!');
-                    }
-                });
+                $.ajax(
+                    {
+                        url: "/Executive/GetAreasByCityId",
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { cityId: cityid },
+                        success: function (d) {
+                            ddlarea.append($("<option></option>").val('').html('--SelectArea--'));
+                            $.each(d, function (i, areas) {
+                                ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
+                            });
+                        },
+                        error: function () {
+                            alert('Error!');
+                        }
+                    });
+            }
         }
-    }
-</script>
+    </script>
+
+    <script>
+        function ShowImagePreview(input) {
+            debugger;
+            if (input.files && input.files[0]) {
+                var filename = input.files[0].name;
+                var allowedExtensions = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/i;
+                if (!allowedExtensions.exec(filename)) {
+                    alert("Image not supported!");
+                    $("#fileInput").val("");
+                    $("#imagePreviewContainer").hide();
+                    return false;
+                }
+                else {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#imagePreview').prop('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                    $("#imagePreviewContainer").show();
+                }
+            }
+        }
+    </script>
+
 </body>
 </html>
 

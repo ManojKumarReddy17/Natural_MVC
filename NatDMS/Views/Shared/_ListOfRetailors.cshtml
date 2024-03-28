@@ -83,8 +83,8 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <b>
-                        @Html.Label("SearchName", "Search by Name")
-                        @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Search By FirstName or LastName" })
+                        @Html.Label("ShopName", "Search by ShopName")
+                        @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Search By ShopName" })
                     </b>
                 </div>
             </div>
@@ -147,8 +147,8 @@
         <table class="table table-bordered table-striped custom-table">
             <thead>
                 <tr>
-                    <th>FirstName</th>
-                    <th>LastName</th>
+                    <th>ShopName</th>
+                    @* <th>LastName</th> *@
                     <th>Email</th>
                     <th>MobileNumber</th>
                     <th>Address</th>
@@ -166,7 +166,7 @@
                 {
                     <tr>
                         <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
-                        <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                        @* <td>@Html.DisplayFor(modelItem => item.LastName)</td> *@
                         <td>@Html.DisplayFor(modelItem => item.Email)</td>
                         <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
                         <td>@Html.DisplayFor(modelItem => item.Address)</td>

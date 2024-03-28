@@ -29,10 +29,12 @@
                 
                 <div class="form-group" style="margin-bottom: 9%;">
                     <b>
-                        @Html.LabelFor(model => model.FirstName)
+                        @Html.LabelFor(model => model.CompanyName)
                         @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control",
-                        placeholder = "Enter FirstName", onfocus = "movePlaceholder(this)" })
-                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                placeholder = "Enter CompanyName",
+                                onfocus = "movePlaceholder(this)"
+                            })
+                        @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
                     </b>
                 </div>
 

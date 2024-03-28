@@ -50,13 +50,25 @@
 
                         <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.ExecutiveDetails.Area)</dt>
                         <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.ExecutiveDetails.Area)</dd>
+                        <dt class="col-sm-6 bold-text">
+                            @if (!string.IsNullOrEmpty(@Model.ExecutiveDetails.PresignedUrl))
+                            {
 
+                                <img src="@Model.ExecutiveDetails.PresignedUrl" alt="ProfileImage" width="160" height="160" class="img-responsive" id="presignedurl" style="float: right; margin-left: 10px;" />
+                            }
+                            else
+                            {
+                                <!-- Display a default "no image" placeholder -->
+                                <img class="card-img-top img-fluid" src="~/image/no-image-placeholder.svg" alt="No Image">
+                            }
+
+
+                        </dt>
                         <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.ExecutiveDetails.Latitude)</dt>
                         <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.ExecutiveDetails.Latitude)</dd>
 
                         <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.ExecutiveDetails.Longitude)</dt>
                         <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.ExecutiveDetails.Longitude)</dd>
-
                     </dl>
 
  <!-------------------------------------------------- ASSIGN DISTRIBUTOR POPUP ---------------------------------------------------------->
@@ -99,8 +111,8 @@
                       <table class="table red-border" style="border-collapse:collapse;">
                         <thead>
                             <tr class="red-border">
-                                <th class="red-border">FirstName</th>
-                                <th class="red-border">LastName</th>
+                                <th class="red-border">CompanyName</th>
+                                @* <th class="red-border">LastName</th> *@
                                 <th class="red-border">Email</th>
                                 <th class="red-border">MobileNumber</th>
                                 <th class="red-border">State</th>
@@ -114,7 +126,7 @@
                             {
                                 <tr class="red-border">
                                     <td class="red-border">@distributor.FirstName</td>
-                                    <td class="red-border">@distributor.LastName</td>
+                                    @* <td class="red-border">@distributor.LastName</td> *@
                                     <td class="red-border">@distributor.Email</td>
                                     <td class="red-border">@distributor.MobileNumber</td>
                                     <td class="red-border">@distributor.State</td>

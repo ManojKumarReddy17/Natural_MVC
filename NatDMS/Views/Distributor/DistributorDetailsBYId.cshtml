@@ -30,11 +30,11 @@
 
                 <div class="container my-4">
                     <dl class="row">
-                        <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.DistributorDetails.FirstName)</dt>
+                        <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.CompanyName)</dt>
                         <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.DistributorDetails.FirstName)</dd>
 
-                        <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.DistributorDetails.LastName)</dt>
-                        <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.DistributorDetails.LastName)</dd>
+                        @* <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.DistributorDetails.LastName)</dt>
+                        <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.DistributorDetails.LastName)</dd> *@
 
                         <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.DistributorDetails.Address)</dt>
                         <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.DistributorDetails.Address)</dd>
@@ -99,8 +99,8 @@
                     <table class="table red-border" style="border-collapse:collapse;">
                         <thead>
                             <tr class="red-border">
-                                <th class="red-border">FirstName</th>
-                                <th class="red-border">LastName</th>
+                                <th class="red-border">ShopName</th>
+                                @* <th class="red-border">LastName</th> *@
                                 <th class="red-border">Email</th>
                                 <th class="red-border">MobileNumber</th>
                                 <th class="red-border">State</th>
@@ -114,7 +114,7 @@
                             {
                                 <tr class="red-border">
                                     <td class="red-border">@retailor.FirstName</td>
-                                    <td class="red-border">@retailor.LastName</td>
+                                    @* <td class="red-border">@retailor.LastName</td> *@
                                     <td class="red-border">@retailor.Email</td>
                                     <td class="red-border">@retailor.MobileNumber</td>
                                     <td class="red-border">@retailor.State</td>

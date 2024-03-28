@@ -1,4 +1,4 @@
-﻿@model NatDMS.Models.EDR_DisplayViewModel
+@model NatDMS.Models.EDR_DisplayViewModel
 @using System.Security.Claims
 
 <!DOCTYPE html>
@@ -105,11 +105,11 @@
                     </div>
                 </div>
 
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <b>
-                            @Html.LabelFor(model => model.City)
-                            @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.City)
+                        @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
                         {
                         new SelectListItem { Text = "", Value =""},
                         }, "Value", "Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
@@ -118,11 +118,11 @@
                     </div>
                 </div>
 
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <b>
-                            @Html.LabelFor(model => model.Area)
-                            @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.Area)
+                        @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
                         {
                         new SelectListItem {Text = ""}
                         }, new { @id = "area", @class = "form-select" })
