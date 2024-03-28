@@ -1,6 +1,7 @@
-﻿#nullable disable
+﻿
 using Natural.Core.Models;
 
+#nullable disable
 namespace NatDMS.Models
 {
     public class DSRViewModel
@@ -13,6 +14,10 @@ namespace NatDMS.Models
         public string Distributor { get; set; }
 
         public string Retailor { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
 
         public List<DsrResourse> dsr { get; set; }
 

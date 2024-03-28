@@ -50,7 +50,6 @@
 
                         <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.ExecutiveDetails.Area)</dt>
                         <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.ExecutiveDetails.Area)</dd>
-
                         <dt class="col-sm-6 bold-text">
                             @if (!string.IsNullOrEmpty(@Model.ExecutiveDetails.PresignedUrl))
                             {
@@ -65,6 +64,11 @@
 
 
                         </dt>
+                        <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.ExecutiveDetails.Latitude)</dt>
+                        <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.ExecutiveDetails.Latitude)</dd>
+
+                        <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.ExecutiveDetails.Longitude)</dt>
+                        <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.ExecutiveDetails.Longitude)</dd>
                     </dl>
 
  <!-------------------------------------------------- ASSIGN DISTRIBUTOR POPUP ---------------------------------------------------------->

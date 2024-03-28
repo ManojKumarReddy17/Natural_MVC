@@ -1,4 +1,5 @@
-﻿using Natural.Core.Models;
+﻿
+using Natural.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -47,6 +48,9 @@ namespace NatDMS.Models
         "(A-Z),alowercase letter (a-z), a digit (0-9), and a special character (!@#$%^&*)")]
         public string Password { get; set; }
         public IFormFile ProfileImage { get; set; }
-        public List<StateModel> States { get; set; }
+        public List<StateModel> States { get; set; 
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
+
     }
 }

@@ -16,7 +16,7 @@ builder.Services.AddTransient<IUnifiedService, UnifiedService>();
 builder.Services.AddScoped<IDistributorService, DistributorService>();
 builder.Services.AddScoped<IRetailorService , RetailorService>(); 
 builder.Services.AddScoped<IExecutiveService, ExecutiveService>();
-builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IExecutiveService, ExecutiveService>();
 builder.Services.AddScoped<IAssignDistributorToExecutiveService, AssignDistributorToExecutiveService>();
 builder.Services.AddScoped<IAssignRetailorToDistributorService,AssignRetailorToDistributorService>();
@@ -25,13 +25,19 @@ builder.Services.AddHttpClient<IHttpClientWrapper, HttpClientWrapper>();
 builder.Services.AddScoped<IProductService,ProductService>();
 builder.Services.AddScoped<IDSRService,DSRService>();
 
+builder.Services.AddScoped<IDistributorSalesService, DistributorSalesService>();
+
+
+builder.Services.AddScoped<INotificationDistributorService, NotificationDistributorService>();
+
+
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 //builder.Services.AddHttpContextAccessor();
 builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.IdleTimeout = TimeSpan.FromMinutes(5);
 });
 
 builder.Services.AddAutoMapper(typeof(Program));
@@ -66,7 +72,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Login}/{id?}");
- 
+pattern: "{controller=Home}/{action=Login}/{id?}");
+//pattern: "{controller=GuestProduct}/{action=Index11}/{id?}");
 
 app.Run();

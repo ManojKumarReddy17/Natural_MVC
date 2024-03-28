@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
+using Microsoft.CodeAnalysis.Differencing;
 using NatDMS.Models;
 using Natural.Core.Models;
 
@@ -38,10 +39,23 @@ namespace NatDMS.Mapping
             CreateMap<SearchModel,EDR_DisplayViewModel>();
             CreateMap<DistributorToExecutive, AssignDistributorToExecutiveViewModel>();
             CreateMap<SearchModel , SearchViewModel>();
-            //CreateMap<DSRModel,DSRViewModel>();
             CreateMap<ProductResponse,ProductResult>();
             CreateMap<RetailorToDistributor,AssignRetailorToDistributorViewModel>();
             CreateMap<DistributorModel, DistributorDetailsViewModel>();
+            CreateMap<DSRViewModel, Dsrview>();
+            CreateMap<DsrInsertProduct, DsrProduct>();
+            CreateMap<DsrInsert, Dsrcreate>();
+            CreateMap<DsrRetailor, DsrRetailorDrop>();
+            CreateMap< DsrDistributor,DsrDistributorDrop>();
+            CreateMap<Dsredit, Dsrcreate>();
+            CreateMap<DistributorSalesReport, DistributorSalesReportViewModel>();
+            CreateMap<DsrDistributor, DsrDistributorDrop>();
+            CreateMap<DsrRetailor, DsrRetailorDrop>();
+            CreateMap<DistributorNotification, DistributorNotificationViewModel>();
+            CreateMap<Notification, NotificationViewmodel>();
+            
+
+
 
             // Resource to Domain
 
@@ -69,13 +83,14 @@ namespace NatDMS.Mapping
             CreateMap<GetProduct,EditProduct>();
             CreateMap<EditProduct,ProductModel>();
             CreateMap<SearchProduct,ProductSearch>();
-
             CreateMap<DistributorDetailsViewModel,DistributorModel>();
-
             CreateMap<Dsrcreate, DsrInsert>();
             CreateMap<DsrExecutiveDrop, DsrExecutiveResourse>();
             CreateMap<DSRModel, DsrResourse>();
-
+            CreateMap<DSRModel, DsrResourse>();
+            CreateMap<DistributorSalesReportViewModel, DistributorSalesReport>();
+            CreateMap<NotificationViewmodel, Notification>();
+            CreateMap<NotificationGetViewModel, Dsrview>();
             CreateMap<GetExecutive, ExecutiveModel>();
             CreateMap<GetExecutive, ExecutiveViewModel>();
 

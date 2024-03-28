@@ -52,8 +52,9 @@ namespace NatDMS.Models
         public IFormFile ProfileImage { get; set; }
 
         public List<AreaModel> AreaList { get; set; }
+       public string PresignedUrl { get; set; }
 
-        public string PresignedUrl { get; set; }
-
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
     }
 }

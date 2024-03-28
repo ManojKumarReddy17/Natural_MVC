@@ -165,6 +165,8 @@ $(document).ready(function() {
                     <th>City</th>
                     <th>Area</th>
                     <th>ProfileImage</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
                     <th>Edit</th>
                     <th>Delete</th>
                     <th>Details</th>
@@ -197,7 +199,8 @@ $(document).ready(function() {
                             }
 
                         </td>
-
+                        <td>@Html.DisplayFor(modelItem => item.Latitude)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Longitude)</td>
                  
                        
  <!-----------------------------------------------EDIT ACTION LINK------------------------------------------------------------------------>

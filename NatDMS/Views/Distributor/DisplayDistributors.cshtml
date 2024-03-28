@@ -1,13 +1,12 @@
-﻿@model NatDMS.Models.EDR_DisplayViewModel
-
+@model NatDMS.Models.EDR_DisplayViewModel
 @using System.Security.Claims
 
-
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>GetDistributors</title>
+    <title>GetDistributor</title>
 
     <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -17,10 +16,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 
-
-    <script type="text/javascript">
-
-        //-------------SCRIPT FOR DELETE POPUP------------//
+    <script type="text/javascript">//-------------SCRIPT FOR DELETE POPUP------------//
 
         function confirmDelete(uniqueId, isTrue) {
             var deleteSpan = 'deleteSpan_' + uniqueId;
@@ -36,7 +32,6 @@
                 hideModal(uniqueId);
             }
         }
-
         function showModal(uniqueId) {
             var modal = $('#deleteConfirmationModal_' + uniqueId);
             modal.modal('show');
@@ -47,8 +42,8 @@
             modal.modal('hide');
         }
 
-
         //-------------SCRIPT FOR SEARCH------------//
+
 
         $(document).ready(function () {
             $("#SearchResultmodel").submit(function (event) {
@@ -63,82 +58,52 @@
                     }
                 });
             });
-        });
-
-        $(function () {
-            $("#btnSubmit").click(function () {
-                debugger;
-                var searchResultmodel = new Object();
-                searchResultmodel.State = $("#state").val();
-                searchResultmodel.City = $("#city").val();
-                searchResultmodel.Area = $("#area").val();
-                searchResultmodel.FullName = $("#FullName").val();
-                $.ajax({
-                    url: "/Distributor/SearchDistributor",
-                    type: 'POST',
-                    content: "application/json; charset=utf-8",
-                    dataType: "json",
-                    data: searchResultmodel,
-                    success: function (response) {
-                        let result = JSON.stringify(response.distributorList);
-                        $("#Distributorlist").empty();
-                        $.each(response.distributorList, function (i, distributors) {
-                            let result1 = distributors;
-                            $("#Distributorlist").append('<tr>' + '<td>' + distributors.firstName + '</td> <td>' +
-                                distributors.lastName + '</td> <td>' + distributors.email + '</td> <td>' +
-                                distributors.mobileNumber + '</td> <td>' + distributors.address + '</td> <td>' +
-                                distributors.state + '</td> <td>' + distributors.city + ' </td> <td>' + distributors.area
-                                        // '<td>' +
-                                        // '<a href=' + @Url//.Action("EditDistributor", new { id =// distributors.id }) + ' style="display: flex; justify-content: center; align-items: center; color: orange;"> <i class="material-icons"> edit </i></a>'
-                                        //         '</td>' +
-                                        '</tr>');
-                        });
-                    },
-                    error: function (error) {
-                        console.error('Error:', error);
-                    }
-                });
-            });
-        });
-
-    </script>
+        });</script>
 </head>
+
+<!---------------------------------------------------BODY---------------------------------------------------------->
+
 
 <body>
     <div class="d-flex justify-content-between align-items-center">
         <div class="text-center">
+            <!-- Your existing content here -->
         </div>
-        <a href="@Url.Action("CreateDistributor")" class="d-flex align-items-center">
-            <i class="material-icons">add</i>
-            <b><span style="font-weight:bold;">CREATE NEW</span></b>
-        </a>
+        <div class="text-center">
+            <a href="@Url.Action("CreateDistributor")" class="d-flex align-items-center">
+                <i class="material-icons">add</i>
+                <b><span style="font-weight:bold;">CREATE NEW</span></b>
+            </a>
+        </div>
     </div>
 
-
-    <!-----------------------------------------------SEARCH DISTRIBUTOR----------------------------------------------------->
+    <!-----------------------------------------------SEARCH EXECUTIVE----------------------------------------------------->
 
 
     <div class="container my-4">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <b>
-                        @Html.Label("Search CompanyName", "Search by CompanyName")
-                        @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Search By CompanyName" })
-                    </b>
+        @using (Html.BeginForm(FormMethod.Post, new { id = "SearchResultmodel" }))
+        {
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <b>
+                            @Html.Label("SearchName", "Search by Name")
+                            @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Search By FirstName or LastName" })
+                        </b>
+                    </div>
                 </div>
-            </div>
 
-            <div class="col-md-2">
-                <div class="form-group">
-                    <b>
-                        @Html.LabelFor(model => model.State)
-                        @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"),
-                                 "-SelectState-", new { @id = "state", onchange = "statechange()", @class = "form-select" })
-                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
-                    </b>
+                <div class="col-md-2">
+                    <div class="form-group">
+
+                        <b>
+                            @Html.LabelFor(model => model.State)
+                            @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"),
+                                     "-SelectState-", new { @id = "state", onchange = "statechange()", @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                        </b>
+                    </div>
                 </div>
-            </div>
 
             <div class="col-md-2">
                 <div class="form-group">
@@ -148,10 +113,10 @@
                         {
                         new SelectListItem { Text = "", Value =""},
                         }, "Value", "Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
-                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-                    </b>
+                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                        </b>
+                    </div>
                 </div>
-            </div>
 
             <div class="col-md-2">
                 <div class="form-group">
@@ -160,71 +125,91 @@
                         @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
                         {
                         new SelectListItem {Text = ""}
-                        }, new { id = "area", @class = "form-select" })
-                        @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
-                    </b>
+                        }, new { @id = "area", @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+                        </b>
+                    </div>
                 </div>
-            </div>
 
-            <div class="col-md-2">
-                <div class="form-group">
-                    <button id="btnSubmit" class="btn btn-secondary my-4">
-                        <i class="material-icons" style="font-size:20px;display:flex;justify-content:center;
+                <!-- Display search results -->
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <button class="btn btn-secondary my-4">
+                            <i class="material-icons" style="font-size:20px;display:flex;justify-content:center;
                                 align-items:center;">search</i>
-                    </button>
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-
+        }
     </div>
 
-    <!----------------------------------------------------DISPLAY RETAILOR LIST-------------------------------------------------------------->
+    <!----------------------------------------------------DISPLAY DISTIBUTORS LIST-------------------------------------------------------------->
+
+
 
     <div class="table-responsive">
-        <table class="table table-bordered table-striped custom-table">
-            <thead>
-                <tr>
-                    <th>CompanyName</th>
-                    @* <th>LastName</th> *@
-                    <th>Email</th>
-                    <th>MobileNumber</th>
-                    <th>Address</th>
-                    <th>State</th>
-                    <th>City</th>
-                    <th>Area</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                    <th>Details</th>
-                </tr>
-            </thead>
 
-            <tbody id="Distributorlist">
+        <table class="table table-bordered table-striped custom-table" id="Distributorlist">
+          
 
-                @foreach (var item in Model.DistributorList)
-                {
-                    <tr>
-                        <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
-                        @* <td>@Html.DisplayFor(modelItem => item.LastName)</td> *@
-                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                        <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Address)</td>
-                        <td>@Html.DisplayFor(modelItem => item.State)</td>
-                        <td>@Html.DisplayFor(modelItem => item.City)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Area)</td>
+            <tbody>
+                </thead>
+
+                        <th>FirstName</th>
+                        <th>LastName</th>
+                        <th>Email</th>
+                        <th>MobileNumber</th>
+                        <th>Address</th>
+                        <th>State</th>
+                        <th>City</th>
+                        <th>Area</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
 
 
-                        <!------------------------------------------------------------------------------------------------------------------------------------------------------------>
+
+
+                    @foreach (var item in Model.DistributorList)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Address)</td>
+                            <td>@Html.DisplayFor(modelItem => item.State)</td>
+                            <td>@Html.DisplayFor(modelItem => item.City)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Area)</td>
+                           <td>@Html.DisplayFor(modelItem => item.Latitude)</td>
+                           <td>@Html.DisplayFor(modelItem => item.Longitude)</td>
+
+
+                        <!-----------------------------------------------EDIT ACTION LINK------------------------------------------------------------------------>
+
+
                         <td>
-                            <a href="@Url.Action("EditDistributor", new { id = item.Id })" style="display: flex; justify-content: center; align-items: center; color:orange;">
+                            <a href="@Url.Action("EditDistributor", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:orange;">
                                 <i class="material-icons">edit</i>
                             </a>
                         </td>
+
+                        <!-----------------------------------------------------DELETE POPUP------------------------------------------------------------------------>
+
                         <td>
+                            <!-- Delete Icon -->
                             <div style="display: flex; justify-content: center; align-items: center;">
                                 <i onclick="confirmDelete('@item.Id', true)" class="material-icons" style="color: red;cursor: pointer;">delete</i>
                             </div>
 
-                            <div id="deleteConfirmationModal_@item.Id" class="modal" style="display:none">
+                            <!-- Delete Confirmation Modal -->
+                            <div id="deleteConfirmationModal_@item.Id" class="modal" role="dialog">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -234,7 +219,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <p>Are you sure you want to delete this item?</p>
+                                            <p>Are you sure you want to delete this Distributor?</p>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" onclick="confirmDelete('@item.Id', false)">No</button>
@@ -246,6 +231,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         </td>
 
                         <td>
@@ -254,11 +240,11 @@
                             </a>
                         </td>
                     </tr>
+
                 }
             </tbody>
         </table>
     </div>
-
 
     <!-------------------------------------------------------------Pagination------------------------------------------------------------------->
 
@@ -288,13 +274,8 @@
             </div>
         }
     </div>
-
-
     <!---------------------------------------------------------AJAX CODE FOR CITY CHANGE AND AREA-------------------------------------------------->
-
-    <script type="text/javascript">
-
-        function statechange() {
+    <script type="text/javascript">function statechange() {
             debugger;
             var stid = $('#state').val();
             if (stid.trim() != '') {
@@ -344,7 +325,6 @@
                         }
                     });
             }
-        }
-    </script>
+        }</script>
 </body>
 </html>

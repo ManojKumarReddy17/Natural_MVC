@@ -61,6 +61,14 @@
                         @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                     </b>
                 </div>
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.Latitude)
+                        @Html.TextBoxFor(model => model.Latitude, new { @class = "form-control",
+                    placeholder = "Enter Latitude", onfocus = "movePlaceholder(this)"})
+                        @* @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" }) *@
+                    </b>
+                </div>
 
             </div>
 
@@ -110,6 +118,14 @@
                         @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
                     </b>
                 </div>
+                 <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.Longitude)
+                        @Html.TextBoxFor(model => model.Longitude, new { @class = "form-control",
+                    placeholder = "Enter Longitude", onfocus = "movePlaceholder(this)"})
+                        @* @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" }) *@
+                    </b>
+                </div>
 
                 <div class="form-group">
                     @* <label for="presignedurl-label" class="control-label" id="image" style="font-weight: bold;">
@@ -134,7 +150,7 @@
 
             </div>
         </div>
-
+        <br/>
         <div class="text-center">
             <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
         </div>

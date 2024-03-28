@@ -63,6 +63,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
     <PackageReference Include="PagedList.Mvc" Version="4.5.0" />
     <PackageReference Include="popper.js" Version="1.16.1" />
+    <PackageReference Include="Bootstrap.Datepicker" Version="1.8.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -73,9 +74,10 @@
   <ItemGroup>
     <None Remove="Views\GuestProduct\" />
     <None Remove="Views\Dis\" />
+    <None Remove="Views\NotificationDistributor\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\GuestProduct\" />
     <Folder Include="Views\Dis\" />
+    <Folder Include="Views\NotificationDistributor\" />
   </ItemGroup>
 </Project>
