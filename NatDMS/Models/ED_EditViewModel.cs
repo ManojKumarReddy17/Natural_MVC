@@ -30,8 +30,8 @@ namespace NatDMS.Models
 
         public string Address { get; set; }
 
-        [Required(ErrorMessage = "Area is required.")]
-        public string Area { get; set; }
+        //[Required(ErrorMessage = "Area is required.")]
+        //public string Area { get; set; }
 
         [Required(ErrorMessage = "City is required.")]
         public string City { get; set; }
@@ -51,10 +51,17 @@ namespace NatDMS.Models
 
         public IFormFile ProfileImage { get; set; }
 
+
         public List<AreaModel> AreaList { get; set; }
        public string PresignedUrl { get; set; }
 
         public string Latitude { get; set; }
         public string Longitude { get; set; }
+
+        [Required(ErrorMessage = "Area is required.")]
+        public List<string> Area { get; set; }
+
+        public string Id { get; set; }
+
     }
 }

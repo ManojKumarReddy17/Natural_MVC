@@ -35,7 +35,8 @@ namespace Naturals.Service.Service
         public async Task<DsrDisplay> GetDsrAll()
         {
 
-            List<ExecutiveModel> executives = await _ExecutiveService.GetAllExecutives();
+            //List<ExecutiveModel> executives = await _ExecutiveService.GetAllExecutives();
+            List<ED_CreateModel> executives = await _ExecutiveService.GetExecutives();
             List<DsrExecutiveDrop> executiveList = executives.Select(c => new DsrExecutiveDrop
             {
                 Id = c.Id,
@@ -82,7 +83,8 @@ namespace Naturals.Service.Service
 
         public async Task<Dsrcreate> CreateDsr()
         {
-            List<ExecutiveModel> executives = await _ExecutiveService.GetAllExecutives();
+            //List<ExecutiveModel> executives = await _ExecutiveService.GetAllExecutives();
+            List<ED_CreateModel> executives = await _ExecutiveService.GetExecutives();
             List<DsrExecutiveDrop> executiveList = executives.Select(c => new DsrExecutiveDrop
             {
                 Id = c.Id,
@@ -322,7 +324,8 @@ namespace Naturals.Service.Service
        public async Task<List<DsrExecutiveDrop>> GetExecutive()
         {
 
-            List<ExecutiveModel> executives = await _ExecutiveService.GetAllExecutives();
+            //List<ExecutiveModel> executives = await _ExecutiveService.GetAllExecutives();
+            List<ED_CreateModel> executives = await _ExecutiveService.GetExecutives();
             List<DsrExecutiveDrop> executiveList = executives.Select(c => new DsrExecutiveDrop
             {
                 Id = c.Id,

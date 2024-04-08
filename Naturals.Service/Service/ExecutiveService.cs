@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Naturals.Service.Service
@@ -26,11 +28,15 @@ namespace Naturals.Service.Service
             return getexe;
         }
 
-        public async Task<List<GetExecutive>> GetAllExecutivesAsync()
+
+
+        public async Task<List<ED_CreateModel>> GetExecutives()
         {
-            var getexe = await _httpClient.GetAsync<List<GetExecutive>>("/Executive");
+            var getexe = await _httpClient.GetAsync<List<ED_CreateModel>>("/Executive");
             return getexe;
         }
+
+
 
         /// <summary>
         /// GET EXECUTIVE DETAILS BY ID //
@@ -41,14 +47,6 @@ namespace Naturals.Service.Service
             var excdtlid = await _httpClient.GetByIdAsync<ExecutiveModel>("/Executive/details", ID);
             return excdtlid;
         }
-
-        public async Task<GetExecutive> GetExecutiveDetailsByIdAsync(string ID)
-        {
-
-            var excdtlid = await _httpClient.GetByIdAsync<GetExecutive>("/Executive/details", ID);
-            return excdtlid;
-        }
-
 
         /// <summary>
         /// Get Assigned Distributor to ExecutiveById
@@ -76,13 +74,10 @@ namespace Naturals.Service.Service
         /// <summary>
         /// CREATE EXECUTIVE  //
         /// </summary>
-        //public async Task<ExecutiveModel> CreateExecutive(ExecutiveModel mdl)
-        //{
-        //    var createexe = await _httpClient.PostAsync<ExecutiveModel>("/Executive/", mdl);
-        //    return createexe;
-        //}
+       
 
-        public async Task<ExecutiveModel> CreateExecutive(ExecutiveModel mdl)
+
+        public async Task<ProductResponse> CreateExecutive(ExecutiveModel mdl)
         {
             using (var formData = new MultipartFormDataContent())
             {
@@ -102,28 +97,25 @@ namespace Naturals.Service.Service
                 formData.Add(new StringContent(mdl.Password), "Password");
                 formData.Add(new StringContent(mdl.State), "State");
                 formData.Add(new StringContent(mdl.City), "City");
-                formData.Add(new StringContent(mdl.Area), "Area");
+
+                for (int i = 0; i < mdl.Area.Count; i++)
+                {
+                    formData.Add(new StringContent(mdl.Area[i].Area.ToString()), $"Area[{i}].Area");
+                    
+                }
+
+                formData.Add(new StringContent(mdl.Latitude), "Latitude");
+                formData.Add(new StringContent(mdl.Longitude), "Longitude");
                 formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.ProfileImage.FileName);
 
 
-                var createexe = await _httpClient.PostMultipartFormData<ExecutiveModel>("/Executive/", formData);
+                var createexe = await _httpClient.PostMultipartFormData<ProductResponse>("/Executive/", formData);
                 return createexe;
             }
-
         }
 
-        /// <summary>
-        /// UPDATE EXECUTIVE  //
-        /// </summary>
-        //public async Task<ExecutiveModel> UpdateExecutive(string Id, ExecutiveModel executive)
-        //{
-        //    var output = await _httpClient.PutAsync<ExecutiveModel>("/Executive", Id, executive);
 
-        //    return output;
-
-        //}
-
-        public async Task<ExecutiveModel> UpdateExecutive(string Id, ExecutiveModel mdl)
+        public async Task<ProductResponse> UpdateExecutive(string Id, ExecutiveModel mdl)
         {
             if (mdl.ProfileImage != null)
             {
@@ -132,10 +124,13 @@ namespace Naturals.Service.Service
                     byte[] filebytes;
                     using (var ms = new MemoryStream())
 
+   
+
                     {
                         await mdl.ProfileImage.CopyToAsync(ms);
                         filebytes = ms.ToArray();
                     }
+                    formData.Add(new StringContent(Id), "Id");
                     formData.Add(new StringContent(mdl.FirstName), "FirstName");
                     formData.Add(new StringContent(mdl.LastName), "LastName");
                     formData.Add(new StringContent(mdl.Email), "Email");
@@ -145,9 +140,17 @@ namespace Naturals.Service.Service
                     formData.Add(new StringContent(mdl.Password), "Password");
                     formData.Add(new StringContent(mdl.State), "State");
                     formData.Add(new StringContent(mdl.City), "City");
-                    formData.Add(new StringContent(mdl.Area), "Area");
+                   
+                    for (int i = 0; i < mdl.Area.Count; i++)
+                    {
+                        formData.Add(new StringContent(mdl.Area[i].Area.ToString()), $"Area[{i}].Area");
+                        formData.Add(new StringContent(mdl.Area[i].Executive), $"Area[{i}].Executive");
+                    }
+                    formData.Add(new StringContent(mdl.Latitude), "Latitude");
+                    formData.Add(new StringContent(mdl.Longitude), "Longitude");
                     formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.ProfileImage.FileName);
-                    var output = await _httpClient.PutMultipartFormData<ExecutiveModel>($"/Executive?ExecutiveId={Id}", formData);
+                 
+                    var output = await _httpClient.PutMultipartFormData<ProductResponse>("/Executive/", formData);
                     return output;
                 }
             }
@@ -155,7 +158,7 @@ namespace Naturals.Service.Service
             {
                 using (var formData = new MultipartFormDataContent())
                 {
-
+                    formData.Add(new StringContent(Id), "Id");
                     formData.Add(new StringContent(mdl.FirstName), "FirstName");
                     formData.Add(new StringContent(mdl.LastName), "LastName");
                     formData.Add(new StringContent(mdl.Email), "Email");
@@ -165,11 +168,16 @@ namespace Naturals.Service.Service
                     formData.Add(new StringContent(mdl.Password), "Password");
                     formData.Add(new StringContent(mdl.State), "State");
                     formData.Add(new StringContent(mdl.City), "City");
-                    formData.Add(new StringContent(mdl.Area), "Area");
-
-
-                    //var output = await _httpClient.PutAsync<ExecutiveModel>("/Executive/", Id, formData);
-                    var output = await _httpClient.PutMultipartFormData<ExecutiveModel>($"/Executive?ExecutiveId={Id}", formData);
+                    
+                    for (int i = 0; i < mdl.Area.Count; i++)
+                    {
+                        formData.Add(new StringContent(mdl.Area[i].Area.ToString()), $"Area[{i}].Area");
+                        formData.Add(new StringContent(mdl.Area[i].Executive), $"Area[{i}].Executive");
+                    }
+                    formData.Add(new StringContent(mdl.Latitude), "Latitude");
+                    formData.Add(new StringContent(mdl.Longitude), "Longitude");
+                   
+                    var output = await _httpClient.PutMultipartFormData<ProductResponse>("/Executive/", formData);
                     return output;
 
                 }
@@ -199,9 +207,11 @@ namespace Naturals.Service.Service
             }
         }
 
-        public async Task<List<ExecutiveModel>> SearchExecutive(SearchModel searchexecutive)
+       
+
+        public async Task<List<ED_CreateModel>> SearchExecutive(SearchModel searchexecutive)
         {
-            var SearchedResult = await _httpClient.PostAsync<List<ExecutiveModel>>("/Executive/Search", searchexecutive);
+            var SearchedResult = await _httpClient.PostAsync<List<ED_CreateModel>>("/Executive/Search", searchexecutive);
             return SearchedResult;
         }
 
@@ -211,7 +221,7 @@ namespace Naturals.Service.Service
             return getdistributor;
 
         }
-        public async Task<List<DistributorModel>> SearchNonAssignedDistributors(SearchModel searchdistributor)
+        public async Task<List<DistributorModel>>   SearchNonAssignedDistributors(SearchModel searchdistributor)
         {
             var SearchedResult = await _httpClient.PostAsync<List<DistributorModel>>("/Distributor/SearchNonAssign", searchdistributor);
             return SearchedResult;
@@ -222,5 +232,6 @@ namespace Naturals.Service.Service
             return delete;
         }
 
+      
     }
 }

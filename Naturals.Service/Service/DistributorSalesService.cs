@@ -105,7 +105,8 @@ namespace Naturals.Service.Service
 
         public async Task<DistributorSalesReport> GetDsreport()
         {
-            List<ExecutiveModel> executives = await _ExecutiveService.GetAllExecutives();
+            //List<ExecutiveModel> executives = await _ExecutiveService.GetAllExecutives();
+            List<ED_CreateModel> executives = await _ExecutiveService.GetExecutives();
             List<DsrExecutiveDrop> executiveList = executives.Select(c => new DsrExecutiveDrop
             {
                 Id = c.Id,
