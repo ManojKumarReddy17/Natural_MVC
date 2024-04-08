@@ -15,7 +15,7 @@ namespace Natural.Core.Models
         public string Email { get; set; }
         public string MobileNumber { get; set; }
         public string Address { get; set; }
-        public string Area { get; set; }
+        //public string Area { get; set; }
         public string City { get; set; }
         public string State { get; set; }
         public string UserName { get; set; }
@@ -26,5 +26,7 @@ namespace Natural.Core.Models
         public DateTime ModifiedDate { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
+        public List<ExecutiveArea> Area { get; set; }
+
     }
 }

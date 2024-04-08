@@ -78,38 +78,42 @@
                         <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
                         <td>@Html.DisplayFor(modelItem => item.State)</td>
                         <td>@Html.DisplayFor(modelItem => item.City)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Area)</td>
-
-          <!------------------------------------------------ASSIGN DISTRIBUTOR POPUP------------------------------------------------------------>
-
-                        
-                     <!--<td>
-                            <div style="display: flex; justify-content: center; align-items: center;">
-                                <a href="#" onclick="loadDisplayDistributorsPopup('@item.Id',true)">
-                                    <i class="material-icons">supervisor_account</i>
-                                </a>
-                            </div>-->
-
-                            <!-- Distributors Modal -->
-                            <!--<div class="modal fade" id="displayDistributorsModal" tabindex="-1" aria-labelledby="displayDistributorsModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-fullscreen-xxl-down">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="displayDistributorsModalLabel">Distributors</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body" id="displayDistributorsModalBody">-->
-                                            <!-- DistributorDetails content will be loaded here -->
-                                        <!--</div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeAndRefresh('@item.Id')">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>-->
-
- <!---------------------------------------------------EDIT ACTION LINK------------------------------------------------------------->
+                        @*<td>@Html.DisplayFor(modelItem => item.Area)</td>*@
+                        <td>
+                            @if (item.Area != null)
+                            {
+                                @foreach (var area in item.Area)
+                                {
+                                    <span>@area</span><br />
+                                }
+                            }
+                        </td>
+                        <!------------------------------------------------ASSIGN DISTRIBUTOR POPUP------------------------------------------------------------>
+                        <!--<td>
+           <div style="display: flex; justify-content: center; align-items: center;">
+               <a href="#" onclick="loadDisplayDistributorsPopup('@item.Id',true)">
+                   <i class="material-icons">supervisor_account</i>
+               </a>
+           </div>-->
+                        <!-- Distributors Modal -->
+                        <!--<div class="modal fade" id="displayDistributorsModal" tabindex="-1" aria-labelledby="displayDistributorsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen-xxl-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="displayDistributorsModalLabel">Distributors</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="displayDistributorsModalBody">-->
+                        <!-- DistributorDetails content will be loaded here -->
+                        <!--</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeAndRefresh('@item.Id')">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </td>-->
+                        <!---------------------------------------------------EDIT ACTION LINK------------------------------------------------------------->
 
 
                         <td>
@@ -118,7 +122,7 @@
                             </a>
                         </td>
 
-<!-----------------------------------------------------DELETE POPUP-------------------------------------------------------------------->
+                        <!-----------------------------------------------------DELETE POPUP-------------------------------------------------------------------->
 
                         <td>
                             <!-- Delete Icon -->
@@ -141,7 +145,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" onclick="confirmDelete('@item.Id', false)">No</button>
-                                            @using (Html.BeginForm("DeleteExecutive","Executive", new { ExecutiveId = item.Id }, FormMethod.Post))
+                                            @using (Html.BeginForm("DeleteExecutive", "Executive", new { ExecutiveId = item.Id }, FormMethod.Post))
                                             {
                                                 <button type="submit" class="btn btn-danger">Yes</button>
                                             }
@@ -157,7 +161,7 @@
                                 <i class="material-icons">info</i>
                             </a>
                         </td>
-               </tr>
+                    </tr>
                 }
             </tbody>
         </table>

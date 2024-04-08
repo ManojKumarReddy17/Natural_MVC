@@ -34,14 +34,11 @@ namespace NatDMS.Controllers
         /// <summary>
         /// DISPLAYING LIST OF ALL EXECUTIVES 
         /// </summary>
-
-        
-        public async Task<ActionResult<List<ExecutiveModel>>> DisplayExecutives(int page = 1)
+        public async Task<ActionResult<EDR_DisplayViewModel>> DisplayExecutives(int page = 1)
         {
-            var executiveResult = await _ExecutiveService.GetAllExecutivesAsync();
-            var viewmodel = _mapper.Map<List<GetExecutive>, List<ExecutiveModel>>(executiveResult);
-
-            var executivePgn = new PageNation<ExecutiveModel>(viewmodel, _configuration, page);
+            var executiveResult = await _ExecutiveService.GetExecutives();
+            var viewmodel = _mapper.Map<List<ED_CreateModel>, List<ED_CreateViewModel>>(executiveResult);
+            var executivePgn = new PageNation<ED_CreateViewModel>(viewmodel, _configuration, page);
             var paginatedData = executivePgn.GetPaginatedData(viewmodel);
 
             ViewBag.Pages = executivePgn;
@@ -63,21 +60,22 @@ namespace NatDMS.Controllers
 
         public async Task<ActionResult<ExecutiveDetailsViewModel>> ExecutiveDetailsById(string id)
         {
-            var ExecutiveDetails = await _ExecutiveService.GetExecutiveDetailsByIdAsync(id);
+            var ExecutiveDetai = await _ExecutiveService.GetExecutiveDetailsById(id);
+
             var AssignedDetails = await _ExecutiveService.GetAssignedDistributorsByExecutiveId(id);
 
-            if (ExecutiveDetails == null || AssignedDetails == null)
+            if (ExecutiveDetai == null || AssignedDetails == null)
             {
                 return NotFound();
             }
-            var mapped = _mapper.Map<GetExecutive, ExecutiveViewModel>(ExecutiveDetails);
+
+            var mapped = _mapper.Map<ExecutiveModel, ExecutiveViewModel>(ExecutiveDetai);
 
             var executiveviewmodel = new ExecutiveDetailsViewModel
             {
                 ExecutiveDetails = mapped,
                 AssignedDistributors = AssignedDetails,
             };
-
 
             return View(executiveviewmodel);
 
@@ -125,10 +123,15 @@ namespace NatDMS.Controllers
             if (ModelState.IsValid)
             {
                 var createexecutive = _mapper.Map<ED_CreateViewModel, ExecutiveModel>(saveexecmdl);
+                createexecutive.Area = saveexecmdl.Area.Select(x => new ExecutiveArea
+                {
+                    Area = x
+                }).ToList();
 
                 var displayxexecutive = await _ExecutiveService.CreateExecutive(createexecutive);
 
-                return RedirectToAction(nameof(DisplayExecutives));
+                //return RedirectToAction(nameof(DisplayExecutives));
+                return RedirectToAction("ExecutiveDetailsById", new { id = displayxexecutive.Id });
             }
             else
             {
@@ -138,21 +141,22 @@ namespace NatDMS.Controllers
         }
 
 
-        /// <summary>
-        /// GETTING EXISTING DATA FOR UPDATE
-        /// </summary>
-
+       
         public async Task<ActionResult<ED_EditViewModel>> EditExecutive(string id)
         {
             var executive = await _ExecutiveService.GetExecutiveById(id);
-
+           
             var viewModel = _mapper.Map<ED_EditViewModel>(executive);
+            List<string> area = executive.Area
+                                .Select(c => c.Area)
+                                .ToList();
+
+            viewModel.Area = area;
             viewModel.StateList = await _unifiedservice.GetStates();
             viewModel.CityList = await _unifiedservice.GetCitiesbyStateId(executive.State);
             viewModel.AreaList = await _unifiedservice.GetAreasByCityId(executive.City);
             return View(viewModel);
         }
-
         /// <summary>
         /// POSTING UPDATED EXECUTIVE DATA
         /// </summary>
@@ -163,12 +167,20 @@ namespace NatDMS.Controllers
         {
             if (ModelState.IsValid)
             {
+              
                 var update = _mapper.Map<ED_EditViewModel, ExecutiveModel>(viewModel);
+                update.Area = viewModel.Area.Select(x => new ExecutiveArea
+                {
+                    Area = x,
+                    Executive = id
 
-                await _ExecutiveService.UpdateExecutive(id, update);
+                }).ToList();
+              var result =  await _ExecutiveService.UpdateExecutive(id, update);
 
-                return RedirectToAction(nameof(DisplayExecutives));
+                
+                return RedirectToAction("ExecutiveDetailsById", new { id = id });
             }
+        
             else
             {
                 viewModel.StateList = await _unifiedservice.GetStates();
@@ -194,10 +206,12 @@ namespace NatDMS.Controllers
 
 
         [HttpPost]
+     
         public async Task<ActionResult<EDR_DisplayViewModel>> SearchExecutive(EDR_DisplayViewModel SearchResultmodel)
         {
             var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
-            var SearchResult = await _ExecutiveService.SearchExecutive(search);
+            var executiveResult = await _ExecutiveService.SearchExecutive(search);
+            var SearchResult =   _mapper.Map<List<ED_CreateModel>, List<ED_CreateViewModel>>(executiveResult);
             var statesResult = await _unifiedservice.GetStates();
 
             var viewModel = new EDR_DisplayViewModel
@@ -208,6 +222,8 @@ namespace NatDMS.Controllers
 
             return PartialView("_SearchExecutivePartial", viewModel);
         }
+
+
 
         /// <summary>
         /// DISPLAYING LIST OF ALL DISTRIBUTORS 

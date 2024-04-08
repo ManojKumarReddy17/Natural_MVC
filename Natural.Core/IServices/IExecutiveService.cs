@@ -11,14 +11,24 @@ namespace Natural.Core.IServices
     public interface IExecutiveService
     {
         Task<List<ExecutiveModel>> GetAllExecutives();
-        Task<List<GetExecutive>> GetAllExecutivesAsync();
+//<<<<<<< Updated upstream
+//        Task<List<GetExecutive>> GetAllExecutivesAsync();
+//        Task<ExecutiveModel> GetExecutiveById(string Id);
+//        Task<ExecutiveModel> GetExecutiveDetailsById(string ID);
+//        Task<GetExecutive> GetExecutiveDetailsByIdAsync(string ID);
+//        Task<ExecutiveModel> CreateExecutive(ExecutiveModel mdl);
+//        Task<ExecutiveModel> UpdateExecutive(string ExecutiveId, ExecutiveModel executive);
+
+        Task<List<ED_CreateModel>> GetExecutives();
         Task<ExecutiveModel> GetExecutiveById(string Id);
         Task<ExecutiveModel> GetExecutiveDetailsById(string ID);
-        Task<GetExecutive> GetExecutiveDetailsByIdAsync(string ID);
-        Task<ExecutiveModel> CreateExecutive(ExecutiveModel mdl);
-        Task<ExecutiveModel> UpdateExecutive(string ExecutiveId, ExecutiveModel executive);
+        //Task<ExecutiveModel> CreateExecutive(ExecutiveModel mdl);
+        Task<ProductResponse> CreateExecutive(ExecutiveModel mdl);
+        Task<ProductResponse> UpdateExecutive(string ExecutiveId, ExecutiveModel executive);
+
         Task<bool> DeleteExecutive(string executiveId);        
-      Task<List<ExecutiveModel>> SearchExecutive(SearchModel searchexecutive);
+      //Task<List<ExecutiveModel>> SearchExecutive(SearchModel searchexecutive);
+        Task<List<ED_CreateModel>> SearchExecutive(SearchModel searchexecutive);
 
         Task<List<DistributorModel>> GetNonAssignedDistributors();
         Task<List<DistributorModel>> SearchNonAssignedDistributors(SearchModel searchdistributor);

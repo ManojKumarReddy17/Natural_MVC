@@ -53,7 +53,7 @@ namespace NatDMS.Mapping
             CreateMap<DsrRetailor, DsrRetailorDrop>();
             CreateMap<DistributorNotification, DistributorNotificationViewModel>();
             CreateMap<Notification, NotificationViewmodel>();
-            
+            CreateMap<ED_CreateModel, ED_CreateViewModel>();
 
 
 
@@ -65,10 +65,13 @@ namespace NatDMS.Mapping
             CreateMap<CategoryViewModel, CategoryModel>();
             CreateMap<RetailorViewModel, RetailorModel>();
             CreateMap<ED_EditViewModel, DistributorModel>();
-            CreateMap<ED_EditViewModel, ExecutiveModel>();
+            //CreateMap<ED_EditViewModel, ExecutiveModel>();
+            CreateMap<ED_EditViewModel, ExecutiveModel>().ForMember(dest => dest.Area, opt => opt.Ignore());
             CreateMap<SaveRetailorViewModel,RetailorModel>();
             CreateMap<ExecutiveViewModel, ExecutiveModel>();
-            CreateMap<ED_CreateViewModel, ExecutiveModel>();
+            //CreateMap<ED_CreateViewModel, ExecutiveModel>();
+            CreateMap<ED_CreateViewModel, ExecutiveModel>().ForMember(dest => dest.Area, opt => opt.Ignore());
+
             CreateMap<ED_CreateViewModel,DistributorModel>();
             CreateMap<RetailorEditViewModel, RetailorModel>();
             CreateMap<EDR_DisplayViewModel, ExecutiveModel>();

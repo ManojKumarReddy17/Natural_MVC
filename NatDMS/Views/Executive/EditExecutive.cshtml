@@ -21,7 +21,7 @@
         <div class="row justify-content-center">
 
             <div class="col-md-3">
-
+                @Html.Hidden("Id", Model.Id)
 
                 <div class="form-group">
                     <b>
@@ -66,7 +66,7 @@
                         @Html.LabelFor(model => model.Latitude)
                         @Html.TextBoxFor(model => model.Latitude, new { @class = "form-control",
                     placeholder = "Enter Latitude", onfocus = "movePlaceholder(this)"})
-                        @* @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" }) *@
+                        
                     </b>
                 </div>
 
@@ -113,8 +113,10 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Area)
-                        @Html.DropDownListFor(model => model.Area, new SelectList(Model.AreaList, "Id", "AreaName"),
-                    "--Select Area--", new { id = "area", @class = "form-select" })
+                        @*@Html.ListBoxFor(model => model.Area, new SelectList(Model.AreaList, "Id", "AreaName"),
+                    "--Select Area--", new { id = "area", @class = "form-select" })*@
+
+                        @Html.ListBoxFor(model => model.Area, new MultiSelectList(Model.AreaList, "Id", "AreaName"), new { @id = "area", onchange = "distributorchange()", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
                     </b>
                 </div>
@@ -128,9 +130,7 @@
                 </div>
 
                 <div class="form-group">
-                    @* <label for="presignedurl-label" class="control-label" id="image" style="font-weight: bold;">
-                <span>@Model.FirstName</span>
-                </label> *@
+                   
 
                     @if (!string.IsNullOrEmpty(@Model.PresignedUrl))
                     {
