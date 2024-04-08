@@ -74,43 +74,79 @@ namespace Naturals.Service.Service
         /// <summary>
         /// CREATE EXECUTIVE  //
         /// </summary>
-       
+
 
 
         public async Task<ProductResponse> CreateExecutive(ExecutiveModel mdl)
         {
-            using (var formData = new MultipartFormDataContent())
+            if (mdl.ProfileImage != null)
             {
-                byte[] filebytes;
-                using (var ms = new MemoryStream())
-
+                using (var formData = new MultipartFormDataContent())
                 {
-                    await mdl.ProfileImage.CopyToAsync(ms);
-                    filebytes = ms.ToArray();
-                }
-                formData.Add(new StringContent(mdl.FirstName), "FirstName");
-                formData.Add(new StringContent(mdl.LastName), "LastName");
-                formData.Add(new StringContent(mdl.Email), "Email");
-                formData.Add(new StringContent(mdl.Address), "Address");
-                formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
-                formData.Add(new StringContent(mdl.UserName), "UserName");
-                formData.Add(new StringContent(mdl.Password), "Password");
-                formData.Add(new StringContent(mdl.State), "State");
-                formData.Add(new StringContent(mdl.City), "City");
+                    byte[] filebytes;
+                    using (var ms = new MemoryStream())
 
-                for (int i = 0; i < mdl.Area.Count; i++)
+                    {
+                        await mdl.ProfileImage.CopyToAsync(ms);
+                        filebytes = ms.ToArray();
+                    }
+                    formData.Add(new StringContent(mdl.FirstName), "FirstName");
+                    formData.Add(new StringContent(mdl.LastName), "LastName");
+                    formData.Add(new StringContent(mdl.Email), "Email");
+                    formData.Add(new StringContent(mdl.Address), "Address");
+                    formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
+                    formData.Add(new StringContent(mdl.UserName), "UserName");
+                    formData.Add(new StringContent(mdl.Password), "Password");
+                    formData.Add(new StringContent(mdl.State), "State");
+                    formData.Add(new StringContent(mdl.City), "City");
+
+                    for (int i = 0; i < mdl.Area.Count; i++)
+                    {
+                        formData.Add(new StringContent(mdl.Area[i].Area.ToString()), $"Area[{i}].Area");
+
+                    }
+
+                    formData.Add(new StringContent(mdl.Latitude), "Latitude");
+                    formData.Add(new StringContent(mdl.Longitude), "Longitude");
+                    formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.ProfileImage.FileName);
+
+
+                    var createexe = await _httpClient.PostMultipartFormData<ProductResponse>("/Executive/", formData);
+                    return createexe;
+                }
+            }
+
+            else
+            {
+                using (var formData = new MultipartFormDataContent())
                 {
-                    formData.Add(new StringContent(mdl.Area[i].Area.ToString()), $"Area[{i}].Area");
-                    
+
+                    formData.Add(new StringContent(mdl.FirstName), "FirstName");
+                    formData.Add(new StringContent(mdl.LastName), "LastName");
+                    formData.Add(new StringContent(mdl.Email), "Email");
+                    formData.Add(new StringContent(mdl.Address), "Address");
+                    formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
+                    formData.Add(new StringContent(mdl.UserName), "UserName");
+                    formData.Add(new StringContent(mdl.Password), "Password");
+                    formData.Add(new StringContent(mdl.State), "State");
+                    formData.Add(new StringContent(mdl.City), "City");
+
+                    for (int i = 0; i < mdl.Area.Count; i++)
+                    {
+                        formData.Add(new StringContent(mdl.Area[i].Area.ToString()), $"Area[{i}].Area");
+
+                    }
+
+                    formData.Add(new StringContent(mdl.Latitude), "Latitude");
+                    formData.Add(new StringContent(mdl.Longitude), "Longitude");
+                    //formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.ProfileImage.FileName);
+
+
+                    var createexe = await _httpClient.PostMultipartFormData<ProductResponse>("/Executive/", formData);
+                    return createexe;
                 }
 
-                formData.Add(new StringContent(mdl.Latitude), "Latitude");
-                formData.Add(new StringContent(mdl.Longitude), "Longitude");
-                formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.ProfileImage.FileName);
 
-
-                var createexe = await _httpClient.PostMultipartFormData<ProductResponse>("/Executive/", formData);
-                return createexe;
             }
         }
 
