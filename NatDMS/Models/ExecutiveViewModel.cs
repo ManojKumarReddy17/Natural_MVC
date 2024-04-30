@@ -24,7 +24,7 @@ namespace NatDMS.Models
         public string Latitude { get; set; }
         public string Longitude { get; set; }
 
-        public List<ExecutiveArea> Area { get; set; }
+        public List<string> Area { get; set; }
 
 
        

@@ -26,7 +26,7 @@ namespace NatDMS.Mapping
             CreateMap<AreaModel, AreaViewModel>();
             CreateMap<ExecutiveModel, ExecutiveViewModel>();
             CreateMap<RetailorModel, SaveRetailorViewModel>();
-            CreateMap<ExecutiveModel, ExecutiveViewModel>();
+            CreateMap<ED_CreateModel, ExecutiveViewModel>();
             CreateMap<ExecutiveModel, ED_CreateViewModel>();
             CreateMap<DistributorModel , ED_CreateViewModel>();
             CreateMap<StateModel, ED_CreateViewModel>();
@@ -54,6 +54,7 @@ namespace NatDMS.Mapping
             CreateMap<DistributorNotification, DistributorNotificationViewModel>();
             CreateMap<Notification, NotificationViewmodel>();
             CreateMap<ED_CreateModel, ED_CreateViewModel>();
+            CreateMap<ED_CreateModel, ED_EditViewModel>();
 
 
 
@@ -65,11 +66,10 @@ namespace NatDMS.Mapping
             CreateMap<CategoryViewModel, CategoryModel>();
             CreateMap<RetailorViewModel, RetailorModel>();
             CreateMap<ED_EditViewModel, DistributorModel>();
-            //CreateMap<ED_EditViewModel, ExecutiveModel>();
             CreateMap<ED_EditViewModel, ExecutiveModel>().ForMember(dest => dest.Area, opt => opt.Ignore());
             CreateMap<SaveRetailorViewModel,RetailorModel>();
             CreateMap<ExecutiveViewModel, ExecutiveModel>();
-            //CreateMap<ED_CreateViewModel, ExecutiveModel>();
+            CreateMap<ExecutiveViewModel, ED_CreateModel>();
             CreateMap<ED_CreateViewModel, ExecutiveModel>().ForMember(dest => dest.Area, opt => opt.Ignore());
 
             CreateMap<ED_CreateViewModel,DistributorModel>();

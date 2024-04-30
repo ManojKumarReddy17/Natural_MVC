@@ -41,10 +41,10 @@ namespace Naturals.Service.Service
         /// <summary>
         /// GET EXECUTIVE DETAILS BY ID //
         /// </summary>
-        public async Task<ExecutiveModel> GetExecutiveDetailsById(string ID)
+        public async Task<ED_CreateModel> GetExecutiveDetailsById(string ID)
         {
 
-            var excdtlid = await _httpClient.GetByIdAsync<ExecutiveModel>("/Executive/details", ID);
+            var excdtlid = await _httpClient.GetByIdAsync<ED_CreateModel>("/Executive/details", ID);
             return excdtlid;
         }
 
@@ -64,9 +64,9 @@ namespace Naturals.Service.Service
         /// GET EXECUTIVE BY ID //
         /// </summary>
 
-        public async Task<ExecutiveModel> GetExecutiveById(string Id)
+        public async Task<ED_CreateModel> GetExecutiveById(string Id)
         {
-            var output = await _httpClient.GetByIdAsync<ExecutiveModel>("/Executive", Id);
+            var output = await _httpClient.GetByIdAsync<ED_CreateModel>("/Executive", Id);
 
             return output;
         }

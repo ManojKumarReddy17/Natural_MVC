@@ -69,11 +69,9 @@ namespace NatDMS.Controllers
                 return NotFound();
             }
 
-            var mapped = _mapper.Map<ExecutiveModel, ExecutiveViewModel>(ExecutiveDetai);
-
             var executiveviewmodel = new ExecutiveDetailsViewModel
             {
-                ExecutiveDetails = mapped,
+                ExecutiveDetails = ExecutiveDetai,
                 AssignedDistributors = AssignedDetails,
             };
 
@@ -147,11 +145,7 @@ namespace NatDMS.Controllers
             var executive = await _ExecutiveService.GetExecutiveById(id);
            
             var viewModel = _mapper.Map<ED_EditViewModel>(executive);
-            List<string> area = executive.Area
-                                .Select(c => c.Area)
-                                .ToList();
-
-            viewModel.Area = area;
+            viewModel.Area = executive.Area;
             viewModel.StateList = await _unifiedservice.GetStates();
             viewModel.CityList = await _unifiedservice.GetCitiesbyStateId(executive.State);
             viewModel.AreaList = await _unifiedservice.GetAreasByCityId(executive.City);
