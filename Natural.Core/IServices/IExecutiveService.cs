@@ -20,9 +20,8 @@ namespace Natural.Core.IServices
 //        Task<ExecutiveModel> UpdateExecutive(string ExecutiveId, ExecutiveModel executive);
 
         Task<List<ED_CreateModel>> GetExecutives();
-        Task<ExecutiveModel> GetExecutiveById(string Id);
-        Task<ExecutiveModel> GetExecutiveDetailsById(string ID);
-        //Task<ExecutiveModel> CreateExecutive(ExecutiveModel mdl);
+        Task<ED_CreateModel> GetExecutiveById(string Id);
+        Task<ED_CreateModel> GetExecutiveDetailsById(string ID);
         Task<ProductResponse> CreateExecutive(ExecutiveModel mdl);
         Task<ProductResponse> UpdateExecutive(string ExecutiveId, ExecutiveModel executive);
 

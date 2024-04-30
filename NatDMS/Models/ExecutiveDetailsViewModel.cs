@@ -5,7 +5,7 @@ namespace NatDMS.Models
 {
     public class ExecutiveDetailsViewModel
     {
-        public ExecutiveViewModel ExecutiveDetails { get; set; }
+        public ED_CreateModel ExecutiveDetails { get; set; }
         public List<DistributorModel> AssignedDistributors { get; set; }
 
     }
