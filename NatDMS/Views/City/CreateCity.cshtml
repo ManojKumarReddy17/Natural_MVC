@@ -1,0 +1,46 @@
+﻿@model NatDMS.Models.CityViewModel
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    @using (Html.BeginForm("CreateCity", "City", FormMethod.Post, new { @class = "needs-validation", novalidate = "true" }))
+    {
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                <div class="form-group">
+
+                    <b>
+                        @Html.LabelFor(model => model.StateId)
+                        @Html.DropDownListFor(model => model.StateId, new SelectList(Model.StateList, "Id", "StateName"),
+                                 "--Select State--", new { @id = "state", onchange = "statechange()", @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.CityName)
+                        @Html.TextBoxFor(model => model.CityName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
+        </div>
+    }
+    <div class="row">
+        <div class="col-md-10 d-flex justify-content-between">
+            <a href="#" onclick="resetForm()" class="d-flex align-items-center mr-6">
+                <i class="material-icons" style="font-size:20px;"></i>
+                <span class="ml-2" style="font-weight: bold;">RESET</span>
+            </a>
+            <a href="@Url.Action("DisplayCity")" class="d-flex align-items-center">
+                <i class="material-icons" style="font-size:20px;"></i>
+                <span class="ml-2" style="font-weight: bold;">BACK TO LIST</span>
+            </a>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+</html>

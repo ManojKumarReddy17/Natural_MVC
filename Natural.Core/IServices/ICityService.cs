@@ -10,7 +10,12 @@ namespace Natural.Core.IServices
 {
     public interface ICityService
     {
-        Task<List<CityModel>> GetCity(string StateId);
+        Task<List<CityModel>> GetCity();
+        Task<CityModel> UpdateCity(string Id, CityModel city);
+        Task<bool> DeleteCity(string cityId);
+        Task<CityModel> CreateCity(CityModel city);
+
+        Task<CityModel> GetCityById(string Id);
 
 
     }
