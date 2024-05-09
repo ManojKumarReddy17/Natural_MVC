@@ -24,6 +24,7 @@ builder.Services.Configure<ApiDetails>(builder.Configuration.GetSection("ApiUrlD
 builder.Services.AddHttpClient<IHttpClientWrapper, HttpClientWrapper>();
 builder.Services.AddScoped<IProductService,ProductService>();
 builder.Services.AddScoped<IDSRService,DSRService>();
+builder.Services.AddTransient<ICityService, CityService>();
 
 builder.Services.AddScoped<IDistributorSalesService, DistributorSalesService>();
 
