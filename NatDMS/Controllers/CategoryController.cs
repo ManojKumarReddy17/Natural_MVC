@@ -20,7 +20,7 @@ namespace NatDMS.Controllers
             _mapper = mapper;
             _configuration = configuration;
         }
-        public async Task<ActionResult<CategoryModel>> DisplayCategories(int page = 1)
+        public async Task<ActionResult<CategoryModel>> DisplayCategories(int page = 1) 
         {
             var categoryresult = await _categoryService.GetCategories();
             var categoryPgn = new PageNation<CategoryModel>(categoryresult, _configuration, page);

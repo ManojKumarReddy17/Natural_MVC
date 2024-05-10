@@ -34,9 +34,9 @@ namespace Naturals.Service.Service
         
         public async Task<T> GetAsync<T>(string endpoint)
         {
-            var response = await _httpClient.GetAsync(_httpClient.BaseAddress + endpoint);
-            var responseContent = await response.Content.ReadAsStringAsync();   
-            return JsonConvert.DeserializeObject<T>(responseContent);
+            var response = await _httpClient.GetAsync(_httpClient.BaseAddress + endpoint);   // reponse is api output in  json
+            var responseContent = await response.Content.ReadAsStringAsync();   // we are convertimg  response to single string 
+            return JsonConvert.DeserializeObject<T>(responseContent); // we are converting the string to required model
         }
 
 
@@ -50,6 +50,9 @@ namespace Naturals.Service.Service
             var responseContent = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<T>(responseContent);
+
+
+
         }
 
 

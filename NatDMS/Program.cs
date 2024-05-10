@@ -12,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<IAreaService, AreaService>();
 builder.Services.AddTransient<IUnifiedService, UnifiedService>();
 builder.Services.AddScoped<IDistributorService, DistributorService>();
 builder.Services.AddScoped<IRetailorService , RetailorService>(); 

@@ -14,5 +14,5 @@ namespace Natural.Core.Models
         public string CityName { get; set; }
 
         public string StateId { get; set; }
-    }
+    } 
 }
