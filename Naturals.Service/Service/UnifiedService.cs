@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Naturals.Service.Service
 {
 
-    public class UnifiedService :IUnifiedService
+    public class UnifiedService : IUnifiedService
     {
 
         private readonly IHttpClientWrapper _httpClientWrapper;
@@ -21,6 +21,10 @@ namespace Naturals.Service.Service
         public async Task<List<StateModel>> GetStates()
         {
             return await _httpClientWrapper.GetAsync<List<StateModel>>("/State/");
+        }
+        public async Task<List<CityModel>> GetCities()
+        {
+            return await _httpClientWrapper.GetAsync<List<CityModel>>("/City/");
         }
         public async Task<List<CityModel>> GetCitiesbyStateId(string stateId)
         {
@@ -35,4 +39,4 @@ namespace Naturals.Service.Service
 
     }
 
-}
+} 

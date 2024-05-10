@@ -29,7 +29,6 @@ namespace NatDMS.Models
         public List<RetailorModel> RetailorList { get; set; }
 
         public IFormFile ProfileImage { get; set; }
-
         public List<ED_CreateViewModel> ExecutiveList { get; set; }
 
 

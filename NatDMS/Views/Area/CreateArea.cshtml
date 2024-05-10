@@ -1,0 +1,87 @@
+﻿@model NatDMS.Models.AreaDisplayModel
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    @using (Html.BeginForm("CreateArea", "Area", FormMethod.Post, new { @class = "needs-validation", novalidate = "true" }))
+    {
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.StateId)
+                        @Html.DropDownListFor(model => model.StateId, new SelectList(Model.StateList, "Id", "StateName"),
+                    "--select State--",new { @id = "state", onchange = "statechange()", @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.CityId)
+                        @Html.DropDownListFor(model => model.CityId, new SelectList(new List<SelectListItem> { new SelectListItem { Text = "", Value = "" } }, "Value", "Text"),
+                    "--select City--",new { @id = "city", onchange = "citychange()", @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.CityId, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+                </div>
+
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.AreaName)
+                        @Html.TextBoxFor(model => model.AreaName, new { @class = "form-control" })
+
+                        @Html.ValidationMessageFor(model => model.AreaName, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+
+            </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
+        </div>
+    }
+    <div class="row">
+        <div class="col-md-10 d-flex justify-content-between">
+            <a href="#" onclick="resetForm()" class="d-flex align-items-center mr-6">
+                <i class="material-icons" style="font-size:20px;"></i>
+                <span class="ml-2" style="font-weight: bold;">RESET</span>
+            </a>
+            <a href="@Url.Action("DisplayAreas")" class="d-flex align-items-center">
+                <i class="material-icons" style="font-size:20px;"></i>
+                <span class="ml-2" style="font-weight: bold;">BACK TO LIST</span>
+            </a>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script type="text/javascript">
+        function statechange() {
+            debugger;
+            var stid = $('#state').val();
+            if (stid.trim() != '') {
+                var ddlcity = $('#city');
+                ddlcity.empty();
+
+                $.ajax(
+                    {
+                        url: '/Area/GetCitiesByStateId',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { stateId: stid },
+                        success: function (d) {
+                            ddlcity.append($("<option></option>").val('').html('-SelectCity-'));
+                            $.each(d, function (i, cities) {
+                                ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
+                            });
+                        },
+                        error: function () {
+                            alert('Error!');
+                        }
+                    });
+            }
+        }
+  
+     </script>
+     
+</body>
+</html>

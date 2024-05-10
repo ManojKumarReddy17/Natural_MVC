@@ -10,6 +10,14 @@ namespace Natural.Core.IServices
 {
    public interface IAreaService
     {
-        Task<List<AreaModel>> GetArea(string CityId);
+
+        Task<List<AreaModel>> GetAreas();
+        Task<AreaModel> GetAreaDetailsbyId(string ID);
+
+
+        Task<AreaModel> CreateAreas(AreaModel area);
+        Task<List<AreaModel>> SearchArea(SearchModel searcharea);
+        Task<AreaModel> EditArea(string Id, AreaModel areaModel);
+        Task<bool> DeleteArea(string Id);
     }
 }

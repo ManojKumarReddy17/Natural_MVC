@@ -51,6 +51,8 @@ namespace NatDMS.Controllers
 
             return View(viewModel);
         }
+        public List<ED_CreateViewModel> ExecutiveList { get; set; }
+
 
 
         /// <summary>
@@ -76,7 +78,7 @@ namespace NatDMS.Controllers
             };
 
             return View(executiveviewmodel);
-
+             
         }
 
         /// <summary>
@@ -207,7 +209,7 @@ namespace NatDMS.Controllers
             var executiveResult = await _ExecutiveService.SearchExecutive(search);
             var SearchResult =   _mapper.Map<List<ED_CreateModel>, List<ED_CreateViewModel>>(executiveResult);
             var statesResult = await _unifiedservice.GetStates();
-
+           
             var viewModel = new EDR_DisplayViewModel
             {
                 ExecutiveList = SearchResult,
