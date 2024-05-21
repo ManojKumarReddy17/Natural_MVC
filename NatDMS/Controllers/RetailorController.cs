@@ -122,12 +122,12 @@ namespace NatDMS.Controllers
 
         public async Task<ActionResult> EditRetailor(string id)
         {
-            var retailorDetails = await _retailorservice.GetRetailorById(id);
+            var retailorDetails = await _retailorservice.GetRetailorDetailsById(id);
             var viewModel = _mapper.Map<RetailorEditViewModel>(retailorDetails);
 
             viewModel.States = await _unifiedservice.GetStates();
-            viewModel.Cities = await _unifiedservice.GetCitiesbyStateId(retailorDetails.State);
-            viewModel.Areas = await _unifiedservice.GetAreasByCityId(retailorDetails.City);
+            viewModel.Cities = await _unifiedservice.GetCitiesbyStateId(retailorDetails.StateId);
+            viewModel.Areas = await _unifiedservice.GetAreasByCityId(retailorDetails.CityId);
             return View(viewModel);
         }
 
@@ -147,8 +147,8 @@ namespace NatDMS.Controllers
             else
             {
                 viewModel.States = await _unifiedservice.GetStates();
-                viewModel.Cities = await _unifiedservice.GetCitiesbyStateId(viewModel.State);
-                viewModel.Areas = await _unifiedservice.GetAreasByCityId(viewModel.City);
+                viewModel.Cities = await _unifiedservice.GetCitiesbyStateId(viewModel.StateId);
+                viewModel.Areas = await _unifiedservice.GetAreasByCityId(viewModel.CityId);
 
                 return View(viewModel);
             }
@@ -169,10 +169,10 @@ namespace NatDMS.Controllers
         /// </summary>
 
         [HttpPost]
-        public async Task<ActionResult<EDR_DisplayViewModel>> SearchRetailor(EDR_DisplayViewModel SearchResultmodel)
+        public async Task<ActionResult<EDR_DisplayViewModel>> SearchRetailor(EDR_DisplayViewModel SearchResultmodel, string? NonAssign)
         {
             var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
-            var SearchResult = await _retailorservice.SearchRetailor(search);
+            var SearchResult = await _retailorservice.SearchRetailor(search, NonAssign);
             var statesResult = await _unifiedservice.GetStates();
 
             var viewModel = new EDR_DisplayViewModel

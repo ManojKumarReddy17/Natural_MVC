@@ -20,7 +20,7 @@ namespace Naturals.Service.Service
         }
         public async Task <AreaModel>GetAreaDetailsbyId(string ID) 
         {
-            var result = await _httpClient.GetByIdAsync<AreaModel>("/Area/areaById",ID);
+            var result = await _httpClient.GetByIdAsync<AreaModel>("/Area/areaById/",ID);
             return result;
       
         }

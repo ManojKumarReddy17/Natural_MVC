@@ -46,10 +46,10 @@
 
                 <div class="form-group">
                     <b>
-                        @Html.LabelFor(model => model.City)
-                        @Html.DropDownListFor(model => model.City, new SelectList(Model.Cities, "Id", "CityName"),
+                        @Html.LabelFor(model => model.CityId)
+                        @Html.DropDownListFor(model => model.CityId, new SelectList(Model.Cities, "Id", "CityName"),
                     "--Select City--", new { @id = "city", onchange = "citychange()", @class = "form-select" })
-                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.CityId, "", new { @class = "text-danger" })
                     </b>
                 </div>
                 <div class="form-group">
@@ -85,20 +85,20 @@
 
                 <div class="form-group">
                     <b>
-                        @Html.LabelFor(model => model.State, new { @class = "control-label" })
-                        @Html.DropDownListFor(model => model.State, new SelectList(Model.States, "Id", "StateName"),
+                        @Html.LabelFor(model => model.StateId, new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.StateId, new SelectList(Model.States, "Id", "StateName"),
                     "--Select State--", new { @id = "state", onchange = "statechange()", @class = "form-select" })
-                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
                     </b>
                 </div>
 
 
                 <div class="form-group">
                     <b>
-                        @Html.LabelFor(model => model.Area)
-                        @Html.DropDownListFor(model => model.Area, new SelectList(Model.Areas, "Id", "AreaName"),
+                        @Html.LabelFor(model => model.AreaId)
+                        @Html.DropDownListFor(model => model.AreaId, new SelectList(Model.Areas, "Id", "AreaName"),
                     "--Select Area--", new { id = "area", @class = "form-select" })
-                        @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
                     </b>
                 </div>
                 <div class="form-group">

@@ -45,7 +45,7 @@ namespace Naturals.Service.Service
         /// </summary>
         public async Task<T> GetByIdAsync<T>(string endpoint, object id)
         {
-            var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}{endpoint}/{id}");
+            var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}{endpoint}{id}");
 
             var responseContent = await response.Content.ReadAsStringAsync();
 
@@ -58,7 +58,7 @@ namespace Naturals.Service.Service
 
         public async Task<string> GetIdAsync(string endpoint, string id)
         {
-            var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}{endpoint}/{id}");
+            var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}{endpoint}{id}");
 
             var responseContent = await response.Content.ReadAsStringAsync();
             return responseContent;
@@ -139,6 +139,20 @@ namespace Naturals.Service.Service
             var responseData = await response.Content.ReadAsStringAsync();
 
             return responseData;
+        }
+
+        public async Task<T> SearchAsync<T>(string endpoint, object model, string? NonAssign)
+        {
+            var properties = model.GetType().GetProperties();
+            var keyValuePairs = properties
+                .Where(p => p.GetValue(model) != null)
+                .Select(p => $"{Uri.EscapeDataString(p.Name)}={Uri.EscapeDataString(p.GetValue(model).ToString())}");
+
+            var queryString =  string.Join("&", keyValuePairs);
+            //var queryString = model != null ? $"?model={Uri.EscapeDataString(JsonConvert.SerializeObject(model))}" : "";
+            var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}{endpoint}{queryString}");// reponse is api output in  json
+            var responseContent = await response.Content.ReadAsStringAsync();   // we are convertimg  response to single string 
+            return JsonConvert.DeserializeObject<T>(responseContent); // we are converting the string to required model
         }
 
 

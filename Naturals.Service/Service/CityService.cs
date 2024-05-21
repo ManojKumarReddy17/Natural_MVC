@@ -59,7 +59,7 @@ namespace Naturals.Service.Service
 
         public async Task<CityModel> GetCityById(string Id)
         {
-            var result = await _HttpCleintWrapper.GetByIdAsync<CityModel>("/City/getbyid", Id);
+            var result = await _HttpCleintWrapper.GetByIdAsync<CityModel>("/City/getbyid/", Id);
             return result;
         }
 
