@@ -28,12 +28,12 @@ namespace Naturals.Service.Service
         }
         public async Task<List<CityModel>> GetCitiesbyStateId(string stateId)
         {
-            return await _httpClientWrapper.GetByIdAsync<List<CityModel>>("/City", stateId);
+            return await _httpClientWrapper.GetByIdAsync<List<CityModel>>("/City?StateId=", stateId);
         }
 
         public async Task<List<AreaModel>> GetAreasByCityId(string cityId)
         {
-            return await _httpClientWrapper.GetByIdAsync<List<AreaModel>>("/Area", cityId);
+            return await _httpClientWrapper.GetByIdAsync<List<AreaModel>>("/Area?CityId=", cityId);
         }
 
 

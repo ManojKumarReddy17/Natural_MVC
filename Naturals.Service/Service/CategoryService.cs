@@ -31,7 +31,7 @@ namespace Naturals.Service.Service
         }
         public async Task<CategoryModel> GetCategoryById(string Id)
         {
-            var result = await _httpClientWrapper.GetByIdAsync<CategoryModel>("/Category", Id);
+            var result = await _httpClientWrapper.GetByIdAsync<CategoryModel>("/Category/", Id);
             return result;
         }
         public async Task<CategoryModel> UpdateCategory(string Id, CategoryModel category)

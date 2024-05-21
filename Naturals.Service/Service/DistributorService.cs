@@ -38,7 +38,7 @@ namespace Naturals.Service.Service
         public async Task<DistributorModel> GetDistributorDetailsById(string detailsid)
         {
 
-            var DistributorDetails = await _HttpCleintWrapper.GetByIdAsync<DistributorModel>("/Distributor/Details", detailsid);
+            var DistributorDetails = await _HttpCleintWrapper.GetByIdAsync<DistributorModel>("/Distributor/Details/", detailsid);
 
             return DistributorDetails;
         }
@@ -49,7 +49,7 @@ namespace Naturals.Service.Service
 
         public async Task<DistributorModel> GetDistributorById(string id)
         {
-            var DistributorDetails = await _HttpCleintWrapper.GetByIdAsync<DistributorModel>("/Distributor", id);
+            var DistributorDetails = await _HttpCleintWrapper.GetByIdAsync<DistributorModel>("/Distributor/", id);
             return DistributorDetails;
 
         }
@@ -117,7 +117,7 @@ namespace Naturals.Service.Service
 
         public async Task<List<RetailorModel>> GetAssignedRetailorByDistributorId(string Disid)
         {
-            var result = await _HttpCleintWrapper.GetByIdAsync<List<RetailorModel>>("/AssignRetailorToDistributor/details",Disid);
+            var result = await _HttpCleintWrapper.GetByIdAsync<List<RetailorModel>>("/AssignRetailorToDistributor/details/",Disid);
              return result;
         }
         public async Task<List<RetailorModel>> SearchNonAssignedRetailors(SearchModel searchdistributor)

@@ -36,13 +36,13 @@ namespace Naturals.Service.Service
 
         public async Task<Notification> GetNotification_DistributorById(string id)
         {
-            var Allnotification = await _HttpCleintWrapper.GetByIdAsync<Notification>("/NotificationDistributor", id);
+            var Allnotification = await _HttpCleintWrapper.GetByIdAsync<Notification>("/NotificationDistributor/", id);
             return Allnotification;
         }
 
         public async Task<Notification> GetNotificationById(string id)
         {
-            var Allnotification = await _HttpCleintWrapper.GetByIdAsync<Notification>("/NotificationDistributor/details", id);
+            var Allnotification = await _HttpCleintWrapper.GetByIdAsync<Notification>("/NotificationDistributor/details/", id);
             return Allnotification;
 
         }

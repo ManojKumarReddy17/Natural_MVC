@@ -66,7 +66,7 @@ namespace Naturals.Service.Service
 
         public async Task<List<DsrDistributor>> AssignedDistributorDetailsByExecutiveId(string Id)
         {
-            var result = await _HttpCleintWrapper.GetByIdAsync<List<DsrDistributor>>("/Dsr/Details", Id);
+            var result = await _HttpCleintWrapper.GetByIdAsync<List<DsrDistributor>>("/Dsr/Details/", Id);
             return result;
 
         }
@@ -74,7 +74,7 @@ namespace Naturals.Service.Service
         public async Task<List<DsrRetailor>> GetAssignedRetailorDetailsByDistributorId(string DistributorId)
         {
 
-            var result = await _HttpCleintWrapper.GetByIdAsync<List<DsrRetailor>>("/Dsr", DistributorId);
+            var result = await _HttpCleintWrapper.GetByIdAsync<List<DsrRetailor>>("/Dsr/", DistributorId);
 
             return result;
 
@@ -248,7 +248,7 @@ namespace Naturals.Service.Service
         public async Task<DsrInsert> Details(string dsrid)
 
         {
-            var dsr = await _HttpCleintWrapper.GetByIdAsync<DsrInsert>("/Dsr/ById", dsrid);
+            var dsr = await _HttpCleintWrapper.GetByIdAsync<DsrInsert>("/Dsr/ById/", dsrid);
             return dsr;
 
         }
@@ -282,7 +282,7 @@ namespace Naturals.Service.Service
         {
             var dsrempty = await CreateDsr();
             
-            var dsrids = await _HttpCleintWrapper.GetByIdAsync<Dsredit>("/Dsr/ids", dsrid);
+            var dsrids = await _HttpCleintWrapper.GetByIdAsync<Dsredit>("/Dsr/ids/", dsrid);
            
 
          var    editda = _mapper.Map<Dsredit, Dsrcreate>(dsrids);

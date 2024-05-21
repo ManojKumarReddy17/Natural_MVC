@@ -32,7 +32,7 @@ namespace Naturals.Service.Service
         /// </summary>
         public async Task<RetailorModel> GetRetailorById(string Retailorid)
         {
-            var getretailorid = await _HttpCleintWrapper.GetByIdAsync<RetailorModel>("/Retailor", Retailorid);
+            var getretailorid = await _HttpCleintWrapper.GetByIdAsync<RetailorModel>("/Retailor/", Retailorid);
             return getretailorid;
         }
 
@@ -42,7 +42,7 @@ namespace Naturals.Service.Service
 
         public async Task<RetailorModel> GetRetailorDetailsById(string retailorId)
         {
-            var getretailorid = await _HttpCleintWrapper.GetByIdAsync<RetailorModel>("/Retailor/details", retailorId);
+            var getretailorid = await _HttpCleintWrapper.GetByIdAsync<RetailorModel>("/Retailor/details/", retailorId);
             return getretailorid;
 
         }
@@ -92,9 +92,9 @@ namespace Naturals.Service.Service
             }
         }
 
-        public async Task<List<RetailorModel>> SearchRetailor(SearchModel searchretailor)
+        public async Task<List<RetailorModel>> SearchRetailor(SearchModel searchretailor, string? NonAssign)
         {
-            var SearchedResult = await _HttpCleintWrapper.PostAsync<List<RetailorModel>>("/Retailor/Search", searchretailor);
+            var SearchedResult = await _HttpCleintWrapper.SearchAsync<List<RetailorModel>>("/Retailor?", searchretailor, NonAssign);
             return SearchedResult;
         }
     }

@@ -88,7 +88,7 @@ namespace Naturals.Service.Service
 
         public async Task<List<DsrDistributor>> AssignedDistributorDetailsByExecutiveId(string Id)
         {
-            var result = await _httpClientWrapper.GetByIdAsync<List<DsrDistributor>>("/Dsr/Details", Id);
+            var result = await _httpClientWrapper.GetByIdAsync<List<DsrDistributor>>("/Dsr/Details/", Id);
             return result;
 
         }
@@ -96,7 +96,7 @@ namespace Naturals.Service.Service
         public async Task<List<DsrRetailor>> GetAssignedRetailorDetailsByDistributorId(string DistributorId)
         {
 
-            var result = await _httpClientWrapper.GetByIdAsync<List<DsrRetailor>>("/Dsr", DistributorId);
+            var result = await _httpClientWrapper.GetByIdAsync<List<DsrRetailor>>("/Dsr/", DistributorId);
 
             return result;
 

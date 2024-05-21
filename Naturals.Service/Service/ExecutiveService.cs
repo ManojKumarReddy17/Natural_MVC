@@ -44,7 +44,7 @@ namespace Naturals.Service.Service
         public async Task<ED_CreateModel> GetExecutiveDetailsById(string ID)
         {
 
-            var excdtlid = await _httpClient.GetByIdAsync<ED_CreateModel>("/Executive/details", ID);
+            var excdtlid = await _httpClient.GetByIdAsync<ED_CreateModel>("/Executive/details/", ID);
             return excdtlid;
         }
 
@@ -56,7 +56,7 @@ namespace Naturals.Service.Service
 
         public async Task<List<DistributorModel>> GetAssignedDistributorsByExecutiveId(string ExecutiveId)
         {
-            var assineddistr = await _httpClient.GetByIdAsync<List<DistributorModel>>("/AssignDistributorToExecutive/Details", ExecutiveId);
+            var assineddistr = await _httpClient.GetByIdAsync<List<DistributorModel>>("/AssignDistributorToExecutive/Details/", ExecutiveId);
             return assineddistr;
         }
 
@@ -66,7 +66,7 @@ namespace Naturals.Service.Service
 
         public async Task<ED_CreateModel> GetExecutiveById(string Id)
         {
-            var output = await _httpClient.GetByIdAsync<ED_CreateModel>("/Executive", Id);
+            var output = await _httpClient.GetByIdAsync<ED_CreateModel>("/Executive/", Id);
 
             return output;
         }

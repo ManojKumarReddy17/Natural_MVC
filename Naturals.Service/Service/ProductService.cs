@@ -27,7 +27,7 @@ namespace Naturals.Service.Service
         public async Task<GetProduct> GetproductDetailsById(string ID)
         {
             
-            var excdtlid = await _httpClient.GetByIdAsync<GetProduct>("/Product/details", ID);
+            var excdtlid = await _httpClient.GetByIdAsync<GetProduct>("/Product/details/", ID);
             return excdtlid;
         }
 
@@ -35,7 +35,7 @@ namespace Naturals.Service.Service
         public async Task<GetProduct> GetproductById(string ID)
         {
             
-            var excdtlid = await _httpClient.GetByIdAsync<GetProduct>("/Product", ID);
+            var excdtlid = await _httpClient.GetByIdAsync<GetProduct>("/Product/", ID);
             return excdtlid;
         }
 
