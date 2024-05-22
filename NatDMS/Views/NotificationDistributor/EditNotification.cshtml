@@ -97,7 +97,7 @@
     </style>
  <scrit scr ="~/css/bootstrap-multiselect.js "></scrit>
 
-    <script type="text/javascript">function executivechange() {
+    @* <script type="text/javascript">function executivechange() {
             debugger;
             var exid = $('#executive').val();
             if (exid.trim() != '') {
@@ -125,13 +125,7 @@
                     });
             }
         }
-
-
-      
-        
-
-
-    </script>
+    </script> *@
 </head>
 
 <body>
@@ -155,13 +149,13 @@
                         <div class="form-group">
                             <label>
                                 Executive:
-                                @Html.DropDownListFor(model => model.Executive, new SelectList(Model.ExecutiveList, "Id", "Executive"), "--Select Executive--", new { @id = "executive", onchange = "executivechange()", @class = "form-select" })
+                                @Html.ListBoxFor(model => model.Executive, new MultiSelectList(Model.ExecutiveList, "Id", "Executive"), new { @id = "executive", onchange = "executivechange()", @class = "form-select" })
                                 @Html.HiddenFor(model => model.ExecutiveList, new { id = "executiveListHidden" })
                             </label>
                             <label>
                                 Distributor:
-                                @Html.ListBoxFor(model => model.Distributor, new MultiSelectList(Model.distributorlist, "Id", "DistributorName"), new { @id = "distributor", onchange = "distributorchange()", @class = "form-select" })
-
+                                @Html.ListBoxFor(model => model.Distributor, new MultiSelectList(Model.DistributorList, "Id", "DistributorName"), new { @id = "distributor", onchange = "distributorchange()", @class = "form-select" })
+                                @Html.HiddenFor(model => model.DistributorList, new { id = "distributorListHidden" })
                             </label>
                             <label>
                                 Subject:
@@ -174,29 +168,14 @@
                         </div>
 
                         @Html.HiddenFor(model => model.Id)
-                       
-
-
                         <div class="text-center">
                             <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
                         </div>
                     </div>
                 </div>
             </div>
-
-          
-        </div>
-
-
-        
+        </div>   
     }
-
-
-
-
-
-
-
 </body>
 
 @section Scripts {

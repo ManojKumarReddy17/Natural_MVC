@@ -27,6 +27,7 @@ builder.Services.AddScoped<IProductService,ProductService>();
 builder.Services.AddScoped<IDSRService,DSRService>();
 builder.Services.AddTransient<ICityService, CityService>();
 
+builder.Services.AddScoped<IMapService, MapService>();
 builder.Services.AddScoped<IDistributorSalesService, DistributorSalesService>();
 
 

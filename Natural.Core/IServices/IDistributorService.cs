@@ -10,6 +10,7 @@ namespace Natural.Core.IServices
     public interface IDistributorService
     {
         Task<List<DistributorModel>> GetAllDistributors();
+        Task<List<GetExecutive>> GetAllDistributorsAsync();
         Task<DistributorModel> GetDistributorDetailsById(string detailsid);
         Task<DistributorModel> GetDistributorById(string id);
         Task<DistributorModel> CreateDistributor(DistributorModel distributor);

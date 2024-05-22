@@ -14,7 +14,7 @@
 
 <body>
 
-    @using (Html.BeginForm("EditRetailor", "Retailor", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+    @using (Html.BeginForm("EditRetailor", "Retailor", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate", enctype = "multipart/form-data" }))
     {
         <div class="row justify-content-center">
 
@@ -55,22 +55,26 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Latitude)
-                        @Html.TextBoxFor(model => model.Latitude, new { @class = "form-control",
-                    placeholder = "Enter Latitude", onfocus = "movePlaceholder(this)"})
-                       @*  @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" }) *@
+                        @Html.TextBoxFor(model => model.Latitude, new
+                            {
+                                @class = "form-control",
+                                placeholder = "Enter Latitude",
+                                onfocus = "movePlaceholder(this)"
+                            })
+                        @*  @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" }) *@
                     </b>
                 </div>
             </div>
 
             <div class="col-md-3">
 
-               @*  <div class="form-group">
+                <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.LastName, new { @class = "control-label" })
                         @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                     </b>
-                </div> *@
+                </div>
 
 
 
@@ -104,16 +108,40 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Longitude)
-                        @Html.TextBoxFor(model => model.Longitude, new { @class = "form-control",
-                    placeholder = "Enter Longitude", onfocus = "movePlaceholder(this)"})
-                       @*  @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" } *@
+                        @Html.TextBoxFor(model => model.Longitude, new
+                            {
+                                @class = "form-control",
+                                placeholder = "Enter Longitude",
+                                onfocus = "movePlaceholder(this)"
+                            })
+                        @*  @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" } *@
                     </b>
                 </div>
 
+                <div class="form-group">
+                    @* <label for="presignedurl-label" class="control-label" id="image" style="font-weight: bold;">
+                <span>@Model.FirstName</span>
+                </label> *@
+
+                    @if (!string.IsNullOrEmpty(@Model.PresignedUrl))
+                    {
+                        <img src="@Model.PresignedUrl" alt="ProfileImage" width="160" height="160" class="img-responsive" id="presignedurl">
+                    }
+                    else
+                    {
+                        <!-- Display a default "no image" placeholder -->
+                        <img src="~/image/no-image-placeholder.svg" alt="ProfileImage" width="160" height="160" class="img-responsive" id="presignedurl">
+                    }
+
+                    <input type="file" id="profileImageInput" name="profileImage" accept="image/*" style="display: none;">
+                    <label for="profileImageInput" class="btn btn-link">
+                        <i class="bi bi-image"></i> Change ProfileImage
+                    </label>
+                </div>
             </div>
         </div>
 
-        <br/>
+        <br />
         <div class="text-center">
             <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
         </div>
@@ -191,7 +219,23 @@
         }
 
     </script>
+    <script>
+        // Function to handle file input change event
+        function handleFileInputChange(event) {
+            const file = event.target.files[0];
+            if (file) {
+                // Assuming you have an img element with id "presignedurl"
+                const imgElement = document.getElementById('presignedurl');
+                imgElement.src = URL.createObjectURL(file);
+            }
+        }
 
+        // Add event listener to the file input element
+        const fileInput = document.getElementById('profileImageInput');
+        fileInput.addEventListener('change', handleFileInputChange);
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </body>
 </html>
 

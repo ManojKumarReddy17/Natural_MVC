@@ -111,6 +111,8 @@ namespace NatDMS.Mapping
 
             CreateMap<GetExecutive, ExecutiveModel>();
             CreateMap<GetExecutive, ExecutiveViewModel>();
+            CreateMap<GetExecutive, DistributorModel>();
+            CreateMap<DsrDistributorDrop, DsrDistributorResouse>();
 
 
 

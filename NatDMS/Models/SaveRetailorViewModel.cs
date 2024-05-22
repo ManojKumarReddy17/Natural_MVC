@@ -36,8 +36,8 @@ namespace NatDMS.Models
         [Required(ErrorMessage = "State is required.")]
         public string State { get; set; }
 
-        
 
+        public IFormFile ProfileImage { get; set; }
         public List<StateModel> States { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }

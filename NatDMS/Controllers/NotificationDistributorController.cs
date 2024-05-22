@@ -17,17 +17,17 @@ namespace NatDMS.Controllers
     {
 
         private readonly IDSRService _dsrservice;
-
+        private readonly IDistributorService _distributorservice;
         private readonly INotificationDistributorService _NotificationDistributorService;
         private readonly IMapper _mapper;
 
 
-        public NotificationDistributorController(IDSRService dsrservice, IMapper mapper, INotificationDistributorService NotificationDistributorService)
+        public NotificationDistributorController(IDSRService dsrservice, IMapper mapper, INotificationDistributorService NotificationDistributorService, IDistributorService distributorservice)
         {
             _dsrservice = dsrservice;
             _NotificationDistributorService = NotificationDistributorService;
             _mapper = mapper;
-           
+            _distributorservice = distributorservice;
         }
 
 
@@ -37,8 +37,8 @@ namespace NatDMS.Controllers
 
             var notifications = await _NotificationDistributorService.GetNotification();
             var viewmodel1 = _mapper.Map<List<Notification>, List<NotificationViewmodel>>((List<Notification>)notifications);
-            NotificationGetViewModel viewmodel = new NotificationGetViewModel {notification = viewmodel1 };
-            
+            NotificationGetViewModel viewmodel = new NotificationGetViewModel { notification = viewmodel1 };
+
 
             return View(viewmodel);
 
@@ -46,45 +46,63 @@ namespace NatDMS.Controllers
 
         public async Task<JsonResult> SearchNotification([FromBody] NotificationGetViewModel search)
         {
-                var searchnotification = _mapper.Map<NotificationGetViewModel, Dsrview>(search);
-                var resultnotification = await _NotificationDistributorService.SearchNotification(searchnotification);
+            var searchnotification = _mapper.Map<NotificationGetViewModel, Dsrview>(search);
+            var resultnotification = await _NotificationDistributorService.SearchNotification(searchnotification);
             var viewmodel1 = _mapper.Map<List<Notification>, List<NotificationViewmodel>>(resultnotification);
 
             return Json(viewmodel1);
 
         }
 
-
         public async Task<ActionResult<NotificationViewmodel>> Details(string id)
         {
             var notification = await _NotificationDistributorService.GetNotification_DistributorById(id);
-          
+
             List<string> distributor = notification.distributorlist
-  .Select(c => c.Distributor)
-  .ToList();
+            .Select(c => c.Distributor)
+            .ToList();
+            List<string> executive = notification.executivelist
+            .Select(c => c.Executive)
+            .ToList();
             NotificationViewmodel viewmodel = new NotificationViewmodel
-            {  Subject = notification.Body, 
-                Body = notification.Subject,
+            {
+                Subject = notification.Subject,
+                Body = notification.Body,
                 Distributor = distributor,
-                Id= notification.Id
+                Executive = executive,
+                Id = notification.Id
             };
             return View(viewmodel);
         }
 
 
         [HttpGet]
-        public async Task<IActionResult> CreateNotification1()
+        public async Task<ActionResult<NotificationViewmodel>> CreateNotification1()
         {
             var executivelist = await _dsrservice.GetExecutive();
+            var disList = await GetDistributor();
             var newexecutivelist = _mapper.Map<List<DsrExecutiveDrop>, List<DsrExecutiveResourse>>(executivelist);
             NotificationViewmodel viewmodel = new NotificationViewmodel
             {
-                ExecutiveList = newexecutivelist
+                ExecutiveList = newexecutivelist,
+                DistributorList = disList
             };
 
             return View(viewmodel);
         }
+        public async Task<List<DsrDistributorDrop>> GetDistributor()
+        {
 
+            List<DistributorModel> executives = await _distributorservice.GetAllDistributors();
+            List<DsrDistributorDrop> disList = executives.Select(c => new DsrDistributorDrop
+            {
+                Id = c.Id,
+                DistributorName = string.Concat(c.FirstName, " ", c.LastName),
+            }).ToList();
+
+            return disList;
+
+        }
 
         public async Task<JsonResult> GetDistributorByExecutiveId(string executiveId)
         {
@@ -97,15 +115,18 @@ namespace NatDMS.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateNotification1(NotificationViewmodel viewmodel)
         {
-            
-            var  newexecutivelist = _mapper.Map<NotificationViewmodel, Notification>(viewmodel);
-            
-             newexecutivelist.distributorlist = viewmodel.Distributor.Select(x => new NotificationDistributor
+            var newexecutivelist = _mapper.Map<NotificationViewmodel, Notification>(viewmodel);
+
+            newexecutivelist.distributorlist = viewmodel.Distributor.Select(x => new NotificationDistributor
             {
                 Distributor = x
             }).ToList();
-         var result =  await  _NotificationDistributorService.CreateNotification(newexecutivelist);
-           
+            newexecutivelist.executivelist = viewmodel.Executive.Select(y => new NotificationExecutive
+            {
+                Executive = y
+            }).ToList();
+
+            var result = await _NotificationDistributorService.CreateNotification(newexecutivelist);
 
             if (result.StatusCode == 200)
             {
@@ -113,58 +134,47 @@ namespace NatDMS.Controllers
             }
             else
             {
-                var executivelist = await _dsrservice.GetExecutive();
-                viewmodel.ExecutiveList = _mapper.Map<List<DsrExecutiveDrop>, List<DsrExecutiveResourse>>(executivelist);
-
                 return View(viewmodel);
             }
-
         }
-
 
         [HttpGet]
         public async Task<ActionResult<NotificationViewmodel>> EditNotification(string id)
         {
             var notification = await _NotificationDistributorService.GetNotificationById(id);
-           
-            List<string> distributor = notification.distributorlist
-    .Select(c => c.Distributor) 
-    .ToList();
 
+            List<string> distributor = notification.distributorlist
+              .Select(c => c.Distributor)
+              .ToList();
 
             string firstDistributor = notification.distributorlist
-    .Select(c => c.Distributor)
-    .FirstOrDefault();
-
+               .Select(c => c.Distributor)
+               .FirstOrDefault();
+            
             string notificationid = notification.distributorlist
-    .Select(c => c.Notification)
-    .FirstOrDefault();
+            .Select(c => c.Notification)
+            .FirstOrDefault();
 
-            var executive =    await _NotificationDistributorService.GetExectuvieById(firstDistributor);
-
-           var  distributorslist= await _dsrservice.AssignedDistributorDetailsByExecutiveId(executive);
-
-
-
+            var distributorslist = await GetDistributor();
             var executivelist = await _dsrservice.GetExecutive();
             var newexecutivelist = _mapper.Map<List<DsrExecutiveDrop>, List<DsrExecutiveResourse>>(executivelist);
+
             NotificationViewmodel viewmodel = new NotificationViewmodel
             {
                 ExecutiveList = newexecutivelist,
-                Executive = executive,
+                Executives = firstDistributor,
                 Distributor = distributor,
                 Body = notification.Body,
-                Subject =notification.Subject,
-                distributorlist = distributorslist,
+                Subject = notification.Subject,
+                DistributorList = distributorslist,
                 Id = notificationid
 
 
             };
-     
+
             return View(viewmodel);
 
         }
-
 
         [HttpPost]
         public async Task<ActionResult<NotificationViewmodel>> EditNotification(NotificationViewmodel model)
@@ -175,9 +185,14 @@ namespace NatDMS.Controllers
             viewmodel.distributorlist = model.Distributor.Select(x => new NotificationDistributor
             {
                 Distributor = x,
-               Notification =  notificcationid
+                Notification = notificcationid
             }).ToList();
-         var result =   await _NotificationDistributorService.Updatenotification(viewmodel, notificcationid);
+            viewmodel.executivelist = model.Executive.Select(y => new NotificationExecutive
+            {
+                Executive = y,
+                Notification = notificcationid
+            }).ToList();
+            var result = await _NotificationDistributorService.Updatenotification(viewmodel, notificcationid);
 
             return RedirectToAction("Details", new { id = notificcationid });
         }
