@@ -61,9 +61,7 @@ namespace NatDMS.Models
         public string Password { get; set; }
 
         public IFormFile ProfileImage { get; set; }
-
-        public List<StateModel> States { get; set; }
-
+        public List<StateModel> States { get; set;} 
         public string Latitude { get; set; }
 
         public string Longitude { get; set; }

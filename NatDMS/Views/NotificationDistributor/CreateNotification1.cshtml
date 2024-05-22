@@ -10,12 +10,7 @@
 <html lang="en">
 
 
-
 <head>
-
-
-
-
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -100,45 +95,42 @@
             display: flex;
         }
 
-        .email-container .email-content .email-form .form-group label select#distributor {
+        /* .email-container .email-content .email-form .form-group label select#distributor {
             height: 200px;
             /* Adjust styling as needed */
-        }
+        } */
     </style>
     <scrit scr="~/css/bootstrap-multiselect.js "></scrit>
-
-    <script type="text/javascript">function executivechange() {
+    <script type="text/javascript">
+        function executivechange() {
             debugger;
-            var exid = $('#executive').val();
-            if (exid.trim() != '') {
+            var selectedValues = $('#executive').val();
+            if (selectedValues !== null && selectedValues.length > 0) {
                 var ddldis = $('#distributor');
-                alert("success")
+                // alert("success")
                 ddldis.empty();
 
-                $.ajax(
-                    {
-                        url: "/NotificationDistributor/GetDistributorByExecutiveId",
-                        type: 'GET',
-                        dataType: 'json',
+                $.ajax({
+                    url: "/NotificationDistributor/GetDistributor",
+                    type: 'GET',
+                    dataType: 'json',
+                    traditional: true, // Ensure arrays are serialized properly
 
-                        data: { executiveId: exid },
+                    data: { executiveIds: selectedValues },
 
-                        success: function (d) {
-                            ddldis.append($("<option></option>").val('').html('--Select Distributor--'));
-                            $.each(d, function (i, distributors) {
-                                ddldis.append($("<option>" + distributors.distributorName + "</option>").val(distributors.id).html(distributors.distributorName));
-                            });
-                        },
-                        error: function () {
-                            alert('Error!');
-                        }
-                    });
+                    success: function (d) {
+                        ddldis.append($("<option></option>").val('').html('--Select Distributor--'));
+                        $.each(d, function (i, distributors) {
+                            ddldis.append($("<option>" + distributors.distributorName + "</option>").val(distributors.id).html(distributors.distributorName));
+                        });
+                    },
+                    error: function () {
+                        alert('Error!');
+                    }
+                });
             }
         }
-
-
-
-       </script>
+    </script>
 </head>
 
 <body>
@@ -159,12 +151,12 @@
                         <div class="form-group">
                             <label>
                                 Executive:
-                                @Html.DropDownListFor(model => model.Executive, new SelectList(Model.ExecutiveList, "Id", "Executive"), "--Select Executive--", new { @id = "executive", onchange = "executivechange()", @class = "form-select" })
+                                @Html.ListBoxFor(model => model.Executive, new MultiSelectList(Model.ExecutiveList, "Id", "Executive"), new { @id = "executive", onchange = "executivechange()", @class = "form-select" })
                                 @Html.HiddenFor(model => model.ExecutiveList, new { id = "executiveListHidden" })
                             </label>
                             <label>
                                 Distributor:
-                                @Html.ListBoxFor(model => model.Distributor, new List<SelectListItem> { new SelectListItem { Text = "", Value = "select" } }, new {@id = "distributor", onchange = "distributorchange()", @class = "form-select" })
+                                @Html.ListBoxFor(model => model.Distributor, new List<SelectListItem> { new SelectListItem { Text = "", Value = "select" } }, new { @id = "distributor", onchange = "distributorchange()", @class = "form-select" })
                             </label>
                             <label>
                                 Subject:
@@ -184,17 +176,7 @@
             </div>
 
         </div>
-
-
-
     }
-
-
-
-
-
-
-
 </body>
 
 @section Scripts {

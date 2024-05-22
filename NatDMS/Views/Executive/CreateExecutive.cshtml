@@ -80,6 +80,26 @@
                         @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                     </b>
                 </div>
+
+                @* <div class="form-group">
+                    @Html.LabelFor(model => model.ProfileImage, "Profile image")
+                    @Html.TextBoxFor(model => model.ProfileImage, new
+                        {
+                            type = "file",
+                            @class = "form-control custom-file-input",
+                            @placeholder = "Choose Profile Image",
+                            @onchange = "return ShowImagePreview(this)"
+                        })
+                    @Html.ValidationMessageFor(model => model.ProfileImage, "", new { @class = "text-danger" })
+                </div> *@
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.Latitude)
+                        @Html.TextBoxFor(model => model.Latitude, new { @class = "form-control",
+                    placeholder = "Enter Latitude", onfocus = "movePlaceholder(this)"})
+                       @*  @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" }) *@
+                    </b>
+                </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.ProfileImage, "Profile image")
                     @Html.TextBoxFor(model => model.ProfileImage, new
@@ -91,15 +111,9 @@
                         })
                     @Html.ValidationMessageFor(model => model.ProfileImage, "", new { @class = "text-danger" })
                 </div>
-                <div class="form-group">
-                    <b>
-                        @Html.LabelFor(model => model.Latitude)
-                        @Html.TextBoxFor(model => model.Latitude, new { @class = "form-control",
-                    placeholder = "Enter Latitude", onfocus = "movePlaceholder(this)"})
-                       @*  @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" }) *@
-                    </b>
-                </div>
             </div>
+
+            
 
 
             <div class="col-md-3">
@@ -160,7 +174,19 @@
                         @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
                     </b>
                 </div>
-              @* Preview image panel *@
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.Longitude)
+                        @Html.TextBoxFor(model => model.Longitude, new
+                            {
+                                @class = "form-control",
+                                placeholder = "Enter Longitude",
+                                onfocus = "movePlaceholder(this)"
+                            })
+                        @*   @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" }) *@
+                    </b>
+                </div>
+               @* Preview image panel *@
                 <div class="form-group">
                     <div class="col-md-4" id="imagePreviewContainer" style="display:none;">
                         <img src="#" alt="preview" id="imagePreview" style="border: 1px solid red; height: 160px; width: 160px; margin: auto; display: block;" />
@@ -169,22 +195,25 @@
 
             </div>
 
-        </div>
+        
 
-        <div class="text-center">
+             @* <div class="text-center">
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Longitude)
                         @Html.TextBoxFor(model => model.Longitude, new { @class = "form-control",
                     placeholder = "Enter Longitude", onfocus = "movePlaceholder(this)"})
-                      @*   @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" }) *@
+                      
                     </b>
                 </div>
-            </div>
+            </div> *@
 
         @*</div>*@
         <br/>
     <div class="text-center">
+        </div>
+
+        <div class="text-center">
             <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
         </div>
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +11,6 @@ namespace Natural.Core.Models
     public class RetailorModel
     {
         public string Id { get; set; }
-
-
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
@@ -27,5 +26,7 @@ namespace Natural.Core.Models
         public DateTime ModifiedDate { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
+        public string PresignedUrl { get; set; }
+        public IFormFile ProfileImage { get; set; }
     }
 }

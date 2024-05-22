@@ -23,210 +23,280 @@
 <body>
 
 
-@using (Html.BeginForm("CreateRetailor", "Retailor", FormMethod.Post, new { @class = "needs-validation", novalidate = "true" }))
-{
-    <div class="row justify-content-center">
-        <div class="col-md-3">
+    @using (Html.BeginForm("CreateRetailor", "Retailor", FormMethod.Post, new { @class = "needs-validation", novalidate = "true", enctype = "multipart/form-data" }))
+    {
+        <div class="row justify-content-center">
+            <div class="col-md-3">
 
-            <div class="form-group" style="margin-bottom: 9%;">
-                <b>
+                <div class="form-group" style="margin-bottom: 9%;">
+                    <b>
                         @Html.LabelFor(model => model.ShopName)
-                        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control",
-                        placeholder = "Enter FirstName", onfocus = "movePlaceholder(this)"})
-                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-                </b>
-            </div>
+                        @Html.TextBoxFor(model => model.FirstName, new
+                            {
+                                @class = "form-control",
+                                placeholder = "Enter FirstName",
+                                onfocus = "movePlaceholder(this)"
+                            })
+                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                    </b>
+                </div>
 
-            <div class="form-group">
-                <b>
-                    @Html.LabelFor(model => model.Email)
-                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control",
-                    placeholder = "Enter Email", onfocus = "movePlaceholder(this)"})
-                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                </b>
-            </div>
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.Email)
+                        @Html.TextBoxFor(model => model.Email, new
+                            {
+                                @class = "form-control",
+                                placeholder = "Enter Email",
+                                onfocus = "movePlaceholder(this)"
+                            })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </b>
+                </div>
 
-            <div class="form-group">
-                <b>
+                <div class="form-group">
+                    <b>
 
-                    @Html.LabelFor(model => model.MobileNumber)
-                    @Html.TextBoxFor(model => model.MobileNumber, new { @class = "form-control",
-                    placeholder = "Enter MobileNumber", onfocus = "movePlaceholder(this)"})
-                    @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
+                        @Html.LabelFor(model => model.MobileNumber)
+                        @Html.TextBoxFor(model => model.MobileNumber, new
+                            {
+                                @class = "form-control",
+                                placeholder = "Enter MobileNumber",
+                                onfocus = "movePlaceholder(this)"
+                            })
+                        @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
 
-                </b>
-            </div>
+                    </b>
+                </div>
 
-            <div class="form-group">
-                <b>
-                    @Html.LabelFor(model => model.City)
-                    @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
-                {
-                new SelectListItem { Text = "", Value = "select" },
-                }, "Value", "Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
-                    @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-                </b>
-            </div>
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.City)
+                        @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
+                    {
+                    new SelectListItem { Text = "", Value = "select" },
+                    }, "Value", "Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                    </b>
+                </div>
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Latitude)
-                        @Html.TextBoxFor(model => model.Latitude, new { @class = "form-control",
-                    placeholder = "Enter Latitude", onfocus = "movePlaceholder(this)"})
+                        @Html.TextBoxFor(model => model.Latitude, new
+                            {
+                                @class = "form-control",
+                                placeholder = "Enter Latitude",
+                                onfocus = "movePlaceholder(this)"
+                            })
                         @*  @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" }) *@
                     </b>
                 </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProfileImage, "Profile image")
+                    @Html.TextBoxFor(model => model.ProfileImage, new
+                        {
+                            type = "file",
+                            @class = "form-control custom-file-input",
+                            @placeholder = "Choose Profile Image",
+                            @onchange = "return ShowImagePreview(this)"
+                        })
+                    @Html.ValidationMessageFor(model => model.ProfileImage, "", new { @class = "text-danger" })
+                </div>
 
-        </div>
-
-
-        <div class="col-md-3 style=">
-
-            <div class="form-group">
-                <b>
-                    @Html.LabelFor(model => model.LastName)
-                    @Html.TextBoxFor(model => model.LastName, new { @class = "form-control",
-                    placeholder = "Enter LastName", onfocus = "movePlaceholder(this)"})
-                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-                </b>
             </div>
 
-            <div class="form-group emphasized-section">
-                <b>
-                    @Html.LabelFor(model => model.Address)
-                    @Html.TextAreaFor(model => model.Address, new { @class = "form-control", style = "overflow-y:scroll;",
-                    placeholder = "Enter Address", onfocus = "movePlaceholder(this)"})
-                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
 
-                </b>
-            </div>
+            <div class="col-md-3 style=">
 
-            <div class="form-group">
-                <b>
-                    @Html.LabelFor(model => model.State)
-                    @Html.DropDownListFor(model => model.State, new SelectList(Model.States, "Id", "StateName"),
-                "--Select State--", new { @id = "state", onchange = "statechange()", @class = "form-select" })
-                    @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
-                </b>
-            </div>
-
-            <div class="form-group">
-                <b>
-                    @Html.LabelFor(model => model.Area)
-                    @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
-                {
-                new SelectListItem { Text = "", Value = "select" }
-                }, new { id = "area", @class = "form-select" })
-                    @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
-                </b>
-            </div>
                 <div class="form-group">
                     <b>
-                        @Html.LabelFor(model => model.Longitude)
-                        @Html.TextBoxFor(model => model.Longitude, new { @class = "form-control",
-                    placeholder = "Enter Longitude", onfocus = "movePlaceholder(this)"})
-                        @*  @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" } *@
+                        @Html.LabelFor(model => model.LastName)
+                        @Html.TextBoxFor(model => model.LastName, new
+                            {
+                                @class = "form-control",
+                                placeholder = "Enter LastName",
+                                onfocus = "movePlaceholder(this)"
+                            })
+                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                     </b>
                 </div>
 
+                <div class="form-group emphasized-section">
+                    <b>
+                        @Html.LabelFor(model => model.Address)
+                        @Html.TextAreaFor(model => model.Address, new
+                            {
+                                @class = "form-control",
+                                style = "overflow-y:scroll;",
+                                placeholder = "Enter Address",
+                                onfocus = "movePlaceholder(this)"
+                            })
+                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+
+                    </b>
+                </div>
+
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.State)
+                        @Html.DropDownListFor(model => model.State, new SelectList(Model.States, "Id", "StateName"),
+                                 "--Select State--", new { @id = "state", onchange = "statechange()", @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.Area)
+                        @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
+                    {
+                    new SelectListItem { Text = "", Value = "select" }
+                    }, new { id = "area", @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.Longitude)
+                        @Html.TextBoxFor(model => model.Longitude, new
+                            {
+                                @class = "form-control",
+                                placeholder = "Enter Longitude",
+                                onfocus = "movePlaceholder(this)"
+                            })
+                        @*  @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" } *@
+                    </b>
+                </div>
+                @* Preview image panel *@
+                <div class="form-group">
+                    <div class="col-md-4" id="imagePreviewContainer" style="display:none;">
+                        <img src="#" alt="preview" id="imagePreview" style="border: 1px solid red; height: 160px; width: 160px; margin: auto; display: block;" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <br />
+        <div class="text-center">
+            <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
+        </div>
+
+    }
+
+    <div class="row">
+        <div class="col-md-10 d-flex justify-content-between">
+            <a href="@Url.Action("CreateRetailor")" class="d-flex align-items-center mr-6">
+                <i class="material-icons" style="font-size:20px;">refresh</i>
+                <span class="ml-2" style="font-weight: bold;">RESET</span>
+            </a>
+
+            <a href="@Url.Action("DisplayRetailors")" class="d-flex align-items-center">
+                <i class="material-icons" style="font-size:20px;">arrow_back</i>
+                <span class="ml-2" style="font-weight: bold;">BACK TO LIST</span>
+            </a>
         </div>
     </div>
 
-    <br/>
-    <div class="text-center">
-            <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
-    </div>
-
-}
-
-<div class="row">
-    <div class="col-md-10 d-flex justify-content-between">
-        <a href="@Url.Action("CreateRetailor")" class="d-flex align-items-center mr-6">
-            <i class="material-icons" style="font-size:20px;">refresh</i>
-            <span class="ml-2" style="font-weight: bold;">RESET</span>
-        </a>
-
-        <a href="@Url.Action("DisplayRetailors")" class="d-flex align-items-center">
-            <i class="material-icons" style="font-size:20px;">arrow_back</i>
-            <span class="ml-2" style="font-weight: bold;">BACK TO LIST</span>
-        </a>
-    </div>
-</div>
 
 
 
+    <!------------------------- AJAX CODE FOR STATE---------------------------->
 
-<!------------------------- AJAX CODE FOR STATE---------------------------->
 
+    <script src="~/js/jquery-3.6.0.min.js"></script>
 
-<script src="~/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        function statechange() {
+            debugger;
+            var stid = $('#state').val();
+            if (stid.trim() != '') {
+                var ddlcity = $('#city');
+                ddlcity.empty();
 
-<script type="text/javascript">
-    function statechange() {
-        debugger;
-        var stid = $('#state').val();
-        if (stid.trim() != '') {
-            var ddlcity = $('#city');
-            ddlcity.empty();
+                $.ajax(
+                    {
+                        url: "/Retailor/GetCitiesbyStateId",
 
-            $.ajax(
-                {
-                    url: "/Retailor/GetCitiesbyStateId",
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { stateId: stid },
 
-                    type: 'GET',
-                    dataType: 'json',
-                    data: { stateId: stid },
+                        success: function (d) {
 
-                    success: function (d) {
+                            ddlcity.append($("<option></option>").val('').html('--SelectCity--'));
+                            $.each(d, function (i, cities) {
 
-                        ddlcity.append($("<option></option>").val('').html('--SelectCity--'));
-                        $.each(d, function (i, cities) {
+                                ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
 
-                            ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
+                            });
+                        },
+                        error: function () {
+                            alert('Error!');
+                        }
+                    });
+            }
 
-                        });
-                    },
-                    error: function () {
-                        alert('Error!');
-                    }
-                });
         }
 
-    }
 
-
-    function citychange() {
-        debugger;
-        var cityid = $('#city').val();
+        function citychange() {
+            debugger;
+            var cityid = $('#city').val();
             if (cityid.trim() != '') {
-            var ddlarea = $('#area');
-            ddlarea.empty();
+                var ddlarea = $('#area');
+                ddlarea.empty();
 
-            $.ajax(
-                {
-                    url: "/Retailor/GetAreasByCityId",
+                $.ajax(
+                    {
+                        url: "/Retailor/GetAreasByCityId",
 
-                    type: 'GET',
-                    dataType: 'json',
+                        type: 'GET',
+                        dataType: 'json',
                         data: { cityId: cityid },
 
-                    success: function (d) {
+                        success: function (d) {
 
-                        ddlarea.append($("<option></option>").val('').html('--SelectArea--'));
-                        $.each(d, function (i, areas) {
+                            ddlarea.append($("<option></option>").val('').html('--SelectArea--'));
+                            $.each(d, function (i, areas) {
 
-                            ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
+                                ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
 
-                        });
-                    },
-                    error: function () {
-                        alert('Error!');
-                    }
-                });
+                            });
+                        },
+                        error: function () {
+                            alert('Error!');
+                        }
+                    });
+            }
+
         }
 
-    }
+    </script>
+    <script>
+        function ShowImagePreview(input) {
+            debugger;
+            if (input.files && input.files[0]) {
+                var filename = input.files[0].name;
+                var allowedExtensions = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/i;
+                if (!allowedExtensions.exec(filename)) {
+                    alert("Image not supported!");
+                    $("#fileInput").val("");
+                    $("#imagePreviewContainer").hide();
+                    return false;
+                }
+                else {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#imagePreview').prop('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                    $("#imagePreviewContainer").show();
+                }
+            }
+        }
+    </script>
 
-</script>
 </body>
 </html>
 

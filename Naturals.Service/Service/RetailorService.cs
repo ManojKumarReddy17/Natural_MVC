@@ -25,8 +25,6 @@ namespace Naturals.Service.Service
 
         }
 
-
- 
         /// <summary>
         /// GET RETAILOR BY ID
         /// </summary>
@@ -51,19 +49,110 @@ namespace Naturals.Service.Service
         /// CREATE RETAILOR 
         /// </summary>
 
-        public async Task<RetailorModel> CreateRetailor(RetailorModel retailors)
+        public async Task<RetailorModel> CreateRetailor(RetailorModel mdl)
         {
-            var result = await _HttpCleintWrapper.PostAsync<RetailorModel>("/Retailor/", retailors);
-            return result;
+            if (mdl.ProfileImage != null)
+            {
+                using (var formData = new MultipartFormDataContent())
+                {
+                    byte[] filebytes;
+                    using (var ms = new MemoryStream())
+
+                    {
+                        await mdl.ProfileImage.CopyToAsync(ms);
+                        filebytes = ms.ToArray();
+                    }
+                    formData.Add(new StringContent(mdl.FirstName), "FirstName");
+                    formData.Add(new StringContent(mdl.LastName), "LastName");
+                    formData.Add(new StringContent(mdl.Email), "Email");
+                    formData.Add(new StringContent(mdl.Address), "Address");
+                    formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
+                    formData.Add(new StringContent(mdl.State), "State");
+                    formData.Add(new StringContent(mdl.City), "City");
+                    formData.Add(new StringContent(mdl.Area), "Area");
+                    formData.Add(new StringContent(mdl.Latitude), "Latitude");
+                    formData.Add(new StringContent(mdl.Longitude), "Longitude");
+                    formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.ProfileImage.FileName);
+                    var result = await _HttpCleintWrapper.PostMultipartFormData<RetailorModel>("/Retailor/", formData);
+                    return result;
+                }
+            }
+            else
+            {
+                using (var formData = new MultipartFormDataContent())
+                {
+                    
+                    formData.Add(new StringContent(mdl.FirstName), "FirstName");
+                    formData.Add(new StringContent(mdl.LastName), "LastName");
+                    formData.Add(new StringContent(mdl.Email), "Email");
+                    formData.Add(new StringContent(mdl.Address), "Address");
+                    formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
+                    formData.Add(new StringContent(mdl.State), "State");
+                    formData.Add(new StringContent(mdl.City), "City");
+                    formData.Add(new StringContent(mdl.Area), "Area");
+                    formData.Add(new StringContent(mdl.Latitude), "Latitude");
+                    formData.Add(new StringContent(mdl.Longitude), "Longitude");
+                    var result = await _HttpCleintWrapper.PostMultipartFormData<RetailorModel>("/Retailor/", formData);
+                    return result;
+                }
+            }
+                
+
         }
 
         /// <summary>
         /// UPDATE RETAILOR BY ID
         /// </summary>
-        public async Task<RetailorModel> UpdateRetailor(string RetailorId, RetailorModel updatedRetailor)
+        
+        public async Task<RetailorModel> UpdateRetailor(string Id, RetailorModel mdl)
         {
-            var result = await _HttpCleintWrapper.PutAsync<RetailorModel>("/Retailor", RetailorId, updatedRetailor);
-            return result;
+            if (mdl.ProfileImage != null)
+            {
+                using (var formData = new MultipartFormDataContent())
+                {
+                    byte[] filebytes;
+                    using (var ms = new MemoryStream())
+
+                    {
+                        await mdl.ProfileImage.CopyToAsync(ms);
+                        filebytes = ms.ToArray();
+                    }
+                    formData.Add(new StringContent(mdl.FirstName), "FirstName");
+                    formData.Add(new StringContent(mdl.LastName), "LastName");
+                    formData.Add(new StringContent(mdl.Email), "Email");
+                    formData.Add(new StringContent(mdl.Address), "Address");
+                    formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
+                    
+                    formData.Add(new StringContent(mdl.State), "State");
+                    formData.Add(new StringContent(mdl.City), "City");
+                    formData.Add(new StringContent(mdl.Area), "Area");
+                    formData.Add(new StringContent(mdl.Latitude), "Latitude");
+                    formData.Add(new StringContent(mdl.Longitude), "Longitude");
+                    formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.ProfileImage.FileName);
+                    var output = await _HttpCleintWrapper.PutMultipartFormData<RetailorModel>($"/Retailor?RetailorId={Id}", formData);
+                    return output;
+                }
+            }
+            else
+            {
+                using (var formData = new MultipartFormDataContent())
+                {
+
+                    formData.Add(new StringContent(mdl.FirstName), "FirstName");
+                    formData.Add(new StringContent(mdl.LastName), "LastName");
+                    formData.Add(new StringContent(mdl.Email), "Email");
+                    formData.Add(new StringContent(mdl.Address), "Address");
+                    formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
+                    formData.Add(new StringContent(mdl.State), "State");
+                    formData.Add(new StringContent(mdl.City), "City");
+                    formData.Add(new StringContent(mdl.Area), "Area");
+                    formData.Add(new StringContent(mdl.Latitude), "Latitude");
+                    formData.Add(new StringContent(mdl.Longitude), "Longitude");
+                    var output = await _HttpCleintWrapper.PutMultipartFormData<RetailorModel>($"/Retailor?RetailorId={Id}", formData);
+                    return output;
+
+                }
+            }
         }
 
 

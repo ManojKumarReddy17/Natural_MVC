@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,6 +30,12 @@ namespace Naturals.Service.Service
             var getdistributor = await _HttpCleintWrapper.GetAsync<List<DistributorModel>>("/Distributor/");
             return getdistributor;
 
+        }
+
+        public async Task<List<GetExecutive>> GetAllDistributorsAsync()
+        {
+            var getexe = await _HttpCleintWrapper.GetAsync<List<GetExecutive>>("/Distributor/");
+            return getexe;
         }
 
         /// <summary>
@@ -57,25 +64,99 @@ namespace Naturals.Service.Service
         /// <summary>
         /// CREATE DISTRIBUTOR //
         /// </summary>
-       
 
-        public async Task<DistributorModel> CreateDistributor(DistributorModel distributor)
+        public async Task<DistributorModel> CreateDistributor(DistributorModel mdl)
         {
-            var result = await _HttpCleintWrapper.PostAsync<DistributorModel>("/Distributor/", distributor);
-            return result;
+            using (var formData = new MultipartFormDataContent())
+            {
+                byte[] filebytes;
+                using (var ms = new MemoryStream())
+
+                {
+                    await mdl.ProfileImage.CopyToAsync(ms);
+                    filebytes = ms.ToArray();
+                }
+                formData.Add(new StringContent(mdl.FirstName), "FirstName");
+                formData.Add(new StringContent(mdl.LastName), "LastName");
+                formData.Add(new StringContent(mdl.Email), "Email");
+                formData.Add(new StringContent(mdl.Address), "Address");
+                formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
+                formData.Add(new StringContent(mdl.UserName), "UserName");
+                formData.Add(new StringContent(mdl.Password), "Password");
+                formData.Add(new StringContent(mdl.State), "State");
+                formData.Add(new StringContent(mdl.City), "City");
+                formData.Add(new StringContent(mdl.Area), "Area");
+                formData.Add(new StringContent(mdl.Latitude), "Latitude");
+                formData.Add(new StringContent(mdl.Longitude), "Longitude");
+                formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.ProfileImage.FileName);
+
+
+                var result = await _HttpCleintWrapper.PostMultipartFormData<DistributorModel>("/Distributor/", formData);
+                return result;
+            }
+           
         }
+        
 
         /// <summary>
         /// UPDATE DISTRIBUTOR BY ID //
         /// </summary>
 
-        public async Task<DistributorModel> UpdateDistributor(string Id, DistributorModel distributor)
+        public async Task<DistributorModel> UpdateDistributor(string Id, DistributorModel mdl)
         {
-            var output = await _HttpCleintWrapper.PutAsync<DistributorModel>("/Distributor",Id, distributor);
+            if (mdl.ProfileImage != null)
+            {
+                using (var formData = new MultipartFormDataContent())
+                {
+                    byte[] filebytes;
+                    using (var ms = new MemoryStream())
 
-            return output;
+                    {
+                        await mdl.ProfileImage.CopyToAsync(ms);
+                        filebytes = ms.ToArray();
+                    }
+                    formData.Add(new StringContent(mdl.FirstName), "FirstName");
+                    formData.Add(new StringContent(mdl.LastName), "LastName");
+                    formData.Add(new StringContent(mdl.Email), "Email");
+                    formData.Add(new StringContent(mdl.Address), "Address");
+                    formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
+                    formData.Add(new StringContent(mdl.UserName), "UserName");
+                    formData.Add(new StringContent(mdl.Password), "Password");
+                    formData.Add(new StringContent(mdl.State), "State");
+                    formData.Add(new StringContent(mdl.City), "City");
+                    formData.Add(new StringContent(mdl.Area), "Area");
+                    formData.Add(new StringContent(mdl.Latitude), "Latitude");
+                    formData.Add(new StringContent(mdl.Longitude), "Longitude");
+                    formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.ProfileImage.FileName);
+                    var output = await _HttpCleintWrapper.PutMultipartFormData<DistributorModel>($"/Distributor?DistributorId={Id}", formData);
+                    
+                    return output;
+                }
+            }
+            else
+            {
+                using (var formData = new MultipartFormDataContent())
+                {
 
+                    formData.Add(new StringContent(mdl.FirstName), "FirstName");
+                    formData.Add(new StringContent(mdl.LastName), "LastName");
+                    formData.Add(new StringContent(mdl.Email), "Email");
+                    formData.Add(new StringContent(mdl.Address), "Address");
+                    formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
+                    formData.Add(new StringContent(mdl.UserName), "UserName");
+                    formData.Add(new StringContent(mdl.Password), "Password");
+                    formData.Add(new StringContent(mdl.State), "State");
+                    formData.Add(new StringContent(mdl.City), "City");
+                    formData.Add(new StringContent(mdl.Area), "Area");
+                    formData.Add(new StringContent(mdl.Latitude), "Latitude");
+                    formData.Add(new StringContent(mdl.Longitude), "Longitude");
+                    var output = await _HttpCleintWrapper.PutMultipartFormData<DistributorModel>($"/Distributor?DistributorId={Id}", formData);
+                    return output;
+
+                }
+            }
         }
+
         /// <summary>
         /// DELETE DISTRIBUTOR BY ID //
         /// </summary>

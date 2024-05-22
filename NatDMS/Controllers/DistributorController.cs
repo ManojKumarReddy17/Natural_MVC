@@ -39,9 +39,12 @@ namespace NatDMS.Controllers
         [HttpGet]
         public async Task<ActionResult<List<DistributorModel>>> DisplayDistributors(int page = 1)
         {
-            var distributorResult = await _distributorservice.GetAllDistributors();
-            var distributorPgn = new PageNation<DistributorModel>(distributorResult, _configuration, page);
-            var paginatedData = distributorPgn.GetPaginatedData(distributorResult);
+            var distributorResult = await _distributorservice.GetAllDistributorsAsync();
+            var viewmodel = _mapper.Map<List<GetExecutive>, List<DistributorModel>>(distributorResult);
+
+            var distributorPgn = new PageNation<DistributorModel>(viewmodel, _configuration, page);
+            var paginatedData = distributorPgn.GetPaginatedData(viewmodel);
+            
             ViewBag.Pages = distributorPgn;
             var statesResult = await _unifiedservice.GetStates();
             var viewModel = new EDR_DisplayViewModel

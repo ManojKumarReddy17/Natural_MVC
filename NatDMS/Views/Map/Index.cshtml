@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "";
+}
+
+<title>@ViewBag.Title</title>
+
+<fieldset>
+    @* <legend style="font-family: Arial Black; color: blue; font-size: large;">Check City</legend> *@
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <div id="googleMap" style="height:400px;width:100%;"></div>
+
+    <script>
+        function locateCoordinates() {
+            var mapCenter = new google.maps.LatLng(12.951845, 77.699577);
+            var mapProp = {
+                center: mapCenter,
+                zoom: 12,
+                scrollwheel: false,
+                draggable: true,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+
+            function addMarker(latitude, longitude) {
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(latitude, longitude),
+                    map: map
+                });
+            }
+
+            $.ajax({
+                url: '/Map/GetLatLung',
+                method: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response);
+                    response.forEach(function (coordinate) {
+                        addMarker(coordinate.latitude, coordinate.longitude);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRhAU9sfJQUfRWxyy3ly08jcXvpHb8OuQ&callback=locateCoordinates"></script>
+</fieldset>
+
+<footer>
+    <p style="background-color: Yellow; font-weight: bold; color:blue; text-align: center; font-style: oblique">© @DateTime.Now.ToLocalTime()</p>
+</footer>

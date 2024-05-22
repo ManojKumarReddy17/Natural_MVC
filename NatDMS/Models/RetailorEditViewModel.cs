@@ -33,12 +33,14 @@ namespace NatDMS.Models
         [Required(ErrorMessage = "State is required.")]
         public string StateId { get; set; }
 
-            public List<StateModel> States { get; set; }
-            public List<CityModel> Cities { get; set; }
-            public List<AreaModel> Areas { get; set; }
-          public string Latitude { get; set; }
-          public string Longitude { get; set; }
-        }
-
+        public List<StateModel> States { get; set; }
+        public List<CityModel> Cities { get; set; }
+        public List<AreaModel> Areas { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
+        public IFormFile ProfileImage { get; set; }
+        public string PresignedUrl { get; set; }
     }
+
+}
 
