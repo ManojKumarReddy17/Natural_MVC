@@ -57,9 +57,8 @@ namespace Naturals.Service.Service
 
 
         public async Task<List<DsrProduct>> GetProductAsync()
-
         {
-            var result = await _HttpCleintWrapper.GetAsync<List<DsrProduct>>("/Dsr/Product");
+            var result = await _HttpCleintWrapper.GetAsync<List<DsrProduct>>("/Product/GetAllPrtoductDetails");
 
             return result;
         }
