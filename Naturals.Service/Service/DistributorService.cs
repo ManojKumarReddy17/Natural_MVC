@@ -69,26 +69,34 @@ namespace Naturals.Service.Service
         {
             using (var formData = new MultipartFormDataContent())
             {
-                byte[] filebytes;
-                using (var ms = new MemoryStream())
-
+                byte[] filebytes = null;
+                if (mdl.ProfileImage != null)
                 {
-                    await mdl.ProfileImage.CopyToAsync(ms);
-                    filebytes = ms.ToArray();
+                    using (var ms = new MemoryStream())
+
+                    {
+                        await mdl.ProfileImage.CopyToAsync(ms);
+                        filebytes = ms.ToArray();
+                    }
                 }
+
                 formData.Add(new StringContent(mdl.FirstName), "FirstName");
                 formData.Add(new StringContent(mdl.LastName), "LastName");
-                formData.Add(new StringContent(mdl.Email), "Email");
-                formData.Add(new StringContent(mdl.Address), "Address");
+                formData.Add(new StringContent(mdl.Email ?? ""), "Email");
+                formData.Add(new StringContent(mdl.Address ?? ""), "Address");
                 formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
                 formData.Add(new StringContent(mdl.UserName), "UserName");
                 formData.Add(new StringContent(mdl.Password), "Password");
                 formData.Add(new StringContent(mdl.State), "State");
                 formData.Add(new StringContent(mdl.City), "City");
                 formData.Add(new StringContent(mdl.Area), "Area");
-                formData.Add(new StringContent(mdl.Latitude), "Latitude");
-                formData.Add(new StringContent(mdl.Longitude), "Longitude");
-                formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.ProfileImage.FileName);
+                formData.Add(new StringContent(mdl.Latitude ?? ""), "Latitude");
+                formData.Add(new StringContent(mdl.Longitude ?? ""), "Longitude");
+                if(filebytes != null)
+                {
+                    formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.ProfileImage.FileName );
+                }
+                
 
 
                 var result = await _HttpCleintWrapper.PostMultipartFormData<DistributorModel>("/Distributor/", formData);

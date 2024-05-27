@@ -27,7 +27,7 @@ namespace Natural.Core.IServices
 
         Task<bool> DeleteExecutive(string executiveId);        
       //Task<List<ExecutiveModel>> SearchExecutive(SearchModel searchexecutive);
-        Task<List<ED_CreateModel>> SearchExecutive(SearchModel searchexecutive);
+        Task<List<ED_CreateModel>> SearchExecutive(SearchModel searchexecutive, bool? NonAssign);
 
         Task<List<DistributorModel>> GetNonAssignedDistributors();
         Task<List<DistributorModel>> SearchNonAssignedDistributors(SearchModel searchdistributor);

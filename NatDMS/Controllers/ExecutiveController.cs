@@ -144,13 +144,13 @@ namespace NatDMS.Controllers
        
         public async Task<ActionResult<ED_EditViewModel>> EditExecutive(string id)
         {
-            var executive = await _ExecutiveService.GetExecutiveById(id);
-           
+            var executive = await _ExecutiveService.GetExecutiveDetailsById(id);
+
             var viewModel = _mapper.Map<ED_EditViewModel>(executive);
             viewModel.Area = executive.Area;
             viewModel.StateList = await _unifiedservice.GetStates();
-            viewModel.CityList = await _unifiedservice.GetCitiesbyStateId(executive.State);
-            viewModel.AreaList = await _unifiedservice.GetAreasByCityId(executive.City);
+            viewModel.CityList = await _unifiedservice.GetCitiesbyStateId(executive.StateId);
+            viewModel.AreaList = await _unifiedservice.GetAreasByCityId(executive.CityId);
             return View(viewModel);
         }
         /// <summary>
@@ -161,16 +161,22 @@ namespace NatDMS.Controllers
         [HttpPost]
         public async Task<ActionResult> EditExecutive(string id, ED_EditViewModel viewModel)
         {
+            viewModel.City = viewModel.CityId;
+            viewModel.State = viewModel.StateId;
             if (ModelState.IsValid)
             {
               
                 var update = _mapper.Map<ED_EditViewModel, ExecutiveModel>(viewModel);
-                update.Area = viewModel.Area.Select(x => new ExecutiveArea
+                if(viewModel.Area != null)
                 {
-                    Area = x,
-                    Executive = id
+                    update.Area = viewModel.Area.Select(x => new ExecutiveArea
+                    {
+                        Area = x,
+                        Executive = id
 
-                }).ToList();
+                    }).ToList();
+                }
+
               var result =  await _ExecutiveService.UpdateExecutive(id, update);
 
                 
@@ -180,8 +186,8 @@ namespace NatDMS.Controllers
             else
             {
                 viewModel.StateList = await _unifiedservice.GetStates();
-                viewModel.CityList = await _unifiedservice.GetCitiesbyStateId(viewModel.State);
-                viewModel.AreaList = await _unifiedservice.GetAreasByCityId(viewModel.City);
+                viewModel.CityList = await _unifiedservice.GetCitiesbyStateId(viewModel.StateId);
+                viewModel.AreaList = await _unifiedservice.GetAreasByCityId(viewModel.CityId);
                 return View(viewModel);
             }
         }
@@ -203,10 +209,10 @@ namespace NatDMS.Controllers
 
         [HttpPost]
      
-        public async Task<ActionResult<EDR_DisplayViewModel>> SearchExecutive(EDR_DisplayViewModel SearchResultmodel)
+        public async Task<ActionResult<EDR_DisplayViewModel>> SearchExecutive(EDR_DisplayViewModel SearchResultmodel, bool? NonAssign)
         {
             var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
-            var executiveResult = await _ExecutiveService.SearchExecutive(search);
+            var executiveResult = await _ExecutiveService.SearchExecutive(search, NonAssign);
             var SearchResult =   _mapper.Map<List<ED_CreateModel>, List<ED_CreateViewModel>>(executiveResult);
             var statesResult = await _unifiedservice.GetStates();
            

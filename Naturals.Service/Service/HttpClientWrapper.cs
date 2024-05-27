@@ -17,6 +17,7 @@ namespace Naturals.Service.Service
     public class HttpClientWrapper : IHttpClientWrapper
     {
         private readonly HttpClient _httpClient;
+
         public ApiDetails _ApiDetails { get; set; }
         public HttpClientWrapper(IOptions<ApiDetails> apiDetails, HttpClient httpClient)
         {
@@ -141,18 +142,36 @@ namespace Naturals.Service.Service
             return responseData;
         }
 
-        public async Task<T> SearchAsync<T>(string endpoint, object model, string? NonAssign)
+        public async Task<T> SearchAsync<T>(string endpoint, object model, bool? NonAssign)
         {
             var properties = model.GetType().GetProperties();
             var keyValuePairs = properties
                 .Where(p => p.GetValue(model) != null)
                 .Select(p => $"{Uri.EscapeDataString(p.Name)}={Uri.EscapeDataString(p.GetValue(model).ToString())}");
 
-            var queryString =  string.Join("&", keyValuePairs);
-            //var queryString = model != null ? $"?model={Uri.EscapeDataString(JsonConvert.SerializeObject(model))}" : "";
-            var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}{endpoint}{queryString}");// reponse is api output in  json
-            var responseContent = await response.Content.ReadAsStringAsync();   // we are convertimg  response to single string 
-            return JsonConvert.DeserializeObject<T>(responseContent); // we are converting the string to required model
+            var queryString = string.Join("&", keyValuePairs);
+            if (!string.IsNullOrEmpty(queryString) && NonAssign != true)
+            {
+
+                //var queryString = model != null ? $"?model={Uri.EscapeDataString(JsonConvert.SerializeObject(model))}" : "";
+                var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}{endpoint}{queryString}");// reponse is api output in  json
+                var responseContent = await response.Content.ReadAsStringAsync();   // we are convertimg  response to single string 
+                return JsonConvert.DeserializeObject<T>(responseContent);
+            };
+            if(!string.IsNullOrEmpty(queryString) && NonAssign == true)
+            {
+                var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}{endpoint}{queryString}&nonAssign={NonAssign}");// reponse is api output in  json
+                var responseContent = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<T>(responseContent);
+
+            }
+            else
+            {
+                var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}{endpoint}{NonAssign}");
+                var responseContent = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<T>(responseContent);
+            }
+            
         }
 
 

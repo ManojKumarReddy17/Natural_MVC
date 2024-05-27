@@ -181,7 +181,7 @@ namespace Naturals.Service.Service
             }
         }
 
-        public async Task<List<RetailorModel>> SearchRetailor(SearchModel searchretailor, string? NonAssign)
+        public async Task<List<RetailorModel>> SearchRetailor(SearchModel searchretailor, bool? NonAssign)
         {
             var SearchedResult = await _HttpCleintWrapper.SearchAsync<List<RetailorModel>>("/Retailor?", searchretailor, NonAssign);
             return SearchedResult;
