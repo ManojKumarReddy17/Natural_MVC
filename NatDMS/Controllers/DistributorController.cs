@@ -154,7 +154,7 @@ namespace NatDMS.Controllers
             if (ModelState.IsValid)
             {
                 var distributor = _mapper.Map<ED_CreateViewModel, DistributorModel>(distributorModel);
-
+                
                 await _distributorservice.CreateDistributor(distributor);
 
                 return RedirectToAction("DisplayDistributors", "Distributor");

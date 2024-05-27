@@ -92,8 +92,8 @@ namespace Naturals.Service.Service
                     }
                     formData.Add(new StringContent(mdl.FirstName), "FirstName");
                     formData.Add(new StringContent(mdl.LastName), "LastName");
-                    formData.Add(new StringContent(mdl.Email), "Email");
-                    formData.Add(new StringContent(mdl.Address), "Address");
+                    formData.Add(new StringContent(mdl.Email ?? ""), "Email");
+                    formData.Add(new StringContent(mdl.Address ?? ""), "Address");
                     formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
                     formData.Add(new StringContent(mdl.UserName), "UserName");
                     formData.Add(new StringContent(mdl.Password), "Password");
@@ -106,8 +106,8 @@ namespace Naturals.Service.Service
 
                     }
 
-                    formData.Add(new StringContent(mdl.Latitude), "Latitude");
-                    formData.Add(new StringContent(mdl.Longitude), "Longitude");
+                    formData.Add(new StringContent(mdl.Latitude ?? ""), "Latitude");
+                    formData.Add(new StringContent(mdl.Longitude ?? ""), "Longitude");
                     formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.ProfileImage.FileName);
 
 
@@ -123,8 +123,8 @@ namespace Naturals.Service.Service
 
                     formData.Add(new StringContent(mdl.FirstName), "FirstName");
                     formData.Add(new StringContent(mdl.LastName), "LastName");
-                    formData.Add(new StringContent(mdl.Email), "Email");
-                    formData.Add(new StringContent(mdl.Address), "Address");
+                    formData.Add(new StringContent(mdl.Email ?? ""), "Email");
+                    formData.Add(new StringContent(mdl.Address ?? ""), "Address");
                     formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
                     formData.Add(new StringContent(mdl.UserName), "UserName");
                     formData.Add(new StringContent(mdl.Password), "Password");
@@ -137,8 +137,8 @@ namespace Naturals.Service.Service
 
                     }
 
-                    formData.Add(new StringContent(mdl.Latitude), "Latitude");
-                    formData.Add(new StringContent(mdl.Longitude), "Longitude");
+                    formData.Add(new StringContent(mdl.Latitude ?? ""), "Latitude");
+                    formData.Add(new StringContent(mdl.Longitude ?? ""), "Longitude");
                     //formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.ProfileImage.FileName);
 
 
@@ -204,12 +204,15 @@ namespace Naturals.Service.Service
                     formData.Add(new StringContent(mdl.Password), "Password");
                     formData.Add(new StringContent(mdl.State), "State");
                     formData.Add(new StringContent(mdl.City), "City");
-                    
-                    for (int i = 0; i < mdl.Area.Count; i++)
+                    if(mdl.Area != null)
                     {
-                        formData.Add(new StringContent(mdl.Area[i].Area.ToString()), $"Area[{i}].Area");
-                        formData.Add(new StringContent(mdl.Area[i].Executive), $"Area[{i}].Executive");
+                        for (int i = 0; i < mdl.Area.Count; i++)
+                        {
+                            formData.Add(new StringContent(mdl.Area[i].Area.ToString()), $"Area[{i}].Area");
+                            formData.Add(new StringContent(mdl.Area[i].Executive), $"Area[{i}].Executive");
+                        }
                     }
+
                     formData.Add(new StringContent(mdl.Latitude), "Latitude");
                     formData.Add(new StringContent(mdl.Longitude), "Longitude");
                    
@@ -245,21 +248,24 @@ namespace Naturals.Service.Service
 
        
 
-        public async Task<List<ED_CreateModel>> SearchExecutive(SearchModel searchexecutive)
+        public async Task<List<ED_CreateModel>> SearchExecutive(SearchModel searchexecutive, bool? NonAssign)
         {
-            var SearchedResult = await _httpClient.PostAsync<List<ED_CreateModel>>("/Executive/Search", searchexecutive);
+            var SearchedResult = await _httpClient.SearchAsync<List<ED_CreateModel>>("/Executive?", searchexecutive, NonAssign);
             return SearchedResult;
         }
 
         public async Task<List<DistributorModel>> GetNonAssignedDistributors()
         {
-            var getdistributor = await _httpClient.GetAsync<List<DistributorModel>>("/Distributor/Assign");
+            var nonAssign = true;
+            SearchModel search = new SearchModel();
+            var getdistributor = await _httpClient.SearchAsync<List<DistributorModel>>("/Distributor?nonAssign=", search, nonAssign);
             return getdistributor;
 
         }
         public async Task<List<DistributorModel>>   SearchNonAssignedDistributors(SearchModel searchdistributor)
         {
-            var SearchedResult = await _httpClient.PostAsync<List<DistributorModel>>("/Distributor/SearchNonAssign", searchdistributor);
+            var nonAssign = true; 
+            var SearchedResult = await _httpClient.SearchAsync<List<DistributorModel>>("/Distributor?", searchdistributor, nonAssign);
             return SearchedResult;
         }
         public async Task<string> DeleteAssignedDistributor(string distributorId, string executiveId)

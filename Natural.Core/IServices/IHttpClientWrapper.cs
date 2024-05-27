@@ -17,7 +17,7 @@ namespace Natural.Core.IServices
         Task<T> PutMultipartFormData<T>(string endpoint, MultipartFormDataContent model);
         Task<string> DeleteAssignedDistirbutorAsync(string endpoint,string id);
         Task<string> GetIdAsync(string endpoint, string id);
-        Task<T> SearchAsync<T>(string endpoint, object model, string? NonAssign);
+        Task<T> SearchAsync<T>(string endpoint, object model, bool? NonAssign);
 
 
 

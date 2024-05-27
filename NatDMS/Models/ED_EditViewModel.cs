@@ -33,11 +33,14 @@ namespace NatDMS.Models
         //[Required(ErrorMessage = "Area is required.")]
         //public string Area { get; set; }
 
-        [Required(ErrorMessage = "City is required.")]
+        //[Required(ErrorMessage = "City is required.")]
         public string City { get; set; }
 
-        [Required(ErrorMessage = "State is required.")]
+        public string CityId { get; set; }
+
+        //[Required(ErrorMessage = "State is required.")]
         public string State { get; set; }
+        public string StateId { get; set; }
 
         [Required(ErrorMessage = "Username is required.")]
         public string UserName { get; set; }
@@ -58,13 +61,11 @@ namespace NatDMS.Models
         public string Latitude { get; set; }
         public string Longitude { get; set; }
 
-        [Required(ErrorMessage = "Area is required.")]
+        //[Required(ErrorMessage = "Area is required.")]
         public List<string> Area { get; set; }
+        public List<string> AreaId { get; set; }
 
         public string Id { get; set; }
-
-
-        public string PresignedUrl { get; set; }
 
     }
 }

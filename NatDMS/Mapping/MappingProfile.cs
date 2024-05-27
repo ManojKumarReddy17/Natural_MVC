@@ -61,6 +61,7 @@ namespace NatDMS.Mapping
 
             CreateMap<AreaModel, AreaDisplayModel>();
             CreateMap<AreaModel,AreaCUmodel>();
+            CreateMap<CreateDistributor, DistributorModel>();
             // Resource to Domain
 
             CreateMap<LoginResultModel, LoginModel>();

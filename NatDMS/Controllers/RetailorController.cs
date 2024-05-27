@@ -174,7 +174,7 @@ namespace NatDMS.Controllers
         /// </summary>
 
         [HttpPost]
-        public async Task<ActionResult<EDR_DisplayViewModel>> SearchRetailor(EDR_DisplayViewModel SearchResultmodel, string? NonAssign)
+        public async Task<ActionResult<EDR_DisplayViewModel>> SearchRetailor(EDR_DisplayViewModel SearchResultmodel, bool? NonAssign)
         {
             var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
             var SearchResult = await _retailorservice.SearchRetailor(search, NonAssign);

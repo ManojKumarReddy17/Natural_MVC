@@ -56,7 +56,7 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.City)
-                        @Html.DropDownListFor(model => model.City, new SelectList(Model.CityList, "Id", "CityName"),
+                        @Html.DropDownListFor(model => model.CityId, new SelectList(Model.CityList, "Id", "CityName"),
                     "--Select City--", new { @id = "city", onchange = "citychange()", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                     </b>
@@ -103,7 +103,7 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.State, new { @class = "control-label" })
-                        @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"),
+                        @Html.DropDownListFor(model => model.StateId, new SelectList(Model.StateList, "Id", "StateName"),
                     "--Select State--", new { @id = "state", onchange = "statechange()", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                     </b>
