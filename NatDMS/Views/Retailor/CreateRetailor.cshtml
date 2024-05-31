@@ -88,7 +88,7 @@
                                 placeholder = "Enter Latitude",
                                 onfocus = "movePlaceholder(this)"
                             })
-                        @*  @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" }) *@
+                        @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" })
                     </b>
                 </div>
                 <div class="form-group">
@@ -164,7 +164,7 @@
                                 placeholder = "Enter Longitude",
                                 onfocus = "movePlaceholder(this)"
                             })
-                        @*  @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" } *@
+                          @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" }) 
                     </b>
                 </div>
                 @* Preview image panel *@
@@ -208,7 +208,6 @@
 
     <script type="text/javascript">
         function statechange() {
-            debugger;
             var stid = $('#state').val();
             if (stid.trim() != '') {
                 var ddlcity = $('#city');
@@ -241,7 +240,6 @@
 
 
         function citychange() {
-            debugger;
             var cityid = $('#city').val();
             if (cityid.trim() != '') {
                 var ddlarea = $('#area');
@@ -275,7 +273,6 @@
     </script>
     <script>
         function ShowImagePreview(input) {
-            debugger;
             if (input.files && input.files[0]) {
                 var filename = input.files[0].name;
                 var allowedExtensions = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/i;

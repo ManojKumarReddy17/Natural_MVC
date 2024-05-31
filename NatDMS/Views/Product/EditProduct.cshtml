@@ -32,7 +32,7 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Category, new { @class = "control-label" })
-                        @Html.DropDownListFor(model => model.Category, new SelectList(Model.Categorylist, "Id", "CategoryName"),
+                        @Html.DropDownListFor(model => model.CategoryId, new SelectList(Model.Categorylist, "Id", "CategoryName"),
                     "--Select category--", new { @id = "category", @class = "form-select" })
 
                     </b>
@@ -79,10 +79,10 @@
                     <label for="presignedurl-label" class="control-label" id="image" style="font-weight: bold;">  <span>@Model.ProductName</span></label>
 
 
-                    @if (!string.IsNullOrEmpty(@Model.PresignedUrl))
+                    @if (!string.IsNullOrEmpty(@Model.Image))
                     {
 
-                        <img src="@Model.PresignedUrl" alt="ProfileImage" width="200" height="200" class="img-responsive" onclick="confirmDelete('@Model.Id', true)" id="presignedurl" enabled>
+                        <img src="@Model.Image" alt="ProfileImage" width="200" height="200" class="img-responsive" onclick="confirmDelete('@Model.Id', true)" id="presignedurl" enabled>
 
                     }
                     else
@@ -124,10 +124,10 @@
                             <div class="modal-body">
 
 
-                                @if (!string.IsNullOrEmpty(@Model.PresignedUrl))
+                                @if (!string.IsNullOrEmpty(@Model.Image))
                                 {
 
-                                    <img src="@Model.PresignedUrl" alt="ProfileImage" width="200" height="200" class="img-responsive" onclick="confirmDelete('@Model.Id', true)" id="presignedurl" enabled>
+                                    <img src="@Model.Image" alt="ProfileImage" width="200" height="200" class="img-responsive" onclick="confirmDelete('@Model.Id', true)" id="presignedurl" enabled>
 
                                 }
                                 else
@@ -198,7 +198,6 @@
                 type: 'POST',
                 data: { Id:'@Model.Id' },
                 success: function (result) {
-                    alert("seccess")
                     // Handle the success case (e.g., update UI, close modal)
                     console.log('Item deleted successfully');
                     $('#deleteConfirmationModal_' + id).modal('hide');

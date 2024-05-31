@@ -113,8 +113,6 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Area)
-                        @*@Html.ListBoxFor(model => model.Area, new SelectList(Model.AreaList, "Id", "AreaName"),
-                    "--Select Area--", new { id = "area", @class = "form-select" })*@
 
                         @Html.ListBoxFor(model => model.Area, new MultiSelectList(Model.AreaList, "Id", "AreaName"), new { @id = "area", onchange = "distributorchange()", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
@@ -125,16 +123,16 @@
                         @Html.LabelFor(model => model.Longitude)
                         @Html.TextBoxFor(model => model.Longitude, new { @class = "form-control",
                     placeholder = "Enter Longitude", onfocus = "movePlaceholder(this)"})
-                        @* @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" }) *@
+                         @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" })
                     </b>
                 </div>
 
                 <div class="form-group">
-                   
 
-                    @if (!string.IsNullOrEmpty(@Model.PresignedUrl))
+
+                    @if (!string.IsNullOrEmpty(@Model.Image))
                     {
-                        <img src="@Model.PresignedUrl" alt="ProfileImage" width="160" height="160" class="img-responsive" id="presignedurl">
+                        <img src="@Model.Image" alt="ProfileImage" width="160" height="160" class="img-responsive" id="presignedurl">
                     }
                     else
                     {
@@ -178,11 +176,10 @@
 
     <script type="text/javascript">
         function statechange() {
-            debugger;
+            
             var stid = $('#state').val();
             if (stid.trim() != '') {
                 var ddlcity = $('#city');
-
 
                 ddlcity.empty();
 
@@ -212,7 +209,6 @@
         }
 
         function citychange() {
-            debugger;
             var cityid = $('#city').val();
             if (cityid.trim() != '') {
                 var ddlarea = $('#area');

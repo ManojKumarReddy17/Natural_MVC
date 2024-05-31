@@ -19,12 +19,8 @@ namespace NatDMS.Models
 
         public string CompanyName { get; set; }
 
-
-        //[Required(ErrorMessage = "Last Name is required.")]
-        //[RegularExpression("[a-zA-Z]{1,40}", ErrorMessage = "must contain upto 40 alphabets only")]
         public string LastName { get; set; }
 
-        [EmailAddress(ErrorMessage = "Invalid email address. The email domain must be @gmail.com")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Mobile Number is required.")]
@@ -33,21 +29,8 @@ namespace NatDMS.Models
 
         public string Address { get; set; }
 
-
-        //[Required(ErrorMessage = "Area is required.")]
-        //public string Area { get; set; }
-
-        [Required(ErrorMessage = "City is required.")]
         public string City { get; set; }
 
-        //[Required(ErrorMessage = "Area is required.")]
-        //public List<string> Areas { get; set; }
-
-        //[Required(ErrorMessage = "City is required.")]
-        //      public string City { get; set; }
-
-
-        [Required(ErrorMessage = "State is required.")]
         public string State { get; set; }
 
         [Required(ErrorMessage = "Username is Required")]
@@ -59,23 +42,17 @@ namespace NatDMS.Models
         ErrorMessage = "Passwords must be at least 6 characters and include an uppercase letter" +
         "(A-Z),alowercase letter (a-z), a digit (0-9), and a special character (!@#$%^&*)")]
         public string Password { get; set; }
-
+        public string Image { get; set; }
         public IFormFile ProfileImage { get; set; }
         public List<StateModel> States { get; set;} 
         public string Latitude { get; set; }
 
         public string Longitude { get; set; }
 
-        [Required(ErrorMessage = "Area is required.")]
         public List<string> Area { get; set; }
 
         public string PresignedUrl { get; set; }
 
-
-        //public List<StateModel> States { get; set; }
-
-        //[Required(ErrorMessage = "Area is required.")]
-        //public List<ExecutiveAreaResource> Area { get; set; }
     }
 
 }

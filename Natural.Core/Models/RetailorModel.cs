@@ -28,5 +28,6 @@ namespace Natural.Core.Models
         public string Longitude { get; set; }
         public string PresignedUrl { get; set; }
         public IFormFile ProfileImage { get; set; }
+        public string Image { get; set; }
     }
 }

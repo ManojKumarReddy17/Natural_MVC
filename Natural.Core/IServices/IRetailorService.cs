@@ -13,7 +13,6 @@ namespace Natural.Core.IServices
         Task<RetailorModel> GetRetailorById(string Retailorid);
         Task<RetailorModel> GetRetailorDetailsById(string retailorId);
         Task<RetailorModel> CreateRetailor(RetailorModel retailor);
-        //Task<RetailorModel> UpdateRetailor(string RetailorId, RetailorModel Retailor);
         Task<RetailorModel> UpdateRetailor(string Id, RetailorModel mdl);
         Task <bool>DeleteRetailor(string retailorId);
         Task<List<RetailorModel>> SearchRetailor(SearchModel searchretailor, bool? NonAssign);

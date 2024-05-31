@@ -9,8 +9,6 @@ namespace Natural.Core.IServices
 {
     public interface IDistributorSalesService
     {
-        ////Task<DistributorSalesReport> GetById(DistributorSalesReportInput DSReport);
-        // Task<List<DistributorSalesReportInput>> DailySaleReport(DistributorSalesReport report);
         Task<DistributorSalesReportInput> GetById(DistributorSalesReport DSReport);
         Task<List<DistributorSalesReportInput>> SearchDSR(DistributorSalesReport Search);
         Task<List<DsrDistributor>> AssignedDistributorDetailsByExecutiveId(string Id);

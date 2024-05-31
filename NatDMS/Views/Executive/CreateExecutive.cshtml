@@ -81,23 +81,12 @@
                     </b>
                 </div>
 
-                @* <div class="form-group">
-                    @Html.LabelFor(model => model.ProfileImage, "Profile image")
-                    @Html.TextBoxFor(model => model.ProfileImage, new
-                        {
-                            type = "file",
-                            @class = "form-control custom-file-input",
-                            @placeholder = "Choose Profile Image",
-                            @onchange = "return ShowImagePreview(this)"
-                        })
-                    @Html.ValidationMessageFor(model => model.ProfileImage, "", new { @class = "text-danger" })
-                </div> *@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Latitude)
                         @Html.TextBoxFor(model => model.Latitude, new { @class = "form-control",
                     placeholder = "Enter Latitude", onfocus = "movePlaceholder(this)"})
-                       @*  @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" }) *@
+                         @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" }) 
                     </b>
                 </div>
                 <div class="form-group">
@@ -183,7 +172,7 @@
                                 placeholder = "Enter Longitude",
                                 onfocus = "movePlaceholder(this)"
                             })
-                        @*   @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" }) *@
+                          @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" }) 
                     </b>
                 </div>
                @* Preview image panel *@
@@ -229,7 +218,7 @@
 
     <script type="text/javascript">
         function statechange() {
-            debugger;
+
             var stid = $('#state').val();
             if (stid.trim() != '') {
                 var ddlcity = $('#city');
@@ -255,7 +244,7 @@
         }
 
         function citychange() {
-            debugger;
+
             var cityid = $('#city').val();
             if (cityid.trim() != '') {
                 var ddlarea = $('#area');
@@ -283,7 +272,6 @@
 
     <script>
         function ShowImagePreview(input) {
-            debugger;
             if (input.files && input.files[0]) {
                 var filename = input.files[0].name;
                 var allowedExtensions = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/i;

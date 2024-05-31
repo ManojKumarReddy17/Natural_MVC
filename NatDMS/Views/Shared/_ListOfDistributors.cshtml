@@ -46,7 +46,7 @@
                                 distributors.mobileNumber + '</td> <td>' + distributors.address + '</td> <td>' +
                                 distributors.state + '</td> <td>' + distributors.city + ' </td> <td>' + distributors.area +
                                 '<td style="text-align: center;">' +
-                                '<input type="checkbox" class="selectDistributor" data-id="' + distributors.Id + '"/>' +
+                                '<input type="checkbox" class="selectDistributor" data-id="' + distributors.id + '"/>' +
                                 '</td>' +
                                 '</tr>');
                         });            
@@ -136,7 +136,6 @@
                 <thead>
                     <tr>
                         <th>CompanyName</th>
-                        @* <th>LastName</th> *@
                         <th>Email</th>
                         <th>MobileNumber</th>
                         <th>Address</th>
@@ -152,7 +151,6 @@
                         <tr>
 
                             <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
-                            @* <td>@Html.DisplayFor(modelItem => item.LastName)</td> *@
                             <td>@Html.DisplayFor(modelItem => item.Email)</td>
                             <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
                             <td>@Html.DisplayFor(modelItem => item.Address)</td>

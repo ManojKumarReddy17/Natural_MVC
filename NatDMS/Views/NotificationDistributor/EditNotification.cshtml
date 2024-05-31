@@ -97,35 +97,6 @@
     </style>
  <scrit scr ="~/css/bootstrap-multiselect.js "></scrit>
 
-    @* <script type="text/javascript">function executivechange() {
-            debugger;
-            var exid = $('#executive').val();
-            if (exid.trim() != '') {
-                var ddldis = $('#distributor');
-                alert("success")
-                ddldis.empty();
-
-                $.ajax(
-                    {
-                        url: "/NotificationDistributor/GetDistributorByExecutiveId",
-                        type: 'GET',
-                        dataType: 'json',
-
-                        data: { executiveId: exid },
-
-                        success: function (d) {
-                            ddldis.append($("<option></option>").val('').html('--Select Distributor--'));
-                            $.each(d, function (i, distributors) {
-                                ddldis.append($("<option>" + distributors.distributorName + "</option>").val(distributors.id).html(distributors.distributorName));
-                            });
-                        },
-                        error: function () {
-                            alert('Error!');
-                        }
-                    });
-            }
-        }
-    </script> *@
 </head>
 
 <body>
@@ -149,12 +120,12 @@
                         <div class="form-group">
                             <label>
                                 Executive:
-                                @Html.ListBoxFor(model => model.Executive, new MultiSelectList(Model.ExecutiveList, "Id", "Executive"), new { @id = "executive", onchange = "executivechange()", @class = "form-select" })
+                                @Html.ListBoxFor(model => model.Executive, new MultiSelectList(Model.ExecutiveList, "Id", "Executive"), new { @id = "executive", @class = "form-select" })
                                 @Html.HiddenFor(model => model.ExecutiveList, new { id = "executiveListHidden" })
                             </label>
                             <label>
                                 Distributor:
-                                @Html.ListBoxFor(model => model.Distributor, new MultiSelectList(Model.DistributorList, "Id", "DistributorName"), new { @id = "distributor", onchange = "distributorchange()", @class = "form-select" })
+                                @Html.ListBoxFor(model => model.Distributor, new MultiSelectList(Model.DistributorList, "Id", "DistributorName"), new { @id = "distributor", @class = "form-select" })
                                 @Html.HiddenFor(model => model.DistributorList, new { id = "distributorListHidden" })
                             </label>
                             <label>

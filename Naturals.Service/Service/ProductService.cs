@@ -35,7 +35,7 @@ namespace Naturals.Service.Service
         public async Task<GetProduct> GetproductById(string ID)
         {
             
-            var excdtlid = await _httpClient.GetByIdAsync<GetProduct>("/Product/", ID);
+            var excdtlid = await _httpClient.GetByIdAsync<GetProduct>("/Product/Details/", ID);
             return excdtlid;
         }
 
@@ -145,7 +145,7 @@ namespace Naturals.Service.Service
         {
             try
             {
-                var isDeleted = await _httpClient.DeleteAsync("/Product", Id);
+                var isDeleted = await _httpClient.DeleteAsync("/Product/Delete", Id);
 
                 return isDeleted;
             }
@@ -160,7 +160,8 @@ namespace Naturals.Service.Service
         {
             try
             {
-                var isDeleted = await _httpClient.DeleteAsync("/Product/delete", ProductId);
+                bool deleteEntireProduct = true;
+                var isDeleted = await _httpClient.EntireDeleteAsync("/Product/Delete", ProductId, deleteEntireProduct);
 
                 return isDeleted;
             }
@@ -173,7 +174,8 @@ namespace Naturals.Service.Service
 
        public async Task<List<GetProduct>> SearchProduct(ProductSearch SearchProduct)
         {
-            var SearchedResult = await _httpClient.PostAsync<List<GetProduct>>("/Product/Search", SearchProduct);
+            bool NonAssign = false;
+            var SearchedResult = await _httpClient.SearchAsync<List<GetProduct>>("/Product?", SearchProduct, NonAssign);
             return SearchedResult;
         }
     }

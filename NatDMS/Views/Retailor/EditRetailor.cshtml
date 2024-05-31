@@ -61,7 +61,7 @@
                                 placeholder = "Enter Latitude",
                                 onfocus = "movePlaceholder(this)"
                             })
-                        @*  @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" }) *@
+                          @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" }) 
                     </b>
                 </div>
             </div>
@@ -114,14 +114,12 @@
                                 placeholder = "Enter Longitude",
                                 onfocus = "movePlaceholder(this)"
                             })
-                        @*  @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" } *@
+                          @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" }) 
                     </b>
                 </div>
 
                 <div class="form-group">
-                    @* <label for="presignedurl-label" class="control-label" id="image" style="font-weight: bold;">
-                <span>@Model.FirstName</span>
-                </label> *@
+                    
 
                     @if (!string.IsNullOrEmpty(@Model.PresignedUrl))
                     {
@@ -167,7 +165,6 @@
     <script type="text/javascript">
         function statechange() {
             var stid = $('#state').val();
-            console.log('State ID:', stid);
 
             if (stid.trim() !== '') {
                 var ddlcity = $('#city');
@@ -194,7 +191,6 @@
 
         function citychange() {
             var cityid = $('#city').val();
-            console.log('City ID:', cityid);
             if (cityid.trim() !== '') {
                 var ddlarea = $('#area');
                 ddlarea.empty();

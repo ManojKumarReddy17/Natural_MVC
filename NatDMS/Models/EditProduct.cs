@@ -12,9 +12,11 @@ namespace NatDMS.Models
         public List<CategoryModel> Categorylist { get; set; }
 
         public string Category { get; set; }
+        public string CategoryId { get; set; }  
         public string ProductName { get; set; }
         public decimal Price { get; set; }
-        public string PresignedUrl { get; set; }
+        //public string PresignedUrl { get; set; }
+        public string Image { get;set; }
         public IFormFile UploadImage { get; set; }
         public int? Quantity { get; set; }
         public decimal? Weight { get; set; }

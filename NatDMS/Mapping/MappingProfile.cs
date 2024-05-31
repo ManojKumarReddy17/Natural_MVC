@@ -61,7 +61,9 @@ namespace NatDMS.Mapping
 
             CreateMap<AreaModel, AreaDisplayModel>();
             CreateMap<AreaModel,AreaCUmodel>();
-            CreateMap<CreateDistributor, DistributorModel>();
+            CreateMap<ExecutiveModel, DistributorEditModel>();
+            CreateMap<DistributorModel, DistributorEditModel > ();
+
             // Resource to Domain
 
             CreateMap<LoginResultModel, LoginModel>();
@@ -114,7 +116,8 @@ namespace NatDMS.Mapping
             CreateMap<GetExecutive, ExecutiveViewModel>();
             CreateMap<GetExecutive, DistributorModel>();
             CreateMap<DsrDistributorDrop, DsrDistributorResouse>();
-
+            CreateMap<DistributorEditModel, ExecutiveModel>();
+            CreateMap<DistributorEditModel, DistributorModel>();
 
 
 

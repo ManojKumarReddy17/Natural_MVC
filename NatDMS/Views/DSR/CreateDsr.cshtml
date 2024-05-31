@@ -29,11 +29,9 @@
 
     <script type="text/javascript">
         function executivechange() {
-            debugger;
             var exid = $('#executive').val();
             if (exid.trim() != '') {
                 var ddldis = $('#distributor');
-                //alert("success")
                 ddldis.empty();
 
                 $.ajax(
@@ -59,12 +57,11 @@
 
 
         function distributorchange() {
-            debugger;
+
             var disid = $('#distributor').val();
             if (disid.trim() != '') {
                 var ddlret = $('#retailor');
-                //alert("success")
-                ddlret.empty();
+              ddlret.empty();
 
                 $.ajax(
                     {
@@ -121,7 +118,6 @@
         // search ajax
 
         function Save() {
-            debugger;
 
             var modelData = {
                 Executive: $("#executive").val(),
@@ -196,7 +192,6 @@
     // creste dsr ajax
 
         function Insert() {
-            debugger;
 
             var modelData = {
                 Executive: $("#executive").val(),
@@ -313,22 +308,8 @@
                 <!--<b>
                 @Html.LabelFor(model => model.CreatedDate)-->
                 @Html.EditorFor(model => model.CreatedDate, new { @class = "datepicker", @id = "StarDate" })
-                
-
-
-                <!--@Html.EditorFor(m => m.CreatedDate, new { @class = "form-control", id = "datepicker" })-->
-                @*datepicker-manual*@
-                <!--</b>-->
-                @*<div class="form-group">*@
-                @*<label asp-for="CreatedDate" class="control-label"></label>
-                <div class='input-group date' id='datepicker'>
-                    <input asp-for="CreatedDate" type="text" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-                <span asp-validation-for="CreatedDate" class="text-danger"></span>*@
-                @*</div>*@
+               
+ 
             </div>
 
           

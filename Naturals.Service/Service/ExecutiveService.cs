@@ -139,9 +139,6 @@ namespace Naturals.Service.Service
 
                     formData.Add(new StringContent(mdl.Latitude ?? ""), "Latitude");
                     formData.Add(new StringContent(mdl.Longitude ?? ""), "Longitude");
-                    //formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.ProfileImage.FileName);
-
-
                     var createexe = await _httpClient.PostMultipartFormData<ProductResponse>("/Executive/", formData);
                     return createexe;
                 }
@@ -169,8 +166,8 @@ namespace Naturals.Service.Service
                     formData.Add(new StringContent(Id), "Id");
                     formData.Add(new StringContent(mdl.FirstName), "FirstName");
                     formData.Add(new StringContent(mdl.LastName), "LastName");
-                    formData.Add(new StringContent(mdl.Email), "Email");
-                    formData.Add(new StringContent(mdl.Address), "Address");
+                    formData.Add(new StringContent(mdl.Email ?? ""), "Email");
+                    formData.Add(new StringContent(mdl.Address ?? ""), "Address");
                     formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
                     formData.Add(new StringContent(mdl.UserName), "UserName");
                     formData.Add(new StringContent(mdl.Password), "Password");
@@ -182,8 +179,8 @@ namespace Naturals.Service.Service
                         formData.Add(new StringContent(mdl.Area[i].Area.ToString()), $"Area[{i}].Area");
                         formData.Add(new StringContent(mdl.Area[i].Executive), $"Area[{i}].Executive");
                     }
-                    formData.Add(new StringContent(mdl.Latitude), "Latitude");
-                    formData.Add(new StringContent(mdl.Longitude), "Longitude");
+                    formData.Add(new StringContent(mdl.Latitude ?? ""), "Latitude");
+                    formData.Add(new StringContent(mdl.Longitude ?? ""), "Longitude");
                     formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.ProfileImage.FileName);
                  
                     var output = await _httpClient.PutMultipartFormData<ProductResponse>("/Executive/", formData);
@@ -197,8 +194,8 @@ namespace Naturals.Service.Service
                     formData.Add(new StringContent(Id), "Id");
                     formData.Add(new StringContent(mdl.FirstName), "FirstName");
                     formData.Add(new StringContent(mdl.LastName), "LastName");
-                    formData.Add(new StringContent(mdl.Email), "Email");
-                    formData.Add(new StringContent(mdl.Address), "Address");
+                    formData.Add(new StringContent(mdl.Email ?? ""), "Email");
+                    formData.Add(new StringContent(mdl.Address ?? ""), "Address");
                     formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
                     formData.Add(new StringContent(mdl.UserName), "UserName");
                     formData.Add(new StringContent(mdl.Password), "Password");
@@ -213,8 +210,8 @@ namespace Naturals.Service.Service
                         }
                     }
 
-                    formData.Add(new StringContent(mdl.Latitude), "Latitude");
-                    formData.Add(new StringContent(mdl.Longitude), "Longitude");
+                    formData.Add(new StringContent(mdl.Latitude ?? ""), "Latitude");
+                    formData.Add(new StringContent(mdl.Longitude ?? ""), "Longitude");
                    
                     var output = await _httpClient.PutMultipartFormData<ProductResponse>("/Executive/", formData);
                     return output;

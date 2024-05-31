@@ -91,22 +91,9 @@ namespace NatDMS.Controllers
         [HttpPost]
         public async Task<ActionResult<AreaDisplayModel>> CreateArea(AreaDisplayModel Areamodel)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    var result = _mapper.Map<AreaDisplayModel, AreaModel>(Areamodel);
-            //    var createArea = await _areaService.CreateAreas(result);
-            //   // TempData["CreatedArea"] = createArea;
-            //    return RedirectToAction("DisplayAreas", "Area");
-            //}
-            //else
-            //{
-            //    ModelState.AddModelError(String.Empty, "Entered Invalid credentials, Please Re Enter the Credentials");
-            //    return View(Areamodel);
-            //}
 
             var result = _mapper.Map<AreaDisplayModel, AreaModel>(Areamodel);
             var createArea = await _areaService.CreateAreas(result);
-            // TempData["CreatedArea"] = createArea;
             return RedirectToAction("DisplayAreas", "Area");
 
         }
@@ -129,8 +116,6 @@ namespace NatDMS.Controllers
             if (areadisplaymodel.Id != null && areadisplaymodel.AreaName != null)
             {
                 var value = await _areaService.GetAreas();
-                //var stateid = value.Where(x => x.Id == areadisplaymodel.Id).Select(x => x.StateId).FirstOrDefault();
-                //areadisplaymodel.StateId = stateid;
                 var cityid = value.Where(x => x.Id == areadisplaymodel.Id).Select(x => x.CityId).FirstOrDefault();
                 areadisplaymodel.CityId = cityid;
 

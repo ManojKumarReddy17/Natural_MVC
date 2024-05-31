@@ -153,8 +153,12 @@ namespace NatDMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var distributor = _mapper.Map<ED_CreateViewModel, DistributorModel>(distributorModel);
-                
+                var distributor = _mapper.Map<ED_CreateViewModel, ExecutiveModel>(distributorModel);
+                distributor.Area = distributorModel.Area.Select(x => new ExecutiveArea
+                {
+                    Area = x
+                }).ToList();
+
                 await _distributorservice.CreateDistributor(distributor);
 
                 return RedirectToAction("DisplayDistributors", "Distributor");
@@ -175,10 +179,10 @@ namespace NatDMS.Controllers
         public async Task<ActionResult> EditDistributor(string id)
         {
             var distributor = await _distributorservice.GetDistributorById(id);
-            var viewModel = _mapper.Map<ED_EditViewModel>(distributor);
+            var viewModel = _mapper.Map<DistributorEditModel>(distributor);
             viewModel.StateList = await _unifiedservice.GetStates();
-            viewModel.CityList = await _unifiedservice.GetCitiesbyStateId(distributor.State);
-            viewModel.AreaList = await _unifiedservice.GetAreasByCityId(distributor.City);
+            viewModel.CityList = await _unifiedservice.GetCitiesbyStateId(distributor.StateId);
+            viewModel.AreaList = await _unifiedservice.GetAreasByCityId(distributor.CityId);
             return View(viewModel);
         }
 
@@ -190,11 +194,23 @@ namespace NatDMS.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> EditDistributor(string id, ED_EditViewModel viewModel)
+        public async Task<ActionResult> EditDistributor(string id, DistributorEditModel viewModel)
         {
+            
             if (ModelState.IsValid)
             {
-                var update = _mapper.Map<ED_EditViewModel, DistributorModel>(viewModel);
+                var update = _mapper.Map<DistributorEditModel, ExecutiveModel>(viewModel);
+                update.State = viewModel.StateId;
+                update.City = viewModel.CityId;
+                update.Area.Add(new ExecutiveArea
+                {
+                    Area = viewModel.AreaId
+                });
+                //update.Area = viewModel.AreaId.Select(x => new ExecutiveArea
+                //{
+                //    Area = x,
+                //}).ToList();
+
                 await _distributorservice.UpdateDistributor(id, update);
                 return RedirectToAction(nameof(DisplayDistributors));
             }

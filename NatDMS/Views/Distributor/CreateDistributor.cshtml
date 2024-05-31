@@ -200,7 +200,6 @@
 
     <script type="text/javascript">
         function statechange() {
-            debugger;
             var stid = $('#state').val();
             if (stid.trim() != '') {
                 var ddlcity = $('#city');
@@ -228,7 +227,6 @@
 
 
             function citychange() {
-                debugger;
                 var cityid = $('#city').val();
                 if (cityid.trim() != '') {
                     var ddlarea = $('#area');
@@ -255,7 +253,6 @@
     </script>
     <script>
         function ShowImagePreview(input) {
-            debugger;
             if (input.files && input.files[0]) {
                 var filename = input.files[0].name;
                 var allowedExtensions = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/i;

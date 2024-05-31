@@ -174,6 +174,13 @@ namespace Naturals.Service.Service
             
         }
 
+        public async Task<bool> EntireDeleteAsync(string endpoint, string id, bool deleteEntireProduct)
+        {
+            string url = $"{_httpClient.BaseAddress}{endpoint}/{id}?deleteEntireProduct={deleteEntireProduct}";
+            var response = await _httpClient.DeleteAsync(url);
+            return response.IsSuccessStatusCode;
+        }
+
 
         public void Dispose()
         {

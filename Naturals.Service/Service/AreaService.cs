@@ -45,7 +45,7 @@ namespace Naturals.Service.Service
         }
            public async Task<AreaModel>EditArea (string Id,AreaModel areaModel)
            { 
-             var result =await _httpClient.PutAsync<AreaModel>("/Area", Id,areaModel);
+             var result =await _httpClient.PutAsync<AreaModel>("/Area/AreaId", Id,areaModel);
              return result;
            }
         public async Task<bool> DeleteArea (string Id)

@@ -147,6 +147,7 @@ namespace NatDMS.Controllers
               .Select(c => c.Distributor)
               .ToList();
 
+            List<string> executive = notification.executivelist.Select(x => x.Executive).ToList();
             string firstDistributor = notification.distributorlist
                .Select(c => c.Distributor)
                .FirstOrDefault();
@@ -162,7 +163,7 @@ namespace NatDMS.Controllers
             NotificationViewmodel viewmodel = new NotificationViewmodel
             {
                 ExecutiveList = newexecutivelist,
-                Executives = firstDistributor,
+                Executive = executive,
                 Distributor = distributor,
                 Body = notification.Body,
                 Subject = notification.Subject,
@@ -182,16 +183,23 @@ namespace NatDMS.Controllers
 
             var viewmodel = _mapper.Map<NotificationViewmodel, Notification>(model);
             string notificcationid = model.Id;
-            viewmodel.distributorlist = model.Distributor.Select(x => new NotificationDistributor
+            if(model.Distributor.Count != 0 || model.Distributor != null)
             {
-                Distributor = x,
-                Notification = notificcationid
-            }).ToList();
-            viewmodel.executivelist = model.Executive.Select(y => new NotificationExecutive
+                viewmodel.distributorlist = model.Distributor.Select(x => new NotificationDistributor
+                {
+                    Distributor = x,
+                    Notification = notificcationid
+                }).ToList();
+            }
+            if(model.Executive != null)
             {
-                Executive = y,
-                Notification = notificcationid
-            }).ToList();
+                viewmodel.executivelist = model.Executive.Select(y => new NotificationExecutive
+                {
+                    Executive = y,
+                    Notification = notificcationid
+                }).ToList();
+            }
+            
             var result = await _NotificationDistributorService.Updatenotification(viewmodel, notificcationid);
 
             return RedirectToAction("Details", new { id = notificcationid });

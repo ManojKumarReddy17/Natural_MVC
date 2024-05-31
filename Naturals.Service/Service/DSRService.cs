@@ -34,8 +34,6 @@ namespace Naturals.Service.Service
 
         public async Task<DsrDisplay> GetDsrAll()
         {
-
-            //List<ExecutiveModel> executives = await _ExecutiveService.GetAllExecutives();
             List<ED_CreateModel> executives = await _ExecutiveService.GetExecutives();
             List<DsrExecutiveDrop> executiveList = executives.Select(c => new DsrExecutiveDrop
             {
@@ -58,7 +56,7 @@ namespace Naturals.Service.Service
 
         public async Task<List<DsrProduct>> GetProductAsync()
         {
-            var result = await _HttpCleintWrapper.GetAsync<List<DsrProduct>>("/Product/GetAllPrtoductDetails");
+            var result = await _HttpCleintWrapper.GetAsync<List<DsrProduct>>("/Product");
 
             return result;
         }
@@ -82,7 +80,6 @@ namespace Naturals.Service.Service
 
         public async Task<Dsrcreate> CreateDsr()
         {
-            //List<ExecutiveModel> executives = await _ExecutiveService.GetAllExecutives();
             List<ED_CreateModel> executives = await _ExecutiveService.GetExecutives();
             List<DsrExecutiveDrop> executiveList = executives.Select(c => new DsrExecutiveDrop
             {
@@ -255,7 +252,8 @@ namespace Naturals.Service.Service
         public async Task<List<DSRModel>>  dsrsearch(Dsrview dsr)
 
         {
-            var dsrr = await _HttpCleintWrapper.PostAsync<List<DSRModel>>("/Dsr/Search", dsr);
+            bool NonAssign = false;
+            var dsrr = await _HttpCleintWrapper.SearchAsync<List<DSRModel>>("/Dsr?", dsr,NonAssign);
             return dsrr;
 
         }
@@ -322,8 +320,6 @@ namespace Naturals.Service.Service
 
        public async Task<List<DsrExecutiveDrop>> GetExecutive()
         {
-
-            //List<ExecutiveModel> executives = await _ExecutiveService.GetAllExecutives();
             List<ED_CreateModel> executives = await _ExecutiveService.GetExecutives();
             List<DsrExecutiveDrop> executiveList = executives.Select(c => new DsrExecutiveDrop
             {

@@ -24,10 +24,9 @@ namespace NatDMS.Models
         public string State { get; set; }
        
         public List<StateModel> StateList { get; set; }
-        //public List<ExecutiveModel> ExecutiveList { get; set; }
         public List<DistributorModel> DistributorList { get; set; }
         public List<RetailorModel> RetailorList { get; set; }
-
+        public string Image { get; set; }
         public IFormFile ProfileImage { get; set; }
         public List<ED_CreateViewModel> ExecutiveList { get; set; }
 

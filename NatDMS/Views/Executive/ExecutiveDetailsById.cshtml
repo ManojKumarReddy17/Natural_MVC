@@ -49,14 +49,14 @@
                         <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.ExecutiveDetails.City)</dd>
 
                         <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.ExecutiveDetails.Area)</dt>
-                        <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.ExecutiveDetails.Area)</dd>
+                        <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.ExecutiveDetails.Area )</dd>
 
-                    
-                        <dt class="col-sm-6 bold-text">
-                            @if (!string.IsNullOrEmpty(@Model.ExecutiveDetails.PresignedUrl))
+                        <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.ExecutiveDetails.Image)</dt>
+                        <dt class="col-sm-3 bold-text">
+                            @if (!string.IsNullOrEmpty(@Model.ExecutiveDetails.Image))
                             {
 
-                                <img src="@Model.ExecutiveDetails.PresignedUrl" alt="ProfileImage" width="160" height="160" class="img-responsive" id="presignedurl" style="float: right; margin-left: 10px;" />
+                                <img src="@Model.ExecutiveDetails.Image" alt="ProfileImage" width="160" height="160" class="img-responsive" id="presignedurl" style="float: right; margin-left: 10px;" />
                             }
                             else
                             {
@@ -117,7 +117,6 @@
                         <thead>
                             <tr class="red-border">
                                 <th class="red-border">CompanyName</th>
-                                @* <th class="red-border">LastName</th> *@
                                 <th class="red-border">Email</th>
                                 <th class="red-border">MobileNumber</th>
                                 <th class="red-border">State</th>
@@ -131,7 +130,6 @@
                             {
                                 <tr class="red-border">
                                     <td class="red-border">@distributor.FirstName</td>
-                                    @* <td class="red-border">@distributor.LastName</td> *@
                                     <td class="red-border">@distributor.Email</td>
                                     <td class="red-border">@distributor.MobileNumber</td>
                                     <td class="red-border">@distributor.State</td>

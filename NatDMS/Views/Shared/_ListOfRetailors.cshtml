@@ -26,7 +26,7 @@
 
         $(function () {
             $("#btnSubmit").click(function () {
-                debugger;
+              
                 var SearchResultmodel = new Object();
                 SearchResultmodel.State = $("#Dstate").val();
                 SearchResultmodel.City = $("#Dcity").val();
@@ -53,7 +53,7 @@
                                 '<td>' + retailors.city + '</td>' +
                                 '<td>' + retailors.area + '</td>' +
                                 '<td style="text-align: center;">' +
-                                '<input type="checkbox" class="selectRetailor" data-id="' + retailors.Id + '" />' +
+                                '<input type="checkbox" class="selectRetailor" data-id="' + retailors.id + '" />' +
                                 '</td>' +
                                 '</tr>');
 
@@ -148,7 +148,6 @@
             <thead>
                 <tr>
                     <th>ShopName</th>
-                    @* <th>LastName</th> *@
                     <th>Email</th>
                     <th>MobileNumber</th>
                     <th>Address</th>
@@ -166,7 +165,6 @@
                 {
                     <tr>
                         <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
-                        @* <td>@Html.DisplayFor(modelItem => item.LastName)</td> *@
                         <td>@Html.DisplayFor(modelItem => item.Email)</td>
                         <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
                         <td>@Html.DisplayFor(modelItem => item.Address)</td>

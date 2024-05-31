@@ -99,15 +99,9 @@ namespace NatDMS.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateRetailor(SaveRetailorViewModel retailorViewModel)
         {
-            // Check if ProfileImage is null or empty, and if so, set it to null
-            //if (string.IsNullOrEmpty(retailorViewModel.ProfileImage))
-            //{
-            //    retailorViewModel.ProfileImage = null;
-            //}
             if (ModelState.IsValid)
             {
                 var distributor = _mapper.Map<SaveRetailorViewModel, RetailorModel>(retailorViewModel);
-                //retailorViewModel.ProfileImage = null;
                 var CreateRetailor = await _retailorservice.CreateRetailor(distributor);
 
                 return RedirectToAction("DisplayRetailors", "Retailor");
@@ -146,6 +140,9 @@ namespace NatDMS.Controllers
             if (ModelState.IsValid)
             {
                 var updatedRetailor = _mapper.Map<RetailorEditViewModel, RetailorModel>(viewModel);
+                updatedRetailor.Area = updatedRetailor.AreaId;
+                updatedRetailor.City = updatedRetailor.CityId;
+                updatedRetailor.State = updatedRetailor.StateId;
                 await _retailorservice.UpdateRetailor(id, updatedRetailor);
                 return RedirectToAction("DisplayRetailors", "Retailor");
             }
