@@ -108,7 +108,6 @@
         citychange();
     });
         function statechange() {
-            debugger;
             var stid = $('#state').val();
             if (stid.trim() != '') {
                 var ddlcity = $('#city');
@@ -166,8 +165,7 @@
         // Handle click event on the delete confirmation button
         $('#confirmDeleteBtn').click(function () {
             // Retrieve the city ID from the data attribute
-            var id = $(this).data('area-id');
-            console.log('Deleting area with ID:', id); // Add log
+            var id = $(this).data('area-id'); 
             // Implement your delete logic here, for example:
             $.ajax({
                 url: '/Area/DeleteAreas/' + id, // Check this URL

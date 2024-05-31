@@ -64,14 +64,14 @@ namespace Naturals.Service.Service
                     }
                     formData.Add(new StringContent(mdl.FirstName), "FirstName");
                     formData.Add(new StringContent(mdl.LastName), "LastName");
-                    formData.Add(new StringContent(mdl.Email), "Email");
-                    formData.Add(new StringContent(mdl.Address), "Address");
+                    formData.Add(new StringContent(mdl.Email ?? ""), "Email");
+                    formData.Add(new StringContent(mdl.Address?? ""), "Address");
                     formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
                     formData.Add(new StringContent(mdl.State), "State");
                     formData.Add(new StringContent(mdl.City), "City");
                     formData.Add(new StringContent(mdl.Area), "Area");
-                    formData.Add(new StringContent(mdl.Latitude), "Latitude");
-                    formData.Add(new StringContent(mdl.Longitude), "Longitude");
+                    formData.Add(new StringContent(mdl.Latitude ?? ""), "Latitude");
+                    formData.Add(new StringContent(mdl.Longitude?? ""), "Longitude");
                     formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.ProfileImage.FileName);
                     var result = await _HttpCleintWrapper.PostMultipartFormData<RetailorModel>("/Retailor/", formData);
                     return result;
@@ -84,14 +84,14 @@ namespace Naturals.Service.Service
                     
                     formData.Add(new StringContent(mdl.FirstName), "FirstName");
                     formData.Add(new StringContent(mdl.LastName), "LastName");
-                    formData.Add(new StringContent(mdl.Email), "Email");
-                    formData.Add(new StringContent(mdl.Address), "Address");
+                    formData.Add(new StringContent(mdl.Email ?? ""), "Email");
+                    formData.Add(new StringContent(mdl.Address?? ""), "Address");
                     formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
                     formData.Add(new StringContent(mdl.State), "State");
                     formData.Add(new StringContent(mdl.City), "City");
                     formData.Add(new StringContent(mdl.Area), "Area");
-                    formData.Add(new StringContent(mdl.Latitude), "Latitude");
-                    formData.Add(new StringContent(mdl.Longitude), "Longitude");
+                    formData.Add(new StringContent(mdl.Latitude ?? ""), "Latitude");
+                    formData.Add(new StringContent(mdl.Longitude?? ""), "Longitude");
                     var result = await _HttpCleintWrapper.PostMultipartFormData<RetailorModel>("/Retailor/", formData);
                     return result;
                 }
@@ -119,15 +119,15 @@ namespace Naturals.Service.Service
                     }
                     formData.Add(new StringContent(mdl.FirstName), "FirstName");
                     formData.Add(new StringContent(mdl.LastName), "LastName");
-                    formData.Add(new StringContent(mdl.Email), "Email");
-                    formData.Add(new StringContent(mdl.Address), "Address");
+                    formData.Add(new StringContent(mdl.Email ?? ""), "Email");
+                    formData.Add(new StringContent(mdl.Address ?? ""), "Address");
                     formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
                     
                     formData.Add(new StringContent(mdl.State), "State");
                     formData.Add(new StringContent(mdl.City), "City");
                     formData.Add(new StringContent(mdl.Area), "Area");
-                    formData.Add(new StringContent(mdl.Latitude), "Latitude");
-                    formData.Add(new StringContent(mdl.Longitude), "Longitude");
+                    formData.Add(new StringContent(mdl.Latitude ?? ""), "Latitude");
+                    formData.Add(new StringContent(mdl.Longitude ?? ""), "Longitude");
                     formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.ProfileImage.FileName);
                     var output = await _HttpCleintWrapper.PutMultipartFormData<RetailorModel>($"/Retailor?RetailorId={Id}", formData);
                     return output;
@@ -140,14 +140,14 @@ namespace Naturals.Service.Service
 
                     formData.Add(new StringContent(mdl.FirstName), "FirstName");
                     formData.Add(new StringContent(mdl.LastName), "LastName");
-                    formData.Add(new StringContent(mdl.Email), "Email");
-                    formData.Add(new StringContent(mdl.Address), "Address");
+                    formData.Add(new StringContent(mdl.Email ?? ""), "Email");
+                    formData.Add(new StringContent(mdl.Address ?? ""), "Address");
                     formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
                     formData.Add(new StringContent(mdl.State), "State");
                     formData.Add(new StringContent(mdl.City), "City");
                     formData.Add(new StringContent(mdl.Area), "Area");
-                    formData.Add(new StringContent(mdl.Latitude), "Latitude");
-                    formData.Add(new StringContent(mdl.Longitude), "Longitude");
+                    formData.Add(new StringContent(mdl.Latitude ?? ""), "Latitude");
+                    formData.Add(new StringContent(mdl.Longitude ?? ""), "Longitude");
                     var output = await _HttpCleintWrapper.PutMultipartFormData<RetailorModel>($"/Retailor?RetailorId={Id}", formData);
                     return output;
 

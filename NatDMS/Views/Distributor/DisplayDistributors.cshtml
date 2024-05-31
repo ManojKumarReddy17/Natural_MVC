@@ -159,7 +159,6 @@
             <thead>
                 <tr>
                     <th>CompanyNmae</th>
-                   @* <th>LastName</th> *@
                     <th>Email</th>
                     <th>MobileNumber</th>
                     <th>Address</th>
@@ -182,7 +181,6 @@
                 {
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
-                        @* <td>@Html.DisplayFor(modelItem => item.LastName)</td> *@
                     <td>@Html.DisplayFor(modelItem => item.Email)</td>
                     <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
                     <td>@Html.DisplayFor(modelItem => item.Address)</td>
@@ -190,10 +188,10 @@
                     <td>@Html.DisplayFor(modelItem => item.City)</td>
                     <td>@Html.DisplayFor(modelItem => item.Area)</td>
                     <td>
-                            @if (!string.IsNullOrEmpty(@item.PresignedUrl))
+                            @if (!string.IsNullOrEmpty(@item.Image))
                             {
 
-                            <img src="@item.PresignedUrl" alt="ProfileImage" width="160" height="160" class="img-responsive" id="presignedurl" />
+                            <img src="@item.Image" alt="ProfileImage" width="160" height="160" class="img-responsive" id="presignedurl" />
                             }
                             else
                             {
@@ -292,7 +290,6 @@
     <!---------------------------------------------------------AJAX CODE FOR CITY CHANGE AND AREA-------------------------------------------------->
     <script type="text/javascript">
         function statechange() {
-            debugger;
             var stid = $('#state').val();
             if (stid.trim() != '') {
                 var ddlcity = $('#city');
@@ -318,7 +315,6 @@
         }
 
         function citychange() {
-            debugger;
             var cityid = $('#city').val();
             if (cityid.trim() != '') {
                 var ddlarea = $('#area');

@@ -18,15 +18,7 @@ namespace Natural.Core.IServices
         Task<string> DeleteAssignedDistirbutorAsync(string endpoint,string id);
         Task<string> GetIdAsync(string endpoint, string id);
         Task<T> SearchAsync<T>(string endpoint, object model, bool? NonAssign);
-
-
-
-
-
-
-
-
-
+        Task<bool> EntireDeleteAsync(string v, string productId, bool deleteEntireProduct);
     }
 }
 

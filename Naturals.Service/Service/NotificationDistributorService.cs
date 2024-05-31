@@ -21,14 +21,14 @@ namespace Naturals.Service.Service
 
         public async Task<IEnumerable<Notification>> GetNotification()
         {
-          var Allnotification= await  _HttpCleintWrapper.GetAsync<IEnumerable<Notification>>("/NotificationDistributor/");
+          var Allnotification= await  _HttpCleintWrapper.GetAsync<IEnumerable<Notification>>("/Notification");
             return Allnotification;
 
         }
 
         public async Task<List<Notification>> SearchNotification(Dsrview search)
         {
-            var notificationSearch = await _HttpCleintWrapper.PostAsync<List<Notification>>("/NotificationDistributor/Search", search);
+            var notificationSearch = await _HttpCleintWrapper.PostAsync<List<Notification>>("/Notification/Search", search);
             return notificationSearch;
 
         }
@@ -36,30 +36,30 @@ namespace Naturals.Service.Service
 
         public async Task<Notification> GetNotification_DistributorById(string id)
         {
-            var Allnotification = await _HttpCleintWrapper.GetByIdAsync<Notification>("/NotificationDistributor/", id);
+            var Allnotification = await _HttpCleintWrapper.GetByIdAsync<Notification>("/Notification/", id);
             return Allnotification;
         }
 
         public async Task<Notification> GetNotificationById(string id)
         {
-            var Allnotification = await _HttpCleintWrapper.GetByIdAsync<Notification>("/NotificationDistributor/details/", id);
+            var Allnotification = await _HttpCleintWrapper.GetByIdAsync<Notification>("/Notification/details/", id);
             return Allnotification;
 
         }
 
-        public async Task<string> GetExectuvieById(string id)
-        {
+        //public async Task<string> GetExectuvieById(string id)
+        //{
             
-            var Allnotification = await _HttpCleintWrapper.GetIdAsync("/NotificationDistributor/Executive", id);
-            return Allnotification;
+        //    var Allnotification = await _HttpCleintWrapper.GetIdAsync("/Notification/Executive", id);
+        //    return Allnotification;
  
-        }
+        //}
 
 
         public Task<ProductResponse> CreateNotification(Notification notification)
         {
 
-            var result = _HttpCleintWrapper.PostAsync<ProductResponse>("/NotificationDistributor/", notification);
+            var result = _HttpCleintWrapper.PostAsync<ProductResponse>("/Notification/", notification);
             return result;
         }
 
@@ -69,7 +69,7 @@ namespace Naturals.Service.Service
             try
             {
                 
-                var isDeleted = await _HttpCleintWrapper.DeleteAsync("/NotificationDistributor", id);
+                var isDeleted = await _HttpCleintWrapper.DeleteAsync("/Notification", id);
 
                 return isDeleted;
             }
@@ -85,7 +85,7 @@ namespace Naturals.Service.Service
         public async Task<ProductResponse> Updatenotification(Notification updatedata, string id)
         {
 
-            var updateresult = await _HttpCleintWrapper.PutAsync<ProductResponse>("/NotificationDistributor", id, updatedata);
+            var updateresult = await _HttpCleintWrapper.PutAsync<ProductResponse>("/Notification", id, updatedata);
             return updateresult;
 
         }

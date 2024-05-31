@@ -34,12 +34,11 @@
 
 
 
-    <script type="text/javascript">function executivechange() {
-            debugger;
+    <script type="text/javascript">
+        function executivechange() {
             var exid = $('#executive').val();
             if (exid.trim() != '') {
                 var ddldis = $('#distributor');
-                alert("success")
                 ddldis.empty();
 
                 $.ajax(
@@ -65,11 +64,9 @@
 
 
         function distributorchange() {
-            debugger;
             var disid = $('#distributor').val();
             if (disid.trim() != '') {
                 var ddlret = $('#retailor');
-                alert("success")
                 ddlret.empty();
 
                 $.ajax(
@@ -103,7 +100,6 @@
 
 
         function Save() {
-            debugger;
 
             var modelData = {
                 Executive: $("#executive").val(),
@@ -111,22 +107,8 @@
                 Distributor: $("#distributor").val(),
                 StarDate: $("#StarDate").val(),
                 EndDate: $("#EndDate").val(),
-                //ProductList: []
+   
             };
-
-            //$("#Productlist TBODY TR").each(function () {
-            //    var rowData = {
-            //        Category: $(this).find("td:eq(0)").text().trim(),
-            //        ProductName: $(this).find("td:eq(1)").text().trim(),
-            //        Quantity: $(this).find(".quantity").val() || null, // Use null if value is falsy
-            //        Price: $(this).find(".price").val() || null, // Use null if value is falsy
-            //        Weight: $(this).find("td:eq(4)").text().trim(),
-            //        Total: $(this).find("td:eq(5)").text().trim() || null, // Use null if value is falsy
-            //        Id: $(this).find("input[type=hidden]").val()
-            //    };
-            //    modelData.ProductList.push(rowData);
-            //});
-
             // Custom replacer function to include null values
             var jsonString = JSON.stringify(modelData, function (key, value) {
                 // Include null values
@@ -146,11 +128,7 @@
                     $.each(response, function (i, ds) {
                         var formattedPrice = parseFloat(ds.price).toFixed(3);
                         var inputField = '<input type="number" name="price" class="form-control price" style="width: 100px" step="0.001" value="' + formattedPrice + '"/>';
-                        // Assuming ds is defined and contains the necessary data
-                        //var dsId = ds.id; // Get the value of ds.id
-
-                        //// Concatenate ds.id into the URL string
-                        //var detailsUrl = "/Details?dsrid=" + dsId;
+                      
                         $("#Productlist").append(
                             '<tr>' +
                             '<td>' + ds.executive + '</td>' +
@@ -165,9 +143,6 @@
     '</a>' +
     '</td>'+
 
-
-                            //'<td class="total">' + ds.total + '</td>' +
-                            //'<td class="total">' + (ds.TotalAmount !== null ? ds.TotalAmount : '') + '</td>' +
                             '<td style="display:none;">' + ds.id + '</td>' +
                             '</tr>'
                         );
@@ -225,7 +200,7 @@
             @Html.LabelFor(model => model.Executive)
             @Html.DropDownListFor(model => model.Executive, new SelectList(Model.ExecutiveList, "Id", "Executive"),
                                                "--Select Executive--", new { @id = "executive", onchange = "executivechange()", @class = "form-select" })
-            @*<span asp-validation-for="Executive" class="text-danger"></span>*@
+            
             @Html.HiddenFor(model => model.ExecutiveList, new { id = "executiveListHidden" })
 
         </b>
@@ -235,7 +210,7 @@
                                                         {
         new SelectListItem { Text = "", Value = "select" }
         }, new { @id = "distributor", onchange = "distributorchange()", @class = "form-select" })
-            @*@Html.ValidationMessageFor(model => model.Distributor, "", new { @class = "text-danger" })*@
+            
         </b>
         <b>
             @Html.LabelFor(model => model.Retailor)
@@ -243,42 +218,18 @@
                                                         {
         new SelectListItem { Text = "", Value = "select" }
         }, new { @id = "retailor", @class = "form-select" })
-            @*  @Html.ValidationMessageFor(model => model.Retailor, "", new { @class = "text-danger" }) *@
+           
         </b>
 
 
         <b>
             @Html.LabelFor(model => model.StartDate)
             @Html.EditorFor(model => model.StartDate, new { @class = "datepicker", @id = "StarDate" })
-            @*@Html.EditorFor(model => model.StarDate, new { @class = "datepicker", @Value = DateTime.Now.ToString("12/12/2022") })*@
-            @*<input type="text" id="StartDate" name="StartDate" class="datepicker" value="@DateTime.Now.ToString("MM/dd/yyyy")">*@
-            @*<input type="text" id="StartDate" name="StartDate" class="datepicker" value="@Model.StarDate.ToString("MM/dd/yyyy")">*@
-
-            @Html.LabelFor(model => model.EndDate)
+         @Html.LabelFor(model => model.EndDate)
             @Html.EditorFor(model => model.EndDate, new { @class = "datepicker", @id = "EndDate" })
 
 
 
-            @*<script>
-                    $('.datepicker').datepicker({
-                        format: 'mm/dd/yyyy',
-                        todayHighlight: true,
-                        autoclose: true,
-                        defaultViewDate: { year: new Date().getFullYear(), month: new Date().getMonth(), day: new Date().getDate() }
-                    });
-                </script>*@
-            @*<script>$(document).ready(function () {
-                $('#datepicker').datepicker({
-                    format: 'mm/dd/yyyy',
-                    startDate: '01/01/2000', // Set the start date
-                    endDate: '12/31/2050', // Set desired date format
-                    changemonth: true,
-                    chanheyear: true
-                    defaultViewDate: new Date()
-
-                    //autoclose: true        // Close the datepicker when date is selected
-                });
-            });</script>*@
         </b>
         <div class="col-md-2">
             <div class="form-group">
@@ -313,9 +264,7 @@
             @foreach (var item in Model.dsr)
             {
                 <tr>
-                    @*<td>
-            @Html.DisplayFor(modelItem => item.Id)
-        </td>*@
+                    
                     <td>
                         @Html.DisplayFor(modelItem => item.Executive, new { @id = "executive" })
                     </td>

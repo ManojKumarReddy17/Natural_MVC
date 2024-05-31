@@ -56,7 +56,7 @@ namespace Naturals.Service.Service
 
         public async Task<DistributorModel> GetDistributorById(string id)
         {
-            var DistributorDetails = await _HttpCleintWrapper.GetByIdAsync<DistributorModel>("/Distributor/", id);
+            var DistributorDetails = await _HttpCleintWrapper.GetByIdAsync<DistributorModel>("/Distributor/Details/", id);
             return DistributorDetails;
 
         }
@@ -65,7 +65,7 @@ namespace Naturals.Service.Service
         /// CREATE DISTRIBUTOR //
         /// </summary>
 
-        public async Task<DistributorModel> CreateDistributor(DistributorModel mdl)
+        public async Task<ProductResponse> CreateDistributor(ExecutiveModel mdl)
         {
             using (var formData = new MultipartFormDataContent())
             {
@@ -89,7 +89,11 @@ namespace Naturals.Service.Service
                 formData.Add(new StringContent(mdl.Password), "Password");
                 formData.Add(new StringContent(mdl.State), "State");
                 formData.Add(new StringContent(mdl.City), "City");
-                formData.Add(new StringContent(mdl.Area), "Area");
+                for (int i = 0; i < mdl.Area.Count; i++)
+                {
+                    formData.Add(new StringContent(mdl.Area[i].Area.ToString()), $"Area[{i}].Area");
+
+                }
                 formData.Add(new StringContent(mdl.Latitude ?? ""), "Latitude");
                 formData.Add(new StringContent(mdl.Longitude ?? ""), "Longitude");
                 if(filebytes != null)
@@ -99,7 +103,7 @@ namespace Naturals.Service.Service
                 
 
 
-                var result = await _HttpCleintWrapper.PostMultipartFormData<DistributorModel>("/Distributor/", formData);
+                var result = await _HttpCleintWrapper.PostMultipartFormData<ProductResponse>("/Distributor/", formData);
                 return result;
             }
            
@@ -110,7 +114,7 @@ namespace Naturals.Service.Service
         /// UPDATE DISTRIBUTOR BY ID //
         /// </summary>
 
-        public async Task<DistributorModel> UpdateDistributor(string Id, DistributorModel mdl)
+        public async Task<ProductResponse> UpdateDistributor(string Id, ExecutiveModel mdl)
         {
             if (mdl.ProfileImage != null)
             {
@@ -125,18 +129,22 @@ namespace Naturals.Service.Service
                     }
                     formData.Add(new StringContent(mdl.FirstName), "FirstName");
                     formData.Add(new StringContent(mdl.LastName), "LastName");
-                    formData.Add(new StringContent(mdl.Email), "Email");
-                    formData.Add(new StringContent(mdl.Address), "Address");
+                    formData.Add(new StringContent(mdl.Email ?? ""), "Email");
+                    formData.Add(new StringContent(mdl.Address?? ""), "Address");
                     formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
                     formData.Add(new StringContent(mdl.UserName), "UserName");
                     formData.Add(new StringContent(mdl.Password), "Password");
                     formData.Add(new StringContent(mdl.State), "State");
                     formData.Add(new StringContent(mdl.City), "City");
-                    formData.Add(new StringContent(mdl.Area), "Area");
-                    formData.Add(new StringContent(mdl.Latitude), "Latitude");
-                    formData.Add(new StringContent(mdl.Longitude), "Longitude");
+                    for (int i = 0; i < mdl.Area.Count; i++)
+                    {
+                        formData.Add(new StringContent(mdl.Area[i].Area.ToString()), $"Area[{i}].Area");
+
+                    }
+                    formData.Add(new StringContent(mdl.Latitude?? ""), "Latitude");
+                    formData.Add(new StringContent(mdl.Longitude?? ""), "Longitude");
                     formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.ProfileImage.FileName);
-                    var output = await _HttpCleintWrapper.PutMultipartFormData<DistributorModel>($"/Distributor?DistributorId={Id}", formData);
+                    var output = await _HttpCleintWrapper.PutMultipartFormData<ProductResponse>($"/Distributor?DistributorId={Id}", formData);
                     
                     return output;
                 }
@@ -148,17 +156,21 @@ namespace Naturals.Service.Service
 
                     formData.Add(new StringContent(mdl.FirstName), "FirstName");
                     formData.Add(new StringContent(mdl.LastName), "LastName");
-                    formData.Add(new StringContent(mdl.Email), "Email");
-                    formData.Add(new StringContent(mdl.Address), "Address");
+                    formData.Add(new StringContent(mdl.Email ?? ""), "Email");
+                    formData.Add(new StringContent(mdl.Address?? ""), "Address");
                     formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
                     formData.Add(new StringContent(mdl.UserName), "UserName");
                     formData.Add(new StringContent(mdl.Password), "Password");
                     formData.Add(new StringContent(mdl.State), "State");
                     formData.Add(new StringContent(mdl.City), "City");
-                    formData.Add(new StringContent(mdl.Area), "Area");
-                    formData.Add(new StringContent(mdl.Latitude), "Latitude");
-                    formData.Add(new StringContent(mdl.Longitude), "Longitude");
-                    var output = await _HttpCleintWrapper.PutMultipartFormData<DistributorModel>($"/Distributor?DistributorId={Id}", formData);
+                    for (int i = 0; i < mdl.Area.Count; i++)
+                    {
+                        formData.Add(new StringContent(mdl.Area[i].Area.ToString()), $"Area[{i}].Area");
+
+                    }
+                    formData.Add(new StringContent(mdl.Latitude ?? ""), "Latitude");
+                    formData.Add(new StringContent(mdl.Longitude?? ""), "Longitude");
+                    var output = await _HttpCleintWrapper.PutMultipartFormData<ProductResponse>($"/Distributor?DistributorId={Id}", formData);
                     return output;
 
                 }
@@ -184,7 +196,8 @@ namespace Naturals.Service.Service
 
         public async Task<List<DistributorModel>> SearchDistributor(SearchModel searchdistributor)
         {
-            var SearchedResult = await _HttpCleintWrapper.PostAsync<List<DistributorModel>>("/Distributor/Search", searchdistributor);
+            bool NonAssign = false;
+            var SearchedResult = await _HttpCleintWrapper.SearchAsync<List<DistributorModel>>("/Distributor?", searchdistributor, NonAssign);
             return SearchedResult;
         }
 
@@ -194,13 +207,16 @@ namespace Naturals.Service.Service
         /// </summary>
         public async Task<List<RetailorModel>> GetNonAssignedRetailors()
         {
-            var getretailor = await _HttpCleintWrapper.GetAsync<List<RetailorModel>>("/Retailor/Assign");
+            var nonAssign = true;
+            SearchModel search = new SearchModel();
+            var getretailor = await _HttpCleintWrapper.SearchAsync<List<RetailorModel>>("/Retailor?nonAssign=", search,nonAssign);
             return getretailor;
 
         }
         public async Task<List<RetailorModel>> SearchRetailor(SearchModel searchretailor)
         {
-            var SearchedResult = await _HttpCleintWrapper.PostAsync<List<RetailorModel>>("/Retailor/Search", searchretailor);
+            var nonAssign = false;
+            var SearchedResult = await _HttpCleintWrapper.SearchAsync<List<RetailorModel>>("/Retailor?", searchretailor, nonAssign);
             return SearchedResult;
         }
 
@@ -211,7 +227,8 @@ namespace Naturals.Service.Service
         }
         public async Task<List<RetailorModel>> SearchNonAssignedRetailors(SearchModel searchdistributor)
         {
-            var SearchedResult = await _HttpCleintWrapper.PostAsync<List<RetailorModel>>("/Retailor/SearchNonAssign", searchdistributor);
+            var nonAssign = true;
+            var SearchedResult = await _HttpCleintWrapper.SearchAsync<List<RetailorModel>>("/Retailor?", searchdistributor, nonAssign);
             return SearchedResult;
         }
 

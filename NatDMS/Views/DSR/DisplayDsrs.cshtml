@@ -35,11 +35,10 @@
 
 
     <script type="text/javascript">function executivechange() {
-            debugger;
             var exid = $('#executive').val();
             if (exid.trim() != '') {
                 var ddldis = $('#distributor');
-                //alert("success")
+
                 ddldis.empty();
 
                 $.ajax(
@@ -65,11 +64,11 @@
 
 
         function distributorchange() {
-            debugger;
+
             var disid = $('#distributor').val();
             if (disid.trim() != '') {
                 var ddlret = $('#retailor');
-                //alert("success")
+                
                 ddlret.empty();
 
                 $.ajax(
@@ -103,7 +102,7 @@
 
 
         function Save() {
-            debugger;
+            
 
             var modelData = {
                 Executive: $("#executive").val(),
@@ -256,11 +255,6 @@
             </a>
         </div>
 
-        @*<a href="@Url.Action("CreateDsr")" class="d-flex align-items-center">
-                <i class="material-icons">add</i>
-                <b><span style="font-weight:bold;">CREATE NEW</span></b>
-            </a>*@
-
     </p>
 
 
@@ -311,35 +305,10 @@
         <b>
             @Html.LabelFor(model => model.StartDate)
             @Html.EditorFor(model => model.StartDate, new { @class = "datepicker", @id = "StarDate" })
-            @*@Html.EditorFor(model => model.StarDate, new { @class = "datepicker", @Value = DateTime.Now.ToString("12/12/2022") })*@
-            @*<input type="text" id="StartDate" name="StartDate" class="datepicker" value="@DateTime.Now.ToString("MM/dd/yyyy")">*@
-            @*<input type="text" id="StartDate" name="StartDate" class="datepicker" value="@Model.StarDate.ToString("MM/dd/yyyy")">*@
-
+           
             @Html.LabelFor(model => model.EndDate)
             @Html.EditorFor(model => model.EndDate, new { @class = "datepicker", @id = "EndDate" })
 
-
-
-            @*<script>
-                    $('.datepicker').datepicker({
-                        format: 'mm/dd/yyyy',
-                        todayHighlight: true,
-                        autoclose: true,
-                        defaultViewDate: { year: new Date().getFullYear(), month: new Date().getMonth(), day: new Date().getDate() }
-                    });
-                </script>*@
-            @*<script>$(document).ready(function () {
-                    $('#datepicker').datepicker({
-                        format: 'mm/dd/yyyy',
-                        startDate: '01/01/2000', // Set the start date
-                        endDate: '12/31/2050', // Set desired date format
-                        changemonth: true,
-                        chanheyear: true
-                        defaultViewDate: new Date()
-
-                        //autoclose: true        // Close the datepicker when date is selected
-                    });
-                });</script>*@
         </b>
         <div class="col-md-2">
             <div class="form-group">
@@ -355,7 +324,7 @@
 
 
     <table class="table table-bordered table-striped " id="Productlist">
-        @*<table class="table" id="Productlist">*@
+        
         <thead class="table-light">
             <tr>
 
@@ -368,7 +337,6 @@
                 <th>Edit</th>
                 <th>Details</th>
                 <th>Delete</th>
-                @*<th></th>*@
             </tr>
         </thead>
         <tbody>

@@ -22,9 +22,9 @@
             {
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="card mb-4 box-shadow">
-                        @if (!string.IsNullOrEmpty(product.PresignedUrl))
+                        @if (!string.IsNullOrEmpty(product.Image))
                         {
-                            <img class="card-img-top img-fluid" src="@product.PresignedUrl" alt="@product.ProductName">
+                            <img class="card-img-top img-fluid" src="@product.Image" alt="@product.ProductName">
                         }
                         else
                         {

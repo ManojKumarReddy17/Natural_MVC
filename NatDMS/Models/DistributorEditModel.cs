@@ -1,21 +1,18 @@
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Natural.Core.Models;
-using System;
-using System.Collections.Generic;
+﻿using Natural.Core.Models;
 using System.ComponentModel.DataAnnotations;
-
 #nullable disable
-
 namespace NatDMS.Models
 {
-    public class ED_EditViewModel
+    public class DistributorEditModel
     {
+
         [Required(ErrorMessage = "Company Name is required.")]
         [StringLength(40, MinimumLength = 3, ErrorMessage = "Company Name must be between 3 and 40 characters.")]
         [RegularExpression("^[a-zA-Z]*$", ErrorMessage = "CompanyName must contain only Alphabets")]
         public string FirstName { get; set; }
         public string CompanyName { get; set; }
-       public string LastName { get; set; }
+
+        public string LastName { get; set; }
 
         public string Email { get; set; }
 
@@ -25,13 +22,12 @@ namespace NatDMS.Models
 
         public string Address { get; set; }
 
-
-        
+      
         public string City { get; set; }
 
         public string CityId { get; set; }
 
-        
+
         public string State { get; set; }
         public string StateId { get; set; }
 
@@ -39,8 +35,8 @@ namespace NatDMS.Models
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "Password is required.")]
-        public string Password { get; set; } 
-        
+        public string Password { get; set; }
+
         public List<StateModel> StateList { get; set; }
 
         public List<CityModel> CityList { get; set; }
@@ -49,14 +45,15 @@ namespace NatDMS.Models
 
 
         public List<AreaModel> AreaList { get; set; }
-       public string PresignedUrl { get; set; }
-        public string Image { get; set; }
+        public string PresignedUrl { get; set; }
+
         public string Latitude { get; set; }
         public string Longitude { get; set; }
-        public List<string> Area { get; set; }
-        public List<string> AreaId { get; set; }
+
+
+        public string Area { get; set; }
+        public string AreaId { get; set; }
 
         public string Id { get; set; }
-
     }
 }

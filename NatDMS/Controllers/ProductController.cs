@@ -121,7 +121,8 @@ namespace NatDMS.Controllers
         [HttpPost]
         public async Task<ActionResult> EditProduct(EditProduct collection, string id)
         {
-            var UpdateProduct = _Mapper.Map<EditProduct, ProductModel>(collection); 
+            var UpdateProduct = _Mapper.Map<EditProduct, ProductModel>(collection);
+            UpdateProduct.Category = collection.CategoryId;
             var res = await _ProductService.UpdateProduct(id, UpdateProduct);     
             return RedirectToAction("Details", new { id = id });
            

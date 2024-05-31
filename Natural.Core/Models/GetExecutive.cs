@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+#nullable disable
 namespace Natural.Core.Models
 {
     public class GetExecutive
@@ -22,5 +23,6 @@ namespace Natural.Core.Models
         public string PresignedUrl { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
+        public string Image { get; set; }
     }
 }

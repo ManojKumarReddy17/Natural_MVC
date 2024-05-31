@@ -11,9 +11,7 @@ namespace NatDMS.Models
         public string FirstName { get; set; }
         public string ShopName { get; set; }
 
-        //[Required(ErrorMessage = "Last Name is required.")]
-        //[StringLength(40, MinimumLength = 3, ErrorMessage = "Last Name must be between 3 and 40 characters.")]
-        public string LastName { get; set; }
+       public string LastName { get; set; }
 
         [EmailAddress(ErrorMessage = "Invalid email address. The email domain must be @gmail.com.")]
         public string Email { get; set; }

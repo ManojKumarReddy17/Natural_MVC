@@ -34,57 +34,6 @@ namespace Naturals.Service.Service
 
             return SearchedResult;
         }
-        //public async Task<List<DistributorSalesReportInput>> SearchDSR(DistributorSalesReport Search)
-        //{
-        //    if (string.IsNullOrEmpty(Search.Executive) && string.IsNullOrEmpty(Search.Distributor) && string.IsNullOrEmpty(Search.Retailor)
-        //        && Search.StartDate != null && Search.EndDate != null)
-        //    {
-        //        // In this case, retrieve data based only on StartDate and EndDate
-        //        var defaultStartDate = Search.StartDate.Date;
-        //        var defaultEndDate = Search.EndDate.Date;
-
-        //        // Construct a new search object with only StartDate and EndDate
-        //        var defaultSearch = new DistributorSalesReport
-        //        {
-        //            StartDate = defaultStartDate,
-        //            EndDate = defaultEndDate
-        //        };
-
-        //        var SearchedResult = await _httpClientWrapper.PostAsync<List<DistributorSalesReportInput>>("/DSReport", defaultSearch);
-        //        return SearchedResult;
-        //    }
-        //    else
-        //    {
-        //        // Handle the normal case where all parameters are provided
-        //        var SearchedResult = await _httpClientWrapper.PostAsync<List<DistributorSalesReportInput>>("/DSReport", Search);
-        //        return SearchedResult;
-        //    }
-        //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //public async Task<List<DistributorSalesReportInput>> DailySaleReport(DistributorSalesReport report)
-        //{
-
-        //    var SearchedResult = await _httpClientWrapper.PostAsync<List<DistributorSalesReportInput>>("/DSReport", report);
-
-        //    return SearchedResult;
-        //}
-
-
 
         public async Task<List<DsrDistributor>> AssignedDistributorDetailsByExecutiveId(string Id)
         {
@@ -105,7 +54,6 @@ namespace Naturals.Service.Service
 
         public async Task<DistributorSalesReport> GetDsreport()
         {
-            //List<ExecutiveModel> executives = await _ExecutiveService.GetAllExecutives();
             List<ED_CreateModel> executives = await _ExecutiveService.GetExecutives();
             List<DsrExecutiveDrop> executiveList = executives.Select(c => new DsrExecutiveDrop
             {

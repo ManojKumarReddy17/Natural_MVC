@@ -9,7 +9,7 @@ namespace Natural.Core.IServices
         Task<ProductResponse> CreateNotification(Notification notification);
         Task<bool> DeleteNotification(string id);
         Task<Notification> GetNotificationById(string id);
-        Task<string> GetExectuvieById(string id);
+        //Task<string> GetExectuvieById(string id);
         Task<Notification> GetNotification_DistributorById(string id);
         Task<ProductResponse> Updatenotification(Notification updatedata,string id);
         Task<List<Notification>> SearchNotification(Dsrview search);

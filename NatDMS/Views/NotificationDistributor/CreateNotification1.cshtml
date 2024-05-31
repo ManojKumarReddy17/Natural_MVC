@@ -101,13 +101,11 @@
         } */
     </style>
     <scrit scr="~/css/bootstrap-multiselect.js "></scrit>
-    <script type="text/javascript">
+@*     <script type="text/javascript">
         function executivechange() {
-            debugger;
             var selectedValues = $('#executive').val();
             if (selectedValues !== null && selectedValues.length > 0) {
                 var ddldis = $('#distributor');
-                // alert("success")
                 ddldis.empty();
 
                 $.ajax({
@@ -130,7 +128,7 @@
                 });
             }
         }
-    </script>
+    </script> *@
 </head>
 
 <body>
@@ -151,12 +149,12 @@
                         <div class="form-group">
                             <label>
                                 Executive:
-                                @Html.ListBoxFor(model => model.Executive, new MultiSelectList(Model.ExecutiveList, "Id", "Executive"), new { @id = "executive", onchange = "executivechange()", @class = "form-select" })
+                                @Html.ListBoxFor(model => model.Executive, new MultiSelectList(Model.ExecutiveList, "Id", "Executive"), new { @id = "executive",  @class = "form-select" })
                                 @Html.HiddenFor(model => model.ExecutiveList, new { id = "executiveListHidden" })
                             </label>
                             <label>
                                 Distributor:
-                                @Html.ListBoxFor(model => model.Distributor, new List<SelectListItem> { new SelectListItem { Text = "", Value = "select" } }, new { @id = "distributor", onchange = "distributorchange()", @class = "form-select" })
+                                @Html.ListBoxFor(model => model.Distributor, new MultiSelectList(Model.DistributorList, "Id", "DistributorName"), new { @id = "distributor", @class = "form-select" })
                             </label>
                             <label>
                                 Subject:

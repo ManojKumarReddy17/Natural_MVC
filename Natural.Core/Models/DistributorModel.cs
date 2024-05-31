@@ -17,8 +17,11 @@ namespace Natural.Core.Models
         public string MobileNumber { get; set; }
         public string Address { get; set; }
         public string Area { get; set; }
+        public string AreaId { get; set; }
         public string City { get; set; }
+        public string CityId { get; set; }
         public string State { get; set; }
+        public string StateId { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
         public string PresignedUrl { get; set; }
@@ -27,6 +30,7 @@ namespace Natural.Core.Models
         public DateTime ModifiedDate { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
+        public string Image { get; set; }
 
     }
 }

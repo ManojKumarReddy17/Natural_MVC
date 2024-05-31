@@ -54,13 +54,15 @@
                 <thead>
                     <tr>
                         <th>ShopName</th>
-                        @* <th>LastName</th> *@
                         <th>Email</th>
                         <th>MobileNumber</th>
                         <th>Address</th>
                         <th>State</th>
                         <th>City</th>
                         <th>Area</th>
+                        <th>Image</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
                         <th>Edit</th>
                         <th>Delete</th>
                         <th>Details</th>
@@ -73,13 +75,26 @@
                     {
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
-                            @* <td>@Html.DisplayFor(modelItem => item.LastName)</td> *@
                             <td>@Html.DisplayFor(modelItem => item.Email)</td>
                             <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
                             <td>@Html.DisplayFor(modelItem => item.Address)</td>
                             <td>@Html.DisplayFor(modelItem => item.State)</td>
                             <td>@Html.DisplayFor(modelItem => item.City)</td>
                             <td>@Html.DisplayFor(modelItem => item.Area)</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(@item.Image))
+                                {
+
+                                    <img src="@item.Image" alt="ProfileImage" width="160" height="160" class="img-responsive" id="presignedurl" />
+                                }
+                                else
+                                {
+                                    <!-- Display a default "no image" placeholder -->
+                                    <img class="card-img-top img-fluid" src="~/image/no-image-placeholder.svg" alt="No Image">
+                                }
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.Latitude)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Longitude)</td>
 
                          
                             <!---------------------------------------------------EDIT ACTION LINK------------------------------------------------------------->
@@ -174,7 +189,7 @@
     <script type="text/javascript">
 
         function statechange() {
-            debugger;
+           
             var stid = $('#state').val();
             if (stid.trim() != '') {
                 var ddlcity = $('#city');
@@ -201,7 +216,7 @@
         }
 
         function citychange() {
-            debugger;
+            
             var cityid = $('#city').val();
             if (cityid.trim() != '') {
                 var ddlarea = $('#area');

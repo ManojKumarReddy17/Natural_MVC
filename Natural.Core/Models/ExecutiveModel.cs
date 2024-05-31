@@ -25,6 +25,7 @@ namespace Natural.Core.Models
         public DateTime ModifiedDate { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
+        public string Image { get; set; }
         public List<ExecutiveArea> Area { get; set; }
 
     }

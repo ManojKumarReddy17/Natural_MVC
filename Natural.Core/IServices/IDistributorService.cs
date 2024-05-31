@@ -13,8 +13,8 @@ namespace Natural.Core.IServices
         Task<List<GetExecutive>> GetAllDistributorsAsync();
         Task<DistributorModel> GetDistributorDetailsById(string detailsid);
         Task<DistributorModel> GetDistributorById(string id);
-        Task<DistributorModel> CreateDistributor(DistributorModel distributor);
-        Task<DistributorModel> UpdateDistributor(string DistributorId, DistributorModel distributor);
+        Task<ProductResponse> CreateDistributor(ExecutiveModel distributor);
+        Task<ProductResponse> UpdateDistributor(string DistributorId, ExecutiveModel distributor);
         Task<bool> DeleteDistributor(string distributorId);
         Task<List<DistributorModel>> SearchDistributor(SearchModel searchdistributor);
         Task<List<RetailorModel>> GetNonAssignedRetailors();
