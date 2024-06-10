@@ -30,3 +30,28 @@
 .container-fluid {
     background-color: papayawhip;
 }
+/*Categeroy table layout*/
+table {
+    border-collapse: collapse;
+    width: 80% !important;
+    margin-left: 100px;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+}
+
+.icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .icon-container i {
+        color: red;
+        cursor: pointer;
+    }
+  
+

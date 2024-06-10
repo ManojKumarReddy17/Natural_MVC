@@ -48,6 +48,33 @@
             </a>
         </div>
     </div>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.2/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate.unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#CategoryName').on('keypress', function (e) {
+                var keyCode = e.which || e.keyCode;
+                // Allow letters, numbers, and space only
+                if (!(keyCode >= 65 && keyCode <= 90) && // A-Z
+                    !(keyCode >= 97 && keyCode <= 122) && // a-z
+                    !(keyCode >= 48 && keyCode <= 57) && // 0-9
+                    keyCode !== 32) { // Space
+                    e.preventDefault();
+                }
+            });
+
+            $('#CategoryName').on('input', function () {
+                var value = $(this).val();
+                // Remove any non-letter, non-number characters except space
+                $(this).val(value.replace(/[^a-zA-Z0-9\s]/g, ''));
+            });
+        });
+    </script>
+
+
+
 </body>
 </html>
 
