@@ -17,14 +17,23 @@ namespace NatDMS.Models
         public string CompanyName { get; set; }
        public string LastName { get; set; }
 
+        [EmailAddress(ErrorMessage = "Invalid email Address.The email domain must be @gmail.com")]
         public string Email { get; set; }
 
+        //[Required(ErrorMessage = "Mobile Number is required.")]
+        //[RegularExpression(@"^\d{10}$", ErrorMessage = "Invalid Mobile Number format. Use 10 digits.")]
+        //public string MobileNumber { get; set; }
         [Required(ErrorMessage = "Mobile Number is required.")]
-        [RegularExpression(@"^\d{10}$", ErrorMessage = "Invalid Mobile Number format. Use 10 digits.")]
+        [RegularExpression(@"^[1-9]\d{9}$", ErrorMessage = "Invalid Mobile Number format. Use 10 digits and do not start with zero.")]
         public string MobileNumber { get; set; }
 
-        public string Address { get; set; }
 
+        [Required(ErrorMessage = "Address is required.")]
+        [MaxLength(50, ErrorMessage = "Address cannot be more than 50 characters.")]
+
+        //[StringLength(50, ErrorMessage = "The address cannot be longer than 50 characters.")]
+        public string Address { get; set; }
+       
 
         
         public string City { get; set; }
