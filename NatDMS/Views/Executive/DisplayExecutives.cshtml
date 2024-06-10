@@ -105,7 +105,7 @@
                         <b>
                             @Html.LabelFor(model => model.State)
                             @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"),
-                        "-SelectState-", new { @id = "state", onchange = "statechange()", @class = "form-select" })
+                         new { @id = "state", onchange = "statechange()", @class = "form-select" })
                             @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                         </b>
                     </div>
@@ -199,16 +199,26 @@
                             }
                         </td>
                         <td>
-                            @if (!string.IsNullOrEmpty(@item.Image))
+                           @* @if (!string.IsNullOrEmpty(@item.Image))
                             {
 
-                                <img src="@item.Image" alt="ProfileImage" width="160" height="160" class="img-responsive" id="presignedurl" />
+                                <img src="@item.Image" alt="ProfileImage" width="100%" height="100%" class="img-responsive" id="presignedurl" />
+                            }
+                            else
+                            {
+                                <!-- Display a default "no image" placeholder -->
+                                <img class="card-img-top img-fluid" src="~/image/no-image-placeholder.svg" alt="No Image">
+                            }*@
+                            @if (!string.IsNullOrEmpty(item.Image))
+                            {
+                                <img src="@item.Image" alt="ProfileImage" class="img-responsive" id="Image" style="width: 100%; height: 100%;" />
                             }
                             else
                             {
                                 <!-- Display a default "no image" placeholder -->
                                 <img class="card-img-top img-fluid" src="~/image/no-image-placeholder.svg" alt="No Image">
                             }
+
 
                         </td>
                         <td>@Html.DisplayFor(modelItem => item.Latitude)</td>

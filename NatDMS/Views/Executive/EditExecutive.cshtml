@@ -24,11 +24,17 @@
                 @Html.Hidden("Id", Model.Id)
 
                 <div class="form-group">
-                    <b>
+                   @* <b>
                         @Html.LabelFor(model => model.FirstName, new { @class = "control-label" })
                         @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                    </b>*@
+                    <b>
+                        @Html.LabelFor(model => model.FirstName, new { @class = "control-label" })
+                        @Html.TextAreaFor(model => model.FirstName, new { @class = "form-control", @rows = 3, @style = "resize:none; word-wrap:break-word;" })
+                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                     </b>
+
                 </div>
 
                 <div class="form-group">
@@ -77,20 +83,38 @@
 
 
                 <div class="form-group">
-                    <b>
+                   @* <b>
                         @Html.LabelFor(model => model.LastName, new { @class = "control-label" })
                         @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                    </b>*@
+                    <b>
+                        @Html.LabelFor(model => model.LastName, new { @class = "control-label" })
+                        @Html.TextAreaFor(model => model.LastName, new { @class = "form-control", @rows = 3, @style = "resize:none; word-wrap:break-word;" })
                         @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                     </b>
                 </div>
 
-                <div class="form-group">
+               @* <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Address, new { @class = "control-label" })
                         @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+          
+                    </b>
+                </div>*@
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.Address, new { @class = "control-label" })
+                        @Html.TextAreaFor(model => model.Address, new { @class = "form-control", @rows = 3, @style = "resize:none; word-wrap:break-word;" })
+                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                     </b>
                 </div>
+               @* <div class="form-group">
+                    <label asp-for="Address" class="control-label"></label>
+                    <textarea asp-for="Address" class="form-control" rows="3" style="resize:none; word-wrap:break-word;"></textarea>
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>*@
 
                 <div class="form-group">
                     <b>
@@ -132,12 +156,12 @@
 
                     @if (!string.IsNullOrEmpty(@Model.Image))
                     {
-                        <img src="@Model.Image" alt="ProfileImage" width="160" height="160" class="img-responsive" id="presignedurl">
+                        <img src="@Model.Image" alt="ProfileImage" width="120" height="110" class="img-responsive" id="Image">
                     }
                     else
                     {
                         <!-- Display a default "no image" placeholder -->
-                        <img src="~/image/no-image-placeholder.svg" alt="ProfileImage" width="160" height="160" class="img-responsive" id="presignedurl">
+                        <img src="~/image/no-image-placeholder.svg" alt="ProfileImage" width="160" height="160" class="img-responsive" id="Image">
                     }
 
                     <input type="file" id="profileImageInput" name="profileImage" accept="image/*" style="display: none;">
@@ -173,6 +197,34 @@
 
 
     <script src="~/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#FirstName, #LastName').on('keypress', function (e) {
+                var keyCode = e.which || e.keyCode;
+                // Allow letters and space only
+                if (!(keyCode >= 65 && keyCode <= 90) && // A-Z
+                    !(keyCode >= 97 && keyCode <= 122) && // a-z
+                    keyCode !== 32) { // Space
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#MobileNumber').on('input', function (e) {
+                var inputValue = $(this).val();
+                // Allow only numbers
+                var numericValue = inputValue.replace(/\D/g, '');
+                // Ensure the length is not more than 10 characters
+                numericValue = numericValue.substring(0, 10);
+                // Remove leading zeros
+                numericValue = numericValue.replace(/^0+/, '');
+                // Update the input value
+                $(this).val(numericValue);
+            });
+        });
+    </script>
 
     <script type="text/javascript">
         function statechange() {
