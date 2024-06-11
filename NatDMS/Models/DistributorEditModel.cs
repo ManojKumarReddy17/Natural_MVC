@@ -19,6 +19,8 @@ namespace NatDMS.Models
         [Required(ErrorMessage = "Mobile Number is required.")]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Invalid Mobile Number format. Use 10 digits.")]
         public string MobileNumber { get; set; }
+        [Required(ErrorMessage = "The mobile number is required.")]
+        [StringLength(50, ErrorMessage = "The mobile number cannot be longer than 50 characters.")]
 
         public string Address { get; set; }
 

@@ -1,4 +1,5 @@
-﻿@model NatDMS.Models.Product
+﻿
+@model NatDMS.Models.Product
 @{
     ViewData["Title"] = "Create";
 }
@@ -7,95 +8,70 @@
 
 <html lang="en">
 <head>
-    <h1>Create</h1>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - NatDMS</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-r5ID+CgK5ba4ZL3a39OXhMWSktQOp6cJS7wePqOx6bSSUnQlmh/jQ9vS9z5+X68+H" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <h4>Product</h4>
-    <hr />
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl7/7hb6k4Vib3z0lM9P5VFGjtBfM6f3nHU3QdvgpK" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12lFHTFxcPv2FXGjp5QZOkE5fBM6fZn5ySoHP53D5vq6KBwg" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <div class="row">
-        <div class="col-md-4">
+    <div class="container">
+        <hr />
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <form enctype="multipart/form-data" asp-action="Create" asp-controller="Product" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <form enctype="multipart/form-data" asp-action="Create" asp-controller="Product" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-
-             
-                    <div class="form-group">
-                        <label asp-for="Category" class="control-label"></label>
-                        @Html.DropDownListFor(model => model.Category, new SelectList(Model.Categorylist, "Id", "CategoryName"),
-                             "--Select Category--", new { @id = "state", onchange = "statechange()", @class = "form-select" })
-                        <span asp-validation-for="Category" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="ProductName" class="control-label"></label>
-
-                        @Html.TextBoxFor(model => model.ProductName, new
-                        {
-                            @class = "form-control",
-                            placeholder = "Enter UserName",
-                            onfocus = "movePlaceholder(this)"
-                        })
-                        <span asp-validation-for="ProductName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Price" class="control-label"></label>
-
-                        @Html.TextBoxFor(model => model.Price, new
-                        {
-                            @class = "form-control",
-                            placeholder = "Enter UserName",
-                            onfocus = "movePlaceholder(this)"
-                        })
-                        <span asp-validation-for="Price" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Quantity" class="control-label"></label>
-
-                        @Html.TextBoxFor(model => model.Quantity, new
-                        {
-                            @class = "form-control",
-                            placeholder = "Enter UserName",
-                            onfocus = "movePlaceholder(this)"
-                        })
-                        <span asp-validation-for="Quantity" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Weight" class="control-label"></label>
-
-                        @Html.TextBoxFor(model => model.Weight, new
-                        {
-                            @class = "form-control",
-                            placeholder = "Enter UserName",
-                            onfocus = "movePlaceholder(this)"
-                        })
-                        <span asp-validation-for="Weight" class="text-danger"></span>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Category" class="control-label"></label>
+                                @Html.DropDownListFor(model => model.Category, new SelectList(Model.Categorylist, "Id", "CategoryName"), "--Select Category--", new { @id = "state", onchange = "statechange()", @class = "form-select" })
+                                <span asp-validation-for="Category" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ProductName" class="control-label"></label>
+                                @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control", placeholder = "Enter Product Name", onfocus = "movePlaceholder(this)" })
+                                <span asp-validation-for="ProductName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Price" class="control-label"></label>
+                                @Html.TextBoxFor(model => model.Price, new { @class = "form-control", placeholder = "Enter Price", onfocus = "movePlaceholder(this)" })
+                                <span asp-validation-for="Price" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Quantity" class="control-label"></label>
+                                @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control", placeholder = "Enter Quantity", onfocus = "movePlaceholder(this)" })
+                                <span asp-validation-for="Quantity" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Weight" class="control-label"></label>
+                                @Html.TextBoxFor(model => model.Weight, new { @class = "form-control", placeholder = "Enter Weight", onfocus = "movePlaceholder(this)" })
+                                <span asp-validation-for="Weight" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="UploadImage" class="control-label">Choose Image </label>
+                                <input asp-for="UploadImage" class="form-control custom-file-input" type="file" id="fileInput" onchange="return ShowImagePreview(this)">
+                                <span asp-validation-for="UploadImage" class="text-danger"></span>
+                            </div>
+                            <div class="form-group" id="imagePreviewContainer" style="display:none;">
+                                <img src="#" alt="preview" id="imagePreview" style="border: 1px solid red; height: 169px; width: 176px; margin: auto; display: block;" />
+                            </div>
+                        </div>
                     </div>
 
-
-
-
-                    <div class="form-group">
-                        <label asp-for="UploadImage" class="control-label">Choose Image </label>
-                        <input asp-for="UploadImage" class="form-control custom-file-input" type="file" id=“fileInput” onchange="return ShowImagePreview(this)">
-                    </div>
-                    <div class="col-md-4" id="imagePreviewContainer" style="display:none;">
-
-                        <img src="#" alt="preview" id="imagePreview" style="border: 1px solid red; height: 169px; width: 176px; margin: auto; display: block;" />
-                    </div>
-
-
-                    <div class="form-group">
+                    <div class="form-group d-flex justify-content-center">
                         <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
                     </div>
-
-
-                
-            </form>
+                </form>
+            </div>
         </div>
+    </div>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
         <script>function ShowImagePreview(input) {
                 if (input.files && input.files[0]) {
@@ -128,6 +104,38 @@
     @section Scripts {
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     }
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.2/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate.unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#Price, #Quantity, #Weight').on('keypress', function (e) {
+                var keyCode = e.which || e.keyCode;
+                var value = $(this).val();
+
+                if (!(keyCode >= 48 && keyCode <= 57) && 
+                
+                    keyCode !== 46 || 
+                    (keyCode === 46 && value.includes('.'))) { 
+                    e.preventDefault();
+                }
+            });
+
+            $('#Price, #Quantity, #Weight').on('input', function () {
+                var value = $(this).val();
+                var newValue = value.replace(/[^0-9.]/g, '');
+
+                var parts = newValue.split('.');
+                if (parts.length > 2) {
+                    newValue = parts[0] + '.' + parts.slice(1).join('');
+                }
+
+                $(this).val(newValue);
+            });
+        });
+    </script>
+
 
 
 </body>
