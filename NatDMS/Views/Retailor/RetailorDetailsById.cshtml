@@ -21,6 +21,11 @@
         padding: 20px;
         margin-top: 20px; /* Adjust margin as needed */
     }
+
+    .wrap-text {
+        word-wrap: break-word; /* Ensures long words break to fit the container */
+        white-space: normal; /* Ensures the text wraps normally */
+    }
 </style>
 
 <div class="container mt-4">
@@ -59,7 +64,7 @@
                     <dt class="col-sm-5 blue-text">
                         @Html.DisplayNameFor(model => model.Address)
                     </dt>
-                    <dd class="col-sm-7 bold-text">
+                    <dd class="col-sm-7 bold-text wrap-text">
                         @Html.DisplayFor(model => model.Address)
                     </dd>
 

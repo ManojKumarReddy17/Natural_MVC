@@ -11,14 +11,26 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function movePlaceholder(input) {
             input.setAttribute("placeholder", "");
         }
     </script>
-
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#FirstName, #LastName').on('keypress', function (e) {
+                var keyCode = e.which || e.keyCode;
+                // Allow letters and space only
+                if (!(keyCode >= 65 && keyCode <= 90) && // A-Z
+                    !(keyCode >= 97 && keyCode <= 122) && // a-z
+                    keyCode !== 32) { // Space
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
 </head>
-
 
 <body>
 

@@ -10,12 +10,24 @@
     <title>GetRetailor</title>
 
     <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
+    <style>
+        .truncate {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100px; 
+        }
+    </style>
+
+
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <script type="text/javascript">
+
 
         //-------------SCRIPT FOR DELETE POPUP------------//
 
@@ -71,11 +83,11 @@
     <div class="d-flex justify-content-between align-items-center">
         <div class="text-center">
         </div>
-            <a href="@Url.Action("CreateRetailor")" class="d-flex align-items-center">
-                <i class="material-icons">add</i>
-                <b><span style="font-weight:bold;">CREATE NEW</span></b>
-            </a>
-        </div>
+        <a href="@Url.Action("CreateRetailor")" class="d-flex align-items-center">
+            <i class="material-icons">add</i>
+            <b><span style="font-weight:bold;">CREATE NEW</span></b>
+        </a>
+    </div>
 
     <!-----------------------------------------------SEARCH RETAILOR----------------------------------------------------->
 
@@ -83,21 +95,21 @@
         @using (Html.BeginForm(FormMethod.Post, new { id = "SearchResultmodel" }))
         {
             <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <b>
-                            @Html.Label("SearchShopName", "Search by ShopName")
-                            @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Search By ShopName" })
-                            </b>
-                        </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <b>
+                            @Html.Label("SearchRetailerName", "Search by RetailerName")
+                            @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Search By RetailerName" })
+                        </b>
                     </div>
+                </div>
 
                 <div class="col-md-2">
                     <div class="form-group">
                         <b>
                             @Html.LabelFor(model => model.State)
                             @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"),
-                        "-SelectState-", new { @id = "state", onchange = "statechange()", @class = "form-select" })
+                                     "-SelectState-", new { @id = "state", onchange = "statechange()", @class = "form-select" })
                             @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                         </b>
                     </div>
@@ -110,7 +122,7 @@
                             @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
                         {
                         new SelectListItem { Text = "", Value =""},
-                        }, "Value","Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
+                        }, "Value", "Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
                             @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                         </b>
                     </div>
@@ -148,7 +160,7 @@
             <table class="table table-bordered table-striped custom-table" id="Retailorlist">
                 <thead>
                     <tr>
-                        <th>ShopName</th>
+                        <th>RetailerName</th>
                         <th>Email</th>
                         <th>MobileNumber</th>
                         <th>Address</th>
@@ -168,24 +180,25 @@
                     @foreach (var item in Model.RetailorList)
                     {
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.FullName)</td>
+                            @* <td>@Html.DisplayFor(modelItem => item.LastName)</td> *@
                             <td>@Html.DisplayFor(modelItem => item.Email)</td>
                             <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
-                           <td>@Html.DisplayFor(modelItem => item.Address)</td>
+                            <td><span class="truncate">@Html.DisplayFor(modelItem => item.Address)</span></td>
                             <td>@Html.DisplayFor(modelItem => item.State)</td>
                             <td>@Html.DisplayFor(modelItem => item.City)</td>
                             <td>@Html.DisplayFor(modelItem => item.Area)</td>
                             <td>
-                                @if (!string.IsNullOrEmpty(@item.Image))
+                                @if (!string.IsNullOrEmpty(@item.PresignedUrl))
                                 {
-
-                                    <img src="@item.Image" alt="ProfileImage" width="160" height="160" class="img-responsive" id="presignedurl" />
+                                    <img src="@item.PresignedUrl" alt="ProfileImage" class="no-image" id="presignedurl" />
                                 }
                                 else
                                 {
                                     <!-- Display a default "no image" placeholder -->
-                                    <img class="card-img-top img-fluid" src="~/image/no-image-placeholder.svg" alt="No Image">
+                                    <img class="no-image" src="~/image/no-image-placeholder.svg" alt="No Image">
                                 }
+
 
                             </td>
                             <td>@Html.DisplayFor(modelItem => item.Latitude)</td>

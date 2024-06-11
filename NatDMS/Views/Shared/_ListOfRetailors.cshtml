@@ -142,7 +142,7 @@
 
     <!----------------------------------------------------DISPLAY RETAILOR LIST-------------------------------------------------------------->
 
-    <div class="table-responsive">
+    <div class="table-responsive" style="overflow-x: hidden;">
 
         <table class="table table-bordered table-striped custom-table">
             <thead>
@@ -164,7 +164,7 @@
                 @foreach (var item in Model.RetailorList)
                 {
                     <tr>
-                        <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.FullName)</td>
                         <td>@Html.DisplayFor(modelItem => item.Email)</td>
                         <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
                         <td>@Html.DisplayFor(modelItem => item.Address)</td>
