@@ -156,7 +156,7 @@
 
 
 
-    <div class="table-responsive">
+    <div class="table-responsive" style="overflow-x: hidden;">
 
         <table class="table table-bordered table-striped custom-table" id="Executivelist">
             <thead>
@@ -199,24 +199,14 @@
                             }
                         </td>
                         <td>
-                           @* @if (!string.IsNullOrEmpty(@item.Image))
+                            @if (!string.IsNullOrEmpty(@item.PresignedUrl))
                             {
-
-                                <img src="@item.Image" alt="ProfileImage" width="100%" height="100%" class="img-responsive" id="presignedurl" />
+                                <img src="@item.PresignedUrl" alt="ProfileImage" class="no-image" id="presignedurl" />
                             }
                             else
                             {
                                 <!-- Display a default "no image" placeholder -->
-                                <img class="card-img-top img-fluid" src="~/image/no-image-placeholder.svg" alt="No Image">
-                            }*@
-                            @if (!string.IsNullOrEmpty(item.Image))
-                            {
-                                <img src="@item.Image" alt="ProfileImage" class="img-responsive" id="Image" style="width: 100%; height: 100%;" />
-                            }
-                            else
-                            {
-                                <!-- Display a default "no image" placeholder -->
-                                <img class="card-img-top img-fluid" src="~/image/no-image-placeholder.svg" alt="No Image">
+                                <img class="no-image" src="~/image/no-image-placeholder.svg" alt="No Image">
                             }
 
 

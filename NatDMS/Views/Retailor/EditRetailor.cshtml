@@ -10,6 +10,20 @@
 <head>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#FirstName, #LastName').on('keypress', function (e) {
+                var keyCode = e.which || e.keyCode;
+              
+                if (!(keyCode >= 65 && keyCode <= 90) && 
+                    !(keyCode >= 97 && keyCode <= 122) && 
+                    keyCode !== 32) { 
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -18,7 +32,7 @@
     {
         <div class="row justify-content-center">
 
-            <div class="col-md-3">
+            <div class="col-md-3" style="overflow-x: hidden;">
 
                 <div class="form-group">
                     <b>
