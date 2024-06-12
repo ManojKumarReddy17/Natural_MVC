@@ -251,30 +251,59 @@
                 $('#Price, #Quantity, #Weight').on('keypress', function (e) {
                     var keyCode = e.which || e.keyCode;
                     var value = $(this).val();
+                    var isNumber = keyCode >= 48 && keyCode <= 57;
+                    var isDot = keyCode === 46;
 
-                    if (!(keyCode >= 48 && keyCode <= 57) &&
-
-                        keyCode !== 46 ||
-                        (keyCode === 46 && value.includes('.'))) {
+                    if (!isNumber && !isDot || (isDot && value.includes('.'))) {
                         e.preventDefault();
                     }
                 });
 
-                $('#Price, #Quantity, #Weight').on('input', function () {
+                $('#Price').on('input', function () {
                     var value = $(this).val();
-                    var newValue = value.replace(/[^0-9.]/g, '');
-
-
+                    var newValue = value.replace(/[^0-9.,]/g, '').replace(/,/g, '');
                     var parts = newValue.split('.');
                     if (parts.length > 2) {
                         newValue = parts[0] + '.' + parts.slice(1).join('');
                     }
-
+                    if (parts[0].length > 5) {
+                        parts[0] = parts[0].substring(0, 10);
+                        newValue = parts.join('.');
+                    }
                     $(this).val(newValue);
+                });
+
+                $('#Quantity').on('input', function () {
+                    var value = $(this).val();
+                    var newValue = value.replace(/[^0-9.]/g, '');
+                    var parts = newValue.split('.');
+                    if (parts.length > 2) {
+                        newValue = parts[0] + '.' + parts.slice(1).join('');
+                    }
+                    if (parts[0].length > 5) {
+                        parts[0] = parts[0].substring(0, 5);
+                        newValue = parts.join('.');
+                    }
+                    $(this).val(newValue);
+                });
+
+                $('#Weight').on('input', function () {
+                    var value = $(this).val();
+                    var newValue = value.replace(/[^0-9.]/g, '');
+                    var parts = newValue.split('.');
+                    if (parts.length > 2) {
+                        newValue = parts[0] + '.' + parts.slice(1).join('');
+                    }
+                    if (parts[0].length > 5) {
+                        parts[0] = parts[0].substring(0, 5);
+                    }
+                    if (parts.length > 1 && parts[1].length > 3) {
+                        parts[1] = parts[1].substring(0, 3);
+                    }
+                    $(this).val(parts.join('.'));
                 });
             });
         </script>
-
 
 
     </div>
