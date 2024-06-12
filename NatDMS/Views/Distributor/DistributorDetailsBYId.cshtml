@@ -9,6 +9,25 @@
         .red-border {
             border: 2px solid black;
         }
+            .wrap-text{
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+
+        .area-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px; /* Adjust this value to control the space between items */
+        }
+
+        .area-item {
+            padding: 2px 5px; /* Optional: Add padding for better readability */
+            background-color: #f0f0f0; /* Optional: Add background color for better visual separation */
+            border-radius: 3px; /* Optional: Add border radius for rounded corners */
+            white-space: nowrap; /* Ensure items don't break into multiple lines */
+            margin: 1px; /* Minimal margin to control spacing */
+        }
+        
     </style>
 </head>
 <body>
@@ -34,10 +53,10 @@
                         <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.DistributorDetails.FirstName)</dd>
 
                         <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.DistributorDetails.Address)</dt>
-                        <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.DistributorDetails.Address)</dd>
+                        <dd class="col-sm-3 text-dark wrap-text">@Html.DisplayFor(model => model.DistributorDetails.Address)</dd>
 
                         <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.DistributorDetails.Email)</dt>
-                        <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.DistributorDetails.Email)</dd>
+                        <dd class="col-sm-3 text-dark wrap-text">@Html.DisplayFor(model => model.DistributorDetails.Email)</dd>
 
                         <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.DistributorDetails.State)</dt>
                         <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.DistributorDetails.State)</dd>
@@ -47,6 +66,7 @@
 
                         <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.DistributorDetails.Area)</dt>
                         <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.DistributorDetails.Area)</dd>
+                       
 
                         <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.DistributorDetails.Latitude)</dt>
                         <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.DistributorDetails.Latitude)</dd>
@@ -59,7 +79,7 @@
                             @if (!string.IsNullOrEmpty(Model.DistributorDetails.Image))
                             {
 
-                                <img src="@Model.DistributorDetails.Image" alt="ProfileImage" width="160" height="160" class="img-responsive" id="presignedurl" />
+                                <img src="@Model.DistributorDetails.Image" alt="ProfileImage" width="100" height="100" class="img-responsive" id="presignedurl" />
                             }
                             else
                             {

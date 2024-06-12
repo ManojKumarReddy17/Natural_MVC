@@ -18,9 +18,13 @@ namespace NatDMS.Models
         [EmailAddress(ErrorMessage = "Invalid email address. The email domain must be @gmail.com.")]
         public string Email { get; set; }
 
+        //[Required(ErrorMessage = "Mobile Number is required.")]
+        //[RegularExpression(@"^\d{10}$", ErrorMessage = "Invalid Mobile Number format. Use 10 digits.")]
+        //public string MobileNumber { get; set; }
         [Required(ErrorMessage = "Mobile Number is required.")]
-        [RegularExpression(@"^\d{10}$", ErrorMessage = "Invalid Mobile Number format. Use 10 digits.")]
+        [RegularExpression(@"^[1-9]\d{9}$", ErrorMessage = "Invalid Mobile Number format. Use 10 digits and do not start with zero.")]
         public string MobileNumber { get; set; }
+
 
         [StringLength(50, ErrorMessage = "The address cannot be longer than 50 characters.")]
         public string Address { get; set; }

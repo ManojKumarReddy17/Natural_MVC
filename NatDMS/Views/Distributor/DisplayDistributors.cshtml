@@ -81,7 +81,8 @@
     <!-----------------------------------------------SEARCH EXECUTIVE----------------------------------------------------->
 
 
-    <div class="container my-4">
+       
+        <div class="container my-4">
         @using (Html.BeginForm(FormMethod.Post, new { id = "SearchResultmodel" }))
         {
             <div class="row">
@@ -151,6 +152,7 @@
 
 
     <div class="table-responsive">
+        <div class="container my-4">
 
         <table class="table table-bordered table-striped custom-table" id="Distributorlist">
 
@@ -161,7 +163,6 @@
                     <th>CompanyNmae</th>
                     <th>Email</th>
                     <th>MobileNumber</th>
-                    <th>Address</th>
                     <th>State</th>
                     <th>City</th>
                     <th>Area</th>
@@ -183,14 +184,17 @@
                     <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
                     <td>@Html.DisplayFor(modelItem => item.Email)</td>
                     <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Address)</td>
                     <td>@Html.DisplayFor(modelItem => item.State)</td>
                     <td>@Html.DisplayFor(modelItem => item.City)</td>
                     <td>@Html.DisplayFor(modelItem => item.Area)</td>
                     <td>
                             @if (!string.IsNullOrEmpty(@item.Image))
                             {
+<<<<<<< Updated upstream
                             <img src="@item.Image" alt="ProfileImage" class="no-image" id="presignedurl" />
+=======
+                            <img src="@item.Image" alt="ProfileImage" class="no-image" id="image" />
+>>>>>>> Stashed changes
                             }
                             else
                             {

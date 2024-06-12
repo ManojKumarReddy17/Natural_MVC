@@ -217,6 +217,35 @@
 
 
     <script src="~/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#FirstName, #LastName').on('keypress', function (e) {
+                var keyCode = e.which || e.keyCode;
+                // Allow letters and space only
+                if (!(keyCode >= 65 && keyCode <= 90) && // A-Z
+                    !(keyCode >= 97 && keyCode <= 122) && // a-z
+                    keyCode !== 32) { // Space
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#MobileNumber').on('input', function (e) {
+                var inputValue = $(this).val();
+                // Allow only numbers
+                var numericValue = inputValue.replace(/\D/g, '');
+                // Ensure the length is not more than 10 characters
+                numericValue = numericValue.substring(0, 10);
+                // Remove leading zeros
+                numericValue = numericValue.replace(/^0+/, '');
+                // Update the input value
+                $(this).val(numericValue);
+            });
+        });
+    </script>
+
 
     <script type="text/javascript">
         function statechange() {
