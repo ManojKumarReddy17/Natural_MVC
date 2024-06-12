@@ -90,17 +90,7 @@
                          @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" }) 
                     </b>
                 </div>
-                @*<div class="form-group">
-                    @Html.LabelFor(model => model.ProfileImage, "Profile image")
-                    @Html.TextBoxFor(model => model.ProfileImage, new
-                        {
-                            type = "file",
-                            @class = "form-control custom-file-input",
-                            @placeholder = "Choose Profile Image",
-                            @onchange = "return ShowImagePreview(this)"
-                        })
-                    @Html.ValidationMessageFor(model => model.ProfileImage, "", new { @class = "text-danger" })
-                </div>*@
+               
                 <div class="form-group">
                     @Html.LabelFor(model => model.ProfileImage, "Profile image")
                     @Html.TextBoxFor(model => model.ProfileImage, new

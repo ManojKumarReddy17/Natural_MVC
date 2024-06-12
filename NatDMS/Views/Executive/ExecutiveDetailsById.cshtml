@@ -15,16 +15,20 @@
             white-space: pre-wrap;
         }
 
-       /* .wrap-text {
-            word-wrap: break-word;
-            white-space: pre-wrap;
-            width: 100%;
-            height: 100px; 
-            font-size: 16px;
-            overflow-y: auto;
-            resize: none;
-        }*/
-   
+        .area-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px; /* Adjust this value to control the space between items */
+        }
+
+        .area-item {
+            padding: 2px 5px; /* Optional: Add padding for better readability */
+            background-color: #f0f0f0; /* Optional: Add background color for better visual separation */
+            border-radius: 3px; /* Optional: Add border radius for rounded corners */
+            white-space: nowrap; /* Ensure items don't break into multiple lines */
+            margin: 1px; /* Minimal margin to control spacing */
+        }
+       
     </style>
 </head>
 <body>
@@ -56,7 +60,7 @@
                         <dd class="col-sm-2 text-dark wrap-text">@Html.DisplayFor(model => model.ExecutiveDetails.Address)</dd>
 
                         <dt class="col-sm-2 text-danger">@Html.DisplayNameFor(model => model.ExecutiveDetails.Email)</dt>
-                        <dd class="col-sm-2 text-dark">@Html.DisplayFor(model => model.ExecutiveDetails.Email)</dd>
+                        <dd class="col-sm-2 text-dark  wrap-text">@Html.DisplayFor(model => model.ExecutiveDetails.Email)</dd>
 
                         <dt class="col-sm-2 text-danger">@Html.DisplayNameFor(model => model.ExecutiveDetails.State)</dt>
                         <dd class="col-sm-2 text-dark">@Html.DisplayFor(model => model.ExecutiveDetails.State)</dd>
@@ -64,21 +68,31 @@
                         <dt class="col-sm-2 text-danger">@Html.DisplayNameFor(model => model.ExecutiveDetails.City)</dt>
                         <dd class="col-sm-2 text-dark">@Html.DisplayFor(model => model.ExecutiveDetails.City)</dd>
 
+
+
                         <dt class="col-sm-2 text-danger">@Html.DisplayNameFor(model => model.ExecutiveDetails.Area)</dt>
-                        <dd class="col-sm-2 text-dark">@Html.DisplayFor(model => model.ExecutiveDetails.Area )</dd>
-
-                        <dt class="col-sm-2 text-danger">@Html.DisplayNameFor(model => model.ExecutiveDetails.Image)</dt>
-                        <dt class="col-sm-2 bold-text">
-                            @*@if (!string.IsNullOrEmpty(@Model.ExecutiveDetails.Image))
+                        <dd class="col-sm-2 text-dark wrap-text">
+                            @if (Model.ExecutiveDetails.Area != null && Model.ExecutiveDetails.Area.Any())
                             {
-
-                                <img src="@Model.ExecutiveDetails.Image" alt="ProfileImage" width="100" height="100" class="img-responsive" id="presignedurl" style="float: right; margin-left: 10px;" />
+                                <div class="area-container">
+                                    @foreach (var area in Model.ExecutiveDetails.Area)
+                                    {
+                                        <span class="area-item">@area</span>
+                                    }
+                                </div>
                             }
                             else
                             {
-                                <!-- Display a default "no image" placeholder -->
-                                <img class="card-img-top img-fluid" src="~/image/no-image-placeholder.svg" alt="No Image">
-                            }*@
+                                <span>No areas selected</span>
+                            }
+                        </dd>
+                       
+
+
+
+                        @*<dt class="col-sm-2 text-danger">@Html.DisplayNameFor(model => model.ExecutiveDetails.Image)</dt>
+                        <dt class="col-sm-2 bold-text">
+                           
                             @if (!string.IsNullOrEmpty(Model.ExecutiveDetails.Image))
                             {
                                 <img src="@Model.ExecutiveDetails.Image" alt="Profile Image" width="100" height="100" class="img-responsive" id="Image" style="float: right; margin-left: 10px;" />
@@ -87,7 +101,20 @@
                             {
                                 <!-- Display a default "no image" placeholder -->
                                 <img  alt="No Image" width="100" height="100" style="float: right; margin-left: 10px;" />
+                            }*@
+                        <dt class="col-sm-2 text-danger">@Html.DisplayNameFor(model => model.ExecutiveDetails.Image)</dt>
+                        <dd class="col-sm-2 text-dark">
+                            @if (!string.IsNullOrEmpty(Model.ExecutiveDetails.Image))
+                            {
+
+                                <img src="@Model.ExecutiveDetails.Image" alt="ProfileImage" width="90" height="90" class="img-responsive" id="presignedurl" />
                             }
+                            else
+                            {
+                                <!-- Display a default "no image" placeholder -->
+                                <img class="card-img-top img-fluid" src="~/image/no-image-placeholder.svg" alt="No Image">
+                            }
+                        </dd>
 
 
 

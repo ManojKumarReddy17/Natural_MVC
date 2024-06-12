@@ -14,21 +14,37 @@ namespace NatDMS.Models
         public string Id { get; set; }
 
         [Required(ErrorMessage = "FirstName is Required")]
-        [RegularExpression("[a-zA-Z]{1,40}", ErrorMessage = "must contain upto 40 alphabets only")]
+        //  [RegularExpression("[a-zA-Z]{1,40}", ErrorMessage = "must contain upto 40 alphabets only")]
+        [StringLength(40, ErrorMessage = "First name cannot exceed 40 characters.")]
         public string FirstName { get; set; }
 
         public string CompanyName { get; set; }
 
+        [Required(ErrorMessage = "LastName is Required")]
+        [RegularExpression("[a-zA-Z]{1,40}", ErrorMessage = "must contain upto 40 alphabets only")]
         public string LastName { get; set; }
 
         [EmailAddress(ErrorMessage ="Invalid email Address.The email domain must be @gmail.com")]
+        [StringLength(30, ErrorMessage = "Email cannot exceed 30 characters.")]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Invalid email format.")]
         public string Email { get; set; }
+<<<<<<< Updated upstream
         [Required(ErrorMessage = "Mobile Number is required.")]
         [RegularExpression(@"^[1-9]\d{9}$", ErrorMessage = "Invalid Mobile Number format. Use 10 digits and do not start with zero.")]
         public string MobileNumber { get; set; }
         [Required(ErrorMessage = "Address is required.")]
         [MaxLength(50, ErrorMessage = "Address cannot be more than 50 characters.")]
 
+=======
+
+       
+        [Required(ErrorMessage = "Mobile Number is required.")]
+        [RegularExpression(@"^[1-9]\d{9}$", ErrorMessage = "Invalid Mobile Number format. Use 10 digits and do not start with zero.")]
+        public string MobileNumber { get; set; }
+
+        [Required(ErrorMessage = "Address is required.")]
+        [MaxLength(50, ErrorMessage = "Address cannot be more than 50 characters.")]
+>>>>>>> Stashed changes
         public string Address { get; set; }
 
         public string City { get; set; }
