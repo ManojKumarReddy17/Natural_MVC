@@ -23,19 +23,12 @@ namespace NatDMS.Models
 
         [EmailAddress(ErrorMessage ="Invalid email Address.The email domain must be @gmail.com")]
         public string Email { get; set; }
-
-        //[Required(ErrorMessage = "Mobile Number is required.")]
-        //[RegularExpression(@"\d{10}", ErrorMessage = "Invalid Mobile Number format. Use 10 digits.")]
         [Required(ErrorMessage = "Mobile Number is required.")]
         [RegularExpression(@"^[1-9]\d{9}$", ErrorMessage = "Invalid Mobile Number format. Use 10 digits and do not start with zero.")]
         public string MobileNumber { get; set; }
-
-
-
         [Required(ErrorMessage = "Address is required.")]
         [MaxLength(50, ErrorMessage = "Address cannot be more than 50 characters.")]
 
-        //[StringLength(50, ErrorMessage = "The address cannot be longer than 50 characters.")]
         public string Address { get; set; }
 
         public string City { get; set; }
@@ -45,7 +38,6 @@ namespace NatDMS.Models
         [Required(ErrorMessage = "Username is Required")]
         [RegularExpression("[a-zA-Z]{1,20}", ErrorMessage = "must contain upto 20 alphabets only")]
         public string UserName { get; set; }
-
         [Required(ErrorMessage = "Password is required")]
         [RegularExpression("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,15}$",
         ErrorMessage = "Passwords must be at least 6 characters and include an uppercase letter" +

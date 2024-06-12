@@ -9,7 +9,7 @@ namespace NatDMS.Models
     {
         public string Id { get; set; }
 
-        [Required(ErrorMessage = "The Cateogery name  is required.")]
+        [Required(ErrorMessage = "The Categoery name  is required.")]
         [StringLength(50, ErrorMessage = " No special characters will allowed .")]
         public string CategoryName { get; set; }
 

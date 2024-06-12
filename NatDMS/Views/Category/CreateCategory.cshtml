@@ -31,7 +31,7 @@
         <div class="col-md-10 d-flex justify-content-between">
             <a href="@Url.Action("CreateCategory")" class="d-flex align-items-center mr-6">
                 <i class="material-icons" style="font-size:20px;">refresh</i>
-                <button type="button" id="resetButton"  class="d-flex align-items-center mr-6">
+                <button type="button" id="resetButton" class="d-flex align-items-center mr-6">
                     <span class="ml-2" style="font-weight: bold;">RESET</span>
                 </button>
             </a>
@@ -54,28 +54,26 @@
 
     <script>
         $(document).ready(function () {
-           
-            
-            
+
+
+
             $('#CategoryName').on('keypress', function (e) {
                 var keyCode = e.which || e.keyCode;
-                // Allow letters, numbers, and space only
-                if (!(keyCode >= 65 && keyCode <= 90) && // A-Z
-                    !(keyCode >= 97 && keyCode <= 122) && // a-z
-                    !(keyCode >= 48 && keyCode <= 57) && // 0-9
-                    keyCode !== 32) { // Space
+                if (!(keyCode >= 65 && keyCode <= 90) && 
+                    !(keyCode >= 97 && keyCode <= 122) && 
+                    !(keyCode >= 48 && keyCode <= 57) && 
+                    keyCode !== 32) { 
                     e.preventDefault();
                 }
             });
 
             $('#CategoryName').on('input', function () {
                 var value = $(this).val();
-                // Remove any non-letter, non-number characters except space
                 $(this).val(value.replace(/[^a-zA-Z0-9\s]/g, ''));
             });
         });
     </script>
-    
+
     <script>
         $(document).ready(function () {
             $('#resetButton').click(function (e) {
