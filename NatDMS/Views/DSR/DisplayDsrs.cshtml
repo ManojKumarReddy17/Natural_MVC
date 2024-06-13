@@ -97,6 +97,10 @@
 
 
 
+        //Date
+
+        document.getElementById("StartDate").defaultValue = "YYYY-MM-DD";
+        document.getElementById("EndDate").defaultValue = "YYYY-MM-DD";
 
 
 
@@ -304,10 +308,9 @@
 
         <b>
             @Html.LabelFor(model => model.StartDate)
-            @Html.EditorFor(model => model.StartDate, new { @class = "datepicker", @id = "StarDate" })
-           
+            <input type="date" id="StartDate" name="StartDate" class="datepicker">
             @Html.LabelFor(model => model.EndDate)
-            @Html.EditorFor(model => model.EndDate, new { @class = "datepicker", @id = "EndDate" })
+            <input type="date" id="EndDate" name="EndDate" class="datepicker">
 
         </b>
         <div class="col-md-2">
