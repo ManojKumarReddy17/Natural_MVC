@@ -1,4 +1,10 @@
 ﻿@model NatDMS.Models.EDR_DisplayViewModel
+@{
+    ViewData["Title"] = "DisplayExecutive";
+    string defaultStateId = "stn1";
+    string defaultCityId = "ctn1";
+}
+
 @using System.Security.Claims
 <!DOCTYPE html>
 
@@ -104,7 +110,7 @@
 
                         <b>
                             @Html.LabelFor(model => model.State)
-                            @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"),
+                            @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName",defaultStateId),
                         "-SelectState-", new { @id = "state", onchange = "statechange()", @class = "form-select" })
                             @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                         </b>
@@ -308,60 +314,73 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script type="text/javascript">
-        function statechange() {
-            var stid = $('#state').val();
-            if (stid.trim() != '') {
-                var ddlcity = $('#city');
-                var ddlarea = $('#area');
-                ddlcity.empty();
-                ddlarea.empty();
-                $.ajax(
-                    {
-                        url: "/Executive/GetCitiesbyStateId",
-                        type: 'GET',
-                        dataType: 'json',
-                        data: { stateId: stid },
-                        success: function (d) {
-                            ddlcity.append($("<option></option>").val('').html('-SelectCity-'));
-                            $.each(d, function (i, cities) {
-                                ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
-                            });
-                        },
-                        error: function () {
-                            alert('Error!');
-                        }
-                    });
+            $(document).ready(function () {
+                // Trigger state and city change
+                statechange();
+                citychange();
+            });
+
+            function statechange() {
+                var defaultStateId = '@defaultStateId';
+                var defaultCityId = '@defaultCityId';
+                var stid = $('#state').val() == null ? defaultStateId : $('#state').val();
+                if (stid.trim() != '') {
+                    var ddlcity = $('#city');
+                    ddlcity.empty();
+                    $.ajax(
+                        {
+                            url: '/Executive/GetCitiesByStateId',
+                            type: 'GET',
+                            dataType: 'json',
+                            data: { stateId: stid },
+                            success: function (d) {
+                                ddlcity.append($("<option></option>").val('').html('-SelectCity-'));
+                                $.each(d, function (i, cities) {
+                                    ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
+                                });
+                                if (stid == defaultStateId) {
+                                    $('#city').val(defaultCityId);
+                                    citychange();
+                                }
+                            },
+                            error: function () {
+                                alert('Error!');
+                            }
+                        });
+                }
             }
-        }
+            // function citychange() {
+            //     var cityid = $('#city').val();
+            function citychange() {
+                var defaultCityId = '@defaultCityId';
+                var cityid = $('#city').val() == null ? defaultCityId : $('#city').val();
+                if (cityid.trim() != '') {
+                    var ddlarea = $('#area');
+                    ddlarea.empty();
 
-        function citychange() {
-            var cityid = $('#city').val();
-            if (cityid.trim() != '') {
-                var ddlarea = $('#area');
-                ddlarea.empty();
-
-                $.ajax(
-                    {
-                        url: "/Executive/GetAreasByCityId",
-                        type: 'GET',
-                        dataType: 'json',
-                        data: { cityId: cityid },
-                        success: function (d) {
-                            ddlarea.append($("<option></option>").val('').html('-SelectArea-'));
-                            $.each(d, function (i, areas) {
-                                ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
-                            });
-                        },
-                        error: function () {
-                            alert('Error!');
-                        }
-                    });
+                    $.ajax(
+                        {
+                            url: "/Executive/GetAreasByCityId",
+                            type: 'GET',
+                            dataType: 'json',
+                            data: { cityId: cityid },
+                            success: function (d) {
+                                ddlarea.append($("<option></option>").val('').html('-SelectArea-'));
+                                $.each(d, function (i, areas) {
+                                    ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
+                                });
+                            },
+                            error: function () {
+                                alert('Error!');
+                            }
+                        });
+                }
             }
-        }
 
-        
 
-    </script>
+
+
+        </script>
 </body>
 </html>
 

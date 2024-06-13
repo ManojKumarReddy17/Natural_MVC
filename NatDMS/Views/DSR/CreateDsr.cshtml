@@ -243,7 +243,8 @@
             });
         }
 
-
+        //date
+        document.getElementById("StartDate").defaultValue = "YYYY-MM-DD";
 
       
     </script>
@@ -305,9 +306,10 @@
 
                 </b>
 
-                <!--<b>
-                @Html.LabelFor(model => model.CreatedDate)-->
-                @Html.EditorFor(model => model.CreatedDate, new { @class = "datepicker", @id = "StarDate" })
+                <b>
+                    @Html.LabelFor(model => model.CreatedDate)
+                    <input type="date" id="StartDate" name="StartDate" class="datepicker" style="margin-left: 10px;">
+                </b>
                
  
             </div>

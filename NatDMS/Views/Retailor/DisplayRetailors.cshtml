@@ -1,5 +1,12 @@
 ﻿@model NatDMS.Models.EDR_DisplayViewModel
 
+@{
+    ViewData["Title"] = "DisplayRetailor";
+    string defaultStateId = "stn1";
+    string defaultCityId = "ctn1";
+}
+
+
 
 
 <!DOCTYPE html>
@@ -108,7 +115,7 @@
                     <div class="form-group">
                         <b>
                             @Html.LabelFor(model => model.State)
-                            @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"),
+                            @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName",defaultStateId),
                                      "-SelectState-", new { @id = "state", onchange = "statechange()", @class = "form-select" })
                             @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                         </b>
@@ -290,16 +297,22 @@
     <script src="~/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
 
+        $(document).ready(function () {
+            // Trigger state and city change
+            statechange();
+            citychange();
+        });
+
         function statechange() {
-            debugger;
-            var stid = $('#state').val();
+            var defaultStateId = '@defaultStateId';
+            var defaultCityId = '@defaultCityId';
+            var stid = $('#state').val() == null ? defaultStateId : $('#state').val();
             if (stid.trim() != '') {
                 var ddlcity = $('#city');
                 ddlcity.empty();
-
                 $.ajax(
                     {
-                        url: "/Retailor/GetCitiesbyStateId",
+                        url: '/Retailor/GetCitiesByStateId',
                         type: 'GET',
                         dataType: 'json',
                         data: { stateId: stid },
@@ -308,6 +321,10 @@
                             $.each(d, function (i, cities) {
                                 ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
                             });
+                            if (stid == defaultStateId) {
+                                $('#city').val(defaultCityId);
+                                citychange();
+                            }
                         },
                         error: function () {
                             alert('Error!');
@@ -317,8 +334,9 @@
         }
 
         function citychange() {
-            debugger;
-            var cityid = $('#city').val();
+            var defaultCityId = '@defaultCityId';
+            var cityid = $('#city').val() == null ? defaultCityId : $('#city').val();
+
             if (cityid.trim() != '') {
                 var ddlarea = $('#area');
                 ddlarea.empty();

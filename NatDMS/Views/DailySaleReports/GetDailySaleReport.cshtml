@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Displayreports";
+    string defaultStateId = "stn1";
+    string defaultCityId = "ctn1";
 }
 
 <!DOCTYPE html>
@@ -28,6 +30,8 @@
 
 
     <script>
+
+
         // Print function
         function printContent(content) {
             var StateName = $('#state option:selected').text();
@@ -77,39 +81,57 @@
             });
         });
 
+
+
+
+
+        $(document).ready(function () {
+            // Trigger state and city change
+            statechange();
+            citychange();
+        });
+
         function statechange() {
-            var stid = $('#state').val();
+            var defaultStateId = '@defaultStateId';
+            var defaultCityId = '@defaultCityId';
+            var stid = $('#state').val() == null ? defaultStateId : $('#state').val();
             if (stid.trim() != '') {
                 var ddlcity = $('#city');
                 ddlcity.empty();
-
-                $.ajax({
-                    url: "/DailySaleReports/GetCitiesbyStateId",
-                    type: 'GET',
-                    dataType: 'json',
-                    data: { stateId: stid },
-                    success: function (d) {
-                        ddlcity.append($("<option></option>").val('').html('-SelectCity-'));
-                        $.each(d, function (i, city) {
-                            ddlcity.append($("<option></option>").val(city.id).html(city.cityName));
-                        });
-                    },
-                    error: function () {
-                        alert('Error fetching cities!');
-                    }
-                });
+                $.ajax(
+                    {
+                        url: '/Executive/GetCitiesByStateId',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { stateId: stid },
+                        success: function (d) {
+                            ddlcity.append($("<option></option>").val('').html('-SelectCity-'));
+                            $.each(d, function (i, cities) {
+                                ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
+                            });
+                            if (stid == defaultStateId) {
+                                $('#city').val(defaultCityId);
+                                citychange();
+                            }
+                        },
+                        error: function () {
+                            alert('Error!');
+                        }
+                    });
             }
         }
-
+        // function citychange() {
+        //     var cityid = $('#city').val();
         function citychange() {
-            var cityid = $('#city').val();
+            var defaultCityId = '@defaultCityId';
+            var cityid = $('#city').val() == null ? defaultCityId : $('#city').val();
             if (cityid.trim() != '') {
                 var ddlarea = $('#area');
                 ddlarea.empty();
 
                 $.ajax(
                     {
-                        url: "/DailySaleReports/GetAreasByCityId",
+                        url: "/Executive/GetAreasByCityId",
                         type: 'GET',
                         dataType: 'json',
                         data: { cityId: cityid },
@@ -125,6 +147,7 @@
                     });
             }
         }
+
 
         // function areachange() {
         //     var areaId = $('#area').val();
@@ -142,6 +165,12 @@
         //                 $.each(d, function (i, retailor) {
         //                     ddlRetailor.append($("<option>" + retailor.retailor + "</option>").val(retailor.id).html(retailor.name));
         //                 });
+
+        //                 var selectedAreaName = $('#area option:selected').text();
+        //                 $('#areaInput').val(selectedAreaName);
+
+
+        //                 $('#area').hide().show();
         //             },
         //             error: function (error) {
         //                 alert('Error ' + error.message);
@@ -149,6 +178,7 @@
         //         });
         //     }
         // }
+
         function areachange() {
             var areaId = $('#area').val();
             if (areaId.trim() != '') {
@@ -168,9 +198,6 @@
 
                         var selectedAreaName = $('#area option:selected').text();
                         $('#areaInput').val(selectedAreaName);
-
-                        // Hide the dropdown after selection
-                        $('#area').hide();
                     },
                     error: function (error) {
                         alert('Error ' + error.message);
@@ -178,8 +205,6 @@
                 });
             }
         }
-
-
 
 
         function Save() {
@@ -202,29 +227,43 @@
                 contentType: "application/json",
                 success: function (response) {
                     $("#Productlist").empty();
-                    $("#Productlist").append('<tr style="font-weight:bold">' +
-                        '<td>Product Name</td>' +
-                        '<td>Quantity</td>' +
-                        '<td>Price</td>' +
-                        '<td>Sale Amount</td>' +
-                        '</tr>');
-
-                    $.each(response, function (i, ds) {
-                        $("#Productlist").append(
-                            '<tr>' +
-                            '<td>' + ds.product_Name + '</td>' +
-                            '<td>' + ds.quantity + '</td>' +
-                            '<td>' + ds.price + '</td>' +
-                            '<td>' + ds.saleAmount + '</td>' +
-                            '</tr>'
-                        );
-                    });
+                    if (response.length === 0) {
+                        // If no data is provided, display a message
+                        $("#Productlist").append('<tr><td colspan="4">No data provided</td></tr>');
+                    } else {
+                        // Otherwise, populate the table with data
+                        $("#Productlist").append('<tr style="font-weight:bold">' +
+                            '<td>Product Name</td>' +
+                            '<td>Quantity</td>' +
+                            '<td>Price</td>' +
+                            '<td>Sale Amount</td>' +
+                            '</tr>');
+                        $.each(response, function (i, ds) {
+                            $("#Productlist").append(
+                                '<tr>' +
+                                '<td>' + ds.product_Name + '</td>' +
+                                '<td>' + ds.quantity + '</td>' +
+                                '<td>' + ds.price + '</td>' +
+                                '<td>' + ds.saleAmount + '</td>' +
+                                '</tr>'
+                            );
+                        });
+                    }
                 },
                 error: function (request, status, error) {
-                    alert(request.responseText);
+                    // If there's an error, display an alert
+                    alert('Error fetching data: ' + error);
+                    // Clear the table content
+                    $("#Productlist").empty();
+                    // Display "No data provided" message
+                    $("#Productlist").append('<tr><td colspan="4">No data provided</td></tr>');
                 }
             });
         }
+        //date
+        document.getElementById("StartDate").defaultValue = "YYYY-MM-DD";
+        document.getElementById("EndDate").defaultValue = "YYYY-MM-DD";
+
 
         function autocomplete(inp, select) {
             var currentFocus;
@@ -284,14 +323,25 @@
                 }
             }
 
+            // function closeAllLists(elmnt) {
+            //     var x = document.getElementsByClassName("autocomplete-items");
+            //     for (var i = 0; i < x.length; i++) {
+            //         if (elmnt != x[i] && elmnt != inp) {
+            //             x[i].parentNode.removeChild(x[i]);
+            //         }
+            //     }
+            // }
             function closeAllLists(elmnt) {
+                console.log("Closing dropdown list");
                 var x = document.getElementsByClassName("autocomplete-items");
+                console.log("Dropdown list elements:", x);
                 for (var i = 0; i < x.length; i++) {
                     if (elmnt != x[i] && elmnt != inp) {
                         x[i].parentNode.removeChild(x[i]);
                     }
                 }
             }
+
 
             document.addEventListener("click", function (e) {
                 closeAllLists(e.target);
@@ -332,15 +382,21 @@
         //     var areaDropdown = document.getElementById("area");
         //     areaDropdown.dispatchEvent(new Event('change')); // Trigger change event to close dropdown after selection
         // }
-
         function selectArea(value) {
-            var areaInput = document.getElementById("areaInput");
-            areaInput.value = value;
+            console.log("Selecting area:", value); // Check if the function is being called with the correct value
+            var areaInput = $("#areaInput");
+            areaInput.val(value);
             filterAreas(); // Filter the dropdown options
 
-            var areaDropdown = document.getElementById("area");
-            areaDropdown.style.display = "none"; // Hide the dropdown after selection
+            // Trigger change event on the area dropdown to close it after selection
+            $("#area").trigger("change");
         }
+
+
+
+
+
+
 
 
 
@@ -426,20 +482,28 @@
 <body>
     <div class="form-group">
         <b>
-            @Html.LabelFor(model => model.State)
+            @*    @Html.LabelFor(model => model.State)
             @Html.DropDownListFor(model => model.State,
             Model.StateList != null && Model.StateList.Any() ?
             new SelectList(Model.StateList, "Id", "StateName") :
             Enumerable.Empty<SelectListItem>(),
             // "-SelectState-",
+            new { @id = "state", onchange = "statechange()", @class = "form-select" }) *@
+
+            @Html.LabelFor(model => model.State)
+            @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName",defaultStateId),
             new { @id = "state", onchange = "statechange()", @class = "form-select" })
+
+
         </b>
         <b>
             @Html.LabelFor(model => model.City)
             @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
             {
             new SelectListItem { Text = "", Value =""},
-            }, "Value", "Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
+            }, "Value","Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
+
+
         </b>
 
         <b>
@@ -451,6 +515,7 @@
             new SelectListItem {Text = ""}
             },  new { @id = "area", @onchange = "areachange()", @class = "form-select", style = "flex-grow: 1;" })
             @* </div> *@
+
         </b>
 
         <b>
@@ -461,10 +526,11 @@
             }, new { @id = "retailor", @class = "form-select" })
         </b>
         <b>
+
             @Html.LabelFor(model => model.StartDate)
-            @Html.EditorFor(model => model.StartDate, new { @class = "datepicker", @id = "StarDate" })
+            <input type="date" id="StartDate" name="StartDate" class="datepicker">
             @Html.LabelFor(model => model.EndDate)
-            @Html.EditorFor(model => model.EndDate, new { @class = "datepicker", @id = "EndDate" })
+            <input type="date" id="EndDate" name="EndDate" class="datepicker">
         </b>
         <div class="col-md-2">
             <div class="form-group">
