@@ -20,37 +20,34 @@ namespace NatDMS.Models
 
         public string CompanyName { get; set; }
 
-        [Required(ErrorMessage = "LastName is Required")]
+       // [Required(ErrorMessage = "LastName is Required")]
         [RegularExpression("[a-zA-Z]{1,40}", ErrorMessage = "must contain upto 40 alphabets only")]
         public string LastName { get; set; }
 
         [EmailAddress(ErrorMessage ="Invalid email Address.The email domain must be @gmail.com")]
         [StringLength(30, ErrorMessage = "Email cannot exceed 30 characters.")]
-        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Invalid email format.")]
+        [RegularExpression(@"^[a-zA-Z0-9@._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Invalid email format.")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Mobile Number is required.")]
         [RegularExpression(@"^[1-9]\d{9}$", ErrorMessage = "Invalid Mobile Number format. Use 10 digits and do not start with zero.")]
         public string MobileNumber { get; set; }
-        [Required(ErrorMessage = "Address is required.")]
-       // [MaxLength(50, ErrorMessage = "Address cannot be more than 50 characters.")]
 
-
-      
-        [StringLength(50, ErrorMessage = "The address cannot be longer than 50 characters.")]
+       
+        [MaxLength(50, ErrorMessage = "Address cannot be more than 50 characters.")]
 
         public string Address { get; set; }
+        [Required(ErrorMessage ="City is required.")]
+        public string City { get; set; }
+        [Required(ErrorMessage ="State is required.")]
+        public string State { get; set; }
 
-       [Required(ErrorMessage = "City is required.")]
-    public string City { get; set; }
+        [Required(ErrorMessage = "Username is required.")]
+        [RegularExpression(@"^[a-zA-Z_]+$", ErrorMessage = "Username can only contain letters and underscores, no other special characters are allowed.")]
+        [StringLength(20, ErrorMessage = " Username cannot exceed 20 characters.")]
 
-    [Required(ErrorMessage = "State is required.")]
-    public string State { get; set; }
-
-        [Required(ErrorMessage = "Username is Required")]
-        [RegularExpression(@"^[a-zA-Z_]+$", ErrorMessage = "  Username can only contain letters and underscores, no other special characters are allowed.")]
-        [StringLength(20, ErrorMessage = "Username cannot exceed 20 characters.")]
         public string UserName { get; set; }
+        
         [Required(ErrorMessage = "Password is required")]
         [RegularExpression("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,15}$",
         ErrorMessage = "Passwords must be at least 6 characters and include an uppercase letter" +
@@ -62,8 +59,6 @@ namespace NatDMS.Models
         public string Latitude { get; set; }
 
         public string Longitude { get; set; }
-        [Required(ErrorMessage = "Area is required.")]
-
         public List<string> Area { get; set; }
 
         public string PresignedUrl { get; set; }
