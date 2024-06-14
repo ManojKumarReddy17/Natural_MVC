@@ -111,6 +111,16 @@
                         {
                             <!-- Display a default "no image" placeholder -->
                             <img class="card-img-top img-fluid" src="~/image/no-image-placeholder.svg" alt="No Image">
+                        }*
+                        @if (!string.IsNullOrEmpty(Model.Image))
+                        {
+
+                            <img src="@Model.Image" alt="ProfileImage" width="80" height="80" class="img-responsive" id="presignedurl" />
+                        }
+                        else
+                        {
+                            <!-- Display a default "no image" placeholder -->
+                            <img src="~/image/no-image-placeholder.svg" alt="No Image" width="50" height="50">
                         }
                     </dd>
 

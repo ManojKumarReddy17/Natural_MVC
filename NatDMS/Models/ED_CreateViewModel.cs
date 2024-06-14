@@ -41,12 +41,15 @@ namespace NatDMS.Models
 
         public string Address { get; set; }
 
-        public string City { get; set; }
+       [Required(ErrorMessage = "City is required.")]
+    public string City { get; set; }
 
-        public string State { get; set; }
+    [Required(ErrorMessage = "State is required.")]
+    public string State { get; set; }
 
         [Required(ErrorMessage = "Username is Required")]
-        [RegularExpression("[a-zA-Z]{1,20}", ErrorMessage = "must contain upto 20 alphabets only")]
+        [RegularExpression(@"^[a-zA-Z_]+$", ErrorMessage = "  Username can only contain letters and underscores, no other special characters are allowed.")]
+        [StringLength(20, ErrorMessage = "Username cannot exceed 20 characters.")]
         public string UserName { get; set; }
         [Required(ErrorMessage = "Password is required")]
         [RegularExpression("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,15}$",
@@ -59,6 +62,7 @@ namespace NatDMS.Models
         public string Latitude { get; set; }
 
         public string Longitude { get; set; }
+        [Required(ErrorMessage = "Area is required.")]
 
         public List<string> Area { get; set; }
 

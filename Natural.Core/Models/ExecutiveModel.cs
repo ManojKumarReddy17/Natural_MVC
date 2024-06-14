@@ -19,7 +19,7 @@ namespace Natural.Core.Models
         public string State { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-        public string PresignedUrl { get; set; }
+       // public string PresignedUrl { get; set; }
         public IFormFile ProfileImage { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime ModifiedDate { get; set; }

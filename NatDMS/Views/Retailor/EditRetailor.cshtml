@@ -135,14 +135,14 @@
                 <div class="form-group">
                     
 
-                    @if (!string.IsNullOrEmpty(@Model.PresignedUrl))
+                    @if (!string.IsNullOrEmpty(@Model.Image))
                     {
-                        <img src="@Model.PresignedUrl" alt="ProfileImage" width="160" height="160" class="img-responsive" id="presignedurl">
+                        <img src="@Model.Image" alt="ProfileImage" width="100" height="100" class="img-responsive" id="presignedurl">
                     }
                     else
                     {
                         <!-- Display a default "no image" placeholder -->
-                        <img src="~/image/no-image-placeholder.svg" alt="ProfileImage" width="160" height="160" class="img-responsive" id="presignedurl">
+                        <img src="~/image/no-image-placeholder.svg" alt="ProfileImage" width="100" height="100" class="img-responsive" id="presignedurl">
                     }
 
                     <input type="file" id="profileImageInput" name="profileImage" accept="image/*" style="display: none;">

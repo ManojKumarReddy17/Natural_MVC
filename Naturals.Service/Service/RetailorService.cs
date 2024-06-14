@@ -148,6 +148,7 @@ namespace Naturals.Service.Service
                     formData.Add(new StringContent(mdl.Area), "Area");
                     formData.Add(new StringContent(mdl.Latitude ?? ""), "Latitude");
                     formData.Add(new StringContent(mdl.Longitude ?? ""), "Longitude");
+
                     var output = await _HttpCleintWrapper.PutMultipartFormData<RetailorModel>($"/Retailor?RetailorId={Id}", formData);
                     return output;
 

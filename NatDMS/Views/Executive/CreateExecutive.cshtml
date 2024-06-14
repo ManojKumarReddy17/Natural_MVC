@@ -24,24 +24,25 @@
                 <div class="form-group" style="margin-bottom: 9%;">
                     <b>
                         @Html.LabelFor(model => model.FirstName)
+                        <span style="color:red;">*</span>
                         @Html.TextBoxFor(model => model.FirstName, new
-                            {
-                                @class = "form-control",
-                                @placeholder = "Enter FirstName"
-                            })
+                    {
+                    @class = "form-control",
+                    @placeholder = "Enter FirstName"
+                    })
                         @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                     </b>
-                    
+
                 </div>
 
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Email)
                         @Html.TextBoxFor(model => model.Email, new
-                            {
-                                @class = "form-control",
-                                @placeholder = "Enter Email"
-                            })
+                    {
+                    @class = "form-control",
+                    @placeholder = "Enter Email"
+                    })
                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                     </b>
                 </div>
@@ -49,11 +50,12 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.MobileNumber)
+                        <span style="color:red;">*</span>
                         @Html.TextBoxFor(model => model.MobileNumber, new
-                            {
-                                @class = "form-control",
-                                @placeholder = "Enter MobileNumber"
-                            })
+                    {
+                    @class = "form-control",
+                    @placeholder = "Enter MobileNumber"
+                    })
                         @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
                     </b>
                 </div>
@@ -61,25 +63,27 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Password)
+                        <span style="color:red;">*</span> 
                         @Html.PasswordFor(model => model.Password, new
-                            {
-                                @class = "form-control",
-                                @placeholder = "Enter Password"
-                            })
+                    {
+                    @class = "form-control",
+                    @placeholder = "Enter Password"
+                    })
                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                     </b>
                 </div>
 
 
+
                 <div class="form-group">
-                    <b>
-                        @Html.LabelFor(model => model.City)
-                        @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
-                    {
-                    new SelectListItem { Text = "", Value = "" },
-                    }, "Value", "Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
-                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-                    </b>
+                    @Html.LabelFor(model => model.City, new { @class = "control-label" })
+                    <span style="color:red;">*</span>
+                    @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
+                {
+                new SelectListItem { Text = "", Value = "" },
+                }, "Value", "Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
+                    @*@Html.TextBoxFor(model => model.City, new { @class = "form-control" })*@
+                    @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="form-group">
@@ -87,7 +91,7 @@
                         @Html.LabelFor(model => model.Latitude)
                         @Html.TextBoxFor(model => model.Latitude, new { @class = "form-control",
                     placeholder = "Enter Latitude", onfocus = "movePlaceholder(this)"})
-                         @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" }) 
+                        @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" })
                     </b>
                 </div>
                
@@ -103,12 +107,12 @@
                     @Html.ValidationMessageFor(model => model.ProfileImage, "", new { @class = "text-danger" })
 
                     <!-- Image preview -->
-                    <img id="imagePreview" src="~/image/no-image-placeholder.svg" alt="No Image" class="img-fluid mt-2" style="max-width: 100%; max-height: 100%;" />
+                    <img id="imagePreview" src="~/image/no-image-placeholder.svg" alt="No Image" class="img-fluid mt-2" style="max-width: 40%; max-height: 50%;" />
                 </div>
 
             </div>
 
-            
+
 
 
             <div class="col-md-3">
@@ -117,8 +121,8 @@
                     <b>
                         @Html.LabelFor(model => model.LastName)
                         @Html.TextBoxFor(model => model.LastName, new { @class = "form-control",
-                        @placeholder = "Enter LastName"})
-                      @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                    @placeholder = "Enter LastName"})
+                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                     </b>
                 </div>
 
@@ -126,11 +130,11 @@
                     <b>
                         @Html.LabelFor(model => model.Address)
                         @Html.TextAreaFor(model => model.Address, new
-                            {
-                                @class = "form-control",
-                                style = "overflow-y:scroll;",
-                                @placeholder = "Enter Address"
-                            })
+                    {
+                    @class = "form-control",
+                    style = "overflow-y:scroll;",
+                    @placeholder = "Enter Address"
+                    })
                         @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
 
                     </b>
@@ -138,89 +142,107 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.UserName)
+                        <span style="color:red;">*</span>
                         @Html.TextBoxFor(model => model.UserName, new
-                            {
-                                @class = "form-control",
-                                @placeholder = "Enter UserName"
-                            })
+                    {
+                    @class = "form-control",
+                    @placeholder = "Enter UserName"
+                    })
                         @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
                     </b>
                 </div>
 
 
+
                 <div class="form-group">
-                    <b>
-                        @Html.LabelFor(model => model.State)
-                        @Html.DropDownListFor(model => model.State, new SelectList(Model.States, "Id", "StateName"),
-                                 "--Select State--", new { @id = "state", onchange = "statechange()", @class = "form-select" })
-                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
-                    </b>
+                    @Html.LabelFor(model => model.State, new { @class = "control-label" })
+                    <span style="color:red;">*</span>
+                    @Html.DropDownListFor(model => model.State, new SelectList(Model.States, "Id", "StateName"),
+                "--Select State--", new { @id = "state", onchange = "statechange()", @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                 </div>
 
 
 
+             
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Area)
+                        <span style="color:red;">*</span>
                         @Html.ListBoxFor(model => model.Area, new List<SelectListItem>
                     {
                     new SelectListItem { Text = "", Value = "select" }
+                    // Add other SelectListItem items here
                     }, new { id = "area", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
                     </b>
                 </div>
+               
+                
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Longitude)
                         @Html.TextBoxFor(model => model.Longitude, new
-                            {
-                                @class = "form-control",
-                                placeholder = "Enter Longitude",
-                                onfocus = "movePlaceholder(this)"
-                            })
-                          @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" }) 
+                    {
+                    @class = "form-control",
+                    placeholder = "Enter Longitude",
+                    onfocus = "movePlaceholder(this)"
+                    })
+                        @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" })
                     </b>
                 </div>
-               @* Preview image panel *@
+                @* Preview image panel *@
                 <div class="form-group">
                     <div class="col-md-4" id="imagePreviewContainer" style="display:none;">
-                        <img src="#" alt="preview" id="imagePreview" style="border: 1px solid red; height: 160px; width: 160px; margin: auto; display: block;" />
+                        <img src="#" alt="preview" id="imagePreview" style="border: 1px solid red; height: 40%; width: 50%; margin: auto; display: block;" />
                     </div>
                 </div>
 
             </div>
 
-        
-        <br/>
-    <div class="text-center">
+
+            <br />
+            <div class="text-center">
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-10 d-flex justify-content-between">
+                    <a href="@Url.Action("CreateExecutive")" class="d-flex align-items-center mr-6">
+                        <i class="material-icons" style="font-size:20px;">refresh</i>
+                        <span class="ml-2" style="font-weight: bold;">RESET</span>
+                    </a>
+
+                    <a href="@Url.Action("DisplayExecutives")" class="d-flex align-items-center">
+                        <i class="material-icons" style="font-size:20px;">arrow_back</i>
+                        <span class="ml-2" style="font-weight: bold;">BACK TO LIST</span>
+                    </a>
+                </div>
+            </div>
         </div>
-
-        <div class="text-center">
-            <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
-        </div>
-
-    }
-
-    <div class="row">
-        <div class="col-md-10 d-flex justify-content-between">
-            <a href="@Url.Action("CreateExecutive")" class="d-flex align-items-center mr-6">
-                <i class="material-icons" style="font-size:20px;">refresh</i>
-                <span class="ml-2" style="font-weight: bold;">RESET</span>
-            </a>
-
-            <a href="@Url.Action("DisplayExecutives")" class="d-flex align-items-center">
-                <i class="material-icons" style="font-size:20px;">arrow_back</i>
-                <span class="ml-2" style="font-weight: bold;">BACK TO LIST</span>
-            </a>
-        </div>
-    </div>
-    </div>
     }
 
 
 
 
     <script src="~/js/jquery-3.6.0.min.js"></script>
+    <script>
+        // Function to validate the Area dropdown
+        function validateArea() {
+            var area = $("#area").val();
+            if (area === "select") {
+                $("#area").addClass("is-invalid");
+                $("#area-error").text("Please select an area.");
+            } else {
+                $("#area").removeClass("is-invalid");
+                $("#area-error").text("");
+            }
+        }
+    </script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#FirstName, #LastName').on('keypress', function (e) {
@@ -233,7 +255,7 @@
                 }
             });
         });
-    </script> 
+    </script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#MobileNumber').on('input', function (e) {
@@ -255,7 +277,7 @@
 
             var stid = $('#state').val();
             if (stid.trim() != '') {
-               
+
                 var ddlcity = $('#city');
                 ddlcity.empty();
 
@@ -327,22 +349,22 @@
             }
         }
     </script>
-   @* <script>
-        function ShowImagePreview(input) {
-            var preview = document.getElementById('imagePreview');
+    @* <script>
+    function ShowImagePreview(input) {
+    var preview = document.getElementById('imagePreview');
 
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
+    if (input.files && input.files[0]) {
+    var reader = new FileReader();
 
-                reader.onload = function (e) {
-                    preview.src = e.target.result;
-                }
+    reader.onload = function (e) {
+    preview.src = e.target.result;
+    }
 
-                reader.readAsDataURL(input.files[0]);
-            } else {
-                preview.src = '~/image/no-image-placeholder.svg'; // Set to default image if no file is selected
-            }
-        }
+    reader.readAsDataURL(input.files[0]);
+    } else {
+    preview.src = '~/image/no-image-placeholder.svg'; // Set to default image if no file is selected
+    }
+    }
     </script>*@
 
 
