@@ -56,7 +56,6 @@ namespace NatDMS.Mapping
             CreateMap<DsrRetailor, DsrRetailorDrop>();
             CreateMap<DistributorNotification, DistributorNotificationViewModel>();
             CreateMap<Notification, NotificationViewmodel>();
-          // Updated upstream
             CreateMap<ED_CreateModel, ED_CreateViewModel>();
             CreateMap<ED_CreateModel, ED_EditViewModel>();
 
@@ -71,8 +70,7 @@ namespace NatDMS.Mapping
 
             CreateMap<AreaModel, AreaDisplayModel>();
             CreateMap<AreaModel,AreaCUmodel>();
-          //  CreateMap<CreateDistributor, DistributorModel>();
-           //Stashed changes
+
             // Resource to Domain
 
             CreateMap<LoginResultModel, LoginModel>();
