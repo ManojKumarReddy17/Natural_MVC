@@ -15,7 +15,10 @@ namespace NatDMS.Models
         public string ShopName { get; set; }
        public string LastName { get; set; }
 
-        [EmailAddress(ErrorMessage = "Invalid email address. The email domain must be @gmail.com.")]
+
+        [EmailAddress(ErrorMessage = "Invalid email Address.The email domain must be @gmail.com")]
+        [StringLength(30, ErrorMessage = "Email cannot exceed 30 characters.")]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Invalid email format.")]
         public string Email { get; set; }
 
         //[Required(ErrorMessage = "Mobile Number is required.")]

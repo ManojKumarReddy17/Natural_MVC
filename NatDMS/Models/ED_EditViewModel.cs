@@ -18,17 +18,17 @@ namespace NatDMS.Models
        public string LastName { get; set; }
 
         [EmailAddress(ErrorMessage = "Invalid email Address.The email domain must be @gmail.com")]
+        [StringLength(30, ErrorMessage = "Email cannot exceed 30 characters.")]
+        [RegularExpression(@"^[a-zA-Z0-9@._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Invalid email format.")]
         public string Email { get; set; }
 
-        //[Required(ErrorMessage = "Mobile Number is required.")]
-        //[RegularExpression(@"^\d{10}$", ErrorMessage = "Invalid Mobile Number format. Use 10 digits.")]
-        //public string MobileNumber { get; set; }
+        
         [Required(ErrorMessage = "Mobile Number is required.")]
         [RegularExpression(@"^[1-9]\d{9}$", ErrorMessage = "Invalid Mobile Number format. Use 10 digits and do not start with zero.")]
         public string MobileNumber { get; set; }
 
 
-        [Required(ErrorMessage = "Address is required.")]
+        
         [MaxLength(50, ErrorMessage = "Address cannot be more than 50 characters.")]
 
         //[StringLength(50, ErrorMessage = "The address cannot be longer than 50 characters.")]
@@ -44,7 +44,9 @@ namespace NatDMS.Models
         public string State { get; set; }
         public string StateId { get; set; }
 
+
         [Required(ErrorMessage = "Username is required.")]
+        [RegularExpression(@"^[a-zA-Z_]+$", ErrorMessage = "Username can only contain letters and underscores, no other special characters are allowed.")]
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "Password is required.")]
@@ -56,10 +58,21 @@ namespace NatDMS.Models
 
         public IFormFile ProfileImage { get; set; }
 
-
+       
         public List<AreaModel> AreaList { get; set; }
-       public string PresignedUrl { get; set; }
         public string Image { get; set; }
+
+
+
+
+
+
+
+
+
+
+
+
         public string Latitude { get; set; }
         public string Longitude { get; set; }
         public List<string> Area { get; set; }

@@ -24,18 +24,14 @@
                 @Html.Hidden("Id", Model.Id)
 
                 <div class="form-group">
-                   @* <b>
-                        @Html.LabelFor(model => model.FirstName, new { @class = "control-label" })
-                        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-                    </b>*@
+                   
                     <b>
                         @Html.LabelFor(model => model.FirstName, new { @class = "control-label" })
-                        @Html.TextAreaFor(model => model.FirstName, new { @class = "form-control", @rows = 3, @style = "resize:none; word-wrap:break-word;" })
+                        @Html.TextAreaFor(model => model.FirstName, new { @class = "form-control", @rows = 1, @style = "resize:none; word-wrap:break-word;" })
                         @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                     </b>
 
-                </div>
+                </div> 
 
                 <div class="form-group">
                     <b>
@@ -83,26 +79,15 @@
 
 
                 <div class="form-group">
-                   @* <b>
-                        @Html.LabelFor(model => model.LastName, new { @class = "control-label" })
-                        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-                    </b>*@
+                  
                     <b>
                         @Html.LabelFor(model => model.LastName, new { @class = "control-label" })
-                        @Html.TextAreaFor(model => model.LastName, new { @class = "form-control", @rows = 3, @style = "resize:none; word-wrap:break-word;" })
+                        @Html.TextAreaFor(model => model.LastName, new { @class = "form-control", @rows = 1, @style = "resize:none; word-wrap:break-word;" })
                         @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                     </b>
                 </div>
 
-               @* <div class="form-group">
-                    <b>
-                        @Html.LabelFor(model => model.Address, new { @class = "control-label" })
-                        @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
-          
-                    </b>
-                </div>*@
+              
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Address, new { @class = "control-label" })
@@ -110,11 +95,10 @@
                         @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                     </b>
                 </div>
-               @* <div class="form-group">
-                    <label asp-for="Address" class="control-label"></label>
-                    <textarea asp-for="Address" class="form-control" rows="3" style="resize:none; word-wrap:break-word;"></textarea>
-                    <span asp-validation-for="Address" class="text-danger"></span>
-                </div>*@
+              
+
+
+             
 
                 <div class="form-group">
                     <b>
@@ -151,27 +135,23 @@
                     </b>
                 </div>
 
+
                 <div class="form-group">
-
-
-                    @if (!string.IsNullOrEmpty(@Model.Image))
-                    {
-                        <img src="@Model.Image" alt="ProfileImage" width="120" height="110" class="img-responsive" id="Image">
-                    }
-                    else
-                    {
-                        <!-- Display a default "no image" placeholder -->
-                        <img src="~/image/no-image-placeholder.svg" alt="ProfileImage" width="160" height="160" class="img-responsive" id="Image">
-                    }
-
-                    <input type="file" id="profileImageInput" name="profileImage" accept="image/*" style="display: none;">
-                    <label for="profileImageInput" class="btn btn-link">
-                        <i class="bi bi-image"></i> Change ProfileImage
-                    </label>
+                    @Html.LabelFor(model => model.ProfileImage, "Profile image")
+                    @Html.TextBoxFor(model => model.ProfileImage, new
+                {
+                type = "file",
+                @class = "form-control custom-file-input",
+                @placeholder = "Choose Profile Image",
+                @onchange = "return ShowImagePreview(this)"
+                })
+                    <img id="imagePreview" src="@Model.Image" style="max-width: 100px; max-height: 100px; display: block; margin-top: 10px;" />
+                    @Html.ValidationMessageFor(model => model.ProfileImage, "", new { @class = "text-danger" })
                 </div>
-
             </div>
         </div>
+        <br />           
+       
         <br/>
         <div class="text-center">
             <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
@@ -294,6 +274,15 @@
         }
     </script>
     <script>
+        function ShowImagePreview(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imagePreview').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
         // Function to handle file input change event
         function handleFileInputChange(event) {
             const file = event.target.files[0];
@@ -316,5 +305,5 @@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    }+
 }
