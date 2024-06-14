@@ -17,19 +17,19 @@ namespace NatDMS.Models
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Mobile Number is required.")]
-        [RegularExpression(@"^\d{10}$", ErrorMessage = "Invalid Mobile Number format. Use 10 digits.")]
+        [RegularExpression(@"^[1-9]\d{9}$", ErrorMessage = "Invalid Mobile Number format. Use 10 digits and do not start with zero.")]
         public string MobileNumber { get; set; }
         [Required(ErrorMessage = "The mobile number is required.")]
         [StringLength(50, ErrorMessage = "The mobile number cannot be longer than 50 characters.")]
 
         public string Address { get; set; }
 
-      
+        [Required(ErrorMessage = "City is required")]
         public string City { get; set; }
-
+     
         public string CityId { get; set; }
 
-
+        [Required(ErrorMessage = "State is required")]
         public string State { get; set; }
         public string StateId { get; set; }
 
@@ -54,8 +54,12 @@ namespace NatDMS.Models
 
 
         public string Area { get; set; }
+
+        [Required(ErrorMessage = "Please select an area.")]
+
         public string AreaId { get; set; }
 
         public string Id { get; set; }
+        public string Image { get; set; }
     }
 }

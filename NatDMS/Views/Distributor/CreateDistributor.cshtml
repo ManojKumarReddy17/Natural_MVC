@@ -5,7 +5,7 @@
 }
 
 <!DOCTYPE html>
-
+ 
 <html lang="en">
 <head>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -30,6 +30,7 @@
                 <div class="form-group" style="margin-bottom: 9%;">
                     <b>
                         @Html.LabelFor(model => model.CompanyName)
+                        <span style="color:red;">*</span>
                         @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control",
                                 placeholder = "Enter CompanyName",
                                 onfocus = "movePlaceholder(this)"
@@ -50,6 +51,7 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.MobileNumber)
+                        <span style="color:red;">*</span>
                         @Html.TextBoxFor(model => model.MobileNumber, new { @class = "form-control",
                         placeholder = "Enter MobileNumber", onfocus = "movePlaceholder(this)" })
                         @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
@@ -80,6 +82,7 @@
               <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.City)
+                        <span style="color:red;">*</span>
                         @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
                     {
                     new SelectListItem { Text = "", Value = "" },
@@ -121,7 +124,7 @@
                     </b>
                 </div>
 
-               @* <div class="form-group emphasized-section">
+                @* <div class="form-group emphasized-section">
                     <b>
                         @Html.LabelFor(model => model.Address)
                         @Html.TextAreaFor(model => model.Address, new { @class = "form-control", style = "overflow-y:scroll;", 
@@ -129,7 +132,7 @@
                         @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
 
                     </b>
-                </div>*@
+                </div> *@
                 <div class="form-group emphasized-section">
                     <b>
                         @Html.LabelFor(model => model.Address)
@@ -146,6 +149,7 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.UserName)
+                        <span style="color:red;">*</span>
                         @Html.TextBoxFor(model => model.UserName, new { @class = "form-control",
                         placeholder = "Enter UserName", onfocus = "movePlaceholder(this)" })
                         @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
@@ -156,6 +160,7 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.State)
+                        <span style="color:red;">*</span>
                         @Html.DropDownListFor(model => model.State, new SelectList(Model.States, "Id", "StateName"),
                     "--Select State--", new { @id = "state", onchange = "statechange()", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
@@ -167,6 +172,7 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Area)
+                        <span style="color:red;">*</span>
                         @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
                     {
                     new SelectListItem { Text = "", Value = "select" }

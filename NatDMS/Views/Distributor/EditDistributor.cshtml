@@ -109,14 +109,16 @@
 
 
 
+               
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Area)
-                        @Html.DropDownListFor(model => model.AreaId, new SelectList(Model.AreaList, "Id", "AreaName"),
-                    "--Select Area--", new { id = "area", @class = "form-select" })
-                        @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(model => model.AreaId, new SelectList(Model.AreaList, "Id", "AreaName"), "--Select Area--", new { id = "area", @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
                     </b>
                 </div>
+
+
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Longitude)
@@ -126,22 +128,18 @@
                     </b>
                 </div>
 
+              
                 <div class="form-group">
-                    
-                    @if (!string.IsNullOrEmpty(@Model.PresignedUrl))
-                    {
-                        <img src="@Model.PresignedUrl" alt="ProfileImage" width="160" height="160" class="img-responsive" id="presignedurl">
-                    }
-                    else
-                    {
-                        <!-- Display a default "no image" placeholder -->
-                        <img src="~/image/no-image-placeholder.svg" alt="ProfileImage" width="160" height="160" class="img-responsive" id="presignedurl">
-                    }
-
-                    <input type="file" id="profileImageInput" name="profileImage" accept="image/*" style="display: none;">
-                    <label for="profileImageInput" class="btn btn-link">
-                        <i class="bi bi-image"></i> Change ProfileImage
-                    </label>
+                    @Html.LabelFor(model => model.ProfileImage, "Profile image")
+                    @Html.TextBoxFor(model => model.ProfileImage, new
+                {
+                type = "file",
+                @class = "form-control custom-file-input",
+                @placeholder = "Choose Profile Image",
+                @onchange = "return ShowImagePreview(this)"
+                })
+                    <img id="imagePreview" src="@Model.Image" style="max-width: 100px; max-height: 100px; display: block; margin-top: 10px;" />
+                    @Html.ValidationMessageFor(model => model.ProfileImage, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -167,8 +165,24 @@
         </div>
     </div>
     <script src="~/js/jquery-3.6.0.min.js"></script>
+     
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+    
 
     <script type="text/javascript">
+        
+            $(document).ready(function () {
+                $('#submitBtn').click(function () {
+                    var selectedArea = $('#area').val();
+                    if (selectedArea == "") {
+                        $('#area').addClass('is-invalid');
+                        return false;
+                    }
+                });
+            });
+    
+
         function statechange() {
             var stid = $('#state').val();
             if (stid.trim() != '') {
@@ -250,6 +264,17 @@
         // Add event listener to the file input element
         const fileInput = document.getElementById('profileImageInput');
         fileInput.addEventListener('change', handleFileInputChange);
+
+
+        function ShowImagePreview(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imagePreview').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
     </script>
 
 </body>

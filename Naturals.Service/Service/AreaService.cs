@@ -43,7 +43,7 @@ namespace Naturals.Service.Service
             var SearchedResult = await _httpClient.PostAsync<List<AreaModel>>("/Area/Search", searcharea);
             return SearchedResult;  
         }
-           public async Task<AreaModel>EditArea (string Id,AreaModel areaModel)
+           public async Task<AreaModel>EditArea (string Id,AreaModel areaModel) 
            { 
              var result =await _httpClient.PutAsync<AreaModel>("/Area/AreaId", Id,areaModel);
              return result;
@@ -57,7 +57,7 @@ namespace Naturals.Service.Service
                 {
                     return true;
                 }
-                else
+                else 
                 {
                     return false;
                 } 

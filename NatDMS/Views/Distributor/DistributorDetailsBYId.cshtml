@@ -9,9 +9,24 @@
         .red-border {
             border: 2px solid black;
         }
-            .wrap-text{
-            word-wrap: break-word;
-            white-space: pre-wrap;
+
+        .blue-text {
+            color: firebrick;
+        }
+
+        .bold-text {
+            font-weight: bold;
+        }
+
+        .info-box {
+            border: 2px solid brown;
+            padding: 20px;
+            margin-top: 20px; 
+        }
+
+        .wrap-text {
+            word-wrap: break-word; 
+            white-space: normal;
         }
 
         .area-container {
@@ -27,7 +42,6 @@
             white-space: nowrap; /* Ensure items don't break into multiple lines */
             margin: 1px; /* Minimal margin to control spacing */
         }
-        
     </style>
 </head>
 <body>
@@ -108,6 +122,7 @@
                                         <button class="btn btn-outline-primary" id="assignRetailorsBtn">Assign</button>
                                         <button type="button" class="btn btn-outline-danger" onclick="redirectToDisplayDistributors()">Close</button>
                                     </div>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -125,9 +140,9 @@
                     </div>
 
                     <!--------------------------------------LIST OF ASSIGNED DISTIRBUTORS----------------------------------------->
-
-
+                   
                     <table class="table red-border" style="border-collapse:collapse;">
+                        
                         <thead>
                             <tr class="red-border">
                                 <th class="red-border">ShopName</th>
@@ -142,7 +157,7 @@
                         <tbody>
                             @foreach (var retailor in Model.AssignedRetailors)
                             {
-                                <tr class="red-border">
+                                <tr class="red-border"> 
                                     <td class="red-border">@retailor.FirstName</td>
                                     <td class="red-border">@retailor.Email</td>
                                     <td class="red-border">@retailor.MobileNumber</td>
@@ -168,7 +183,7 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p>Are you sure you want to delete this retailor?</p>
+                                                        <p>Are you sure you want to delete this retailor?</p>-[w-b2r]
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" onclick="confirmDelete('@retailor.Id', false)">No</button>
