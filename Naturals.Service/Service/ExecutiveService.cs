@@ -150,7 +150,7 @@ namespace Naturals.Service.Service
 
         public async Task<ProductResponse> UpdateExecutive(string Id, ExecutiveModel mdl)
         {
-            if (mdl.Image != null)
+            if (mdl.ProfileImage != null)
             {
                 using (var formData = new MultipartFormDataContent())
                 {

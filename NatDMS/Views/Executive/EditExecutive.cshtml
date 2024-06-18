@@ -274,15 +274,7 @@
         }
     </script>
     <script>
-        function ShowImagePreview(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#imagePreview').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
+       
         // Function to handle file input change event
         function handleFileInputChange(event) {
             const file = event.target.files[0];
@@ -295,7 +287,17 @@
 
         // Add event listener to the file input element
         const fileInput = document.getElementById('profileImageInput');
+
         fileInput.addEventListener('change', handleFileInputChange);
+        function ShowImagePreview(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imagePreview').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
     </script>
 
 </body>

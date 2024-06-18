@@ -14,6 +14,27 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+    <style>
+        .truncate {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100px;
+        }
+
+        .align-left {
+            margin-left: 15px;
+            margin-right: auto;
+            
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+    </style>
+
+  
+
         <script type="text/javascript">
 
  //----------------------------------------------SCRIPT FOR DELETE POPUP-------------------------------------------------------------//
@@ -48,10 +69,11 @@
 <body>
 
    @* <div class="container my-4" style="overflow-x:hidden;">*@
+    
 
     <div class="table-responsive">
-        <table class="table table-bordered table-striped custom-table"> 
-            <thead>
+            <table class="table table-bordered table-striped custom-table align-left" id="Executivelist">
+                <thead>
                 <tr>
                     <th>FirstName</th>
                     <th>LastName</th>
@@ -60,8 +82,7 @@
                     <th>State</th>
                     <th>City</th>
                     <th>Area</th>
-                    <th>ProfileImage</th>
-                    <th>Image</th>
+                        <th>ProfileImage</th>
                     <th>Latitude</th>
                     <th>Longitude</th>
                     <th>Edit</th>
@@ -72,111 +93,112 @@
 
             <tbody>
                 @if (Model.ExecutiveList.Any())
+                {
+
+
+                    @foreach (var item in Model.ExecutiveList)
                     {
 
-
-                        @foreach (var item in Model.ExecutiveList)
-                        {
-
-                            <tr>
-                                <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
-                                <td>@Html.DisplayFor(modelItem => item.LastName)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                                <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
-                                <td>@Html.DisplayFor(modelItem => item.State)</td>
-                                <td>@Html.DisplayFor(modelItem => item.City)</td>
-                                <td>
-                                    @if (item.Area != null)
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
+                            <td>@Html.DisplayFor(modelItem => item.State)</td>
+                            <td>@Html.DisplayFor(modelItem => item.City)</td>
+                            <td>
+                                @if (item.Area != null)
+                                {
+                                    @foreach (var area in item.Area)
                                     {
-                                        @foreach (var area in item.Area)
-                                        {
-                                            <span>@area</span><br />
-                                        }
+                                        <span>@area</span><br />
                                     }
-                                </td>
-                                <td>
-                                    @if (!string.IsNullOrEmpty(@item.Image))
-                                    {
+                                }
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(@item.Image))
+                                {
 
-                                        <img src="@item.Image" alt="ProfileImage" class="no-image" id="presignedurl" />
-                                    }
-                                    else
-                                    {
-                                        <img class="no-image " src="~/image/no-image-placeholder.svg" alt="No Image">
-                                    }
+                                    <img src="@item.Image" alt="ProfileImage" class="no-image" id="presignedurl" />
+                                }
+                                else
+                                {
+                                    <img class="no-image " src="~/image/no-image-placeholder.svg" alt="No Image">
+                                }
 
-                                </td>
-                                <td>@Html.DisplayFor(modelItem => item.Latitude)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Longitude)</td>
-
-
-                                <!-----------------------------------------------EDIT ACTION LINK------------------------------------------------------------------------>
-                                <!-----------------------------------------------EDIT ACTION LINK------------------------------------------------------------------------>
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.Latitude)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Longitude)</td>
 
 
+                            <!-----------------------------------------------EDIT ACTION LINK------------------------------------------------------------------------>
+                            <!-----------------------------------------------EDIT ACTION LINK------------------------------------------------------------------------>
 
-                                <td>
-                                    <a href="@Url.Action("EditExecutive", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:orange;">
-                                        <i class="material-icons">edit</i>
-                                    </a>
-                                </td>
 
-                                <!-----------------------------------------------------DELETE POPUP------------------------------------------------------------------------>
 
-                                <td>
-                                    <!-- Delete Icon -->
-                                    <div style="display: flex; justify-content: center; align-items: center;">
-                                        <i onclick="confirmDelete('@item.Id', true)" class="material-icons" style="color: red;cursor: pointer;">delete</i>
-                                    </div>
+                            <td>
+                                <a href="@Url.Action("EditExecutive", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:orange;">
+                                    <i class="material-icons">edit</i>
+                                </a>
+                            </td>
 
-                                    <!-- Delete Confirmation Modal -->
-                                    <div id="deleteConfirmationModal_@item.Id" class="modal" role="dialog">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Delete Confirmation</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Are you sure you want to delete this item?</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" onclick="confirmDelete('@item.Id', false)">No</button>
-                                                    @using (Html.BeginForm("DeleteExecutive", "Executive", new { ExecutiveId = item.Id }, FormMethod.Post))
-                                                    {
-                                                        <button type="submit" class="btn btn-danger">Yes</button>
-                                                    }
-                                                </div>
+                            <!-----------------------------------------------------DELETE POPUP------------------------------------------------------------------------>
+
+                            <td>
+                                <!-- Delete Icon -->
+                                <div style="display: flex; justify-content: center; align-items: center;">
+                                    <i onclick="confirmDelete('@item.Id', true)" class="material-icons" style="color: red;cursor: pointer;">delete</i>
+                                </div>
+
+                                <!-- Delete Confirmation Modal -->
+                                <div id="deleteConfirmationModal_@item.Id" class="modal" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Delete Confirmation</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure you want to delete this item?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" onclick="confirmDelete('@item.Id', false)">No</button>
+                                                @using (Html.BeginForm("DeleteExecutive", "Executive", new { ExecutiveId = item.Id }, FormMethod.Post))
+                                                {
+                                                    <button type="submit" class="btn btn-danger">Yes</button>
+                                                }
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
-                                </td>
+                            </td>
 
-                                <td>
-                                    <a href="@Url.Action("ExecutiveDetailsBYId", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:green;">
-                                        <i class="material-icons">info</i>
-                                    </a>
-                                </td>
-                            </tr>
+                            <td>
+                                <a href="@Url.Action("ExecutiveDetailsBYId", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:green;">
+                                    <i class="material-icons">info</i>
+                                </a>
+                            </td>
+                        </tr>
 
-                        }
                     }
-                    else
-                    {
-                        <tr>
+                }
+                else
+                {
+                <tr>
                             <td colspan="14" style="color: red; font-weight: bold; font-size: 18px; text-align: center;">No data found</td>
                         </tr>
 
                     }
+                    
                 </tbody>
 
 
         </table>
     </div>
-  @*</div>*@
+  </div>
 
     <!-------------------------------------------------------------Pagination------------------------------------------------------------------->
     <div class="text-center">
