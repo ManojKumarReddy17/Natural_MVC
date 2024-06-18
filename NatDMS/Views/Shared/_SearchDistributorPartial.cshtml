@@ -1,27 +1,37 @@
 ﻿@model NatDMS.Models.EDR_DisplayViewModel
-
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>GetDistributor</title>
-
     <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .truncate {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100px;
+        }
 
+        .align-left {
+            margin-left: 15px;
+            margin-right: auto;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+    </style>
     <script type="text/javascript">
-
-     //----------------------------------------------SCRIPT FOR DELETE POPUP-------------------------------------------------------------//
-
+        //----------------------------------------------SCRIPT FOR DELETE POPUP-------------------------------------------------------------//
         function confirmDelete(uniqueId, isTrue) {
             var deleteSpan = 'deleteSpan_' + uniqueId;
             var confirmDeleteSpan = 'confirmDeleteSpan_' + uniqueId;
-
             if (isTrue) {
                 $('#' + deleteSpan).hide();
                 $('#' + confirmDeleteSpan).show();
@@ -36,15 +46,10 @@
             var modal = $('#deleteConfirmationModal_' + uniqueId);
             modal.modal('show');
         }
-
         function hideModal(uniqueId) {
             var modal = $('#deleteConfirmationModal_' + uniqueId);
             modal.modal('hide');
         }
-
-
-
-
         function searchDistributors(page) {
             // Make an AJAX call to search distributors with the specified page
             $.ajax({
@@ -57,139 +62,105 @@
                 success: function (data) {
                     // Update the search results section with the new HTML
                     $('#searchResults').html(data);
-
                     // Update the URL hash with the new page number
                     window.location.hash = "#page=" + page;
                 }
             });
         }
-
     </script>
 </head>
-
-
-
-
-    
-        @*<div class="container my-4" style="overflow-x:hidden;">*@
-   
-
-        <div class="table-responsive" >
-            <table class="table table-bordered table-striped custom-table">
-                <thead>
-                    <tr>
-                        <th>FirstName</th>
-                        <th>LastName</th>
-                        <th>Email</th>
-                        <th>MobileNumber</th>
-                        
-                        <th>State</th>
-                        <th>City</th>
-                        <th>Area</th>
-                       
-                        <th>Latitude</th>
-                        <th>Longitude</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                        <th>Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-                   
-
-                        @foreach (var item in Model.DistributorList)
+<div class="table-responsive">
+    <table class="table table-bordered table-striped custom-table align-left "id=" Distributorlist">
+        <thead>
+            <tr>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Email</th>
+                <th>MobileNumber</th>
+                <th>State</th>
+                <th>City</th>
+                <th>Area</th>
+                <th>Image</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Edit</th>
+                <th>Delete</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DistributorList)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                    <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
+                    <td>@Html.DisplayFor(modelItem => item.State)</td>
+                    <td>@Html.DisplayFor(modelItem => item.City)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Area)</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(@item.Image))
                         {
-                            <tr>
-                                <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
-                                <td>@Html.DisplayFor(modelItem => item.LastName)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                                <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Address)</td>
-                                <td>@Html.DisplayFor(modelItem => item.State)</td>
-                                <td>@Html.DisplayFor(modelItem => item.City)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Area)</td>
-                                <td>
-                                    @if (!string.IsNullOrEmpty(@item.Image))
-                                    {
-
-                                        <img src="@item.Image" alt="ProfileImage" class="no-image " id="presignedurl" />
-                                    }
-                                    else
-                                    {
-                                        <!-- Display a default "no image" placeholder -->
-                                        <img class="no-image " src="~/image/no-image-placeholder.svg" alt="No Image">
-                                    }
-                                </td>
-                                <td>@Html.DisplayFor(modelItem => item.Latitude)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Longitude)</td>
-
-
-                                <!---------------------------------------------------EDIT ACTION LINK------------------------------------------------------------->
-
-
-                                <td>
-                                    <a href="@Url.Action("EditDistributor", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:orange;">
-                                        <i class="material-icons">edit</i>
-                                    </a>
-                                </td>
-
-                                <!-----------------------------------------------------DELETE POPUP-------------------------------------------------------------------->
-
-                                <td>
-                                    <!-- Delete Icon -->
-                                    <div style="display: flex; justify-content: center; align-items: center;">
-                                        <i onclick="confirmDelete('@item.Id', true)" class="material-icons" style="color: red;cursor: pointer;">delete</i>
-                                    </div>
-
-                                    <!-- Delete Confirmation Modal -->
-                                    <div id="deleteConfirmationModal_@item.Id" class="modal" role="dialog">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Delete Confirmation</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Are you sure you want to delete this item?</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" onclick="confirmDelete('@item.Id', false)">No</button>
-                                                    @using (Html.BeginForm("DeleteDistributor", "Distributor", new { DistributorId = item.Id }, FormMethod.Post))
-                                                    {
-                                                        <button type="submit" class="btn btn-danger">Yes</button>
-                                                    }
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </td>
-
-                                <td>
-                                    <a href="@Url.Action("DistributorDetailsBYId", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:green;">
-                                        <i class="material-icons">info</i>
-                                    </a>
-                                </td>
-                            
+                            <img src="@item.Image" alt="ProfileImage" class="no-image " id="presignedurl" />
                         }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="14" style="color: red; font-weight: bold; font-size: 18px; text-align: center;">No data found</td>
-                        </tr>
-
-                    }
-                </tbody>
-            </table>
-        </div>
+                        else
+                        {
+                            <!-- Display a default "no image" placeholder -->
+                            <img class="no-image " src="~/image/no-image-placeholder.svg" alt="No Image">
+                        }
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Latitude)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Longitude)</td>
+                    <!---------------------------------------------------EDIT ACTION LINK------------------------------------------------------------->
+                    <td>
+                        <a href="@Url.Action("EditDistributor", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:orange;">
+                            <i class="material-icons">edit</i>
+                        </a>
+                    </td>
+                    <!-----------------------------------------------------DELETE POPUP-------------------------------------------------------------------->
+                    <td>
+                        <!-- Delete Icon -->
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                            <i onclick="confirmDelete('@item.Id', true)" class="material-icons" style="color: red;cursor: pointer;">delete</i>
+                        </div>
+                        <!-- Delete Confirmation Modal -->
+                        <div id="deleteConfirmationModal_@item.Id" class="modal" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Delete Confirmation</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to delete this item?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" onclick="confirmDelete('@item.Id', false)">No</button>
+                                        @using (Html.BeginForm("DeleteDistributor", "Distributor", new { DistributorId = item.Id }, FormMethod.Post))
+                                        {
+                                            <button type="submit" class="btn btn-danger">Yes</button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("DistributorDetailsBYId", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:green;">
+                            <i class="material-icons">info</i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 @*    </div>*@
-
-    <!-------------------------------------------------------------Pagination------------------------------------------------------------------->
-    @*<div class="text-center">
+<!-------------------------------------------------------------Pagination------------------------------------------------------------------->
+@*<div class="text-center">
         @if (ViewBag.Pages != null && ViewBag.Pages.TotalPages > 0)
         {
             <b>Page @ViewBag.Pages.CurrentPage of @ViewBag.Pages.TotalPages</b>
@@ -207,60 +178,55 @@
             </div>
         }
     </div>*@
-
-    <!---------------------------------------------------------AJAX CODE FOR CITY CHANGE AND AREA-------------------------------------------------->
-    <script src="~/js/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript">
-        function statechange() {
-            var stid = $('#state').val();
-            if (stid.trim() != '') {
-                var ddlcity = $('#city');
-                var ddlarea = $('#area');
-                ddlcity.empty();
-                ddlarea.empty();
-
-                $.ajax({
-                    url: "/Distributor/GetCitiesbyStateId",
-                    type: 'GET',
-                    dataType: 'json',
-                    data: { stateId: stid },
-                    success: function (d) {
-                        ddlcity.append($("<option></option>").val('').html('-SelectCity-'));
-                        $.each(d, function (i, cities) {
-                            ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
-                        });
-                    },
-                    error: function () {
-                        alert('Error!');
-                    }
-                });
-            }
+<!---------------------------------------------------------AJAX CODE FOR CITY CHANGE AND AREA-------------------------------------------------->
+<script src="~/js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    function statechange() {
+        var stid = $('#state').val();
+        if (stid.trim() != '') {
+            var ddlcity = $('#city');
+            var ddlarea = $('#area');
+            ddlcity.empty();
+            ddlarea.empty();
+            $.ajax({
+                url: "/Distributor/GetCitiesbyStateId",
+                type: 'GET',
+                dataType: 'json',
+                data: { stateId: stid },
+                success: function (d) {
+                    ddlcity.append($("<option></option>").val('').html('-SelectCity-'));
+                    $.each(d, function (i, cities) {
+                        ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
+                    });
+                },
+                error: function () {
+                    alert('Error!');
+                }
+            });
         }
-
-        function citychange() {
-            var cityid = $('#city').val();
-            if (cityid.trim() != '') {
-                var ddlarea = $('#area');
-                ddlarea.empty();
-
-                $.ajax({
-                    url: "/Distributor/GetAreasByCityId",
-                    type: 'GET',
-                    dataType: 'json',
-                    data: { cityId: cityid },
-                    success: function (d) {
-                        ddlarea.append($("<option></option>").val('').html('-SelectArea-'));
-                        $.each(d, function (i, areas) {
-                            ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
-                        });
-                    },
-                    error: function () {
-                        alert('Error!');
-                    }
-                });
-            }
+    }
+    function citychange() {
+        +
+                    var cityid = $('#city').val();
+        if (cityid.trim() != '') {
+            var ddlarea = $('#area');
+            ddlarea.empty();
+            $.ajax({
+                url: "/Distributor/GetAreasByCityId",
+                type: 'GET',
+                dataType: 'json',
+                data: { cityId: cityid },
+                success: function (d) {
+                    ddlarea.append($("<option></option>").val('').html('-SelectArea-'));
+                    $.each(d, function (i, areas) {
+                        ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
+                    });
+                },
+                error: function () {
+                    alert('Error!');
+                    10: 48
+                }
+            });
         }
-    </script>
-
-
-
+    }
+</script>

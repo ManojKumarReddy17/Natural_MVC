@@ -25,7 +25,31 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
-    
+    <style>
+        .truncate {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100px;
+        }
+
+        .align-left {
+            margin-left: 30px;
+            margin-right: auto;
+            
+        }
+
+        .table-responsive {
+            overflow-x:auto;
+            
+        }
+    </style>
+
+
+
+
+
+
     
 
     <script type="text/javascript">//-------------SCRIPT FOR DELETE POPUP------------//
@@ -163,9 +187,10 @@
 
 
     <div class="table-responsive" >
-        <div class="container my-4">
 
-        <table class="table table-bordered table-striped custom-table" id="Executivelist">
+        
+            <table class="table table-bordered table-striped custom-table align-left" id="Executivelist">
+            
             <thead>
                 <tr>
                     <th>FirstName</th>
@@ -175,6 +200,7 @@
                     <th>State</th>
                     <th>City</th>
                     <th>Area</th>
+                   
                     <th>ProfileImage</th>
                     <th>Latitude</th>
                     <th>Longitude</th>

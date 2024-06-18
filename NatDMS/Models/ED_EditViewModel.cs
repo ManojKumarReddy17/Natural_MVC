@@ -62,17 +62,6 @@ namespace NatDMS.Models
         public List<AreaModel> AreaList { get; set; }
         public string Image { get; set; }
 
-
-
-
-
-
-
-
-
-
-
-
         public string Latitude { get; set; }
         public string Longitude { get; set; }
         public List<string> Area { get; set; }

@@ -22,7 +22,17 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 100px; 
+            max-width: 100px;
+        }
+
+        .align-left {
+            margin-left: 0;
+            margin-right: auto;
+            width: 150%;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
         }
     </style>
 
@@ -98,7 +108,8 @@
 
     <!-----------------------------------------------SEARCH RETAILOR----------------------------------------------------->
 
-    <div class="container my-4" style="overflow-x:hidden;">
+
+    <div class="container my-4">
         @using (Html.BeginForm(FormMethod.Post, new { id = "SearchResultmodel" }))
         {
             <div class="row">
@@ -164,7 +175,7 @@
 
         <div class="table-responsive">
 
-            <table class="table table-bordered table-striped custom-table" id="Retailorlist">
+            <table class="table table-bordered table-striped custom-table align-left" id="Retailorlist">
                 <thead>
                     <tr>
                         <th>RetailerName</th>
