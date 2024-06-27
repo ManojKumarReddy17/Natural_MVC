@@ -1,5 +1,6 @@
 ﻿using Natural.Core.IServices;
 using Natural.Core.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,12 +33,18 @@ namespace Naturals.Service.Service
             var result = await _httpClient.PostAsync<AreaModel>("/Area", area);
             return result;
         }
-                                                                            
-        public async Task<List<AreaModel>> GetAreas()
+
+        public async Task<PaginatioResult<AreaModel>> GetAreas(int page)
         {
-            var result = await _httpClient.GetAsync<List<AreaModel>>("/Area");
+
+            var result = await _httpClient.GetAsync<PaginatioResult<AreaModel>>($"/Area?page={page}");
+
+
             return result;
         }
+        
+
+
         public async Task<List<AreaModel>> SearchArea(SearchModel searcharea)
         {
             var SearchedResult = await _httpClient.PostAsync<List<AreaModel>>("/Area/Search", searcharea);

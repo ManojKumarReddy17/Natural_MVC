@@ -21,6 +21,9 @@ namespace Natural.Core.Models
         
         public List<CityModel> CityList { get; set; }
         public List<StateModel> StateList{ get; set; }
+        public int TotalItems { set; get; }
+        public int TotalPageCount { set; get; }
+        public List<AreaModel> AreaList { get; set; }
       
         
 

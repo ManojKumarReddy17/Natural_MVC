@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "DisplayAreas";
     string defaultStateId = "stn1";
+    string cityId = "ctn1";
 }
 <h1>DisplayAreas</h1>
 <head>
@@ -22,7 +23,6 @@
     </div>
 </p>
 <div class="row">
-  
     <div class="col-md-2">
         <div class="form-group">
             <b>
@@ -39,7 +39,6 @@
                 @Html.LabelFor(model => model.City)
                 @Html.DropDownListFor(model => model.City, new SelectList(Model.CityList, "Id", "CityName"),
                 "--Select City--", new { @id = "city", @class = "form-select", onchange = "citychange()" })
-
                 @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
             </b>
         </div>
@@ -51,25 +50,24 @@
             <th>
                 Area
             </th>
-
             <th>
                 Edit
             </th>
-
             <th>
                 Delete
             </th>
-            <th></th>
-            <th></th> <!-- Add a column for delete button -->
         </tr>
     </thead>
-
-    
     <tbody id="areaTableBody">
         <!-- Area rows will be dynamically added here -->
-
     </tbody>
 </table>
+<!-- Pagination Controls -->
+<div class="d-flex justify-content-between">
+    <button id="prevPage" class="btn btn-primary" onclick="changePage(-1)">Previous</button>
+    <span id="currentPage">1</span>
+    <button id="nextPage" class="btn btn-primary" onclick="changePage(1)">Next</button>
+</div>
 <!-- Bootstrap Modal for Delete Confirmation -->
 <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -90,53 +88,58 @@
         </div>
     </div>
 </div>
-   
+
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   
-    <script type="text/javascript">
+<script type="text/javascript">
+    var currentPage = 1;
+    var totalPageCount = 0;
+    
     $(document).ready(function () {
         // Set default state and city IDs
         var defaultStateId = '@defaultStateId';
-
+        var cityId = '@cityId';
         // Set default values in dropdowns
         $('#state').val(defaultStateId);
-       
-
+        $('#city').val(cityId);
         // Trigger state and city change
         statechange();
         citychange();
-    });
-        function statechange() {
-            var stid = $('#state').val();
-            if (stid.trim() != '') {
-                var ddlcity = $('#city');
-                ddlcity.empty();
 
-                $.ajax(
-                    {
-                        url: '/Area/GetCitiesByStateId',
-                        type: 'GET',
-                        dataType: 'json',
-                        data: { stateId: stid },
-                        success: function (d) {
-                            ddlcity.append($("<option></option>").val('').html('-SelectCity-'));
-                            $.each(d, function (i, cities) {
-                                ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
-                            });
-                        },
-                        error: function () {
-                            alert('Error!');
-                        }
-                    });
-            }
+    });
+    function statechange() {
+        var stid = $('#state').val();
+        if (stid.trim() != '') {
+            var ddlcity = $('#city');
+            ddlcity.empty();
+            $.ajax(
+                {
+                    url: '/Area/GetCitiesByStateId',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { stateId: stid },
+                    success: function (d) {
+                        ddlcity.append($("<option></option>").val('').html('-SelectCity-'));
+                        $.each(d, function (i, cities) {
+                            ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
+                        });
+                    },
+                    error: function () {
+                        alert('Error!');
+                    }
+                });
         }
+    }
     function citychange() {
         var cityId = $('#city').val();
         console.log('CityId:', cityId); // Add log
-
         if (cityId !== '') {
-            $.getJSON('/Area/GetAreasByCityId', { CityId: cityId }, function (areas) {
+            currentPage = 1;
+            $('#currentPage').text(currentPage); // Update displayed page number
+            
+            loadAreas(currentPage);
+
+            $.getJSON('/Area/GetAreasByCityId1', { CityId: cityId }, function (areas) {
                 var areaTableBody = $('#areaTableBody');
                 areaTableBody.empty();
                 console.log('Areas:', areas); // Add log
@@ -152,20 +155,62 @@
             });
         } else {
             $('#areaTableBody').empty();
+            updatePaginationControls(0);
         }
     }
-    function openDeleteConfirmationModal(id) {
-      
-        $('#confirmDeleteBtn').data('area-id', id);
+    
+    
+        function changePage(increment) {
+            var newPage=currentPage+increment;
+            if (newPage>=1 && newPage <=totalPageCount ) {
+                currentPage = newPage;
+            
+        $('#currentPage').text(currentPage);
+        loadAreas(currentPage);
+            }
        
-        $('#deleteConfirmationModal').modal('show');
+    }
+   
+    function loadAreas(page) {
+        var cityId = $('#city').val();
+        var url, ParamData;
+        //var pageSize=10;
+         $.getJSON('/Area/DisplayAreas1', { page: page, cityId: cityId }, function (areas) {
+            var areaTableBody = $('#areaTableBody');
+            areaTableBody.empty();
+            console.log('Areas:', areas); // Add log
+            var areaList = areas.areaList;
+            totalPageCount=areas.totalPageCount;
+            
+            $.each(areaList, function (index, area) {
+                
+                areaTableBody.append('<tr>' +
+                    '<td>' + area.areaName + '</td>' +
+                    '<td><a href="/Area/EditArea/' + area.id + '" class="btn btn-primary">Edit</a></td>' +
+                    '<td><button onclick="openDeleteConfirmationModal(\'' + area.id + '\')" class="btn btn-danger">Delete</button></td>' +
+                    '</tr>');
+                
+            });
+            updatePaginationControls();
+        });
+
+
+    }
+    function updatePaginationControls() {
+        $('#prevPage').prop('disabled', currentPage <= 1);
+        $('#nextPage').prop('disabled', currentPage >= totalPageCount);
     }
 
+
+    function openDeleteConfirmationModal(id) {
+        $('#confirmDeleteBtn').data('area-id', id);
+        $('#deleteConfirmationModal').modal('show');
+    }
     $(document).ready(function () {
         // Handle click event on the delete confirmation button
         $('#confirmDeleteBtn').click(function () {
             // Retrieve the city ID from the data attribute
-            var id = $(this).data('area-id'); 
+            var id = $(this).data('area-id');
             // Implement your delete logic here, for example:
             $.ajax({
                 url: '/Area/DeleteAreas/' + id, // Check this URL
@@ -186,7 +231,5 @@
             });
         });
     });
-        </script>
-    
-       
+</script>
 

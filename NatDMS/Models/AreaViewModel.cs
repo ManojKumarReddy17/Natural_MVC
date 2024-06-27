@@ -14,14 +14,17 @@ namespace NatDMS.Models
         public string Area { get; set; }
         public string City { get; set; }
         public string State { get; set; }
+        public int TotelItems { get; set; }
+        public int TotalPageCount { get; set; }
 
         public string CityId { get; set; }
         public string StateId { get; set; }
         public List<CityModel> CityList { get; set; }
         public List<AreaModel> AreaList { get; set; }
         public List<StateModel> StateList { get; set;}
+        //public List<AreaCUmodel> AreaList { get; set; }
 
-     
+
 
     }
 }
