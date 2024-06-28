@@ -157,29 +157,31 @@ namespace NatDMS.Controllers
 
         }
         [HttpPost]
-        //public async Task<ActionResult> EditArea(string Id, AreaDisplayModel areadisplaymodel)
-        //{
-        //    if (areadisplaymodel.Id != null && areadisplaymodel.AreaName != null)
-        //    {
-        //        var value = await _areaService.GetAreas(1);
-        //        var cityid = value.Where(x => x.Id == areadisplaymodel.Id).Select(x => x.CityId).FirstOrDefault();
-        //        areadisplaymodel.CityId = cityid;
-
-        //        var area = _mapper.Map<AreaDisplayModel, AreaModel>(areadisplaymodel);
-        //        var result = await _areaService.EditArea(Id, area);
-
-        //        return RedirectToAction("DisplayAreas", "Area", new { id = result.CityId });
+        public async Task<ActionResult> EditArea(string Id, AreaDisplayModel areadisplaymodel)
+        {
+            if (areadisplaymodel.Id != null && areadisplaymodel.AreaName != null)
+            {
+                int page = 0;
+                var value = await _areaService.GetAreas(page);
                
+                var cityid = value.Items.Where(x => x.Id == areadisplaymodel.Id).Select(x => x.CityId).FirstOrDefault();
+                areadisplaymodel.CityId = cityid;
+
+                var area = _mapper.Map<AreaDisplayModel, AreaModel>(areadisplaymodel);
+                var result = await _areaService.EditArea(Id, area);
+
+                return RedirectToAction("DisplayAreas", "Area", new { id = result.CityId });
 
 
-        //    }
-        //    else
-        //    {
-               
-        //        ModelState.AddModelError(String.Empty, "Entered Invalid credentials, Please Re Enter the Credentials");
-        //        return View(areadisplaymodel);
-        //    }
-        //}
+
+            }
+            else
+            {
+
+                ModelState.AddModelError(String.Empty, "Entered Invalid credentials, Please Re Enter the Credentials");
+                return View(areadisplaymodel);
+            }
+        }
         [HttpDelete]
         public async Task<IActionResult> DeleteAreas(string Id)
         {

@@ -126,7 +126,8 @@ namespace NatDMS.Controllers
 
             viewModel.States = await _unifiedservice.GetStates();
             viewModel.Cities = await _unifiedservice.GetCitiesbyStateId(retailorDetails.StateId);
-            viewModel.Areas = await _unifiedservice.GetAreasByCityId(retailorDetails.CityId);
+            var area = await _unifiedservice.GetAreasByCityId(retailorDetails.CityId);
+            viewModel.Areas = area.Items;
             return View(viewModel);
         }
 
@@ -150,7 +151,8 @@ namespace NatDMS.Controllers
             {
                 viewModel.States = await _unifiedservice.GetStates();
                 viewModel.Cities = await _unifiedservice.GetCitiesbyStateId(viewModel.StateId);
-                viewModel.Areas = await _unifiedservice.GetAreasByCityId(viewModel.CityId);
+                var area = await _unifiedservice.GetAreasByCityId(viewModel.CityId);
+                viewModel.Areas = area.Items;
 
                 return View(viewModel);
             }

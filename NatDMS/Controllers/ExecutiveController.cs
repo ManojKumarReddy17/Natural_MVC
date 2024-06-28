@@ -150,7 +150,8 @@ namespace NatDMS.Controllers
             viewModel.Area = executive.Area;
             viewModel.StateList = await _unifiedservice.GetStates();
             viewModel.CityList = await _unifiedservice.GetCitiesbyStateId(executive.StateId);
-            viewModel.AreaList = await _unifiedservice.GetAreasByCityId(executive.CityId);
+            var area = await _unifiedservice.GetAreasByCityId(executive.CityId);
+            viewModel.AreaList = area.Items;
             return View(viewModel);
         }
         /// <summary>
@@ -187,7 +188,8 @@ namespace NatDMS.Controllers
             {
                 viewModel.StateList = await _unifiedservice.GetStates();
                 viewModel.CityList = await _unifiedservice.GetCitiesbyStateId(viewModel.StateId);
-                viewModel.AreaList = await _unifiedservice.GetAreasByCityId(viewModel.CityId);
+                var area = await _unifiedservice.GetAreasByCityId(viewModel.CityId);
+                viewModel.AreaList = area.Items;
                 return View(viewModel);
             }
         }
