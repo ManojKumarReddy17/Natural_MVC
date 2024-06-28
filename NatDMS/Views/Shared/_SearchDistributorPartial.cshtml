@@ -110,7 +110,7 @@
                     <td>
                         @if (!string.IsNullOrEmpty(@item.Image))
                         {
-<<<<<<< Updated upstream
+@*<<<<<<< Updated upstream*@
                             <img src="@item.Image" alt="ProfileImage" class="no-image " id="presignedurl" />
                         }
                         else
@@ -167,8 +167,9 @@
         </tbody>
     </table>
 </div>
-=======
-                            
+                         @foreach(var item in Model.DistributorList)
+
+                            {
                                 <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
                                 <td>@Html.DisplayFor(modelItem => item.LastName)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Email)</td>
@@ -251,7 +252,7 @@
                 </tbody>
             </table>
         </div>
->>>>>>> Stashed changes
+@*>>>>>>> Stashed changes*@
 @*    </div>*@
 <!-------------------------------------------------------------Pagination------------------------------------------------------------------->
 @*<div class="text-center">
@@ -322,7 +323,7 @@
                 }
             });
         }
-<<<<<<< Updated upstream
+@*<<<<<<< Updated upstream*@
     }
 </script>
 =======
@@ -330,4 +331,4 @@
 
 
 }
->>>>>>> Stashed changes
+@*>>>>>>> Stashed changes*@

@@ -31,9 +31,9 @@ namespace Naturals.Service.Service
             return await _httpClientWrapper.GetByIdAsync<List<CityModel>>("/City?StateId=", stateId);
         }
 
-        public async Task<List<AreaModel>> GetAreasByCityId(string cityId)
+        public async Task<PaginatioResult<AreaModel>> GetAreasByCityId(string cityId)
         {
-            return await _httpClientWrapper.GetByIdAsync<List<AreaModel>>("/Area?CityId=", cityId);
+            return await _httpClientWrapper.GetByIdAsync<PaginatioResult<AreaModel>>("/Area?CityId=", cityId);
         }
         public async Task<PaginatioResult<AreaModel>> GetAreasByCityId1(string cityId, int page =1)
         {

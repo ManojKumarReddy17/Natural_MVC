@@ -15,7 +15,7 @@ namespace NatDMS.Models
        
         public List<CityModel> CityList { get; set; }
         public List<StateModel> StateList { get; set; }
-       
+       public List<AreaModel> AreaList { get; set; }
 
        
 

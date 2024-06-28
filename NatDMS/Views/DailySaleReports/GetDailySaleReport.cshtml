@@ -120,8 +120,7 @@
                     });
             }
         }
-        // function citychange() {
-        //     var cityid = $('#city').val();
+
         function citychange() {
             var defaultCityId = '@defaultCityId';
             var cityid = $('#city').val() == null ? defaultCityId : $('#city').val();
@@ -137,7 +136,7 @@
                         data: { cityId: cityid },
                         success: function (d) {
                             ddlarea.append($("<option></option>").val('').html('-SelectArea-'));
-                            $.each(d, function (i, areas) {
+                            $.each(d.items, function (i, areas) {
                                 ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
                             });
                         },
@@ -147,37 +146,6 @@
                     });
             }
         }
-
-
-        // function areachange() {
-        //     var areaId = $('#area').val();
-        //     if (areaId.trim() != '') {
-        //         var ddlRetailor = $('#retailor');
-        //         ddlRetailor.empty();
-
-        //         $.ajax({
-        //             url: "/DailySaleReports/GetretailorByArea",
-        //             type: 'GET',
-        //             dataType: 'json',
-        //             data: { areaId: areaId },
-        //             success: function (d) {
-        //                 ddlRetailor.append($("<option></option>").val('').html('-SelectRetailor-'));
-        //                 $.each(d, function (i, retailor) {
-        //                     ddlRetailor.append($("<option>" + retailor.retailor + "</option>").val(retailor.id).html(retailor.name));
-        //                 });
-
-        //                 var selectedAreaName = $('#area option:selected').text();
-        //                 $('#areaInput').val(selectedAreaName);
-
-
-        //                 $('#area').hide().show();
-        //             },
-        //             error: function (error) {
-        //                 alert('Error ' + error.message);
-        //             }
-        //         });
-        //     }
-        // }
 
         function areachange() {
             var areaId = $('#area').val();
