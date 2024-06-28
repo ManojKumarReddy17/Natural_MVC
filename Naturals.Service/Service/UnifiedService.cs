@@ -35,7 +35,20 @@ namespace Naturals.Service.Service
         {
             return await _httpClientWrapper.GetByIdAsync<List<AreaModel>>("/Area?CityId=", cityId);
         }
+        public async Task<PaginatioResult<AreaModel>> GetAreasByCityId1(string cityId, int page =1)
+        {
+            var areas = await _httpClientWrapper.GetAsync<PaginatioResult<AreaModel>>($"/Area?CityId={cityId}&page={page}");
 
+            var result = new PaginatioResult<AreaModel>
+            {
+                Items = areas.Items,
+                TotalItems = areas.TotalItems,
+                TotalPageCount = areas.TotalPageCount
+                //TotalPageCount = 1 // Assuming all items fit in one page since no pagination info is available
+            };
+
+            return result;
+        }
 
     }
 
