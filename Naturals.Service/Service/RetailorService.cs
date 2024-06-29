@@ -18,6 +18,21 @@ namespace Naturals.Service.Service
         /// <summary>
         /// GET ALL RETAILORS
         /// </summary>
+        //public async Task<PaginationResult<RetailorModel>> GetAllRetailors1(int page)
+        //{
+        //    var getretailor = await _HttpCleintWrapper.GetAsync<PaginationResult<RetailorModel>>($"/Retailor?page={page}");
+        //    return getretailor;
+
+        //}
+
+
+        public async Task<PaginationResult<RetailorModel>> GetAllRetailors1(int page, int pageSize = 10)
+        {
+            var getRetailor = await _HttpCleintWrapper.GetAsync<PaginationResult<RetailorModel>>($"/Retailor?page={page}&pageSize={pageSize}");
+            return getRetailor;
+        }
+
+
         public async Task<List<RetailorModel>> GetAllRetailors()
         {
             var getretailor = await _HttpCleintWrapper.GetAsync<List<RetailorModel>>("/Retailor/");
@@ -182,11 +197,14 @@ namespace Naturals.Service.Service
             }
         }
 
-        public async Task<List<RetailorModel>> SearchRetailor(SearchModel searchretailor, bool? NonAssign)
+        public async Task<PaginationResult<RetailorModel>> SearchRetailor(SearchModel searchretailor, bool? NonAssign)
         {
-            var SearchedResult = await _HttpCleintWrapper.SearchAsync<List<RetailorModel>>("/Retailor?", searchretailor, NonAssign);
+            var SearchedResult = await _HttpCleintWrapper.SearchAsync<PaginationResult<RetailorModel>>("/Retailor?", searchretailor, NonAssign);
             return SearchedResult;
         }
+
+
+
     }
 
 

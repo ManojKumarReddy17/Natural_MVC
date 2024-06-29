@@ -31,15 +31,15 @@ namespace Naturals.Service.Service
             return await _httpClientWrapper.GetByIdAsync<List<CityModel>>("/City?StateId=", stateId);
         }
 
-        public async Task<PaginatioResult<AreaModel>> GetAreasByCityId(string cityId)
+        public async Task<PaginationResult<AreaModel>> GetAreasByCityId(string cityId)
         {
-            return await _httpClientWrapper.GetByIdAsync<PaginatioResult<AreaModel>>("/Area?CityId=", cityId);
+            return await _httpClientWrapper.GetByIdAsync<PaginationResult<AreaModel>>("/Area?CityId=", cityId);
         }
-        public async Task<PaginatioResult<AreaModel>> GetAreasByCityId1(string cityId, int page =1)
+        public async Task<PaginationResult<AreaModel>> GetAreasByCityId1(string cityId, int page =1)
         {
-            var areas = await _httpClientWrapper.GetAsync<PaginatioResult<AreaModel>>($"/Area?CityId={cityId}&page={page}");
+            var areas = await _httpClientWrapper.GetAsync<PaginationResult<AreaModel>>($"/Area?CityId={cityId}&page={page}");
 
-            var result = new PaginatioResult<AreaModel>
+            var result = new PaginationResult<AreaModel>
             {
                 Items = areas.Items,
                 TotalItems = areas.TotalItems,

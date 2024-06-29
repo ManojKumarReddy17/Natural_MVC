@@ -34,10 +34,10 @@ namespace Naturals.Service.Service
             return result;
         }
 
-        public async Task<PaginatioResult<AreaModel>> GetAreas(int page)
+        public async Task<PaginationResult<AreaModel>> GetAreas(int page)
         {
 
-            var result = await _httpClient.GetAsync<PaginatioResult<AreaModel>>($"/Area?page={page}");
+            var result = await _httpClient.GetAsync<PaginationResult<AreaModel>>($"/Area?page={page}");
 
 
             return result;

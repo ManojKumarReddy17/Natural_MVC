@@ -17,6 +17,7 @@ namespace NatDMS.Controllers
         private readonly IUnifiedService _unifiedservice;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
+        
         public RetailorController(IRetailorService retailorservice, IMapper mapper, IUnifiedService unifiedservice, IConfiguration configuration)
 
         {
@@ -29,26 +30,40 @@ namespace NatDMS.Controllers
         /// <summary>
         /// DISPLAYING LIST OF ALL RETAILORS 
         /// </summary>     
+
+
+      
+
         public async Task<ActionResult<List<RetailorModel>>> DisplayRetailors(int page = 1)
         {
-            var retailorResult = await _retailorservice.GetAllRetailors();
-            var retailorPgn = new PageNation<RetailorModel>(retailorResult, _configuration, page);
+            const int pageSize = 10;
 
-            var paginatedData = retailorPgn.GetPaginatedData(retailorResult);
-
-
-            ViewBag.Pages = retailorPgn;
-
+            var retailorResult = await _retailorservice.GetAllRetailors1(page, pageSize);
             var statesResult = await _unifiedservice.GetStates();
+
+            int totalItems = retailorResult.TotalItems;
+            int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            int currentPage = page;
 
             var viewModel = new EDR_DisplayViewModel
             {
-                RetailorList = paginatedData,
-                StateList = statesResult
+                RetailorList = retailorResult.Items,
+                StateList = statesResult,
+                CurrentPage = currentPage,
+                TotalPageCount = totalPages
             };
 
             return View(viewModel);
         }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -173,20 +188,72 @@ namespace NatDMS.Controllers
         /// </summary>
 
         [HttpPost]
-        public async Task<ActionResult<EDR_DisplayViewModel>> SearchRetailor(EDR_DisplayViewModel SearchResultmodel, bool? NonAssign)
+        public async Task<ActionResult<EDR_DisplayViewModel>> SearchRetailor(EDR_DisplayViewModel searchResultModel, bool? NonAssign, int page = 1)
         {
-            var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
-            var SearchResult = await _retailorservice.SearchRetailor(search, NonAssign);
+            const int pageSize = 10;
+
+            var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(searchResultModel);
+
+            var searchResult = await _retailorservice.SearchRetailor(search, NonAssign);
             var statesResult = await _unifiedservice.GetStates();
+
+            if (searchResult == null || searchResult.Items == null)
+            {
+                // Handle the case where searchResult or searchResult.Items is null
+                return PartialView("_SearchRetailorPartial", new List<RetailorModel>());//public List<RetailorModel> RetailorList { get; set; }
+            }
+
+            int totalItems = searchResult.Items.Count;
+            int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            var paginatedItems = searchResult.Items.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
             var viewModel = new EDR_DisplayViewModel
             {
-                RetailorList = SearchResult,
+                RetailorList = paginatedItems,
                 StateList = statesResult,
+                CurrentPage = page,
+                TotalPageCount = totalPages
             };
 
             return PartialView("_SearchRetailorPartial", viewModel);
         }
+
+
+
+        //public async Task<ActionResult<EDR_DisplayViewModel>> SearchRetailor(EDR_DisplayViewModel searchResultModel, bool? NonAssign, int page = 1)
+        //{
+        //    const int pageSize = 10;
+
+        //    var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(searchResultModel);
+
+        //    var searchResult = await _retailorservice.SearchRetailor(search, NonAssign);
+        //    var statesResult = await _unifiedservice.GetStates();
+
+        //    int totalItems = searchResult.Count;
+        //    int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+        //    var paginatedItems = searchResult.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+        //    var viewModel = new EDR_DisplayViewModel
+        //    {
+        //        RetailorList = paginatedItems,
+        //        StateList = statesResult,
+        //        CurrentPage = page,
+        //        TotalPageCount = totalPages
+        //    };
+
+        //    return PartialView("_SearchRetailorPartial", searchResult.Items);
+        //}
+
+
+
+
+
+
+
+
+
+
+
     }
 }
      

@@ -53,7 +53,7 @@ namespace NatDMS.Controllers
         {
             var Searchmodel = _Mapper.Map<SearchProduct, ProductSearch>(search);
             var getproduct = await _ProductService.SearchProduct(Searchmodel);
-            var SearchResult = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+            var SearchResult = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct.Items);
 
             var category1 = await _CategoryService.GetCategories();
             DisplayProduct_View viewmodel1 = new DisplayProduct_View

@@ -30,6 +30,14 @@ namespace NatDMS.Models
         public IFormFile ProfileImage { get; set; }
         public List<ED_CreateViewModel> ExecutiveList { get; set; }
 
+        public int CurrentPage { get; set; }
+        public int TotalPageCount {  get; set; }
+
+
+        public int TotalPages { get; set; }
+        public int TotalItems { get; set; }
+
+
 
     }
 }

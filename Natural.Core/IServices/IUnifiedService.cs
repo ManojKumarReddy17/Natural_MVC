@@ -12,7 +12,7 @@ namespace Natural.Core.IServices
         Task<List<StateModel>> GetStates();
         Task<List<CityModel>> GetCities();
         Task<List<CityModel>> GetCitiesbyStateId(string stateId);
-        Task<PaginatioResult<AreaModel>> GetAreasByCityId1(string cityId, int page=1);
-        Task<PaginatioResult<AreaModel>> GetAreasByCityId(string cityId);
+        Task<PaginationResult<AreaModel>> GetAreasByCityId1(string cityId, int page=1);
+        Task<PaginationResult<AreaModel>> GetAreasByCityId(string cityId);
     }
 }

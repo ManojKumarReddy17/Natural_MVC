@@ -5,11 +5,11 @@ namespace NatDMS.Models
 {
     public class RetailorEditViewModel
     {
-        [Required(ErrorMessage = "Shop Name is required.")]
+        [Required(ErrorMessage = "RetailerName is required.")]
         [StringLength(40, MinimumLength = 3, ErrorMessage = "Shop Name must be between 3 and 40 characters.")]
 
         public string FirstName { get; set; }
-        public string ShopName { get; set; }
+        public string RetailerName { get; set; }
 
        public string LastName { get; set; }
 
