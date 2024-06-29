@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using NatDMS.Models;
 using Natural.Core.IServices;
 using Natural.Core.Models;
-
+using Natural_Core.Models;
 
 namespace NatDMS.Controllers
 {
@@ -26,7 +26,7 @@ namespace NatDMS.Controllers
         }
 
 
-        // GET: ProductController
+        
         [HttpGet]
         public async Task<ActionResult<List<EditProduct>>> DisplayProduct(int page = 1)
         {
@@ -34,7 +34,6 @@ namespace NatDMS.Controllers
             var getproduct = await _ProductService.GetAllProduct();
             var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
 
-            
             var distributorPgn = new PageNation<EditProduct>(viewmodel, _Configuration, page);
 
             var paginatedData = distributorPgn.GetPaginatedData(viewmodel);
@@ -52,6 +51,19 @@ namespace NatDMS.Controllers
 
             return View(viewmodel1);
         }
+        [HttpGet]
+        //public async Task<ActionResult<List<ProductType>>> DisplayProductType()
+        //{
+        //    var getproduct = await _ProductService.GetAllProductType();
+        //    return View(getproduct );
+        //}
+        public async Task<ActionResult<List<ProductType>>> DisplayProductType()
+        {
+            var getproduct = await _ProductService.GetAllProductType();
+            return Json(getproduct);
+        }
+
+
 
         [HttpPost]
         public async Task<ActionResult<List<EditProduct>>> DisplayProduct(SearchProduct search)

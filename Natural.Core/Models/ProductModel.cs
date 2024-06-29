@@ -16,6 +16,7 @@ namespace Natural.Core.Models
         public IFormFile UploadImage { get; set; }
         public int? Quantity { get; set; }
         public decimal? Weight { get; set; }
+        public string ProductType { get; set; }
 
     }
 }

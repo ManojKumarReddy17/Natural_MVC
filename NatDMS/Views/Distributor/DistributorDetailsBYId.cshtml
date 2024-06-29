@@ -89,18 +89,7 @@
                         <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.DistributorDetails.Longitude)</dd>
 
                         <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.DistributorDetails.Image)</dt>
-                       @* <dd class="col-sm-3 text-dark">
-                            @if (!string.IsNullOrEmpty(Model.DistributorDetails.Image))
-                            {
-
-                                <img src="@Model.DistributorDetails.Image" alt="ProfileImage" width="80" height="80" class="img-responsive" id="presignedurl" />
-                            }
-                            else
-                            {
-                                <!-- Display a default "no image" placeholder -->
-                                <img class="card-img-top img-fluid" src="~/image/no-image-placeholder.svg" alt="No Image">
-                            }
-                        </dd>*@
+                     
                         <dd class="col-sm-3 text-dark">
                             @if (!string.IsNullOrEmpty(Model.DistributorDetails.Image))
                             {

@@ -140,6 +140,7 @@
                             <th>Quantity</th>
                             <th>Weight</th>
                             <th>Image</th>
+                            <th>ProductType</th>
                             <th>Edit</th>
                             <th>Delete</th>
                             <th>Details</th>
@@ -169,7 +170,7 @@
 
 
                                     </td>
-
+                                <td>@Html.DisplayFor(modelItem => item.ProductType)</td>
                                     <td>
                                         <a href="@Url.Action("EditProduct", new { id = item.Id })" style="text-decoration: none; display: inline-block; color:orange;">
                                             <i class="material-icons">edit</i>

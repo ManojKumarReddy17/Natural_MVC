@@ -68,10 +68,16 @@
                     <dd class="col-sm-7 bold-text">
                         @Html.DisplayFor(model => model.Weight)
                     </dd>
+                    <dt class="col-sm-5 blue-text">
+                        @Html.DisplayNameFor(model => model.ProductType)
+                    </dt>
+                    <dd class="col-sm-7 bold-text">
+                        @Html.DisplayFor(model => model.ProductType)
+                    </dd>
 
                     <dt class="col-sm-5 blue-text">
                         
-                        <label for="presignedurl-label" class="control-label" id="image" style="font-weight: bold;">  <span>@Model.ProductName</span></label>
+                        <label for="presignedurl-label" class="control-label" id="image" style="font-weight: bold;"> Image</label>
                     </dt>
                     <dd class="col-sm-7 bold-text">
                         @if (!string.IsNullOrEmpty(@Model.Image))
