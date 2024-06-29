@@ -1,4 +1,5 @@
 ﻿using Natural.Core.Models;
+using Natural_Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Natural.Core.IServices
     {
         Task<ProductResponse> CreateProduct(ProductModel mdl);
         Task<List<GetProduct>> GetAllProduct();
+        Task<List<ProductType>> GetAllProductType();
         Task<GetProduct> GetproductDetailsById(string ID);
         Task<GetProduct> GetproductById(string ID);
         Task<bool> DeleteImage(string ProductId);

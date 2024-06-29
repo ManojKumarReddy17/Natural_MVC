@@ -1,4 +1,5 @@
 ﻿using Natural.Core.Models;
+using Natural_Core.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,6 +12,7 @@ namespace NatDMS.Models
     {
         public string Id { get; set; }
         public List<CategoryModel> Categorylist { get; set; }
+        public List<ProductType> productTypesList { get; set; }
         public string Category { get; set; }
         [StringLength(30, ErrorMessage = "Product name must be 30 characters or fewer.")]
         [RegularExpression("^[a-zA-Z ]*$", ErrorMessage = "Product name can only contain letters.")]
@@ -25,6 +27,8 @@ namespace NatDMS.Models
 
         [RegularExpression(@"^\d*\.?\d+$", ErrorMessage = "Numbers and decimals are allowed & Words and special characters are not allowed.")]
         public decimal? Weight { get; set; }
+        public string ProductType { get; set; }
+
 
     }
 }

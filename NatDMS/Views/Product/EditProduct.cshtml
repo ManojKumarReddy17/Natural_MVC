@@ -69,14 +69,17 @@
 
 
 
-
+                <div class="form-group">
+                    <label asp-for="ProductType" class="control-label"></label>
+                    @Html.DropDownListFor(model => model.ProductType, Enumerable.Empty<SelectListItem>(), "-- Select ProductType --", new { @id = "productType", @class = "form-select" })
+                </div>
 
 
 
                 <div class="form-group">
 
 
-                    <label for="presignedurl-label" class="control-label" id="image" style="font-weight: bold;">  <span>@Model.ProductName</span></label>
+                    <label for="presignedurl-label" class="control-label" id="image" style="font-weight: bold;"> Image  </label>
 
 
                     @if (!string.IsNullOrEmpty(@Model.Image))
@@ -301,6 +304,23 @@
                         parts[1] = parts[1].substring(0, 3);
                     }
                     $(this).val(parts.join('.'));
+                });
+            });
+            $(document).ready(function () {
+                $.ajax({
+                    url: '/Product/DisplayProductType',
+                    type: 'GET',
+                    success: function (data) {
+                        var productTypeDropdown = $('#productType');
+                        productTypeDropdown.empty(); // Clear existing options
+                        productTypeDropdown.append('<option value="">-- Select ProductType --</option>');
+                        $.each(data, function (index, productType) {
+                            productTypeDropdown.append('<option value="' + productType.id + '">' + productType.productTypeName + '</option>');
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching product types:', error);
+                    }
                 });
             });
         </script>

@@ -1,6 +1,7 @@
 ﻿
 using Natural.Core.IServices;
 using Natural.Core.Models;
+using Natural_Core.Models;
 
 #nullable disable
 namespace Naturals.Service.Service
@@ -22,6 +23,12 @@ namespace Naturals.Service.Service
             var getproduct = await _httpClient.GetAsync<List<GetProduct>>("/Product/");
             return getproduct;
         }
+        public async Task<List<ProductType>> GetAllProductType()
+        {
+            var getproduct = await _httpClient.GetAsync<List<ProductType>>("/Product/GetAllPrtoductType");
+            return getproduct;
+        }
+
 
 
         public async Task<GetProduct> GetproductDetailsById(string ID)
@@ -62,6 +69,7 @@ namespace Naturals.Service.Service
                     formData.Add(new StringContent(mdl.ProductName), "ProductName");
                     formData.Add(new StringContent(mdl.Quantity.ToString()), "Quantity");
                     formData.Add(new StringContent(mdl.Weight.ToString()), "Weight");
+                    formData.Add(new StringContent(mdl.ProductType.ToString()), "ProductType");
                     formData.Add(new StringContent(mdl.Price.ToString()), "Price");
                     formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.UploadImage.FileName);
 
@@ -81,6 +89,7 @@ namespace Naturals.Service.Service
                     formData.Add(new StringContent(mdl.ProductName), "ProductName");
                     formData.Add(new StringContent(mdl.Quantity.ToString()), "Quantity");
                     formData.Add(new StringContent(mdl.Weight.ToString()), "Weight");
+                    formData.Add(new StringContent(mdl.ProductType.ToString()), "ProductType");
                     formData.Add(new StringContent(mdl.Price.ToString()), "Price");
 
                     
@@ -114,6 +123,7 @@ namespace Naturals.Service.Service
                     formData.Add(new StringContent(mdl.Quantity.ToString()), "Quantity");
                     formData.Add(new StringContent(mdl.Weight.ToString()), "Weight");
                     formData.Add(new StringContent(mdl.Price.ToString()), "Price");
+                    formData.Add(new StringContent(mdl.ProductType.ToString()), "ProductType");
                     formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.UploadImage.FileName);
                     var result = await _httpClient.PutMultipartFormData<ProductResponse>("/Product/", formData);
                     return result;
@@ -129,6 +139,7 @@ namespace Naturals.Service.Service
                     formData.Add(new StringContent(mdl.ProductName), "ProductName");
                     formData.Add(new StringContent(mdl.Quantity.ToString()), "Quantity");
                     formData.Add(new StringContent(mdl.Weight.ToString()), "Weight");
+                    formData.Add(new StringContent(mdl.ProductType.ToString()), "ProductType");
                     formData.Add(new StringContent(mdl.Price.ToString()), "Price");
                     
                     var endpoint = "/Product/";

@@ -55,6 +55,12 @@
                                 <span asp-validation-for="Weight" class="text-danger"></span>
                             </div>
                             <div class="form-group">
+                                <label asp-for="ProductType" class="control-label"></label>
+                                @Html.DropDownListFor(model => model.ProductType, Enumerable.Empty<SelectListItem>(), "-- Select ProductType --", new { @id = "productType", @class = "form-select" })
+                            </div>
+
+
+                            <div class="form-group">
                                 <label asp-for="UploadImage" class="control-label">Choose Image </label>
                                 <input asp-for="UploadImage" class="form-control custom-file-input" type="file" id="fileInput" onchange="return ShowImagePreview(this)">
                                 <span asp-validation-for="UploadImage" class="text-danger"></span>
@@ -165,6 +171,27 @@
                 $(this).val(parts.join('.'));
             });
         });
+        $(document).ready(function () {
+            $.ajax({
+                url: '/Product/DisplayProductType',
+                type: 'GET',
+                success: function (data) {
+                    var productTypeDropdown = $('#productType');
+                    productTypeDropdown.empty(); // Clear existing options
+                    productTypeDropdown.append('<option value="">-- Select ProductType --</option>');
+                    $.each(data, function (index, productType) {
+                        productTypeDropdown.append('<option value="' + productType.id + '">' + productType.productTypeName + '</option>');
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching product types:', error);
+                }
+            });
+        });
+
+
+
+
     </script>
 
 </body>
