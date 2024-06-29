@@ -16,7 +16,24 @@ namespace Naturals.Service.Service
             _httpClient = httpClient;
        
         }
-      
+        public async Task<PaginationResult<GetProduct>> GetAllProduct1(int Page, int pageSize = 10)
+        {
+            var getproduct = await _httpClient.GetAsync<PaginationResult<GetProduct>>($"/Product?page={Page}&pageSize={pageSize}");
+            return getproduct;
+        }
+        //public async Task<PaginationResult<GetProduct>> GetAllProduct1(int page, int pageSize = 10)
+        //{
+        //    var query = $"/Product?page={page}";
+
+        //    if (!string.IsNullOrEmpty(searchTerm))
+        //    {
+        //        query += $"&searchTerm={Uri.EscapeDataString(searchTerm)}";
+        //    }
+
+        //    var getproduct = await _httpClient.GetAsync<PaginationResult<GetProduct>>(query);
+        //    return getproduct;
+        //}
+
 
         public async Task<List<GetProduct>> GetAllProduct()
         {
@@ -183,10 +200,10 @@ namespace Naturals.Service.Service
         }
 
 
-       public async Task<List<GetProduct>> SearchProduct(ProductSearch SearchProduct)
+       public async Task<PaginationResult<GetProduct>> SearchProduct(ProductSearch SearchProduct)
         {
             bool NonAssign = false;
-            var SearchedResult = await _httpClient.SearchAsync<List<GetProduct>>("/Product?", SearchProduct, NonAssign);
+            var SearchedResult = await _httpClient.SearchAsync<PaginationResult<GetProduct>>("/Product?", SearchProduct, NonAssign);
             return SearchedResult;
         }
     }

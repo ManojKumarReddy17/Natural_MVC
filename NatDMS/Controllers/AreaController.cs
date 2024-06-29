@@ -71,7 +71,7 @@ namespace NatDMS.Controllers
 
             //var resultarea = cityId != "" ? await _unifiedService.GetAreasByCityId(cityId) : await _areaService.GetAreas(page);
 
-            PaginatioResult<AreaModel> resultarea;
+            PaginationResult<AreaModel> resultarea;
 
             if (!string.IsNullOrEmpty(cityId))
             {

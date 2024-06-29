@@ -12,6 +12,14 @@ namespace NatDMS.Models
         public string Category { get; set; }
         public List<EditProduct> product { get; set; }
         public string ProductName { get; set; }
+        public int CurrentPage { get; set; }
+        public int TotalPageCount { get; set; }
+
+
+        // public int TotalPages { get; set; }
+        public int TotalItems { get; set; }
+
+
     }
 }
 

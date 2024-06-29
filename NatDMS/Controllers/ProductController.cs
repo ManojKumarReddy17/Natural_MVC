@@ -28,35 +28,38 @@ namespace NatDMS.Controllers
 
         
         [HttpGet]
-        public async Task<ActionResult<List<EditProduct>>> DisplayProduct(int page = 1)
+        public async Task<ActionResult<DisplayProduct_View>> DisplayProduct(int page = 1)
         {
+            const int pageSize = 10; // Adjust this based on your pagination size
 
-            var getproduct = await _ProductService.GetAllProduct();
-            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+            // Get paginated products
+            var productResult = await _ProductService.GetAllProduct1(page);
 
-            var distributorPgn = new PageNation<EditProduct>(viewmodel, _Configuration, page);
+            // Map GetProduct to EditProduct
+            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(productResult.Items);
 
-            var paginatedData = distributorPgn.GetPaginatedData(viewmodel);
-            ViewBag.Pages = distributorPgn;
+            // Calculate pagination details
+            int totalItems = productResult.TotalItems;
+            int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            int currentPage = page;
 
+            // Get categories
+            var categoryResult = await _CategoryService.GetCategories();
 
-            var category1 = await _CategoryService.GetCategories();
-            DisplayProduct_View viewmodel1 = new DisplayProduct_View
+            // Prepare the view model
+            var viewModel = new DisplayProduct_View
             {
-                CategoryList = category1,
-
-                product = paginatedData 
-
+                CategoryList = categoryResult,
+                product = viewmodel, // Use the correct property for the list of products
+                CurrentPage = currentPage,
+                TotalPageCount = totalPages,
+                TotalItems = totalItems
             };
 
-            return View(viewmodel1);
+            return View(viewModel);
         }
+
         [HttpGet]
-        //public async Task<ActionResult<List<ProductType>>> DisplayProductType()
-        //{
-        //    var getproduct = await _ProductService.GetAllProductType();
-        //    return View(getproduct );
-        //}
         public async Task<ActionResult<List<ProductType>>> DisplayProductType()
         {
             var getproduct = await _ProductService.GetAllProductType();
@@ -66,22 +69,36 @@ namespace NatDMS.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<List<EditProduct>>> DisplayProduct(SearchProduct search)
+        public async Task<ActionResult<DisplayProduct_View>> DisplayProduct(SearchProduct search, int page = 1, int pageSize = 10)
         {
-            var Searchmodel = _Mapper.Map<SearchProduct, ProductSearch>(search);
-            var getproduct = await _ProductService.SearchProduct(Searchmodel);
-            var SearchResult = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
-
-            var category1 = await _CategoryService.GetCategories();
-            DisplayProduct_View viewmodel1 = new DisplayProduct_View
+            var searchModel = _Mapper.Map<SearchProduct, ProductSearch>(search);
+            var getProductResult = await _ProductService.SearchProduct(searchModel);
+            var searchResult = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getProductResult.Items);
+            var categoryResult = await _CategoryService.GetCategories();
+            if (searchResult == null)
             {
-                CategoryList = category1,
-                product = SearchResult
-
+                searchResult = new List<EditProduct>();
+            }
+            int totalItems = searchResult.Count;
+            int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            var paginatedItems = searchResult.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            DisplayProduct_View viewModel = new DisplayProduct_View
+            {
+                CategoryList = categoryResult,
+                product = paginatedItems,
+                CurrentPage = page,
+                TotalPageCount = totalPages
             };
-
-            return View(viewmodel1);
+            return View(viewModel);
         }
+
+
+
+
+
+
+
+
 
 
         // GET: ProductController/Details/5

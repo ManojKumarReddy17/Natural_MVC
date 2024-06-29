@@ -7,7 +7,7 @@ namespace NatDMS.Models
     {
         public string Id { get;set; }
         public string FirstName { get; set; }
-        public string ShopName { get; set; }
+        public string RetailerName { get; set; }
         
 
         public string LastName { get; set; }
@@ -15,6 +15,8 @@ namespace NatDMS.Models
         public string Email { get; set; }
         public string MobileNumber { get; set; }
         public string Address { get; set; }
+        public int TotalItems { get; set; }
+        public int TotalPageCount { get; set; }
 
         public string State { get; set; }
 

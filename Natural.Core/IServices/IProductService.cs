@@ -13,12 +13,13 @@ namespace Natural.Core.IServices
         Task<ProductResponse> CreateProduct(ProductModel mdl);
         Task<List<GetProduct>> GetAllProduct();
         Task<List<ProductType>> GetAllProductType();
+        Task<PaginationResult<GetProduct>> GetAllProduct1(int page, int pageSize = 10);
         Task<GetProduct> GetproductDetailsById(string ID);
         Task<GetProduct> GetproductById(string ID);
         Task<bool> DeleteImage(string ProductId);
         Task<bool> DeleteProduct(string ProductId);
         Task<ProductResponse> UpdateProduct(string ProductId, ProductModel mdl);
-        Task<List<GetProduct>> SearchProduct(ProductSearch SearchProduct);
+        Task<PaginationResult<GetProduct>> SearchProduct(ProductSearch SearchProduct);
 
     }
 }

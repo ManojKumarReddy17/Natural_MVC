@@ -11,7 +11,7 @@ namespace Natural.Core.IServices
    public interface IAreaService
     {
 
-        Task<PaginatioResult<AreaModel>> GetAreas(int page);
+        Task<PaginationResult<AreaModel>> GetAreas(int page);
         Task<AreaModel> GetAreaDetailsbyId(string ID);
 
 
