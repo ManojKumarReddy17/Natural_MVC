@@ -11,7 +11,7 @@ namespace Natural.Core.IServices
     public interface IProductService
     {
         Task<ProductResponse> CreateProduct(ProductModel mdl);
-        Task<List<GetProduct>> GetAllProduct();
+        Task<PaginationResult<GetProduct>> GetAllProduct();
         Task<List<ProductType>> GetAllProductType();
         Task<PaginationResult<GetProduct>> GetAllProduct1(int page, int pageSize = 10);
         Task<GetProduct> GetproductDetailsById(string ID);

@@ -35,9 +35,9 @@ namespace Naturals.Service.Service
         //}
 
 
-        public async Task<List<GetProduct>> GetAllProduct()
+        public async Task<PaginationResult<GetProduct>> GetAllProduct()
         {
-            var getproduct = await _httpClient.GetAsync<List<GetProduct>>("/Product/");
+            var getproduct = await _httpClient.GetAsync<PaginationResult<GetProduct>>("/Product/");
             return getproduct;
         }
         public async Task<List<ProductType>> GetAllProductType()

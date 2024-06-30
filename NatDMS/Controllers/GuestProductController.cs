@@ -26,7 +26,7 @@ namespace NatDMS.Controllers
         public async Task<ActionResult<List<EditProduct>>> Index8()
         {
             var getproduct = await _ProductService.GetAllProduct();
-            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct.Items);
 
             return View(viewmodel);
         }
@@ -35,7 +35,8 @@ namespace NatDMS.Controllers
         public async Task<ActionResult<List<EditProduct>>> Index11()
         {
             var getproduct = await _ProductService.GetAllProduct();
-            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct);
+            
+            var viewmodel = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getproduct.Items);
             var category1 = await _CategoryService.GetCategories();
             DisplayProduct_View viewmodel1 = new DisplayProduct_View
             {
