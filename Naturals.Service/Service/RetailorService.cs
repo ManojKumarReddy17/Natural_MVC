@@ -33,9 +33,9 @@ namespace Naturals.Service.Service
         }
 
 
-        public async Task<List<RetailorModel>> GetAllRetailors()
+        public async Task<PaginationResult<RetailorModel>> GetAllRetailors()
         {
-            var getretailor = await _HttpCleintWrapper.GetAsync<List<RetailorModel>>("/Retailor/");
+            var getretailor = await _HttpCleintWrapper.GetAsync< PaginationResult < RetailorModel >> ("/Retailor/");
             return getretailor;
 
         }

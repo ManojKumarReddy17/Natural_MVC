@@ -52,10 +52,10 @@ namespace Naturals.Service.Service
 
         public async Task<DistributorSalesReport> GetDsreport()
         {
-            List<RetailorModel> retailor = await _retailorService.GetAllRetailors();
+            PaginationResult<RetailorModel> retailor = await _retailorService.GetAllRetailors();
 
            
-            List<RetailorByArea> retailorList = retailor.Select(c => new RetailorByArea
+            List<RetailorByArea> retailorList = retailor.Items.Select(c => new RetailorByArea
             {
                 Id = c.Id,
                 Retailor = string.Concat(c.FirstName, " ", c.LastName)

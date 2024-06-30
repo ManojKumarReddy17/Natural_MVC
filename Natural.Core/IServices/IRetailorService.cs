@@ -9,7 +9,7 @@ namespace Natural.Core.IServices
 {
    public interface IRetailorService
     {
-        Task<List<RetailorModel>> GetAllRetailors();
+        Task<PaginationResult<RetailorModel>> GetAllRetailors();
         // Task<PaginationResult<RetailorModel>> GetAllRetailors1(int page);
         Task<PaginationResult<RetailorModel>> GetAllRetailors1(int page, int pageSize = 10);
 
