@@ -17,10 +17,10 @@
     width: 200%;
 }
 
-.back {
+/*.back {
     background-image: url('~/image/about-image.png.png');
     background-size: cover;
-}
+}*/
 
 .custom-navbar {
     background-color: burlywood; /* Set your preferred color */
@@ -69,5 +69,9 @@ th, td {
         color: red;
         cursor: pointer;
     }
+
+
+
+
   
 
