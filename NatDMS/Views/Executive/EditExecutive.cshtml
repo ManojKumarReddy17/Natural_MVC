@@ -12,6 +12,16 @@
 <head>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
+    <style>
+        .scrollable-checkboxes {
+        
+            max-height: 100px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px
+        }
+    </style>
+
 </head>
 
 <body>
@@ -116,16 +126,24 @@
                         @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                     </b>
                 </div>
-
-
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Area)
-
-                        @Html.ListBoxFor(model => model.Area, new MultiSelectList(Model.AreaList, "Id", "AreaName"), new { @id = "area", onchange = "distributorchange()", @class = "form-select" })
+                        <div id="area-container" class="scrollable-checkboxes">
+                            @foreach (var area in Model.AreaList.OrderBy(a => a.AreaName))
+                            {
+                                <div class="form-check">
+                                    <input type="checkbox" id="area_@area.Id" name="Area" value="@area.Id"
+                                    @(Model.Area != null && Model.Area.Contains(area.AreaName.ToString()) ? "checked" : "") />
+                                    <label class="form-check-label" for="area_@area.Id">@area.AreaName</label>
+                                </div>
+                            }
+                        </div>
                         @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
                     </b>
                 </div>
+
+
                  <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Longitude)
