@@ -36,6 +36,7 @@ namespace NatDMS.Models
 
         public int TotalPages { get; set; }
         public int TotalItems { get; set; }
+    
 
 
 
