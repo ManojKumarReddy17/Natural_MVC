@@ -31,10 +31,16 @@ namespace Naturals.Service.Service
             return getdistributor;
 
         }
-
-        public async Task<List<GetExecutive>> GetAllDistributorsAsync()
+        public async Task<PaginationResult<GetExecutive>> GetAllDistributorsAsync(int page)
         {
-            var getexe = await _HttpCleintWrapper.GetAsync<List<GetExecutive>>("/Distributor/");
+            var getexe = await _HttpCleintWrapper.GetAsync<PaginationResult<GetExecutive>>($"/Distributor?page={page}" );
+            return getexe;
+        }
+    
+
+        public async Task<PaginationResult<GetExecutive>> GetAllDistributorsAsync1(int page, int pageSize = 10)
+        {
+            var getexe = await _HttpCleintWrapper.GetAsync<PaginationResult<GetExecutive>>($"/Distributor? page={page}& pageSize={pageSize}");
             return getexe;
         }
 
@@ -45,7 +51,7 @@ namespace Naturals.Service.Service
         public async Task<DistributorModel> GetDistributorDetailsById(string detailsid)
         {
 
-            var DistributorDetails = await _HttpCleintWrapper.GetByIdAsync<DistributorModel>("/Distributor/Details/", detailsid);
+            var DistributorDetails = await _HttpCleintWrapper.GetByIdAsync<DistributorModel>("/Distributor/Details/", detailsid); 
 
             return DistributorDetails;
         }
@@ -194,10 +200,10 @@ namespace Naturals.Service.Service
             }
         }
 
-        public async Task<List<DistributorModel>> SearchDistributor(SearchModel searchdistributor)
+        public async Task<PaginationResult<DistributorModel>> SearchDistributor(SearchModel searchdistributor, bool? NonAssign)
         {
-            bool NonAssign = false;
-            var SearchedResult = await _HttpCleintWrapper.SearchAsync<List<DistributorModel>>("/Distributor?", searchdistributor, NonAssign);
+           // bool NonAssign = false;
+            var SearchedResult = await _HttpCleintWrapper.SearchAsync<PaginationResult<DistributorModel>>("/Distributor?", searchdistributor, NonAssign);
             return SearchedResult;
         }
 
@@ -219,7 +225,7 @@ namespace Naturals.Service.Service
             var SearchedResult = await _HttpCleintWrapper.SearchAsync<List<RetailorModel>>("/Retailor?", searchretailor, nonAssign);
             return SearchedResult;
         }
-
+         
         public async Task<List<RetailorModel>> GetAssignedRetailorByDistributorId(string Disid)
         {
             var result = await _HttpCleintWrapper.GetByIdAsync<List<RetailorModel>>("/AssignRetailorToDistributor/details/",Disid);
@@ -238,6 +244,7 @@ namespace Naturals.Service.Service
             return delete;
         }
 
+        
     }
 }
 

@@ -213,8 +213,7 @@
                             @if (!string.IsNullOrEmpty(@item.Image))
                             {
 
-                            <img src="@item.Image" alt="ProfileImage" class="no-image" id="image" />
-
+                            <img src="@item.Image" alt="ProfileImage" width="90" height="90" class="img-responsive" id="presignedurl" />
                             }
                             else
                             {
@@ -286,8 +285,8 @@
 
     <!-------------------------------------------------------------Pagination------------------------------------------------------------------->
 
-    <div class="text-center">
-        @if (ViewBag.Pages != null && ViewBag.Pages.TotalPages > 0)
+   @*  <div class="text-center">
+        @if (ViewBag.Pages != null && ViewBag.Pages.TotalPages > 1)
         {
             <b>Page @ViewBag.Pages.CurrentPage of @ViewBag.Pages.TotalPages</b>
 
@@ -311,7 +310,35 @@
                 </ul>
             </div>
         }
+    </div> *@
+    <div class="text-center">
+        @if (ViewBag.TotalPages > 1)
+        {
+            <b>Page @ViewBag.CurrentPage of @ViewBag.TotalPages</b>
+
+            <div class="d-flex justify-content-between">
+                <ul class="pagination">
+                    <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="page-link text-black" href="@Url.Action("DisplayDistributors", new { page = ViewBag.CurrentPage - 1 })" style="font-weight: bold; background-color: transparent; border: none;">
+                            <span aria-hidden="true">&laquo;</span>
+                            Previous
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="pagination">
+                    <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                        <a class="page-link text-black" href="@Url.Action("DisplayDistributors", new { page = ViewBag.CurrentPage + 1 })" style="font-weight: bold; background-color: transparent; border: none;">
+                            Next
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        }
     </div>
+
+
     <!---------------------------------------------------------AJAX CODE FOR CITY CHANGE AND AREA-------------------------------------------------->
     <script type="text/javascript">
             $(document).ready(function () {

@@ -80,12 +80,21 @@
                         @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                     </b>
                 </div>
-
+@* 
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Address, new { @class = "control-label" })
                         @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                    </b>
+                </div> *@
+                <div class="form-group emphasized-section">
+                    <b>
+                        @Html.LabelFor(model => model.Address)
+                        @Html.TextAreaFor(model => model.Address, new { @class = "form-control", style = "overflow-y:scroll;",
+                    placeholder = "Enter Address", onfocus = "movePlaceholder(this)", minlength = "40"})
+                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+
                     </b>
                 </div>
 
@@ -165,6 +174,37 @@
         </div>
     </div>
     <script src="~/js/jquery-3.6.0.min.js"></script>
+        <script type="text/javascript">
+        $(document).ready(function () {
+            $('#FirstName, #LastName').on('keypress', function (e) {
+                var keyCode = e.which || e.keyCode;
+                // Allow letters and space only
+                if (!(keyCode >= 65 && keyCode <= 90) && // A-Z
+                    !(keyCode >= 97 && keyCode <= 122) && // a-z
+                    keyCode !== 32) { // Space
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+
+
+       <script type="text/javascript" >
+            $(document).ready(function () {
+                $('#MobileNumber').on('input', function (e) {
+                    var inputValue = $(this).val();
+                    // Allow only numbers
+                    var numericValue = inputValue.replace(/\D/g, '');
+                    // Ensure the length is not more than 10 characters
+                    numericValue = numericValue.substring(0, 10);
+                    // Remove leading zeros
+                    numericValue = numericValue.replace(/^0+/, '');
+                    // Update the input value
+                    $(this).val(numericValue);
+                });
+            });
+    </script>
+
      
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>

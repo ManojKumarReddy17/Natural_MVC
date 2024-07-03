@@ -10,13 +10,15 @@ namespace Natural.Core.IServices
     public interface IDistributorService
     {
         Task<List<DistributorModel>> GetAllDistributors();
-        Task<List<GetExecutive>> GetAllDistributorsAsync();
+        Task<PaginationResult<GetExecutive>> GetAllDistributorsAsync(int page);
+         Task<PaginationResult<GetExecutive>> GetAllDistributorsAsync1(int page, int pageSize = 10);
+
         Task<DistributorModel> GetDistributorDetailsById(string detailsid);
         Task<DistributorModel> GetDistributorById(string id);
         Task<ProductResponse> CreateDistributor(ExecutiveModel distributor);
         Task<ProductResponse> UpdateDistributor(string DistributorId, ExecutiveModel distributor);
         Task<bool> DeleteDistributor(string distributorId);
-        Task<List<DistributorModel>> SearchDistributor(SearchModel searchdistributor);
+        Task<PaginationResult<DistributorModel>> SearchDistributor(SearchModel searchdistributor, bool? NonAssign);
         Task<List<RetailorModel>> GetNonAssignedRetailors();
         Task<List<RetailorModel>> SearchRetailor(SearchModel searchretailor);
         Task<List<RetailorModel>> GetAssignedRetailorByDistributorId(string Disid);

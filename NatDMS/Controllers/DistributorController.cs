@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 
 namespace NatDMS.Controllers
 {
@@ -37,23 +38,49 @@ namespace NatDMS.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<List<DistributorModel>>> DisplayDistributors(int page = 1)
-        {
-            var distributorResult = await _distributorservice.GetAllDistributorsAsync();
-            var viewmodel = _mapper.Map<List<GetExecutive>, List<DistributorModel>>(distributorResult);
+        //public async Task<ActionResult<List<DistributorModel>>> DisplayDistributors(int page = 1)
+        //{
+        //    var distributorResult = await _distributorservice.GetAllDistributorsAsync(page);
+        //    var viewmodel = _mapper.Map<List<GetExecutive>, List<DistributorModel>>(distributorResult.Items);
 
-            var distributorPgn = new PageNation<DistributorModel>(viewmodel, _configuration, page);
-            var paginatedData = distributorPgn.GetPaginatedData(viewmodel);
-            
-            ViewBag.Pages = distributorPgn;
+        //    //var distributorPgn = new PageNation<DistributorModel>(viewmodel, _configuration, page);
+        //    //var paginatedData = distributorPgn.GetPaginatedData(viewmodel);
+
+        //    //ViewBag.Pages = distributorPgn;
+        //    var statesResult = await _unifiedservice.GetStates();
+        //    var viewModel = new EDR_DisplayViewModel
+        //    {
+        //        DistributorList = viewmodel,
+        //        StateList = statesResult,
+        //        TotalPageCount=distributorResult.TotalPageCount,
+        //        TotalItems=distributorResult.TotalItems
+        //    };
+
+
+        //    ViewBag.CurrentPage = page;
+        //    ViewBag.TotalPages = distributorResult.TotalPageCount;
+        //    return View(viewModel);
+        //}
+        public async Task<ActionResult<EDR_DisplayViewModel>> DisplayDistributors(int page = 1)
+        {
+            var distributorResult = await _distributorservice.GetAllDistributorsAsync(page);
+            var viewmodel = _mapper.Map<List<GetExecutive>, List<DistributorModel>>(distributorResult.Items);
+
             var statesResult = await _unifiedservice.GetStates();
             var viewModel = new EDR_DisplayViewModel
             {
-                DistributorList = paginatedData,
-                StateList = statesResult
+                DistributorList = viewmodel,
+                StateList = statesResult,
+                TotalPageCount = distributorResult.TotalPageCount,
+                TotalItems = distributorResult.TotalItems
             };
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = distributorResult.TotalPageCount;
+
             return View(viewModel);
         }
+
 
         /// <summary>
         /// SEARCH DISTRIBUTOR PARTIAL VIEW
@@ -61,18 +88,33 @@ namespace NatDMS.Controllers
 
 
         [HttpPost]
-        public async Task<JsonResult> SearchDistributors(EDR_DisplayViewModel SearchResultmodel)
+        public async Task<ActionResult<EDR_DisplayViewModel>> SearchDistributors(EDR_DisplayViewModel SearchResultmodel, bool? NonAssign, int page = 1)
         {
+            const int pageSize = 10;
+
             var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
-            var SearchResult = await _distributorservice.SearchDistributor(search);
+
+            var searchResult = await _distributorservice.SearchDistributor(search,NonAssign);
             var statesResult = await _unifiedservice.GetStates();
 
-            var viewModel = new EDR_DisplayViewModel
+            if (searchResult == null || searchResult.Items == null)
             {
-                DistributorList = SearchResult,
+                return PartialView("_SearchDistributorsPartial", new List<DistributorModel>());
+            }
+
+            int totalItems = searchResult.Items.Count;
+            int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            var paginatedItems = searchResult.Items.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            var viewmodel = new EDR_DisplayViewModel
+
+
+            {
+                DistributorList = paginatedItems,
                 StateList = statesResult,
+                CurrentPage = page,
+                TotalPageCount = totalItems
             };
-            return Json(viewModel);
+            return PartialView("_SearchDistributorsPartial", viewmodel);
 
         }
 
@@ -80,6 +122,10 @@ namespace NatDMS.Controllers
         /// <summary>
         /// GETTING DISTRIBUTOR DETAILS BY ID
         /// </summary>
+        /// 
+
+
+
 
         [HttpGet]
         public async Task<ActionResult<DistributorDetailsViewModel>> DistributorDetailsBYId(string id)
@@ -243,20 +289,64 @@ namespace NatDMS.Controllers
         /// </summary>
 
         [HttpPost]
-        public async Task<ActionResult<EDR_DisplayViewModel>> SearchDistributor(EDR_DisplayViewModel SearchResultmodel)
+        //public async Task<ActionResult<EDR_DisplayViewModel>> SearchDistributor(EDR_DisplayViewModel SearchResultmodel)
+        //{
+        //    var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
+        //    var SearchResult = await _distributorservice.SearchDistributor(search);
+        //    var statesResult = await _unifiedservice.GetStates();
+
+        //    var viewModel = new EDR_DisplayViewModel
+        //    {
+        //        DistributorList = SearchResult,
+        //        StateList = statesResult,
+        //    };
+
+        //    return PartialView("_SearchDistributorPartial", viewModel);
+        //}
+        public async Task<ActionResult<EDR_DisplayViewModel>> SearchDistributor(EDR_DisplayViewModel SearchResultmodel, bool? NonAssign, int page = 1)
         {
-            var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
-            var SearchResult = await _distributorservice.SearchDistributor(search);
-            var statesResult = await _unifiedservice.GetStates();
+            const int pazeSize = 10;
 
-            var viewModel = new EDR_DisplayViewModel
+            
+            try
             {
-                DistributorList = SearchResult,
-                StateList = statesResult,
-            };
+              
 
-            return PartialView("_SearchDistributorPartial", viewModel);
+                var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
+
+                var SearchResult = await _distributorservice.SearchDistributor(search,NonAssign);
+                var statesResult = await _unifiedservice.GetStates();
+
+                if (SearchResult == null || SearchResult.Items==null)
+                {
+                    // Handle the case where SearchResult is null, maybe return an empty view or appropriate response
+                    return PartialView("_SearchDistributorPartial", new List<DistributorModel>());
+                   
+                    
+                }
+
+                int totalItems = SearchResult.Items.Count;
+                int totalPages = (int)Math.Ceiling((double)totalItems / pazeSize);
+                var paginatedItems = SearchResult.Items.Skip((page - 1) * pazeSize).Take(pazeSize).ToList();
+                var viewModel = new EDR_DisplayViewModel
+
+                {
+                    DistributorList = paginatedItems,
+                    StateList = statesResult,
+                    CurrentPage= page,  
+                    TotalPages = totalPages,    
+                };
+
+                return PartialView("_SearchDistributorPartial", viewModel);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                // Return an appropriate error view or message
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
+
 
         [HttpGet]
         public async Task<ActionResult<List<RetailorModel>>> ListOfRetailors(int page = 1)
