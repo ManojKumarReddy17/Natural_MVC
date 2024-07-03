@@ -1,11 +1,14 @@
 ﻿using NatDMS.Models;
 using Natural.Core.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace NatDMS.Models
 {
     public class AreaDisplayModel
     {
         public string Id { get; set; }
+        [Required(ErrorMessage = "FirstName is Required")]
+        [RegularExpression("[a-zA-Z]{1,40}", ErrorMessage = "must contain up to 40 alphabets only")]
         public string AreaName { get; set; }
 
 

@@ -46,8 +46,10 @@ namespace NatDMS.Models
         [RegularExpression(@"^[a-zA-Z_]+$", ErrorMessage = "Username can only contain letters and underscores, no other special characters are allowed.")]
         [StringLength(20, ErrorMessage = " Username cannot exceed 20 characters.")]
 
+        [Required(ErrorMessage = "Username is Required")]
+        [RegularExpression("[a-zA-Z]{1,20}", ErrorMessage = "must contain upto 20 alphabets only")]
         public string UserName { get; set; }
-        
+
         [Required(ErrorMessage = "Password is required")]
         [RegularExpression("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,15}$",
         ErrorMessage = "Passwords must be at least 6 characters and include an uppercase letter" +
@@ -59,6 +61,7 @@ namespace NatDMS.Models
         public string Latitude { get; set; }
 
         public string Longitude { get; set; }
+
         public List<string> Area { get; set; }
 
         public string PresignedUrl { get; set; }

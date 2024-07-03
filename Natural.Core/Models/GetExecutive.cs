@@ -24,5 +24,7 @@ namespace Natural.Core.Models
         public string Latitude { get; set; }
         public string Longitude { get; set; }
         public string Image { get; set; }
+        public int TotalItems { get; set; }
+        public int TotalPageCount { set; get; }
     }
 }

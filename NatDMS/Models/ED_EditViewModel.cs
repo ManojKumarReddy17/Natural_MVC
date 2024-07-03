@@ -26,12 +26,7 @@ namespace NatDMS.Models
         [Required(ErrorMessage = "Mobile Number is required.")]
         [RegularExpression(@"^[1-9]\d{9}$", ErrorMessage = "Invalid Mobile Number format. Use 10 digits and do not start with zero.")]
         public string MobileNumber { get; set; }
-
-
-        
-        [MaxLength(50, ErrorMessage = "Address cannot be more than 50 characters.")]
-
-        //[StringLength(50, ErrorMessage = "The address cannot be longer than 50 characters.")]
+        [StringLength(40, ErrorMessage = "The address cannot be longer than 40 characters.")]
         public string Address { get; set; }
        
 
@@ -43,7 +38,6 @@ namespace NatDMS.Models
         
         public string State { get; set; }
         public string StateId { get; set; }
-
 
         [Required(ErrorMessage = "Username is required.")]
         [RegularExpression(@"^[a-zA-Z_]+$", ErrorMessage = "Username can only contain letters and underscores, no other special characters are allowed.")]
@@ -58,10 +52,10 @@ namespace NatDMS.Models
 
         public IFormFile ProfileImage { get; set; }
 
-       
-        public List<AreaModel> AreaList { get; set; }
-        public string Image { get; set; }
 
+        public List<AreaModel> AreaList { get; set; }
+       public string PresignedUrl { get; set; }
+        public string Image { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
         public List<string> Area { get; set; }

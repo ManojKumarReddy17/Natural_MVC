@@ -39,6 +39,8 @@
                     </b>
                 </div>
 
+              
+
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Email)
@@ -123,8 +125,8 @@
                         @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                     </b>
                 </div>
-
-                @* <div class="form-group emphasized-section">
+@* 
+                <div class="form-group emphasized-section">
                     <b>
                         @Html.LabelFor(model => model.Address)
                         @Html.TextAreaFor(model => model.Address, new { @class = "form-control", style = "overflow-y:scroll;", 
@@ -132,20 +134,17 @@
                         @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
 
                     </b>
-                </div> *@
+                 </div>  *@
                 <div class="form-group emphasized-section">
                     <b>
                         @Html.LabelFor(model => model.Address)
-                        @Html.TextAreaFor(model => model.Address, new
-                    {
-                    @class = "form-control",
-                    style = "overflow-y:scroll;",
-                    @placeholder = "Enter Address"
-                    })
+                        @Html.TextAreaFor(model => model.Address, new { @class = "form-control", style = "overflow-y:scroll;",
+                    placeholder = "Enter Address", onfocus = "movePlaceholder(this)", minlength = "40"})
                         @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
 
                     </b>
                 </div>
+
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.UserName)
@@ -240,22 +239,23 @@
             });
         });
     </script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#MobileNumber').on('input', function (e) {
-                var inputValue = $(this).val();
-                // Allow only numbers
-                var numericValue = inputValue.replace(/\D/g, '');
-                // Ensure the length is not more than 10 characters
-                numericValue = numericValue.substring(0, 10);
-                // Remove leading zeros
-                numericValue = numericValue.replace(/^0+/, '');
-                // Update the input value
-                $(this).val(numericValue);
-            });
-        });
-    </script>
 
+   
+       <script type="text/javascript" >
+            $(document).ready(function () {
+                $('#MobileNumber').on('input', function (e) {
+                    var inputValue = $(this).val();
+                    // Allow only numbers
+                    var numericValue = inputValue.replace(/\D/g, '');
+                    // Ensure the length is not more than 10 characters
+                    numericValue = numericValue.substring(0, 10);
+                    // Remove leading zeros
+                    numericValue = numericValue.replace(/^0+/, '');
+                    // Update the input value
+                    $(this).val(numericValue);
+                });
+            });
+    </script>
     <script type="text/javascript">
         function statechange() {
             var stid = $('#state').val();
