@@ -45,9 +45,6 @@ namespace NatDMS.Models
         [Required(ErrorMessage = "Username is required.")]
         [RegularExpression(@"^[a-zA-Z_]+$", ErrorMessage = "Username can only contain letters and underscores, no other special characters are allowed.")]
         [StringLength(20, ErrorMessage = " Username cannot exceed 20 characters.")]
-
-        [Required(ErrorMessage = "Username is Required")]
-        [RegularExpression("[a-zA-Z]{1,20}", ErrorMessage = "must contain upto 20 alphabets only")]
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "Password is required")]
