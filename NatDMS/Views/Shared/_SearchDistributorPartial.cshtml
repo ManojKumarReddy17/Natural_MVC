@@ -81,7 +81,6 @@
 
 <body>
 
-    @* <div class="container my-4"> *@
 
         <div class="table-responsive">
             <table class="table table-bordered table-striped custom-table">
@@ -117,18 +116,6 @@
                             <td>@Html.DisplayFor(modelItem => item.State)</td>
                             <td>@Html.DisplayFor(modelItem => item.City)</td>
                             <td>@Html.DisplayFor(modelItem => item.Area)</td>
-                           @*  <td>
-                                @if (!string.IsNullOrEmpty(@item.Image))
-                                {
-
-                                    <img src="@item.Image" alt="ProfileImage" width="80" height="90" class="img-responsive" id="presignedurl" />
-                                }
-                                else
-                                {
-                                    <!-- Display a default "no image" placeholder -->
-                                    <img class="card-img-top img-fluid" src="~/image/no-image-placeholder.svg" alt="No Image">
-                                }
-                            </td> *@
                             <td>
                                 @if (!string.IsNullOrEmpty(@item.Image))
                                 {
@@ -193,16 +180,15 @@
                                         <i class="material-icons">info</i>
                                     </a>
                                 </td>
-                            
-                        }
-                  
+                    </tr>
+                }
                         
-
-                    
+                                      
                 </tbody>
             </table>
-     @*    </div> *@
+    
     </div>
+</body>
 
 
     <!-------------------------------------------------------------Pagination------------------------------------------------------------------->
@@ -223,7 +209,8 @@
                 </ul>
             </div>
         }
-    </div>*@
+    </div>
+
 <!---------------------------------------------------------AJAX CODE FOR CITY CHANGE AND AREA-------------------------------------------------->
 <script src="~/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
@@ -274,12 +261,5 @@
                 }
             });
         }
-@*<<<<<<< Updated upstream*@
     }
 </script>
-=======
-    </script>
-
-
-}
-@*>>>>>>> Stashed changes*@
