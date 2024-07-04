@@ -52,6 +52,21 @@
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate.unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#CategoryName').on('keypress', function (e) {
+                var keyCode = e.which || e.keyCode;
+                // Allow letters and space only
+                if (!(keyCode >= 65 && keyCode <= 90) && // A-Z
+                    !(keyCode >= 97 && keyCode <= 122) && // a-z
+                    keyCode !== 32) { // Space
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+
     <script>
         $(document).ready(function () {
 

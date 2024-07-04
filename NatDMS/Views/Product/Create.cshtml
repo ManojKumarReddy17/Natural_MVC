@@ -113,7 +113,19 @@
     <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.2/jquery.validate.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate.unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
-
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#ProductName').on('keypress', function (e) {
+                var keyCode = e.which || e.keyCode;
+                // Allow letters and space only
+                if (!(keyCode >= 65 && keyCode <= 90) && // A-Z
+                    !(keyCode >= 97 && keyCode <= 122) && // a-z
+                    keyCode !== 32) { // Space
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
     <script>
         $(document).ready(function () {
             $('#Price, #Quantity, #Weight').on('keypress', function (e) {

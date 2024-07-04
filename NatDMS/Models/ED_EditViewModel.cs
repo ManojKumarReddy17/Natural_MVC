@@ -15,7 +15,9 @@ namespace NatDMS.Models
         [RegularExpression("^[a-zA-Z]*$", ErrorMessage = "CompanyName must contain only Alphabets")]
         public string FirstName { get; set; }
         public string CompanyName { get; set; }
-       public string LastName { get; set; }
+
+        [StringLength(40, ErrorMessage = "LastName cannot exceed 40 characters.")]
+        public string LastName { get; set; }
 
         [EmailAddress(ErrorMessage = "Invalid email Address.The email domain must be @gmail.com")]
         [StringLength(30, ErrorMessage = "Email cannot exceed 30 characters.")]

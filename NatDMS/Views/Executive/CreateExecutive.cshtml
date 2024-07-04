@@ -109,6 +109,17 @@
                     <!-- Image preview -->
                     <img id="imagePreview" src="~/image/no-image-placeholder.svg" alt="No Image" class="img-fluid mt-2" style="max-width: 40%; max-height: 50%;" />
                 </div>
+                @*<div class="form-group">
+                    @Html.LabelFor(model => model.ProfileImage, "Profile image")
+                    @Html.TextBoxFor(model => model.ProfileImage, new
+                {
+                type = "file",
+                @class = "form-control custom-file-input",
+                @placeholder = "Choose Profile Image",
+                @onchange = "return ShowImagePreview(this)"
+                })
+                    @Html.ValidationMessageFor(model => model.ProfileImage, "", new { @class = "text-danger" })
+                </div>*@
 
             </div>
 
@@ -315,7 +326,7 @@
                         data: { cityId: cityid },
                         success: function (d) {
                             ddlarea.append($("<option></option>").val('').html('--SelectArea--'));
-                            $.each(d, function (i, areas) {
+                            $.each(d.items, function (i, areas) {
                                 ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
                             });
                         },

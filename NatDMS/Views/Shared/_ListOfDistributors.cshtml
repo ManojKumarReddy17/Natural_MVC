@@ -146,6 +146,8 @@
                     </tr>
                 </thead>
                 <tbody id="Distributorlist">
+                    @if (Model.DistributorList.Any())
+                {
                     @foreach (var item in Model.DistributorList)
                     {
                         <tr>
@@ -163,8 +165,17 @@
                         </tr>
 
 
+                        }
+                        }
+                    else
+                    {
+                        <tr>
+                            <td colspan="14" style="color: red; font-weight: bold; font-size: 18px; text-align: center;">No data found</td>
+                        </tr>
+
                     }
                 </tbody>
+
             </table>
         </div>
     </div>
@@ -250,7 +261,7 @@
                         data: { cityId: cityid },
                         success: function (d) {
                             ddlarea.append($("<option></option>").val('').html('-SelectArea-'));
-                            $.each(d, function (i, areas) {
+                            $.each(d.items, function (i, areas) {
                                 ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
                             });
                         },
