@@ -21,7 +21,8 @@ namespace NatDMS.Models
         public string CompanyName { get; set; }
 
        // [Required(ErrorMessage = "LastName is Required")]
-        [RegularExpression("[a-zA-Z]{1,40}", ErrorMessage = "must contain upto 40 alphabets only")]
+        //[RegularExpression("[a-zA-Z]{1,40}", ErrorMessage = "must contain upto 40 alphabets only")]
+        [StringLength(40, ErrorMessage = "LastName cannot exceed 40 characters.")]
         public string LastName { get; set; }
 
         [EmailAddress(ErrorMessage ="Invalid email Address.The email domain must be @gmail.com")]

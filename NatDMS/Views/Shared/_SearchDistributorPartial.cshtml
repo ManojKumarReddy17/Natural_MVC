@@ -28,15 +28,8 @@
         }
     </style>
     <script type="text/javascript">
-<<<<<<< Updated upstream
         //----------------------------------------------SCRIPT FOR DELETE POPUP-------------------------------------------------------------//
-=======
-        
 
-
-     //----------------------------------------------SCRIPT FOR DELETE POPUP-------------------------------------------------------------//
-
->>>>>>> Stashed changes
         function confirmDelete(uniqueId, isTrue) {
             var deleteSpan = 'deleteSpan_' + uniqueId;
             var confirmDeleteSpan = 'confirmDeleteSpan_' + uniqueId;
@@ -104,6 +97,9 @@
                 </thead>
 
                 <tbody>
+
+                    @if (Model.DistributorList.Any())
+                {
 
                     @foreach (var item in Model.DistributorList)
                     {
@@ -180,10 +176,20 @@
                                         <i class="material-icons">info</i>
                                     </a>
                                 </td>
-                    </tr>
+                              </tr>
+                            
+                        }
+
                 }
-                        
-                                      
+                else
+                {
+                    <tr>
+                        <td colspan="14" style="color: red; font-weight: bold; font-size: 18px; text-align: center;">No data found</td>
+                    </tr>
+
+                }
+
+                    
                 </tbody>
             </table>
     
@@ -251,7 +257,7 @@
                 data: { cityId: cityid },
                 success: function (d) {
                     ddlarea.append($("<option></option>").val('').html('-SelectArea-'));
-                    $.each(d, function (i, areas) {
+                    $.each(d.items, function (i, areas) {
                         ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
                     });
                 },
@@ -261,5 +267,11 @@
                 }
             });
         }
+
     }
 </script>
+    </script>
+
+
+}
+

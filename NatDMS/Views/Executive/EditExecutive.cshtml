@@ -37,7 +37,7 @@
                    
                     <b>
                         @Html.LabelFor(model => model.FirstName, new { @class = "control-label" })
-                        @Html.TextAreaFor(model => model.FirstName, new { @class = "form-control", @rows = 1, @style = "resize:none; word-wrap:break-word;" })
+                        @Html.TextAreaFor(model => model.FirstName, new { @class = "form-control", @rows = 2, @style = "resize:none; word-wrap:break-word;" })
                         @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                     </b>
 
@@ -92,7 +92,7 @@
                   
                     <b>
                         @Html.LabelFor(model => model.LastName, new { @class = "control-label" })
-                        @Html.TextAreaFor(model => model.LastName, new { @class = "form-control", @rows = 1, @style = "resize:none; word-wrap:break-word;" })
+                        @Html.TextAreaFor(model => model.LastName, new { @class = "form-control", @rows = 2, @style = "resize:none; word-wrap:break-word;" })
                         @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                     </b>
                 </div>
@@ -277,7 +277,7 @@
                         success: function (d) {
 
                             ddlarea.append($("<option></option>").val('').html('--SelectArea--'));
-                            $.each(d, function (i, areas) {
+                            $.each(d.items, function (i, areas) {
 
                                 ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
 

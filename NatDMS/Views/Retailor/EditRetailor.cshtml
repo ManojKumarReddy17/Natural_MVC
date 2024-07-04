@@ -57,7 +57,7 @@
                         @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
                     </b>
                 </div>
-
+                 
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.CityId)
@@ -115,10 +115,11 @@
                     <b>
                         @Html.LabelFor(model => model.AreaId)
                         @Html.DropDownListFor(model => model.AreaId, new SelectList(Model.Areas, "Id", "AreaName"),
-                    "--Select Area--", new { id = "area", @class = "form-select" })
+                    "--Select Area--", new { id = "areas", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
                     </b>
                 </div>
+               
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Longitude)
@@ -214,11 +215,11 @@
                     type: 'GET',
                     dataType: 'json',
                     data: { cityId: cityid },
-                    success: function (areas) {
-                        console.log('Areas:', areas);
+                    success: function (d) {
+                        
                         ddlarea.append($("<option></option>").val('').html('--Select Area--'));
-                        $.each(areas, function (i, area) {
-                            ddlarea.append($("<option></option>").val(area.id).html(area.areaName));
+                        $.each(d.items, function (i, area) {
+                            ddlarea.append($("<option>"+area.areaName</option>").val(area.id).html(area.areaName));
                         });
                     },
                     error: function () {
