@@ -352,9 +352,9 @@ namespace NatDMS.Controllers
         public async Task<ActionResult<List<RetailorModel>>> ListOfRetailors(int page = 1)
         {
             var retailorResult = await _distributorservice.GetNonAssignedRetailors();
-            var retailorPgn = new PageNation<RetailorModel>(retailorResult, _configuration, page);
+            var retailorPgn = new PageNation<RetailorModel>(retailorResult.Items, _configuration, page);
 
-            var paginatedData = retailorPgn.GetPaginatedData(retailorResult);
+            var paginatedData = retailorPgn.GetPaginatedData(retailorResult.Items);
 
 
             ViewBag.Pages = retailorPgn;
@@ -384,7 +384,7 @@ namespace NatDMS.Controllers
 
             var viewModel = new EDR_DisplayViewModel
             {
-                RetailorList = SearchResult,
+                RetailorList = SearchResult.Items,
                 StateList = statesResult
             };
             return Json(viewModel);

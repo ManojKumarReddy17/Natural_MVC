@@ -19,10 +19,10 @@ namespace Natural.Core.IServices
         Task<ProductResponse> UpdateDistributor(string DistributorId, ExecutiveModel distributor);
         Task<bool> DeleteDistributor(string distributorId);
         Task<PaginationResult<DistributorModel>> SearchDistributor(SearchModel searchdistributor, bool? NonAssign);
-        Task<List<RetailorModel>> GetNonAssignedRetailors();
+        Task<PaginationResult<RetailorModel>> GetNonAssignedRetailors();
         Task<List<RetailorModel>> SearchRetailor(SearchModel searchretailor);
         Task<List<RetailorModel>> GetAssignedRetailorByDistributorId(string Disid);
-        Task<List<RetailorModel>> SearchNonAssignedRetailors(SearchModel searchdistributor);
+        Task<PaginationResult<RetailorModel>> SearchNonAssignedRetailors(SearchModel searchdistributor);
         Task<string> DeleteAssignedRetailor(string retailorId, string distributorId);
 
     }

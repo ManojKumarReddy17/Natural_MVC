@@ -22,22 +22,64 @@ namespace NatDMS.Controllers
 
 
         [HttpPost]
+        //public async Task<ActionResult> AssignRetailors(string distributorId, List<string> selectedRetailorIds)
+        //{
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        var assignRetailorModel = new RetailorToDistributor
+        //        {
+        //            DistributorId = distributorId,
+        //            RetailorIds = selectedRetailorIds
+        //        };
+
+        //        var assignedResult = await _AssignRetailorToDistributorService.AssignRetailorToDistributor(assignRetailorModel);
+
+        //        return Json(assignedResult.StatusCode);
+        //    }
+        //    return Json(null);
+        //}
         public async Task<ActionResult> AssignRetailors(string distributorId, List<string> selectedRetailorIds)
         {
-
-            if (ModelState.IsValid)
+            try
             {
-                var assignRetailorModel = new RetailorToDistributor
+                if (ModelState.IsValid)
                 {
-                    DistributorId = distributorId,
-                    RetailorIds = selectedRetailorIds
-                };
+                    var assignRetailorModel = new RetailorToDistributor
+                    {
+                        DistributorId = distributorId,
+                        RetailorIds = selectedRetailorIds
+                    };
 
-                var assignedResult = await _AssignRetailorToDistributorService.AssignRetailorToDistributor(assignRetailorModel);
+                    var assignedResult = await _AssignRetailorToDistributorService.AssignRetailorToDistributor(assignRetailorModel);
 
-                return Json(assignedResult.StatusCode);
+                    if (assignedResult != null)
+                    {
+                        // Log success
+                        Console.WriteLine("AssignRetailorToDistributor Service called successfully");
+                        return Json(assignedResult.StatusCode);
+                    }
+                    else
+                    {
+                        // Log null result
+                        Console.WriteLine("Assigned result is null");
+                        return Json("Error: Assigned result is null");
+                    }
+                }
+                else
+                {
+                    // Log invalid model state
+                    Console.WriteLine("Model state is invalid");
+                    return Json("Error: Model state is invalid");
+                }
             }
-            return Json(null);
+            catch (Exception ex)
+            {
+                // Log exception
+                Console.WriteLine("Exception occurred: " + ex.Message);
+                return Json("Error: Exception occurred");
+            }
         }
+
     }
 }
