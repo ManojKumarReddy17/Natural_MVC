@@ -19,18 +19,15 @@ namespace NatDMS.Models
         [Required(ErrorMessage = "Mobile Number is required.")]
         [RegularExpression(@"^[1-9]\d{9}$", ErrorMessage = "Invalid Mobile Number format. Use 10 digits and do not start with zero.")]
         public string MobileNumber { get; set; }
-        [Required(ErrorMessage = "The mobile number is required.")]
-        [StringLength(50, ErrorMessage = "The mobile number cannot be longer than 50 characters.")]
-
+        [MaxLength(50, ErrorMessage = "Address cannot be more than 50 characters.")]
         public string Address { get; set; }
 
-        [Required(ErrorMessage = "City is required")]
         public string City { get; set; }
-     
+        [Required(ErrorMessage = "City is required")]
         public string CityId { get; set; }
-
-        [Required(ErrorMessage = "State is required")]
         public string State { get; set; }
+        [Required(ErrorMessage = "State is required")]
+
         public string StateId { get; set; }
 
         [Required(ErrorMessage = "Username is required.")]
