@@ -244,7 +244,7 @@ namespace NatDMS.Controllers
         public async Task<ActionResult<List<DistributorModel>>> ListOfDistributors (int page = 1)
         {
             var distributorResult = await _ExecutiveService.GetNonAssignedDistributors();
-            var (paginatedData, distributorPgn) = await GetPaginatedDistributorData(distributorResult, page);
+            var (paginatedData, distributorPgn) = await GetPaginatedDistributorData(distributorResult.Items, page);
             ViewBag.Pages = distributorPgn;
             var statesResult = await _unifiedservice.GetStates();
             var viewModel = new EDR_DisplayViewModel
@@ -255,6 +255,7 @@ namespace NatDMS.Controllers
             return View("_ListOfDistributors", viewModel);
         }
 
+
         [HttpPost]
         public async Task<JsonResult> SearchNonAssignedDistributors(EDR_DisplayViewModel SearchResultmodel, int page = 1)
         {
@@ -262,7 +263,7 @@ namespace NatDMS.Controllers
             var searchResult = await _ExecutiveService.SearchNonAssignedDistributors(search);
 
             // Paginate search results
-            var (paginatedData, distributorPgn) = await GetPaginatedDistributorData(searchResult, page);
+            var (paginatedData, distributorPgn) = await GetPaginatedDistributorData(searchResult.Items, page);
             ViewBag.Pages = distributorPgn;
 
             var statesResult = await _unifiedservice.GetStates();

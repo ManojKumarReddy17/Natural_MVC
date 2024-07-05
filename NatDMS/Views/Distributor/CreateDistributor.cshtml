@@ -1,4 +1,4 @@
-﻿@model NatDMS.Models.ED_CreateViewModel
+﻿    @model NatDMS.Models.ED_CreateViewModel
 
 @{
     ViewData["Title"] = "CreateDistributor";
@@ -18,7 +18,7 @@
     </script>
 
 </head>
-
+ 
 <body>
     @using (Html.BeginForm("CreateDistributor", "Distributor", FormMethod.Post, new { @class = "needs-validation", novalidate = "true", enctype = "multipart/form-data" }))
     {
@@ -59,18 +59,7 @@
                         @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
                     </b>
                 </div>
-                @*<div class="form-group">
-                    <b>
-                        @Html.LabelFor(model => model.MobileNumber)
-                        @Html.TextBoxFor(model => model.MobileNumber, new
-                    {
-                    @class = "form-control",
-                    @placeholder = "Enter MobileNumber"
-                    })
-                        @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
-                    </b>
-                </div>*@
-
+             
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Password)
@@ -125,16 +114,6 @@
                         @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                     </b>
                 </div>
-@* 
-                <div class="form-group emphasized-section">
-                    <b>
-                        @Html.LabelFor(model => model.Address)
-                        @Html.TextAreaFor(model => model.Address, new { @class = "form-control", style = "overflow-y:scroll;", 
-                        placeholder = "Enter Address", onfocus = "movePlaceholder(this)"})
-                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
-
-                    </b>
-                 </div>  *@
                 <div class="form-group emphasized-section">
                     <b>
                         @Html.LabelFor(model => model.Address)

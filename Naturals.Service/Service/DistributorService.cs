@@ -202,20 +202,21 @@ namespace Naturals.Service.Service
 
         public async Task<PaginationResult<DistributorModel>> SearchDistributor(SearchModel searchdistributor, bool? NonAssign)
         {
-           // bool NonAssign = false;
+            // bool NonAssign = false;
             var SearchedResult = await _HttpCleintWrapper.SearchAsync<PaginationResult<DistributorModel>>("/Distributor?", searchdistributor, NonAssign);
             return SearchedResult;
         }
 
 
+
         /// <summary>
         /// GET ALL NON_ASSIGNED RETAILORS
         /// </summary>
-        public async Task<PaginationResult<RetailorModel>> GetNonAssignedRetailors()
+        public async Task<List<RetailorModel>> GetNonAssignedRetailors()
         {
             var nonAssign = true;
             SearchModel search = new SearchModel();
-            var getretailor = await _HttpCleintWrapper.SearchAsync<PaginationResult<RetailorModel>>("/Retailor?nonAssign=", search,nonAssign);
+            var getretailor = await _HttpCleintWrapper.SearchAsync<List<RetailorModel>>("/Retailor?nonAssign=", search,nonAssign);
             return getretailor;
 
         }
@@ -231,10 +232,10 @@ namespace Naturals.Service.Service
             var result = await _HttpCleintWrapper.GetByIdAsync<List<RetailorModel>>("/AssignRetailorToDistributor/details/",Disid);
              return result;
         }
-        public async Task<PaginationResult<RetailorModel>> SearchNonAssignedRetailors(SearchModel searchdistributor)
+        public async Task<List<RetailorModel>> SearchNonAssignedRetailors(SearchModel searchdistributor)
         {
             var nonAssign = true;
-            var SearchedResult = await _HttpCleintWrapper.SearchAsync<PaginationResult<RetailorModel>>("/Retailor?", searchdistributor, nonAssign);
+            var SearchedResult = await _HttpCleintWrapper.SearchAsync<List<RetailorModel>>("/Retailor?", searchdistributor, nonAssign);
             return SearchedResult;
         }
 
@@ -244,7 +245,15 @@ namespace Naturals.Service.Service
             return delete;
         }
 
-        
+        Task<PaginationResult<RetailorModel>> IDistributorService.GetNonAssignedRetailors()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<PaginationResult<RetailorModel>> IDistributorService.SearchNonAssignedRetailors(SearchModel searchdistributor)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 
