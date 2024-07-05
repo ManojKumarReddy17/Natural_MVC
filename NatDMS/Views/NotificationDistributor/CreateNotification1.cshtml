@@ -136,7 +136,7 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                         <div class="form-group">
-                             @Html.LabelFor(model => model.Executive)
+                            <b>@Html.LabelFor(model => model.Executive)</b>
                             <div id="executive-container" class="scrollable-checkboxes">
                                 @foreach (var executive in Model.ExecutiveList.OrderBy(e => e.Executive))
                                 {
@@ -148,7 +148,7 @@
                                 }
                             </div>
                             <label>
-                                  @Html.LabelFor(model => model.Distributor)
+                                <b> @Html.LabelFor(model => model.Distributor) </b>
                                 <div id="Distributor-container" class="scrollable-checkboxes">
                                     @foreach (var distributor in Model.DistributorList.OrderBy(e => e.DistributorName))
                                     {
@@ -161,12 +161,16 @@
                                 </div>
                             </label>
                             <label>
-                                Subject:
+                                <b> Subject </b>
+                                <div style="margin-top:10px">
                                  @Html.TextBoxFor(model => model.Subject)
+                                </div>
                             </label>
                             <label>
-                                Body:
+                                <b>  Body </b>
+                                <div style="margin-top:10px">
                                  @Html.TextAreaFor(model => model.Body, new { rows = "15", cols = "25" })
+                                </div>
                             </label>
                         </div>
 
