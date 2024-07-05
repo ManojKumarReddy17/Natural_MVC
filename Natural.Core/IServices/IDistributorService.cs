@@ -9,7 +9,7 @@ namespace Natural.Core.IServices
 {
     public interface IDistributorService
     {
-        Task<List<DistributorModel>> GetAllDistributors();
+        Task<PaginationResult<DistributorModel>> GetAllDistributors();
         Task<PaginationResult<GetExecutive>> GetAllDistributorsAsync(int page);
          Task<PaginationResult<GetExecutive>> GetAllDistributorsAsync1(int page, int pageSize = 10);
 
