@@ -25,9 +25,9 @@ namespace Naturals.Service.Service
         /// <summary>
         /// GET ALL DISTRIBUTORS //
         /// </summary>
-        public async Task<List<DistributorModel>> GetAllDistributors()
+        public async Task<PaginationResult<DistributorModel>> GetAllDistributors()
         {
-            var getdistributor = await _HttpCleintWrapper.GetAsync<List<DistributorModel>>("/Distributor/");
+            var getdistributor = await _HttpCleintWrapper.GetAsync<PaginationResult<DistributorModel>>("/Distributor/");
             return getdistributor;
 
         }

@@ -93,8 +93,9 @@ namespace NatDMS.Controllers
         public async Task<List<DsrDistributorDrop>> GetDistributor()
         {
 
-            List<DistributorModel> executives = await _distributorservice.GetAllDistributors();
-            List<DsrDistributorDrop> disList = executives.Select(c => new DsrDistributorDrop
+            var distributorsList = await _distributorservice.GetAllDistributors();
+            List<DistributorModel> distributors = distributorsList.Items;
+            List<DsrDistributorDrop> disList = distributors.Select(c => new DsrDistributorDrop
             {
                 Id = c.Id,
                 DistributorName = string.Concat(c.FirstName, " ", c.LastName),
@@ -180,10 +181,10 @@ namespace NatDMS.Controllers
         [HttpPost]
         public async Task<ActionResult<NotificationViewmodel>> EditNotification(NotificationViewmodel model)
         {
-
             var viewmodel = _mapper.Map<NotificationViewmodel, Notification>(model);
             string notificcationid = model.Id;
-            if(model.Distributor.Count != 0 || model.Distributor != null)
+
+            if (model.Distributor.Count != 0 || model.Distributor != null)
             {
                 viewmodel.distributorlist = model.Distributor.Select(x => new NotificationDistributor
                 {

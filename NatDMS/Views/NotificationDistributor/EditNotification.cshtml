@@ -20,7 +20,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-   
+
     <link href="~/css/bootstrap-multiselect.css" rel="stylesheet" />
     <style>
         .email-container {
@@ -89,28 +89,48 @@
             background-color: #fff;
             font-size: 16px;
             color: #495057;
-            display : flex;
+            display: flex;
         }
 
-        /* Adjust styling as needed */
+        .scrollable-checkboxes {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
 
+        .CheckBox input {
+            width: 15%;
+            font-size: 18px;
+        }
+
+        .CheckBox label {
+            display: inline;
+            font-size: 16px;
+        }
+
+        .checkbox-custom {
+            transform: scale(1.2); /* Adjust the scale factor as needed */
+        }
     </style>
- <scrit scr ="~/css/bootstrap-multiselect.js "></scrit>
+  
+
+
+    <scrit scr="~/css/bootstrap-multiselect.js "></scrit>
 
 </head>
 
 <body>
-   
+
     @using (Html.BeginForm("EditNotification", "NotificationDistributor", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
 
     {
-        
+
         <div class="email-container">
-          
+
 
             <div class="email-body">
                 <div class="email-sidebar">
-                   
                 </div>
 
                 <div class="email-content">
@@ -118,16 +138,39 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                         <div class="form-group">
-                            <label>
-                                Executive:
-                                @Html.ListBoxFor(model => model.Executive, new MultiSelectList(Model.ExecutiveList, "Id", "Executive"), new { @id = "executive", @class = "form-select" })
-                                @Html.HiddenFor(model => model.ExecutiveList, new { id = "executiveListHidden" })
-                            </label>
-                            <label>
-                                Distributor:
-                                @Html.ListBoxFor(model => model.Distributor, new MultiSelectList(Model.DistributorList, "Id", "DistributorName"), new { @id = "distributor", @class = "form-select" })
-                                @Html.HiddenFor(model => model.DistributorList, new { id = "distributorListHidden" })
-                            </label>
+                            <div>
+
+                                @Html.LabelFor(model => model.Executive)
+                                <div id="executive-container" class="scrollable-checkboxes">
+                                    @foreach (var executive in Model.ExecutiveList.OrderBy(e => e.Executive))
+                                    {
+                                        <div class="form-check CheckBox">
+                                            <input class="checkbox-custom" type="checkbox" id="executive_@executive.Id"                    name="Executive" value="@executive.Id"
+                                            @(Model.Executive != null && Model.Executive.Contains(executive.Id.ToString()) ?              "checked" : "") />
+                                            <label class="form-check-label"for="executive_@executive.Id">                                 @executive.Executive</label>
+                                        </div>
+                                    }
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Executive, "", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div>
+
+                                @Html.LabelFor(model => model.Distributor)
+                                <div id="Distributor-container" class="scrollable-checkboxes">
+                                    @foreach (var distributor in Model.DistributorList.OrderBy(e => e.DistributorName))
+                                    {
+                                        <div class="form-check CheckBox">
+                                            <input class="checkbox-custom" type="checkbox" id="distributor_@distributor.Id"               name="Distributor" value="@distributor.Id"
+                                            @(Model.Distributor != null && Model.Distributor.Contains(distributor.Id.ToString             ()) ? "checked" : "") />
+                                            <label class="form-check-label" for="distributor_@distributor.Id">                            @distributor.DistributorName </label>     
+                                        </div>
+                                    }
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Distributor, "", new { @class = "text-danger" })
+
+                            </div>
                             <label>
                                 Subject:
                                 @Html.TextBoxFor(model => model.Subject)
@@ -145,7 +188,7 @@
                     </div>
                 </div>
             </div>
-        </div>   
+        </div>
     }
 </body>
 
