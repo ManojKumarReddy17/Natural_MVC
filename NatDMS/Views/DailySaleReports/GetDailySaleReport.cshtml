@@ -37,12 +37,17 @@
             var StateName = $('#state option:selected').text();
             var CityName = $('#city option:selected').text();
             var AreaName = $('#area option:selected').text();
+            var ExecutiveName = $('#executive option:selected').text();
+            var DistributorName = $('#distributor option:selected').text();
             var RetailorName = $('#retailor option:selected').text();
 
             var header = '<div><b>State:</b> ' + StateName + '</div>' +
                 '<div><b>City:</b> ' + CityName + '</div>' +
                 '<div><b>Area:</b> ' + AreaName + '</div>' +
-                '<div><b>Retailer:</b> ' + RetailorName + '</div><br>';
+                '<div><b>Executive:</b> ' + ExecutiveName + '</div>' +
+                '<div><b>Distributor:</b> ' + DistributorName + '</div>' +
+                '<div><b>Retailor:</b> ' + RetailorName + '</div><br>';
+
 
             var totalQuantity = 0;
             var totalPrice = 0;
@@ -98,6 +103,8 @@
             if (stid.trim() != '') {
                 var ddlcity = $('#city');
                 ddlcity.empty();
+                
+               
                 $.ajax(
                     {
                         url: '/Executive/GetCitiesByStateId',
@@ -150,18 +157,17 @@
         function areachange() {
             var areaId = $('#area').val();
             if (areaId.trim() != '') {
-                var ddlRetailor = $('#retailor');
-                ddlRetailor.empty();
-
+                var ddlExecutive = $('#executive');
+                ddlExecutive.empty();
                 $.ajax({
-                    url: "/DailySaleReports/GetretailorByArea",
+                    url: "/DailySaleReports/GetAExecutiveByArea",
                     type: 'GET',
                     dataType: 'json',
                     data: { areaId: areaId },
                     success: function (d) {
-                        ddlRetailor.append($("<option></option>").val('').html('-SelectRetailor-'));
-                        $.each(d, function (i, retailor) {
-                            ddlRetailor.append($("<option>" + retailor.retailor + "</option>").val(retailor.id).html(retailor.name));
+                        ddlExecutive.append($("<option></option>").val('').html('-SelectExecutive-'));
+                        $.each(d, function (i, executive) {
+                            ddlExecutive.append($("<option>" + executive.executive + "</option>").val(executive.id).html(executive.name));
                         });
 
                         var selectedAreaName = $('#area option:selected').text();
@@ -175,11 +181,64 @@
         }
 
 
+        function executivechange() {
+            debugger;
+            var exid = $('#executive').val();
+            if (exid.trim() != '') {
+                var ddldis = $('#distributor');
+                ddldis.empty();
+                $.ajax(
+                    {
+                        url: "/DailySaleReports/GetDistributorByExecutiveId",
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { executiveId: exid },
+                        success: function (d) {
+                            ddldis.append($("<option></option>").val('').html('--Select Distributor--'));
+                            $.each(d, function (i, distributors) {
+                                ddldis.append($("<option>" + distributors.distributorName + "</option>").val(distributors.id).html(distributors.distributorName));
+                            });
+                        },
+                        error: function () {
+                            alert('Error!');
+                        }
+                    });
+            }
+        }
+
+        function distributorchange() {
+            debugger;
+            var disid = $('#distributor').val();
+            if (disid.trim() != '') {
+                var ddlret = $('#retailor');
+                ddlret.empty();
+                $.ajax(
+                    {
+                        url: "/DailySaleReports/GetRetailorByDistributorId",
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { distributorId: disid },
+                        success: function (d) {
+                            ddlret.append($("<option></option>").val('').html('--Select Retailors--'));
+                            $.each(d, function (i, retailors) {
+                                ddlret.append($("<option>" + retailors.retailor + "</option>").val(retailors.id).html(retailors.retailor));
+                            });
+                        },
+                        error: function () {
+                            alert('Error!');
+                        }
+                    });
+            }
+        }
+
+
         function Save() {
             var modelData = {
                 State: $("#state").val(),
                 City: $("#city").val(),
                 Area: $("#area").val(),
+                Executive: $("#executive").val(),
+                Distributor: $("#distributor").val(),
                 Retailor: $("#retailor").val(),
                 StartDate: $("#StartDate").val(),
                 EndDate: $("#EndDate").val(),
@@ -322,23 +381,23 @@
             autocomplete(areaInput, areaSelect);
         });
 
-        function filterAreas() {
-            var input = document.getElementById("areaInput");
-            var filter = input.value.toUpperCase();
-            var areaDropdown = document.getElementById("area");
-            var options = areaDropdown.getElementsByTagName("option");
+        // function filterAreas() {
+        //     var input = document.getElementById("areaInput");
+        //     var filter = input.value.toUpperCase();
+        //     var areaDropdown = document.getElementById("area");
+        //     var options = areaDropdown.getElementsByTagName("option");
 
-            for (var i = 0; i < options.length; i++) {
-                var txtValue = options[i].textContent || options[i].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    options[i].style.display = "";
-                } else {
-                    options[i].style.display = "none";
-                }
-            }
+        //     for (var i = 0; i < options.length; i++) {
+        //         var txtValue = options[i].textContent || options[i].innerText;
+        //         if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        //             options[i].style.display = "";
+        //         } else {
+        //             options[i].style.display = "none";
+        //         }
+        //     }
 
-            areaDropdown.size = options.length;  // Expand dropdown to show all filtered options
-        }
+        //     areaDropdown.size = options.length;  // Expand dropdown to show all filtered options
+        // }
 
 
 
@@ -474,25 +533,88 @@
 
         </b>
 
+        <div>
+            <b>
+                @Html.LabelFor(model => model.Area)
+                <input type="text" id="areaInput" oninput="filterAreas()" placeholder="Search for Area">
+            </b>
+            <div id="areaPopup" class="popup">
+                @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
+                {
+                new SelectListItem {Text = "-Select Area-", Value = ""}
+                // Add other SelectListItem items dynamically if needed
+                }, new { @id = "area", @onchange = "areachange()", @class = "form-select", style = "flex-grow: 1; max-height: 100px; overflow-y: auto;" })
+            </div>
+        </div>
+
+        <script>
+            function filterAreas() {
+                var input = document.getElementById("areaInput");
+                var filter = input.value.toUpperCase();
+                var areaDropdown = document.getElementById("area");
+                var options = areaDropdown.getElementsByTagName("option");
+
+                for (var i = 0; i < options.length; i++) {
+                    var txtValue = options[i].textContent || options[i].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        options[i].style.display = "";
+                    } else {
+                        options[i].style.display = "none";
+                    }
+                }
+
+                areaDropdown.size = options.length;  // Expand dropdown to show all filtered options
+            }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                var areaDropdown = document.getElementById("area");
+                var areaInput = document.getElementById("areaInput");
+
+                areaDropdown.addEventListener("change", function () {
+                    var selectedOption = areaDropdown.options[areaDropdown.selectedIndex];
+                    if (selectedOption.value !== "") {
+                        areaInput.value = selectedOption.textContent.trim(); // Update input field with selected text
+                        document.getElementById("areaPopup").style.display = "none"; // Hide the popup after selection
+                    }
+                });
+
+                areaInput.addEventListener("click", function () {
+                    document.getElementById("areaPopup").style.display = "block"; // Show popup on input click
+                });
+
+                document.addEventListener("click", function (e) {
+                    if (!areaInput.contains(e.target) && !areaDropdown.contains(e.target)) {
+                        document.getElementById("areaPopup").style.display = "none"; // Close popup if clicked outside
+                    }
+                });
+            });
+        </script>
+
         <b>
-            @Html.LabelFor(model => model.Area)
-            @* <div style="display: flex;"> *@
-            <input type="text" id="areaInput" oninput="filterAreas()" placeholder="Search for Area">
-            @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
+            @Html.LabelFor(model => model.Executive)
+            @Html.DropDownListFor(model => model.Executive, new List<SelectListItem>
             {
-            new SelectListItem {Text = ""}
-            },  new { @id = "area", @onchange = "areachange()", @class = "form-select", style = "flex-grow: 1;" })
-            @* </div> *@
+            new SelectListItem { Text = "", Value = "" }
+            }, new { @id = "executive", @onchange = "executivechange()", @class = "form-select" })
 
         </b>
-
+        <b>
+            @Html.LabelFor(model => model.Distributor)
+            @Html.DropDownListFor(model => model.Distributor, new List<SelectListItem>
+            {
+            new SelectListItem { Text = "", Value = "" }
+            }, new { @id = "distributor", onchange = "distributorchange()", @class = "form-select" })
+            @*@Html.ValidationMessageFor(model => model.Distributor, "", new { @class = "text-danger" })*@
+        </b>
         <b>
             @Html.LabelFor(model => model.Retailor)
             @Html.DropDownListFor(model => model.Retailor, new List<SelectListItem>
             {
             new SelectListItem { Text = "", Value = "" }
             }, new { @id = "retailor", @class = "form-select" })
+            @*@Html.ValidationMessageFor(model => model.Retailor, "", new { @class = "text-danger" })*@
         </b>
+        
         <b>
 
             @Html.LabelFor(model => model.StartDate)

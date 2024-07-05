@@ -71,7 +71,7 @@ namespace Naturals.Service.Service
         public async Task<List<DsrRetailor>> GetAssignedRetailorDetailsByDistributorId(string DistributorId)
         {
 
-            var result = await _HttpCleintWrapper.GetByIdAsync<List<DsrRetailor>>("/Dsr/", DistributorId);
+            var result = await _HttpCleintWrapper.GetByIdAsync<List<DsrRetailor>>("/Dsr/RetailorDetailsbyExeOrDisId?Id=", DistributorId);
 
             return result;
 
