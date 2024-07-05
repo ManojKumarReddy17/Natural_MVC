@@ -146,7 +146,7 @@
 
                 <div class="col-md-2">
                     <div class="form-group">
-                        <b>
+                        <b>                         
                             @Html.LabelFor(model => model.Area)
                             @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
                         {
@@ -287,32 +287,7 @@
 
     <!-------------------------------------------------------------Pagination------------------------------------------------------------------->
 
-   @*  <div class="text-center">
-        @if (ViewBag.Pages != null && ViewBag.Pages.TotalPages > 1)
-        {
-            <b>Page @ViewBag.Pages.CurrentPage of @ViewBag.Pages.TotalPages</b>
-
-            <div class="d-flex justify-content-between">
-                <ul class="pagination">
-                    <li class="page-item @(ViewBag.Pages.CurrentPage == 1 ? "disabled" : "")">
-                        <a class="page-link text-black" href="@Url.Action("DisplayDistributors", new { page = ViewBag.Pages.CurrentPage - 1 })" style="font-weight: bold; background-color: transparent; border: none;">
-                            <span aria-hidden="true">&laquo;</span>
-                            Previous
-                        </a>
-                    </li>
-                </ul>
-
-                <ul class="pagination">
-                    <li class="page-item @(ViewBag.Pages.CurrentPage == ViewBag.Pages.TotalPages ? "disabled" : "")">
-                        <a class="page-link text-black" href="@Url.Action("DisplayDistributors", new { page = ViewBag.Pages.CurrentPage + 1 })" style="font-weight: bold; background-color: transparent; border: none;">
-                            Next
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        }
-    </div> *@
+  
     <div class="text-center">
         @if (ViewBag.TotalPages > 1)
         {
@@ -378,8 +353,7 @@
                         });
                 }
             }
-            // function citychange() {
-            //     var cityid = $('#city').val();
+           
             function citychange() {
                 var defaultCityId = '@defaultCityId';
                 var cityid = $('#city').val() == null ? defaultCityId : $('#city').val();

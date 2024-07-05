@@ -198,24 +198,7 @@
 
 
     <!-------------------------------------------------------------Pagination------------------------------------------------------------------->
-    <div class="text-center">
-        @if (ViewBag.Pages != null && ViewBag.Pages.TotalPages > 0)
-        {
-            <b>Page @ViewBag.Pages.CurrentPage of @ViewBag.Pages.TotalPages</b>
-            <div class="d-flex justify-content-between">
-                <ul class="pagination">
-                    <li class="page-item @(ViewBag.Pages.CurrentPage == 1 ? "disabled" : "")">
-                        <a class="page-link text-black" href="javascript:void(0)" onclick="searchDistributors(@ViewBag.Pages.CurrentPage - 1)">Previous</a>
-                    </li>
-                </ul>
-                <ul class="pagination">
-                    <li class="page-item @(ViewBag.Pages.CurrentPage == ViewBag.Pages.TotalPages ? "disabled" : "")">
-                        <a class="page-link text-black" href="javascript:void(0)" onclick="searchDistributors(@ViewBag.Pages.CurrentPage + 1)">Next</a>
-                    </li>
-                </ul>
-            </div>
-        }
-    </div>
+ 
 
 <!---------------------------------------------------------AJAX CODE FOR CITY CHANGE AND AREA-------------------------------------------------->
 <script src="~/js/jquery-3.6.0.min.js"></script>
@@ -273,5 +256,5 @@
     </script>
 
 
-}
+
 

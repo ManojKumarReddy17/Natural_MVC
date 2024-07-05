@@ -251,18 +251,18 @@ namespace Naturals.Service.Service
             return SearchedResult;
         }
 
-        public async Task<List<DistributorModel>> GetNonAssignedDistributors()
+        public async Task<PaginationResult<DistributorModel>> GetNonAssignedDistributors()
         {
             var nonAssign = true;
             SearchModel search = new SearchModel();
-            var getdistributor = await _httpClient.SearchAsync<List<DistributorModel>>("/Distributor?nonAssign=", search, nonAssign);
+            var getdistributor = await _httpClient.SearchAsync<PaginationResult<DistributorModel>>("/Distributor?nonAssign=", search, nonAssign);
             return getdistributor;
 
         }
-        public async Task<List<DistributorModel>>   SearchNonAssignedDistributors(SearchModel searchdistributor)
+        public async Task<PaginationResult<DistributorModel>>   SearchNonAssignedDistributors(SearchModel searchdistributor)
         {
             var nonAssign = true; 
-            var SearchedResult = await _httpClient.SearchAsync<List<DistributorModel>>("/Distributor?", searchdistributor, nonAssign);
+            var SearchedResult = await _httpClient.SearchAsync<PaginationResult<DistributorModel>>("/Distributor?", searchdistributor, nonAssign);
             return SearchedResult;
         }
         public async Task<string> DeleteAssignedDistributor(string distributorId, string executiveId)
