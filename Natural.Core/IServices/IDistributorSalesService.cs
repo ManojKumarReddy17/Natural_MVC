@@ -12,6 +12,9 @@ namespace Natural.Core.IServices
         Task<DistributorSalesReportInput> GetAllDSR(DistributorSalesReport DSReport);
         Task<List<DistributorSalesReportInput>> SearchDSR(DistributorSalesReport Search);
         Task<DistributorSalesReport> GetDsreport();
-        Task<List<RetailorByArea>> GetAssignedRetailorByArea(string areaId);
+        // Task<List<RetailorByArea>> GetAssignedRetailorByArea(string areaId);
+        Task<List<ExecutiveByArea>> GetExecutiveByArea(string areaId);
+        Task<List<DsrDistributor>> GetDistributorDetailsByExecutiveId(string ExecutiveId);
+        Task<List<DsrRetailor>> GetRetailorDetailsByDistributorId(string DistributorId);
     }
 }

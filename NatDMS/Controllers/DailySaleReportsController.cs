@@ -35,15 +35,17 @@ namespace NatDMS.Controllers
 
                 var statesResult = await _unifiedService.GetStates();
 
+                var CityList = await _unifiedService.GetCities();
 
-                var defaultState = "Karnataka";
-                var defaultCity = "Bengaluru";
+                //  var defaultState = "Karnataka";
+                //var defaultCity = "Bengaluru";
 
                 var viewModel = new DistributorSalesReport
                 {
                     StateList = statesResult,
-                    State = defaultState,
-                    City = defaultCity,
+                    CityList = CityList
+                    // State = defaultState,
+                    // City = defaultCity,
                     //  Retailorlist = reportResult
                 };
 
@@ -68,17 +70,32 @@ namespace NatDMS.Controllers
             var result = await _unifiedService.GetCitiesbyStateId(stateId);
             return Json(result);
         }
-        public async Task<IActionResult> GetretailorByArea(string areaId)
+        [HttpGet]
+        public async Task<JsonResult> GetAExecutiveByArea(string areaId)
         {
-            var result = await _distributorSalesService.GetAssignedRetailorByArea(areaId);
-            return Ok(result);
+            var result = await _distributorSalesService.GetExecutiveByArea(areaId);
+            return Json(result);
         }
 
+        [HttpGet]
+        public async Task<JsonResult> GetDistributorByExecutiveId(string executiveId)
+        {
+            var result = await _distributorSalesService.GetDistributorDetailsByExecutiveId(executiveId);
+            return Json(result);
+        }
+        [HttpGet]
+        public async Task<JsonResult> GetRetailorByDistributorId(string distributorId)
+        {
+            var result = await _distributorSalesService.GetRetailorDetailsByDistributorId(distributorId);
+            return Json(result);
+        }
         [HttpPost]
         public async Task<ActionResult> DisplayDsreport([FromBody] DistributorSalesReport Search)
         {
             var viewmo = await _distributorSalesService.SearchDSR(Search);
+            
             return Json(viewmo);
         }
+
     }
 }

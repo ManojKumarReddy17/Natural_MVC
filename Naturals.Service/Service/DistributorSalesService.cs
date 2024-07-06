@@ -14,12 +14,13 @@ namespace Naturals.Service.Service
         private readonly IHttpClientWrapper _httpClientWrapper;
         private readonly IRetailorService _retailorService;
         private readonly IUnifiedService _unifiedService;
-
-        public DistributorSalesService(IHttpClientWrapper httpClientWrapper, IRetailorService retailorService, IUnifiedService unifiedService)
+        private readonly IExecutiveService _executiveService;
+        public DistributorSalesService(IHttpClientWrapper httpClientWrapper, IExecutiveService executiveService, IRetailorService retailorService, IUnifiedService unifiedService)
         {
             _httpClientWrapper = httpClientWrapper;
             _retailorService = retailorService;
             _unifiedService = unifiedService;
+            _executiveService = executiveService;
         }
 
         public async Task<DistributorSalesReportInput> GetAllDSR(DistributorSalesReport DSReport)
@@ -37,38 +38,68 @@ namespace Naturals.Service.Service
             return SearchedResult;
         }
 
-       
-        public async Task<List<RetailorByArea>> GetAssignedRetailorByArea(string areaId)
+
+        //public async Task<List<RetailorByArea>> GetAssignedRetailorByArea(string areaId)
+        //{
+
+
+        //    var result = await _httpClientWrapper.GetByIdAsync<List<RetailorByArea>>("/Retailor/areaId/", areaId);
+
+        //    return result;
+
+        //}
+
+
+
+        public async Task<List<ExecutiveByArea>> GetExecutiveByArea(string areaId)
         {
 
 
-            var result = await _httpClientWrapper.GetByIdAsync<List<RetailorByArea>>("/Retailor/areaId/", areaId);
+            var result = await _httpClientWrapper.GetByIdAsync<List<ExecutiveByArea>>("/Executive/areaId/", areaId);
 
             return result;
 
         }
+        public async Task<List<DsrDistributor>> GetDistributorDetailsByExecutiveId(string ExecutiveId)
+        {
+            var result = await _httpClientWrapper.GetByIdAsync<List<DsrDistributor>>("/Dsr/Details/", ExecutiveId);
+            return result;
+
+        }
+
+        public async Task<List<DsrRetailor>> GetRetailorDetailsByDistributorId(string id)
+        {
+
+            var result = await _httpClientWrapper.GetByIdAsync<List<DsrRetailor>>("/Dsr/RetailorDetailsbyExeOrDisId?Id=", id);
+
+            return result;
+        }
+
       
-
-
         public async Task<DistributorSalesReport> GetDsreport()
         {
-            PaginationResult<RetailorModel> retailor = await _retailorService.GetAllRetailors();
+            List<ED_CreateModel> retailor = await _executiveService.GetExecutives();
 
-           
-            List<RetailorByArea> retailorList = retailor.Items.Select(c => new RetailorByArea
+
+            List<DsrExecutiveDrop> ExecutiveList = retailor.Select(c => new DsrExecutiveDrop
             {
                 Id = c.Id,
-                Retailor = string.Concat(c.FirstName, " ", c.LastName)
+                Executive = string.Concat(c.FirstName, " ", c.LastName)
 
             }).ToList();
+            List<DsrDistributorDrop> distributor = null;
+            List<DsrRetailorDrop> retailors = null;
 
             DistributorSalesReport viewmodel = new DistributorSalesReport()
             {
-                Retailorlist = retailorList
+                Executivelist = ExecutiveList,
+                Distributorlist = distributor,
+                Retailorlist = retailors
             };
 
             return viewmodel;
         }
+
 
 
     }

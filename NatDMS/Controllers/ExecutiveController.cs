@@ -38,14 +38,14 @@ namespace NatDMS.Controllers
         {
             var executiveResult = await _ExecutiveService.GetExecutives();
             var viewmodel = _mapper.Map<List<ED_CreateModel>, List<ED_CreateViewModel>>(executiveResult);
-            var executivePgn = new PageNation<ED_CreateViewModel>(viewmodel, _configuration, page);
-            var paginatedData = executivePgn.GetPaginatedData(viewmodel);
+            //var executivePgn = new PageNation<ED_CreateViewModel>(viewmodel, _configuration, page);
+            //var paginatedData = executivePgn.GetPaginatedData(viewmodel);
 
-            ViewBag.Pages = executivePgn;
+            //ViewBag.Pages = executivePgn;
             var statesResult = await _unifiedservice.GetStates();
             var viewModel = new EDR_DisplayViewModel
             {
-                ExecutiveList = paginatedData,
+                ExecutiveList = viewmodel,
                 StateList = statesResult,
             };
 
