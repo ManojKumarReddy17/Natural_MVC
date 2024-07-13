@@ -212,14 +212,14 @@ namespace Naturals.Service.Service
         /// <summary>
         /// GET ALL NON_ASSIGNED RETAILORS
         /// </summary>
-        public async Task<List<RetailorModel>> GetNonAssignedRetailors()
-        {
-            var nonAssign = true;
-            SearchModel search = new SearchModel();
-            var getretailor = await _HttpCleintWrapper.SearchAsync<List<RetailorModel>>("/Retailor?nonAssign=", search,nonAssign);
-            return getretailor;
+        //public async Task<List<RetailorModel>> GetNonAssignedRetailors()
+        //{
+        //    var nonAssign = true;
+        //    SearchModel search = new SearchModel();
+        //    var getretailor = await _HttpCleintWrapper.SearchAsync<List<RetailorModel>>("/Retailor?nonAssign=", search,nonAssign);
+        //    return getretailor;
 
-        }
+        //}
         public async Task<List<RetailorModel>> SearchRetailor(SearchModel searchretailor)
         {
             var nonAssign = false;
@@ -245,9 +245,14 @@ namespace Naturals.Service.Service
             return delete;
         }
 
-        Task<PaginationResult<RetailorModel>> IDistributorService.GetNonAssignedRetailors()
+        public async Task<PaginationResult<RetailorModel>> GetNonAssignedRetailors()
         {
-            throw new NotImplementedException();
+            var nonAssign = true;
+            SearchModel search = new SearchModel();
+            var getexes = await _HttpCleintWrapper.SearchAsync<PaginationResult<RetailorModel>>($"/Retailor?nonAssig=", search, nonAssign);
+            return getexes;
+
+
         }
 
         Task<PaginationResult<RetailorModel>> IDistributorService.SearchNonAssignedRetailors(SearchModel searchdistributor)
@@ -255,5 +260,6 @@ namespace Naturals.Service.Service
             throw new NotImplementedException();
         }
     }
-}
 
+
+}

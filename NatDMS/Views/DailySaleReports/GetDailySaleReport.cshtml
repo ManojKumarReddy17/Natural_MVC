@@ -28,7 +28,7 @@
     <script src="~/js/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
 
 
@@ -50,24 +50,24 @@
 
 
             var totalQuantity = 0;
-            var totalPrice = 0;
+            // var totalPrice = 0;
             var totalSaleAmount = 0;
 
             // Loop through each row in the table
             $(content).find('tr').each(function () {
                 // Get quantity, price, and sale amount from each row
                 var quantity = parseFloat($(this).find('td:eq(1)').text()) || 0;
-                var price = parseFloat($(this).find('td:eq(2)').text()) || 0;
+                // var price = parseFloat($(this).find('td:eq(2)').text()) || 0;
                 var saleAmount = parseFloat($(this).find('td:eq(3)').text()) || 0;
 
                 // Add to totals
                 totalQuantity += quantity;
-                totalPrice += price;
+                // totalPrice += price;
                 totalSaleAmount += saleAmount;
             });
 
             var footer = '<div style="text-align:right;"><b>Total Quantity:</b> ' + totalQuantity.toFixed(2) + '</div>' +
-                '<div style="text-align:right;"><b>Total Price:</b> ' + totalPrice.toFixed(2) + '</div>' +
+                // '<div style="text-align:right;"><b>Total Price:</b> ' + totalPrice.toFixed(2) + '</div>' +
                 '<div style="text-align:right;"><b>Total Sale Amount:</b> ' + totalSaleAmount.toFixed(2) + '</div><br>';
 
             var printableContent = header + content + footer;
@@ -103,7 +103,9 @@
             if (stid.trim() != '') {
                 var ddlcity = $('#city');
                 ddlcity.empty();
-                
+                $("executive").empty();
+                $("distributor").empty();
+                $("retialor").empty();
                
                 $.ajax(
                     {
@@ -142,7 +144,7 @@
                         dataType: 'json',
                         data: { cityId: cityid },
                         success: function (d) {
-                            ddlarea.append($("<option></option>").val('').html('-SelectArea-'));
+                            ddlarea.append($("<option></option>").val(''));
                             $.each(d.items, function (i, areas) {
                                 ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
                             });
@@ -165,7 +167,7 @@
                     dataType: 'json',
                     data: { areaId: areaId },
                     success: function (d) {
-                        ddlExecutive.append($("<option></option>").val('').html('-SelectExecutive-'));
+                        ddlExecutive.append($("<option></option>").val(''));
                         $.each(d, function (i, executive) {
                             ddlExecutive.append($("<option>" + executive.executive + "</option>").val(executive.id).html(executive.name));
                         });
@@ -194,7 +196,7 @@
                         dataType: 'json',
                         data: { executiveId: exid },
                         success: function (d) {
-                            ddldis.append($("<option></option>").val('').html('--Select Distributor--'));
+                            ddldis.append($("<option></option>").val(''));
                             $.each(d, function (i, distributors) {
                                 ddldis.append($("<option>" + distributors.distributorName + "</option>").val(distributors.id).html(distributors.distributorName));
                             });
@@ -219,9 +221,9 @@
                         dataType: 'json',
                         data: { distributorId: disid },
                         success: function (d) {
-                            ddlret.append($("<option></option>").val('').html('--Select Retailors--'));
+                            ddlret.append($("<option></option>").val(''));
                             $.each(d, function (i, retailors) {
-                                ddlret.append($("<option>" + retailors.retailor + "</option>").val(retailors.id).html(retailors.retailor));
+                                ddlret.append($("<option>" + retailors.retailor + "</option>").val(retailors.retailorId).html(retailors.retailor));
                             });
                         },
                         error: function () {
@@ -231,65 +233,76 @@
             }
         }
 
+        
+        $(document).ready(function () {
+            // Set default values for StartDate and EndDate
+            $("#StartDate").val("YYYY-MM-DD");
+            $("#EndDate").val("YYYY-MM-DD");
 
-        function Save() {
-            var modelData = {
-                State: $("#state").val(),
-                City: $("#city").val(),
-                Area: $("#area").val(),
-                Executive: $("#executive").val(),
-                Distributor: $("#distributor").val(),
-                Retailor: $("#retailor").val(),
-                StartDate: $("#StartDate").val(),
-                EndDate: $("#EndDate").val(),
-            };
+            // Event handler for Save button click
+            $("#saveButton").click(function () {
+                // Show loading indicator
+                $("#loadingIndicator").show();
 
-            var jsonString = JSON.stringify(modelData);
+                // Prepare data to send
+                var modelData = {
+                            State: $("#state").val(),
+                            City: $("#city").val(),
+                            Area: $("#area").val(),
+                            Executive: $("#executive").val(),
+                            Distributor: $("#distributor").val(),
+                            Retailor: $("#retailor").val(),
+                    // Add more fields as needed
+                    StartDate: $("#StartDate").val(),
+                    EndDate: $("#EndDate").val()
+                };
 
-            $.ajax({
-                url: "/DailySaleReports/DisplayDsreport",
-                type: "POST",
-                data: jsonString,
-                processData: false,
-                contentType: "application/json",
-                success: function (response) {
-                    $("#Productlist").empty();
-                    if (response.length === 0) {
-                        // If no data is provided, display a message
+                // Convert data to JSON string
+                var jsonString = JSON.stringify(modelData);
+
+                // AJAX request
+                $.ajax({
+                    url: "/DailySaleReports/DisplayDsreport",
+                    type: "POST",
+                    data: jsonString,
+                    contentType: "application/json",
+                    success: function (response) {
+                        $("#Productlist").empty();
+                        if (response.length === 0) {
+                            $("#Productlist").append('<tr><td colspan="4">No data provided</td></tr>');
+                        } else {
+                            $("#Productlist").append('<tr style="font-weight:bold">' +
+                                '<td>Product Name</td>' +
+                                '<td>Quantity</td>' +
+                                '<td>ProductType</td>' +
+                                '<td>Sale Amount</td>' +
+                                '</tr>');
+                            $.each(response, function (i, ds) {
+                                $("#Productlist").append(
+                                    '<tr>' +
+                                    '<td>' + ds.product_Name + '</td>' +
+                                    '<td>' + ds.quantity + '</td>' +
+                                    '<td>' + ds.productType + '</td>' +
+                                    '<td>' + ds.saleAmount + '</td>' +
+                                    '</tr>'
+                                );
+                            });
+                        }
+                    },
+                    error: function (request, status, error) {
+                    //     alert('Error fetching data: ' + error);
+                        $("#Productlist").empty();
                         $("#Productlist").append('<tr><td colspan="4">No data provided</td></tr>');
-                    } else {
-                        // Otherwise, populate the table with data
-                        $("#Productlist").append('<tr style="font-weight:bold">' +
-                            '<td>Product Name</td>' +
-                            '<td>Quantity</td>' +
-                            '<td>Price</td>' +
-                            '<td>Sale Amount</td>' +
-                            '</tr>');
-                        $.each(response, function (i, ds) {
-                            $("#Productlist").append(
-                                '<tr>' +
-                                '<td>' + ds.product_Name + '</td>' +
-                                '<td>' + ds.quantity + '</td>' +
-                                '<td>' + ds.price + '</td>' +
-                                '<td>' + ds.saleAmount + '</td>' +
-                                '</tr>'
-                            );
-                        });
+                    },
+                    complete: function () {
+                        // Hide loading indicator when request completes (success or error)
+                        $("#loadingIndicator").hide();
                     }
-                },
-                error: function (request, status, error) {
-                    // If there's an error, display an alert
-                    alert('Error fetching data: ' + error);
-                    // Clear the table content
-                    $("#Productlist").empty();
-                    // Display "No data provided" message
-                    $("#Productlist").append('<tr><td colspan="4">No data provided</td></tr>');
-                }
+                });
             });
-        }
-        //date
-        document.getElementById("StartDate").defaultValue = "YYYY-MM-DD";
-        document.getElementById("EndDate").defaultValue = "YYYY-MM-DD";
+        });
+
+
 
 
         function autocomplete(inp, select) {
@@ -350,14 +363,7 @@
                 }
             }
 
-            // function closeAllLists(elmnt) {
-            //     var x = document.getElementsByClassName("autocomplete-items");
-            //     for (var i = 0; i < x.length; i++) {
-            //         if (elmnt != x[i] && elmnt != inp) {
-            //             x[i].parentNode.removeChild(x[i]);
-            //         }
-            //     }
-            // }
+
             function closeAllLists(elmnt) {
                 console.log("Closing dropdown list");
                 var x = document.getElementsByClassName("autocomplete-items");
@@ -381,34 +387,10 @@
             autocomplete(areaInput, areaSelect);
         });
 
-        // function filterAreas() {
-        //     var input = document.getElementById("areaInput");
-        //     var filter = input.value.toUpperCase();
-        //     var areaDropdown = document.getElementById("area");
-        //     var options = areaDropdown.getElementsByTagName("option");
-
-        //     for (var i = 0; i < options.length; i++) {
-        //         var txtValue = options[i].textContent || options[i].innerText;
-        //         if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        //             options[i].style.display = "";
-        //         } else {
-        //             options[i].style.display = "none";
-        //         }
-        //     }
-
-        //     areaDropdown.size = options.length;  // Expand dropdown to show all filtered options
-        // }
 
 
 
-        // function selectArea(value) {
-        //     var areaInput = document.getElementById("areaInput");
-        //     areaInput.value = value;
-        //     filterAreas(); // Filter the dropdown options
-
-        //     var areaDropdown = document.getElementById("area");
-        //     areaDropdown.dispatchEvent(new Event('change')); // Trigger change event to close dropdown after selection
-        // }
+ 
         function selectArea(value) {
             console.log("Selecting area:", value); // Check if the function is being called with the correct value
             var areaInput = $("#areaInput");
@@ -418,7 +400,6 @@
             // Trigger change event on the area dropdown to close it after selection
             $("#area").trigger("change");
         }
-
 
 
 
@@ -449,7 +430,7 @@
 
         th,
         td {
-            padding: 5px;
+            padding: 10px;
             text-align: left;
         }
 
@@ -505,21 +486,58 @@
             text-align: left;
         }
     </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save Data with Loading Indicator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 1px;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        #loadingIndicator {
+            display: none;
+            position: fixed;
+            top: 60%;
+            left: 50%;
+            background-color: #ddd;
+            padding: 20px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            z-index: 1000;
+            text-align: center;
+        }
+
+        #Productlist {
+            margin-top: 20px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            #Productlist th, #Productlist td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+
+            #Productlist th {
+                background-color: #f2f2f2;
+            }
+    </style>
 </head>
 <body>
-    <div class="form-group">
+    <div class="form-group" >
         <b>
-            @*    @Html.LabelFor(model => model.State)
-            @Html.DropDownListFor(model => model.State,
-            Model.StateList != null && Model.StateList.Any() ?
-            new SelectList(Model.StateList, "Id", "StateName") :
-            Enumerable.Empty<SelectListItem>(),
-            // "-SelectState-",
-            new { @id = "state", onchange = "statechange()", @class = "form-select" }) *@
+        
 
-            @Html.LabelFor(model => model.State)
+            @Html.LabelFor(model => model.State )
             @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName",defaultStateId),
-            new { @id = "state", onchange = "statechange()", @class = "form-select" })
+                     new { @id = "state", onchange = "statechange()", @class = "form-select", required = "required" })
 
 
         </b>
@@ -527,8 +545,8 @@
             @Html.LabelFor(model => model.City)
             @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
             {
-            new SelectListItem { Text = "", Value =""},
-            }, "Value","Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
+            new SelectListItem { Text = "", Value ="" },
+            }, "Value", "Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select", required = "required" })
 
 
         </b>
@@ -543,67 +561,96 @@
                 {
                 new SelectListItem {Text = "-Select Area-", Value = ""}
                 // Add other SelectListItem items dynamically if needed
-                }, new { @id = "area", @onchange = "areachange()", @class = "form-select", style = "flex-grow: 1; max-height: 100px; overflow-y: auto;" })
+                }, new { @id = "area", @onchange = "areachange()", @class = "form-select", style = "flex-grow: 1; max-height: 100px; overflow-y: auto;", required = "required" })
             </div>
         </div>
 
         <script>
-            function filterAreas() {
-                var input = document.getElementById("areaInput");
-                var filter = input.value.toUpperCase();
+            document.addEventListener("DOMContentLoaded", function () {
+                var stateDropdown = document.getElementById("state");
+                var cityDropdown = document.getElementById("city");
                 var areaDropdown = document.getElementById("area");
-                var options = areaDropdown.getElementsByTagName("option");
+                var executiveDropdown = document.getElementById("executive");
+                var distributorDropdown = document.getElementById("distributor");
+                var retailorDropdown = document.getElementById("retailor");
 
-                for (var i = 0; i < options.length; i++) {
-                    var txtValue = options[i].textContent || options[i].innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        options[i].style.display = "";
-                    } else {
-                        options[i].style.display = "none";
-                    }
+                // Function to reset other dropdowns and close popup
+                function resetOtherDropdowns() {
+                    cityDropdown.value = "";
+                    areaDropdown.value = "";
+                    document.getElementById("areaPopup").style.display = "";
+                    executiveDropdown.value = "";
+                    distributorDropdown.value = "";
+                    retailorDropdown.value = "";
                 }
 
-                areaDropdown.size = options.length;  // Expand dropdown to show all filtered options
-            }
+                // State dropdown change event
+                stateDropdown.addEventListener("change", function () {
+                    resetOtherDropdowns();
+                });
 
-            document.addEventListener("DOMContentLoaded", function () {
-                var areaDropdown = document.getElementById("area");
-                var areaInput = document.getElementById("areaInput");
-
+                // Area dropdown change event
                 areaDropdown.addEventListener("change", function () {
                     var selectedOption = areaDropdown.options[areaDropdown.selectedIndex];
                     if (selectedOption.value !== "") {
-                        areaInput.value = selectedOption.textContent.trim(); // Update input field with selected text
-                        document.getElementById("areaPopup").style.display = "none"; // Hide the popup after selection
+                        document.getElementById("areaInput").value = selectedOption.textContent.trim();
+                        document.getElementById("areaPopup").style.display = "none";
                     }
                 });
 
-                areaInput.addEventListener("click", function () {
-                    document.getElementById("areaPopup").style.display = "block"; // Show popup on input click
+                // Area input click event to show popup
+                document.getElementById("areaInput").addEventListener("click", function () {
+                    document.getElementById("areaPopup").style.display = "block";
                 });
 
+                // Close area popup when clicking outside
                 document.addEventListener("click", function (e) {
-                    if (!areaInput.contains(e.target) && !areaDropdown.contains(e.target)) {
-                        document.getElementById("areaPopup").style.display = "none"; // Close popup if clicked outside
+                    if (!document.getElementById("areaInput").contains(e.target) && !areaDropdown.contains(e.target)) {
+                        document.getElementById("areaPopup").style.display = "none";
                     }
+                });
+
+                // Function to filter area options based on input
+                function filterAreas() {
+                    var input = document.getElementById("areaInput");
+                    var filter = input.value.toUpperCase();
+                    var options = areaDropdown.getElementsByTagName("option");
+
+                    for (var i = 0; i < options.length; i++) {
+                        var txtValue = options[i].textContent || options[i].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            options[i].style.display = "";
+                        } else {
+                            options[i].style.display = "none";
+                        }
+                    }
+
+                    areaDropdown.size = options.length;
+                }
+
+                // Area input keyup event for filtering
+                document.getElementById("areaInput").addEventListener("keyup", function () {
+                    filterAreas();
                 });
             });
         </script>
+
 
         <b>
             @Html.LabelFor(model => model.Executive)
             @Html.DropDownListFor(model => model.Executive, new List<SelectListItem>
             {
             new SelectListItem { Text = "", Value = "" }
-            }, new { @id = "executive", @onchange = "executivechange()", @class = "form-select" })
+            }, new { @id = "executive", @onchange = "executivechange()", @class = "form-select", required = "required" })
 
         </b>
+
         <b>
             @Html.LabelFor(model => model.Distributor)
             @Html.DropDownListFor(model => model.Distributor, new List<SelectListItem>
             {
             new SelectListItem { Text = "", Value = "" }
-            }, new { @id = "distributor", onchange = "distributorchange()", @class = "form-select" })
+            }, new { @id = "distributor", onchange = "distributorchange()", @class = "form-select", required = "required" })
             @*@Html.ValidationMessageFor(model => model.Distributor, "", new { @class = "text-danger" })*@
         </b>
         <b>
@@ -611,20 +658,21 @@
             @Html.DropDownListFor(model => model.Retailor, new List<SelectListItem>
             {
             new SelectListItem { Text = "", Value = "" }
-            }, new { @id = "retailor", @class = "form-select" })
+            }, new { @id = "retailor", @class = "form-select", required = "required" })
             @*@Html.ValidationMessageFor(model => model.Retailor, "", new { @class = "text-danger" })*@
         </b>
         
+         <div id="loadingIndicator" style="display: none;">Loading data...</div> 
         <b>
 
             @Html.LabelFor(model => model.StartDate)
-            <input type="date" id="StartDate" name="StartDate" class="datepicker">
+            <input type="date" id="StartDate" name="StartDate" class="datepicker" style="padding: 8px;">
             @Html.LabelFor(model => model.EndDate)
-            <input type="date" id="EndDate" name="EndDate" class="datepicker">
+            <input type="date" id="EndDate" name="EndDate" class="datepicker" style="padding: 8px;">
         </b>
         <div class="col-md-2">
             <div class="form-group">
-                <button type="button" class="btn btn-secondary my-4" onclick="Save()">
+                <button type="button" id="saveButton" class="btn btn-secondary my-4" onclick="Save()">
                     <i class="material-icons" style="font-size:15px;display:flex;justify-content:center;align-items:center;">search</i>
                 </button>
                 <button class="btn btn-secondary my-4" id="printBtn">
@@ -634,13 +682,21 @@
         </div>
     </div>
 
+    <!-- Add other inputs as needed -->
+
+
+   
+
+  
+
+
     <div class="result-container" style="overflow-y: auto; max-height: 200px;">
         <table class="table" id="Productlist">
             <thead>
                 <tr>
                     <th>Product Name</th>
                     <th>Quantity</th>
-                    <th>Price</th>
+                    <th>ProductType</th>
                     <th>Sale Amount</th>
                 </tr>
             </thead>

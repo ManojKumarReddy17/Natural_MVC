@@ -54,9 +54,9 @@ namespace Naturals.Service.Service
 
 
 
-        public async Task<List<DsrProduct>> GetProductAsync()
+        public async Task<PaginationResult<DsrProduct>> GetProductAsync()
         {
-            var result = await _HttpCleintWrapper.GetAsync<List<DsrProduct>>("/Product");
+            var result = await _HttpCleintWrapper.GetAsync<PaginationResult<DsrProduct>>("/Product");
 
             return result;
         }
@@ -91,7 +91,7 @@ namespace Naturals.Service.Service
            
             var products = await GetProductAsync();
 
-            var create = products.Select(c => new DsrProduct
+            var create = products.Items.Select(c => new DsrProduct
             {
                 Id = c.Id,
                 ProductName = c.ProductName,
@@ -165,12 +165,6 @@ namespace Naturals.Service.Service
                                          from s2 in gj.DefaultIfEmpty()
                                          select s2 != null ? s2 : s1).ToList();
 
-              
-
-
-
-
-
                 Dsrcreate updatemodel = new Dsrcreate()
                 {
                     ExecutiveList = ExistingSession.ExecutiveList,
@@ -183,21 +177,82 @@ namespace Naturals.Service.Service
                     CreatedDate = UpadeSession.CreatedDate
                 };
 
-            return updatemodel;
-        }
+                return updatemodel;
+            }
 
         }
+        //public async Task<Dsrcreate> UpdateSession(Dsrcreate ExistingSession, Dsrcreate UpadeSession)
+        //{
+        //    if (UpadeSession == null)
+        //    {
+        //        throw new ArgumentNullException(nameof(UpadeSession), "Update session data cannot be null.");
+        //    }
+
+        //    // Update product list in ExistingSession based on UpadeSession
+        //    var updatedProductList = ExistingSession.ProductList
+        //        .Select(existingProduct =>
+        //        {
+        //            var updatedProduct = UpadeSession.ProductList?.FirstOrDefault(p => p.Id == existingProduct.Id);
+        //            return updatedProduct ?? existingProduct;
+        //        })
+        //        .ToList();
+
+        //    // Create a new Dsrcreate instance with updated data
+        //    Dsrcreate updatemodel = new Dsrcreate()
+        //    {
+        //        ExecutiveList = ExistingSession.ExecutiveList,
+        //        CategoryList = ExistingSession.CategoryList,
+        //        Executive = UpadeSession.Executive ?? ExistingSession.Executive, // Use UpadeSession.Executive if not null, otherwise ExistingSession.Executive
+        //        Distributor = UpadeSession.Distributor ?? ExistingSession.Distributor,
+        //        Retailor = UpadeSession.Retailor ?? ExistingSession.Retailor,
+        //        ProductList = updatedProductList,
+        //        dsrid = ExistingSession.dsrid, // Retain dsrid from ExistingSession if not null
+        //        CreatedDate = UpadeSession.CreatedDate // Update CreatedDate from UpadeSession
+        //    };
+
+        //    return updatemodel;
+        //}
+
+        //public async Task<Dsrcreate> UpdateSession(Dsrcreate ExistingSession, Dsrcreate UpadeSession)
+        //{
+        //    // Check if UpadeSession is null; handle accordingly if needed
+        //    if (UpadeSession == null)
+        //    {
+        //        throw new ArgumentNullException(nameof(UpadeSession), "Update session data cannot be null.");
+        //    }
+
+        //    // Update product list in ExistingSession based on UpadeSession
+        //    var updatedProductList = (from s1 in ExistingSession.ProductList
+        //                              join s2 in UpadeSession.ProductList
+        //                                         on s1.Id equals s2?.Id into gj
+        //                              from s2 in gj.DefaultIfEmpty()
+        //                              select s2 ?? s1).ToList();
+
+        //    // Create a new Dsrcreate instance with updated data
+        //    Dsrcreate updatemodel = new Dsrcreate()
+        //    {
+        //        ExecutiveList = ExistingSession.ExecutiveList,
+        //        CategoryList = ExistingSession.CategoryList,
+        //        Executive = UpadeSession.Executive,
+        //        Distributor = UpadeSession.Distributor,
+        //        Retailor = UpadeSession.Retailor,
+        //        ProductList = updatedProductList,
+        //        dsrid = ExistingSession.dsrid, // Retain dsrid from ExistingSession if not null
+        //        CreatedDate = UpadeSession.CreatedDate // Update CreatedDate from UpadeSession
+        //    };
+
+        //    return updatemodel;
+        //}
 
 
-       
 
 
 
         //public async Task<DsrInsert> Insert(Dsrcreate ExistingSession)
-      public async Task<DsrInsert> onlyUpdateaInsert(Dsrcreate ExistingSession)
+        public async Task<DsrInsert> onlyUpdateaInsert(Dsrcreate ExistingSession)
         {
             var Total = ExistingSession.ProductList.Sum(item => item.Total);
-            List<DsrProduct> oldproduct = await GetProductAsync();
+            PaginationResult<DsrProduct> oldproduct = await GetProductAsync();
             List<DsrProduct> newproduct = ExistingSession.ProductList;
 
             var differentProducts = ExistingSession.ProductList.Where(s => s.Quantity != null)

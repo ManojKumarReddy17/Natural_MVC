@@ -73,7 +73,7 @@
                             ddlret.append($("<option></option>").val('').html('--Select Retailors--'));
                             $.each(d, function (i, retailors) {
 
-                                ddlret.append($("<option>" + retailors.retailor + "</option>").val(retailors.id).html(retailors.retailor));
+                                ddlret.append($("<option>" + retailors.retailor + "</option>").val(retailors.retailorId).html(retailors.retailor));
                             });
                         },
                         error: function () {
@@ -125,7 +125,7 @@
                 Distributor: $("#distributor").val(),
                 Category: $("#Category").val(),
                 Product: $("#Product").val(),
-                CreatedDate: $("#CreatedDate").val(),
+                CreatedDate: $("#StartDate").val(),
                 ProductList: []
             };
 
@@ -199,7 +199,7 @@
                 Distributor: $("#distributor").val(),
                 Category: $("#Category").val(),
                 Product: $("#Product").val(),
-                CreatedDate: $("#CreatedDate").val(),
+                CreatedDate: $("#StartDate").val(),
                 ProductList: []
             };
             $("#Productlist TBODY TR").each(function () {
