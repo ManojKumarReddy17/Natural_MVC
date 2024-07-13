@@ -114,28 +114,54 @@ namespace NatDMS.Controllers
         
 
 
-        [HttpPost]
-        public async Task<JsonResult> CreateDsr([FromBody] Dsrcreate model)
-        {
-            string dsrjsonFromSession = _HttpContextAccessor.HttpContext.Session.GetString("DSR");
-            Dsrcreate deserializedViewModel = JsonConvert.DeserializeObject<Dsrcreate>(dsrjsonFromSession);
+        //[HttpPost]
+        //public async Task<JsonResult> CreateDsr([FromBody] Dsrcreate model)
+        //{
+        //    string dsrjsonFromSession = _HttpContextAccessor.HttpContext.Session.GetString("DSR");
+        //    Dsrcreate deserializedViewModel = JsonConvert.DeserializeObject<Dsrcreate>(dsrjsonFromSession);
 
-            var updatemodel = await _dsrservice.UpdateSession(deserializedViewModel, model);
+        //    var updatemodel = await _dsrservice.UpdateSession(deserializedViewModel, model);
 
-            string update = JsonConvert.SerializeObject(updatemodel);
-            _HttpContextAccessor.HttpContext.Session.SetString("DSR", update);
+        //    string update = JsonConvert.SerializeObject(updatemodel);
+        //    _HttpContextAccessor.HttpContext.Session.SetString("DSR", update);
 
-            string FromSession = _HttpContextAccessor.HttpContext.Session.GetString("DSR");
-            Dsrcreate ViewModel = JsonConvert.DeserializeObject<Dsrcreate>(FromSession);
+        //    string FromSession = _HttpContextAccessor.HttpContext.Session.GetString("DSR");
+        //    Dsrcreate ViewModel = JsonConvert.DeserializeObject<Dsrcreate>(FromSession);
 
 
-            var insertdata = await _dsrservice.onlyUpdateaInsert(ViewModel);
-            var result = await _dsrservice.Insert(insertdata);
+        //    var insertdata = await _dsrservice.onlyUpdateaInsert(ViewModel);
+        //    var result = await _dsrservice.Insert(insertdata);
 
            
 
-            return Json(result);
+        //    return Json(result);
+        //}
+        [HttpPost]
+
+        public async Task<JsonResult> CreateDsr([FromBody] Dsrcreate model)
+        {
+            try
+            {
+                string dsrjsonFromSession = _HttpContextAccessor.HttpContext.Session.GetString("DSR");
+                Dsrcreate deserializedViewModel = !string.IsNullOrEmpty(dsrjsonFromSession)
+                    ? JsonConvert.DeserializeObject<Dsrcreate>(dsrjsonFromSession)
+                    : new Dsrcreate();
+
+                Dsrcreate updatedModel = await _dsrservice.UpdateSession(deserializedViewModel, model);
+                string updatedJson = JsonConvert.SerializeObject(updatedModel);
+                _HttpContextAccessor.HttpContext.Session.SetString("DSR", updatedJson);
+
+                var insertData = await _dsrservice.onlyUpdateaInsert(updatedModel);
+                var result = await _dsrservice.Insert(insertData);
+
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = "An error occurred: " + ex.Message });
+            }
         }
+
 
 
         public async Task<ActionResult> Deletedsr(string dsrId)

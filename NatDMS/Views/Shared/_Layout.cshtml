@@ -7,6 +7,67 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <script src="~/Scripts/umd/popper.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var links = document.querySelectorAll('.list-group a');
+
+            // Add click event listener to each link
+            links.forEach(function (link) {
+                link.addEventListener("click", function () {
+                    // Remove active class from all links
+                    links.forEach(function (l) {
+                        l.classList.remove('active');
+                    });
+
+                    // Add active class to the clicked link
+                    this.classList.add('active');
+                });
+            });
+
+            // Set initial active link based on current URL
+            var currentUrl = window.location.pathname;
+            links.forEach(function (link) {
+                if (link.getAttribute('href') === currentUrl) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+    <style>
+        .list-group {
+            list-style-type: none; /* Remove default list styles */
+            padding: 0;
+        }
+
+        .list-group-item {
+            padding: 15px;
+            margin-bottom: 5px;
+            background-color: #f8f9fa; /* Default background color */
+        }
+
+            .list-group-item.active {
+                background-color: #e9ecef; /* Active background color */
+            }
+
+        
+            
+        
+
+
+       
+
+        .active::before {
+            /* content: "●"; /* Unicode bullet symbol ● */ */
+            margin-right: 10px;
+            color: #007bff; /* Color of the bullet */
+        }        .active::after {
+            /* content: "●"; /* Unicode bullet symbol ● */ */
+            margin-right: 10px;
+            color: #007bff; /* Color of the bullet */
+        }
+    </style>
+
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/myboot.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/NatDMS.styles.css" asp-append-version="true" />
@@ -31,6 +92,9 @@
     <link rel="stylesheet" type="text/css" href="css/responsive.css">
     <link rel="stylesheet" type="text/css" href="css/myboot.css">
     <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
+
+
+
     @RenderSection("BannerStyles", required: false)
     <!-- Bootstrap CSS -->
     <style>

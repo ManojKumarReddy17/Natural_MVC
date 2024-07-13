@@ -15,6 +15,7 @@ namespace Natural.Core.Models
         public List<DsrRetailorDrop> RetailorList { get; set; }
 
         public string Retailor { get; set; }
+        public string Retailorid { get; set; }
 
         public List<CategoryModel> CategoryList { get; set; }
 

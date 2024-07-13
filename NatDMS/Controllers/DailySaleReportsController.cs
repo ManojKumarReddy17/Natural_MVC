@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Framework;
 using NatDMS.Models;
 using Natural.Core.IServices;
 using Natural.Core.Models;
@@ -77,10 +78,17 @@ namespace NatDMS.Controllers
             return Json(result);
         }
 
+        //[HttpGet]
+        //public async Task<JsonResult> GetDistributorByExecutiveId(string executiveId)
+        //{
+        //    var result = await _distributorSalesService.GetDistributorDetailsByExecutiveId(executiveId);
+        //    return Json(result);
+        //}
         [HttpGet]
         public async Task<JsonResult> GetDistributorByExecutiveId(string executiveId)
         {
-            var result = await _distributorSalesService.GetDistributorDetailsByExecutiveId(executiveId);
+            var result = await _dsrservice.AssignedDistributorDetailsByExecutiveId(executiveId);
+
             return Json(result);
         }
         [HttpGet]
@@ -89,11 +97,15 @@ namespace NatDMS.Controllers
             var result = await _distributorSalesService.GetRetailorDetailsByDistributorId(distributorId);
             return Json(result);
         }
+
         [HttpPost]
         public async Task<ActionResult> DisplayDsreport([FromBody] DistributorSalesReport Search)
         {
             var viewmo = await _distributorSalesService.SearchDSR(Search);
+
+
             
+
             return Json(viewmo);
         }
 

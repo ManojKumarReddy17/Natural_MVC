@@ -349,7 +349,7 @@ namespace NatDMS.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<List<RetailorModel>>> ListOfRetailors(int page = 1)
+        public async Task<ActionResult<List<RetailorModel>>> ListOfRetailors(string DistributorId,int page = 1)
         {
             var retailorResult = await _distributorservice.GetNonAssignedRetailors();
             var retailorPgn = new PageNation<RetailorModel>(retailorResult.Items, _configuration, page);
