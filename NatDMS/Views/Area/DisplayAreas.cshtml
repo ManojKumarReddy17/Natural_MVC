@@ -181,8 +181,10 @@
             console.log('Areas:', areas); // Add log
             var areaList = areas.areaList;
             totalPageCount=areas.totalPageCount;
-            
-            $.each(areaList, function (index, area) {
+            if (areaList.length === 0) {
+                areaTableBody.append('<tr><td colspan="3">No areas found for the selected city.</td></tr>');
+            } else
+                $.each(areaList, function (index, area) {
                 
                 areaTableBody.append('<tr>' +
                     '<td>' + area.areaName + '</td>' +
