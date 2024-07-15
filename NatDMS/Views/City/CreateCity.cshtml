@@ -31,7 +31,7 @@
     }
     <div class="row">
         <div class="col-md-10 d-flex justify-content-between">
-            <a href="#" onclick="resetForm()" class="d-flex align-items-center mr-6">
+            <a id="resetButton" href="#" onclick="resetForm()" class="d-flex align-items-center mr-6">
                 <i class="material-icons" style="font-size:20px;"></i>
                 <span class="ml-2" style="font-weight: bold;">RESET</span>
             </a>
@@ -47,6 +47,7 @@
             $(document).ready(function () {
                 $('#CityName').on('keypress', function (e) {
                     var keyCode = e.which || e.keyCode;
+<<<<<<< Updated upstream
                     // Allow letters and space only
                     if (!(keyCode >= 65 && keyCode <= 90) && // A-Z
                         !(keyCode >= 97 && keyCode <= 122) && // a-z
@@ -54,6 +55,20 @@
                         e.preventDefault();
                     }
                 });
+=======
+                   
+                    if (!(keyCode >= 65 && keyCode <= 90) && 
+                        !(keyCode >= 97 && keyCode <= 122) && 
+                        keyCode !== 32) {
+                        e.preventDefault();
+                    }
+                });
+
+                $('#resetButton').on('click', function () {
+                    $('#CityName').val('');
+                    $('#state').val('');
+                });
+>>>>>>> Stashed changes
             });
         </script>
         <partial name="_ValidationScriptsPartial" />
