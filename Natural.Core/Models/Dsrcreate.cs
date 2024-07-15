@@ -16,6 +16,7 @@ namespace Natural.Core.Models
 
         public string Retailor { get; set; }
         public string Retailorid { get; set; }
+        public string RetailorName { get; set; }
 
         public List<CategoryModel> CategoryList { get; set; }
 

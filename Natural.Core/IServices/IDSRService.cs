@@ -13,7 +13,7 @@ namespace Natural.Core.IServices
         Task<DSRModel> CreateDsr(DSRModel dsr);
         Task<List<DsrDistributor>> AssignedDistributorDetailsByExecutiveId(string Id);
         Task<List<DsrRetailor>> GetAssignedRetailorDetailsByDistributorId(string DistributorId);
-        
+        Task<List<DsrRetailor>> GetAssignedRetailorDetailsByDistributorIds(string DistributorId);
         Task<Dsrcreate> CreateDsr();
         Task<Dsrcreate> UpdateSession(Dsrcreate ExistingSession, Dsrcreate UpadeSession);
         Task<List<DsrProduct>> SearchProductsAsync(Dsrcreate ExistingSession, Dsrcreate UpadeSession);

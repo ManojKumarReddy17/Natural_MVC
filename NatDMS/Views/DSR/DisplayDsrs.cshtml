@@ -81,7 +81,7 @@
                             ddlret.append($("<option></option>").val('').html('--Select Retailors--'));
                             $.each(d, function (i, retailors) {
 
-                                ddlret.append($("<option>" + retailors.retailor + "</option>").val(retailors.id).html(retailors.retailor));
+                                ddlret.append($("<option>" + retailors.retailorName + "</option>").val(retailors.id).html(retailors.retailorName));
                             });
                         },
                         error: function () {

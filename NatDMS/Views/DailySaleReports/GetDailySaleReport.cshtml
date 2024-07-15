@@ -223,7 +223,7 @@
                         success: function (d) {
                             ddlret.append($("<option></option>").val(''));
                             $.each(d, function (i, retailors) {
-                                ddlret.append($("<option>" + retailors.retailor + "</option>").val(retailors.retailorId).html(retailors.retailor));
+                                ddlret.append($("<option>" + retailors.retailorName + "</option>").val(retailors.id).html(retailors.retailorName));
                             });
                         },
                         error: function () {

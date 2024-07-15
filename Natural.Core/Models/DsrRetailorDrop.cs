@@ -6,6 +6,7 @@ namespace Natural.Core.Models
 	{
         public string Id { get; set; }
         public string Retailor { get; set; }
+        public string RetailorName { get; set; }
     }
 }
 

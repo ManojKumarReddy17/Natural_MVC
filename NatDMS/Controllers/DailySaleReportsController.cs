@@ -94,7 +94,7 @@ namespace NatDMS.Controllers
         [HttpGet]
         public async Task<JsonResult> GetRetailorByDistributorId(string distributorId)
         {
-            var result = await _distributorSalesService.GetRetailorDetailsByDistributorId(distributorId);
+            var result = await _dsrservice.GetAssignedRetailorDetailsByDistributorIds(distributorId);
             return Json(result);
         }
 
