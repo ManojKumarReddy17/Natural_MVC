@@ -14,7 +14,7 @@ namespace Natural.Core.Models
         public string Distributor { get; set; }
         public List<DsrDistributorDrop> Distributorlist { get; set; }
         public string Retailor { get; set; }
-        public string RetailorId { get; set; }
+        public string RetailorName { get; set; }
 
         public List<DsrRetailorDrop> Retailorlist { get; set; }
         public string StartDate { get; set; }

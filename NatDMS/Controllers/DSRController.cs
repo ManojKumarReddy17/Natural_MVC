@@ -63,7 +63,7 @@ namespace NatDMS.Controllers
 
         public async Task<JsonResult> GetRetailorByDistributorId(string distributorId)
         {
-            var result = await _dsrservice.GetAssignedRetailorDetailsByDistributorId(distributorId);
+            var result = await _dsrservice.GetAssignedRetailorDetailsByDistributorIds(distributorId);
            
             return Json(result);
         }

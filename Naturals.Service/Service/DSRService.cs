@@ -77,7 +77,15 @@ namespace Naturals.Service.Service
 
 
         }
+        public async Task<List<DsrRetailor>> GetAssignedRetailorDetailsByDistributorIds(string DistributorId)
+        {
 
+            var result = await _HttpCleintWrapper.GetByIdAsync<List<DsrRetailor>>("/Dsr/RetailorDetails?Id=", DistributorId);
+
+            return result;
+
+
+        }
         public async Task<Dsrcreate> CreateDsr()
         {
             List<ED_CreateModel> executives = await _ExecutiveService.GetExecutives();
@@ -361,7 +369,7 @@ namespace Naturals.Service.Service
             
             var resu = await AssignedDistributorDetailsByExecutiveId(dsrids.Executive);
             dsrempty.DistributorList = _mapper.Map<List<DsrDistributor>, List<DsrDistributorDrop>>(resu);
-            var rstaile = await GetAssignedRetailorDetailsByDistributorId(dsrids.Distributor);
+            var rstaile = await GetAssignedRetailorDetailsByDistributorIds(dsrids.Distributor);
             dsrempty.RetailorList = _mapper.Map<List<DsrRetailor>, List<DsrRetailorDrop>>(rstaile);
             dsrempty.Executive = dsrids.Executive;
             dsrempty.Distributor = dsrids.Distributor;
