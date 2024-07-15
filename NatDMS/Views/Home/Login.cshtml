@@ -1,5 +1,4 @@
-﻿
-@model NatDMS.Models.LoginViewModel
+﻿@model NatDMS.Models.LoginViewModel
 
 
 @{
@@ -103,18 +102,18 @@
         .login-box {
             width: 100%;
             max-width: 400px;
-            height:80vh;
+            height: 80vh;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             background-color: #ffffff;
         }
 
-        .logForm{
-            height:60vh;
+        .logForm {
+            height: 60vh;
         }
-       
-           
+
+
         .signup-text a {
             color: #28a745;
             text-decoration: none;
@@ -148,25 +147,29 @@
             margin-top: 10px;
         }
 
-        .form-group{
-            margin-top:2rem;
+        .form-group {
+            margin-top: 2rem;
         }
 
-        .form-control{
+        .form-control {
             max-width: 350px;
-            height:3rem;
+            height: 3rem;
         }
 
-        form-group23{height:10px;width:20px}
-        .form-gruop{
-            margin-bottom:2rem;
-        }
-        .form-check{
-            min-height:2.5rem;
+        form-group23 {
+            height: 10px;
+            width: 20px
         }
 
-        
-           </style>
+        .form-gruop {
+            margin-bottom: 2rem;
+        }
+
+        .form-check {
+            min-height: 2.5rem;
+        }
+
+    </style>
 </head>
 
 <body class="home-1 back">
@@ -203,12 +206,12 @@
 
                                             <li class="menu-link parent">
                                                 <a href="/GuestProduct/Index11" class="link-title">
-                                                    <b><span class="nav-link"> HOME</span></b>
+                                                    <b>
+                                                        <img src="path/to/home-icon.png" style="width: 24px; height: 24px; margin-right: 10px;">
+                                                        <span class="nav-link">HOME</span>
+                                                    </b>
                                                 </a>
-
                                             </li>
-
-
                                         </ul>
                                     </div>
                                 </div>
@@ -236,7 +239,7 @@
     <section class="login-container">
         <div class="login-box">
             <h3 class="text-center">Sign in</h3>
-            @using (Html.BeginForm("Login", "Home", FormMethod.Post, new{@class="logForm"}))
+            @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "logForm" }))
             {
                 <div class="form-group mb-2">
                     <label for="username">Username or email</label>
