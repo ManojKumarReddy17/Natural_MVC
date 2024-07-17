@@ -35,7 +35,7 @@ namespace NatDMS.Models
         public string MobileNumber { get; set; }
 
        
-        [MaxLength(50, ErrorMessage = "Address cannot be more than 50 characters.")]
+        [Required(ErrorMessage = "Address cannot be more than 100 characters.")]
 
         public string Address { get; set; }
         [Required(ErrorMessage ="City is required.")]

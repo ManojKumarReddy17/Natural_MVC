@@ -10,7 +10,7 @@
                     <b>
                         @Html.LabelFor(model => model.StateId)
                         @Html.DropDownListFor(model => model.StateId, new SelectList(Model.StateList, "Id", "StateName"),
-                    "--select State--",new { @id = "state", onchange = "statechange()", @class = "form-select" })
+                                 "--select State--", new { @id = "state", onchange = "statechange()", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
                     </b>
                 </div>
@@ -20,16 +20,16 @@
                     <b>
                         @Html.LabelFor(model => model.CityId)
                         @Html.DropDownListFor(model => model.CityId, new SelectList(new List<SelectListItem> { new SelectListItem { Text = "", Value = "" } }, "Value", "Text"),
-                    "--select City--",new { @id = "city", onchange = "citychange()", @class = "form-select" })
+                                 "--select City--", new { @id = "city", onchange = "citychange()", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.CityId, "", new { @class = "text-danger" })
                     </b>
                 </div>
             </div>
-           
 
-            </div>
-          <div class="row justify-content-center">
-             <div class="col-md-2">
+
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-2">
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.AreaName)
@@ -38,20 +38,21 @@
                         @Html.ValidationMessageFor(model => model.AreaName, "", new { @class = "text-danger" })
                     </b>
                 </div>
-                </div>
-
             </div>
-          
+
+        </div>
+
         <div class="text-center">
             <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
         </div>
     }
     <div class="row">
         <div class="col-md-10 d-flex justify-content-between">
-            <a href="#" onclick="resetForm()" class="d-flex align-items-center mr-6">
+            <a id="resetButton" href="#" onclick="resetForm()" class="d-flex align-items-center mr-6">
                 <i class="material-icons" style="font-size:20px;"></i>
                 <span class="ml-2" style="font-weight: bold;">RESET</span>
             </a>
+
             <a href="@Url.Action("DisplayAreas")" class="d-flex align-items-center">
                 <i class="material-icons" style="font-size:20px;"></i>
                 <span class="ml-2" style="font-weight: bold;">BACK TO LIST</span>
@@ -59,25 +60,6 @@
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
-    @section Scripts {
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#AreaName').on('keypress', function (e) {
-                    var keyCode = e.which || e.keyCode;
-                    // Allow letters and space only
-                    if (!(keyCode >= 65 && keyCode <= 90) && // A-Z
-                        !(keyCode >= 97 && keyCode <= 122) && // a-z
-                        keyCode !== 32) { // Space
-                        e.preventDefault();
-                    }
-                });
-            });
-        </script>
-        <partial name="_ValidationScriptsPartial" />
-    }
-
 
     <script type="text/javascript">
         function statechange() {
@@ -104,8 +86,28 @@
                     });
             }
         }
-  
-     </script>
-     
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#CityName').on('keypress', function (e) {
+                var keyCode = e.which || e.keyCode;
+
+                if (!(keyCode >= 65 && keyCode <= 90) &&
+                    !(keyCode >= 97 && keyCode <= 122) &&
+                    keyCode !== 32) {
+                    e.preventDefault();
+                }
+            });
+
+            window.resetForm = function () {
+                $('#AreaName').val('');
+                $('#state').val('');
+                $('#city').val('');
+            };
+        });
+    </script>
+
 </body>
 </html>
