@@ -118,7 +118,7 @@
                     <b>
                         @Html.LabelFor(model => model.Address)
                         @Html.TextAreaFor(model => model.Address, new { @class = "form-control", style = "overflow-y:scroll;",
-                    placeholder = "Enter Address", onfocus = "movePlaceholder(this)", minlength = "40"})
+                    placeholder = "Enter Address", onfocus = "movePlaceholder(this)"})
                         @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
 
                     </b>

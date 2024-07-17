@@ -21,7 +21,7 @@
     }
     <div class="row">
         <div class="col-md-10 d-flex justify-content-between">
-            <a href="#" onclick="resetForm()" class="d-flex align-items-center mr-6">
+            <a id="resetButton" href="#" onclick="resetForm()" class="d-flex align-items-center mr-6">
                 <i class="material-icons" style="font-size:20px;"></i>
                 <span class="ml-2" style="font-weight: bold;">RESET</span>
             </a>
@@ -32,22 +32,29 @@
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var originalAreaName = $('#AreaName').val();
 
-     @section Scripts {
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#AreaName').on('keypress', function (e) {
-                    var keyCode = e.which || e.keyCode;
-                    // Allow letters and space only
-                    if (!(keyCode >= 65 && keyCode <= 90) && // A-Z
-                        !(keyCode >= 97 && keyCode <= 122) && // a-z
-                        keyCode !== 32) { // Space
-                        e.preventDefault();
-                    }
-                });
+            $('#AreaName').on('keypress', function (e) {
+                var keyCode = e.which || e.keyCode;
+
+                if (!(keyCode >= 65 && keyCode <= 90) &&
+                    !(keyCode >= 97 && keyCode <= 122) &&
+                    keyCode !== 32) {
+                    e.preventDefault();
+                }
             });
-        </script>
-        <partial name="_ValidationScriptsPartial" />
-    }
+
+
+            window.resetCityName = function () {
+                $('#AreaName').val(originalAreaName);
+            };
+
+            window.resetForm = function () {
+                $('#AreaName').val(originalAreaName);
+            };
+        });
+    </script>
 </body>
 </html>
