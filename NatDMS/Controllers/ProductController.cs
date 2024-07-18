@@ -68,9 +68,41 @@ namespace NatDMS.Controllers
 
 
 
+        //[HttpPost]
+
+        //public async Task<ActionResult<DisplayProduct_View>> DisplayProduct(SearchProduct search, int page = 1, int pageSize = 10)
+        //{
+        //    var searchModel = _Mapper.Map<SearchProduct, ProductSearch>(search);
+        //    var getProductResult = await _ProductService.SearchProduct(searchModel);
+        //    var searchResult = _Mapper.Map<List<GetProduct>, List<EditProduct>>(getProductResult.Items);
+        //    var categoryResult = await _CategoryService.GetCategories();
+
+        //    if (searchResult == null)
+        //    {
+        //        searchResult = new List<EditProduct>();
+        //    }
+
+        //    int totalItems = searchResult.Count;
+        //    int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+        //    // Ensure that the page number is within the valid range
+        //    page = page < 1 ? 1 : page;
+        //    page = page > totalPages ? totalPages : page;
+
+        //    var paginatedItems = searchResult.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+        //    DisplayProduct_View viewModel = new DisplayProduct_View
+        //    {
+        //        CategoryList = categoryResult,
+        //        product = paginatedItems,
+        //        CurrentPage = page,
+        //        TotalPageCount = totalPages
+        //    };
+
+        //    return View(viewModel);
+        //}
         [HttpPost]
-    
-        public async Task<ActionResult<DisplayProduct_View>> DisplayProduct(SearchProduct search, int page = 1, int pageSize = 10)
+        public async Task<ActionResult<DisplayProduct_View>> DisplayProduct(SearchProduct search)
         {
             var searchModel = _Mapper.Map<SearchProduct, ProductSearch>(search);
             var getProductResult = await _ProductService.SearchProduct(searchModel);
@@ -82,25 +114,17 @@ namespace NatDMS.Controllers
                 searchResult = new List<EditProduct>();
             }
 
-            int totalItems = searchResult.Count;
-            int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
-
-            // Ensure that the page number is within the valid range
-            page = page < 1 ? 1 : page;
-            page = page > totalPages ? totalPages : page;
-
-            var paginatedItems = searchResult.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-
             DisplayProduct_View viewModel = new DisplayProduct_View
             {
                 CategoryList = categoryResult,
-                product = paginatedItems,
-                CurrentPage = page,
-                TotalPageCount = totalPages
+                product = searchResult,
+                CurrentPage = 1,  // Can be removed or set to a default value
+                TotalPageCount = 1  // Can be removed or set to a default value
             };
 
             return View(viewModel);
         }
+
 
 
 
