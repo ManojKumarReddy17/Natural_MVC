@@ -366,7 +366,7 @@ namespace Naturals.Service.Service
                                     }).ToList();
 
 
-            
+            dsrempty.CreatedDate = dsrids.CreatedDate;
             var resu = await AssignedDistributorDetailsByExecutiveId(dsrids.Executive);
             dsrempty.DistributorList = _mapper.Map<List<DsrDistributor>, List<DsrDistributorDrop>>(resu);
             var rstaile = await GetAssignedRetailorDetailsByDistributorIds(dsrids.Distributor);

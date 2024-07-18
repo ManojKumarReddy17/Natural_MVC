@@ -254,11 +254,16 @@ namespace Naturals.Service.Service
 
 
         }
-
-        Task<PaginationResult<RetailorModel>> IDistributorService.SearchNonAssignedRetailors(SearchModel searchdistributor)
+        public async Task<PaginationResult<RetailorModel>> SearchNonAssignedRetailor(SearchModel search)
         {
-            throw new NotImplementedException();
+            var nonAssign = true;
+            
+            var getexes = await _HttpCleintWrapper.SearchAsync<PaginationResult<RetailorModel>>($"/Retailor?", search, nonAssign);
+            return getexes;
+
+
         }
+       
     }
 
 

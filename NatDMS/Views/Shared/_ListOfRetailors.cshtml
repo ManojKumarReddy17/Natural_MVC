@@ -24,28 +24,29 @@
 
         //-------------SCRIPT FOR SEARCH------------//
 
+ 
         $(function () {
             $("#btnSubmit").click(function () {
-              
-                var SearchResultmodel = new Object();
-                SearchResultmodel.State = $("#Dstate").val();
-                SearchResultmodel.City = $("#Dcity").val();
-                SearchResultmodel.Area = $("#Darea").val();
-                SearchResultmodel.fullName = $("#FullName").val();
+                var SearchResultmodel = {
+                    State: $("#Dstate").val(),
+                    City: $("#Dcity").val(),
+                    Area: $("#Darea").val(),
+                    fullName: $("#FullName").val()
+                };
+
                 $.ajax({
                     url: "/Distributor/SearchNonAssignedRetailors",
                     type: 'POST',
-                    content: "application/json; charset=utf-8",
+                    contentType: "application/json; charset=utf-8",
                     dataType: "json",
-                    data: SearchResultmodel,
+                    data: JSON.stringify(SearchResultmodel),
                     success: function (response) {
-                        let result = JSON.stringify(response.retailorList);
+                        console.log('Success:', response);
                         $("#Retailorlist").empty();
                         $.each(response.retailorList, function (i, retailors) {
-                            let result1 = retailors;
                             $("#Retailorlist").append('<tr>' +
-                                '<td>' + retailors.firstName + '</td>' +
-                                '<td>' + retailors.lastName + '</td>' +
+ 
+                                '<td>' + retailors.fullName + '</td>' +
                                 '<td>' + retailors.email + '</td>' +
                                 '<td>' + retailors.mobileNumber + '</td>' +
                                 '<td>' + retailors.address + '</td>' +
@@ -56,8 +57,6 @@
                                 '<input type="checkbox" class="selectRetailor" data-id="' + retailors.id + '" />' +
                                 '</td>' +
                                 '</tr>');
-
-
                         });
                     },
                     error: function (error) {
@@ -66,6 +65,7 @@
                 });
             });
         });
+
 
 
     </script>
@@ -94,7 +94,7 @@
                     <b>
                         @Html.LabelFor(model => model.State)
                         @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"),
-                        "-SelectState-", new { @id = "Dstate", onchange = "Statechange()", @class = "form-select" })
+                                 "-SelectState-", new { @id = "Dstate", onchange = "Statechange()", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                     </b>
                 </div>
@@ -108,7 +108,7 @@
                         @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
                         {
                         new SelectListItem { Text = "", Value =""},
-                        }, "Value","Text"), new { @id = "Dcity", @onchange = "Citychange()", @class = "form-select" })
+                        }, "Value", "Text"), new { @id = "Dcity", @onchange = "Citychange()", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                     </b>
                 </div>
@@ -129,7 +129,7 @@
 
             <div class="col-md-2">
                 <div class="form-group">
-                    <button id="btnSubmit">
+                    <button id="btnSubmit" class="search-button">
                         <i class="material-icons" style="font-size:20px;display:flex;justify-content:center;
                                 align-items:center;">search</i>
                     </button>

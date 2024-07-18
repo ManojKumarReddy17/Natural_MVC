@@ -22,7 +22,7 @@ namespace Natural.Core.IServices
         Task<PaginationResult<RetailorModel>> GetNonAssignedRetailors();
         Task<List<RetailorModel>> SearchRetailor(SearchModel searchretailor);
         Task<List<RetailorModel>> GetAssignedRetailorByDistributorId(string Disid);
-        Task<PaginationResult<RetailorModel>> SearchNonAssignedRetailors(SearchModel searchdistributor);
+        Task<PaginationResult<RetailorModel>> SearchNonAssignedRetailor(SearchModel searchdistributor);
         Task<string> DeleteAssignedRetailor(string retailorId, string distributorId);
 
     }

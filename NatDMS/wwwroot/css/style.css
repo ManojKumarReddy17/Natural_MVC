@@ -42,6 +42,27 @@ Google Font
 /*====================================
 Typography
 =====================================*/
+.search-button {
+    background-color: #2196F3; /* Blue background color */
+    border: none; /* Remove border */
+    color: white; /* Text color */
+    padding: 10px 15px; /* Padding inside the button */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth background color transition */
+}
+
+    .search-button:hover {
+        background-color: #0b7dda; /* Darker blue background color on hover */
+    }
+
+    .search-button i {
+        font-size: 20px; /* Icon size */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
 body{
     color: #222;
     font-size: 14px;
