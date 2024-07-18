@@ -8,6 +8,7 @@ namespace Natural.Core.Models
         public string Retailor { get; set; }
         public string? OrderBy { get; set; }
         public decimal TotalAmount { get; set; }
+        public DateTime CreatedDate { get; set; }
         public List<DsrProduct> dsrdetail {get; set;}
     }
 }

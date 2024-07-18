@@ -376,10 +376,16 @@ namespace NatDMS.Controllers
         
 
         [HttpPost]
-        public async Task<JsonResult> SearchNonAssignedRetailors(EDR_DisplayViewModel SearchResultmodel)
+        public async Task<JsonResult> SearchNonAssignedRetailors([FromBody] EDR_DisplayViewModel SearchResultmodel,int page = 1)
         {
             var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
-            var SearchResult = await _distributorservice.SearchNonAssignedRetailors(search);
+            var SearchResult = await _distributorservice.SearchNonAssignedRetailor(search);
+            var retailorPgn = new PageNation<RetailorModel>(SearchResult.Items, _configuration, page);
+
+            var paginatedData = retailorPgn.GetPaginatedData(SearchResult.Items);
+
+
+            ViewBag.Pages = retailorPgn;
             var statesResult = await _unifiedservice.GetStates();
 
             var viewModel = new EDR_DisplayViewModel

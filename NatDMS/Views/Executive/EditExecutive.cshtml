@@ -258,37 +258,72 @@
 
         }
 
+        // function citychange() {
+        //     var cityid = $('#city').val();
+        //     if (cityid.trim() != '') {
+        //         var ddlarea = $('#area');
+
+
+        //         ddlarea.empty();
+
+        //         $.ajax(
+        //             {
+        //                 url: "/Executive/GetAreasByCityId",
+
+        //                 type: 'GET',
+        //                 dataType: 'json',
+        //                 data: { cityId: cityid },
+
+        //                 success: function (d) {
+
+        //                     ddlarea.append($("<option></option>").val('').html('--SelectArea--'));
+        //                     $.each(d.items, function (i, areas) {
+
+        //                         ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
+
+        //                     });
+        //                 },
+        //                 error: function () {
+        //                     alert('Error!');
+        //                 }
+        //             });
+        //     }
+
+        // }
         function citychange() {
             var cityid = $('#city').val();
             if (cityid.trim() != '') {
-                var ddlarea = $('#area');
+                var areaContainer = $('#area-container');
+                areaContainer.empty();
 
+                $.ajax({
+                    url: "/Executive/GetAreasByCityId",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { cityId: cityid },
+                    success: function (d) {
+                        $.each(d.items, function (i, area) {
+                            var checkbox = $("<div class='form-check'>")
+                                .append($("<input>", {
+                                    type: "checkbox",
+                                    id: "area_" + area.id,
+                                    name: "Area",
+                                    value: area.id,
+                                    class: "form-check-input"
+                                }))
+                                .append($("<label>", {
+                                    for: "area_" + area.id,
+                                    class: "form-check-label"
+                                }).text(area.areaName));
 
-                ddlarea.empty();
-
-                $.ajax(
-                    {
-                        url: "/Executive/GetAreasByCityId",
-
-                        type: 'GET',
-                        dataType: 'json',
-                        data: { cityId: cityid },
-
-                        success: function (d) {
-
-                            ddlarea.append($("<option></option>").val('').html('--SelectArea--'));
-                            $.each(d.items, function (i, areas) {
-
-                                ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
-
-                            });
-                        },
-                        error: function () {
-                            alert('Error!');
-                        }
-                    });
+                            areaContainer.append(checkbox);
+                        });
+                    },
+                    error: function () {
+                        alert('Error!');
+                    }
+                });
             }
-
         }
     </script>
     <script>
