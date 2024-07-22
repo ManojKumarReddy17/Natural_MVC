@@ -22,7 +22,8 @@ namespace NatDMS.Controllers
         private readonly IMapper _mapper;
         private readonly IUnifiedService _unifiedservice;
         private readonly IConfiguration _configuration;
-        public ExecutiveController(IExecutiveService ExecutiveService, IMapper mapper, IUnifiedService unifiedService,
+       // private readonly ICityService _cityservice;
+        public ExecutiveController(IExecutiveService ExecutiveService, IMapper mapper, IUnifiedService unifiedService, 
         IConfiguration configuration)
         {
             _ExecutiveService = ExecutiveService;
@@ -290,6 +291,13 @@ namespace NatDMS.Controllers
           
             return Json(result);
         }
+        //[HttpGet]
+        //public async Task<JsonResult> GetCities(int stateId)
+        //{
+        //    // Fetch cities based on stateId from your data source
+        //    var cities = await _cityservice.(stateId);
+        //    return Json(cities);
+        //}
 
     }
 }
