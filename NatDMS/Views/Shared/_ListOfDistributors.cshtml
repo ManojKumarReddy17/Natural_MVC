@@ -28,7 +28,7 @@
                 var searchResultmodel = new Object();
                 searchResultmodel.State = $("#Dstate").val();
                 searchResultmodel.City = $("#Dcity").val();
-                searchResultmodel.Area = $("#Darea").val();
+                // searchResultmodel.Area = $("#Darea").val();
                 searchResultmodel.FullName = $("#FullName").val();
                 $.ajax({
                     url: "/Executive/SearchNonAssignedDistributors",
@@ -41,10 +41,9 @@
                         $("#Distributorlist").empty();
                         $.each(response.distributorList, function (i, distributors) {
                             let result1 = distributors;
-                            $("#Distributorlist").append('<tr>' + '<td>' + distributors.firstName + '</td> <td>' +
-                                distributors.lastName + '</td> <td>' + distributors.email + '</td> <td>' +
+                            $("#Distributorlist").append('<tr>' + '<td>' + distributors.firstName + '</td>  <td>' + distributors.email + '</td> <td>' +
                                 distributors.mobileNumber + '</td> <td>' + distributors.address + '</td> <td>' +
-                                distributors.state + '</td> <td>' + distributors.city + ' </td> <td>' + distributors.area +
+                                distributors.state + '</td> <td>' + distributors.city + 
                                 '<td style="text-align: center;">' +
                                 '<input type="checkbox" class="selectDistributor" data-id="' + distributors.id + '"/>' +
                                 '</td>' +
@@ -102,7 +101,7 @@
                     </b>
                 </div>
             </div>
-
+@* 
             <div class="col-md-2">
                 <div class="form-group">
                     <b>
@@ -114,7 +113,7 @@
                         @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
                     </b>
                 </div>
-            </div>
+            </div> *@
 
             <div class="col-md-2">
                 <div class="form-group">
@@ -141,7 +140,7 @@
                         <th>Address</th>
                         <th>State</th>
                         <th>City</th>
-                        <th>Area</th>
+                        @* <th>Area</th> *@
                         <th>Select</th>
                     </tr>
                 </thead>
@@ -158,7 +157,7 @@
                             <td>@Html.DisplayFor(modelItem => item.Address)</td>
                             <td>@Html.DisplayFor(modelItem => item.State)</td>
                             <td>@Html.DisplayFor(modelItem => item.City)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Area)</td>
+                            @* <td>@Html.DisplayFor(modelItem => item.Area)</td> *@
                             <td style="text-align: center;">
                                 <input type="checkbox" class="selectDistributor" data-id="@item.Id" />
                             </td>

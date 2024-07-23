@@ -238,7 +238,12 @@
             // Set default values for StartDate and EndDate
             $("#StartDate").val("YYYY-MM-DD");
             $("#EndDate").val("YYYY-MM-DD");
-
+            var currentDate = new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            $("#currentDate").text(currentDate);
             // Event handler for Save button click
             $("#saveButton").click(function () {
                 // Show loading indicator
@@ -685,25 +690,47 @@
     <!-- Add other inputs as needed -->
 
 
-   
 
-  
+
+
 
 
     <div class="result-container" style="overflow-y: auto; max-height: 200px;">
         <table class="table" id="Productlist">
             <thead>
                 <tr>
+                    <th colspan="4">Daily Sales Report - <span id="currentDate"></span></th>
+                </tr>
+                <tr>
                     <th>Product Name</th>
                     <th>Quantity</th>
-                    <th>ProductType</th>
+                    <th>Product Type</th>
                     <th>Sale Amount</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- This will be dynamically populated with data -->
+                @if (Model.report != null)
+                {
+                    foreach (var item in Model.report)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Product_Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                            <td>@Html.DisplayFor(modelItem => item.productType)</td>
+                            <td>@Html.DisplayFor(modelItem => item.SaleAmount)</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4">No data available</td>
+                    </tr>
+                }
+              
             </tbody>
         </table>
     </div>
+
 </body>
 </html>

@@ -72,15 +72,15 @@
 
             <div class="col-md-3">
 
-
+@* 
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.LastName, new { @class = "control-label" })
                         @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                     </b>
-                </div>
-
+                </div> *@
+@* 
                 <div class="form-group emphasized-section">
                     <b>
                         @Html.LabelFor(model => model.Address)
@@ -89,7 +89,7 @@
                         @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
 
                     </b>
-                </div>
+                </div> *@
 
                 <div class="form-group">
                     <b>
@@ -111,14 +111,14 @@
 
 
 
-               
+@*                
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Area)
                         @Html.DropDownListFor(model => model.AreaId, new SelectList(Model.AreaList, "Id", "AreaName"), "--Select Area--", new { id = "area", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
                     </b>
-                </div>
+                </div> *@
 
 
                 <div class="form-group">
@@ -166,7 +166,7 @@
             </a>
         </div>
     </div>
-    <script src="~/js/jquery-3.6.0.min.js"></script>
+@*     <script src="~/js/jquery-3.6.0.min.js"></script>
         <script type="text/javascript">
         $(document).ready(function () {
             $('#FirstName, #LastName').on('keypress', function (e) {
@@ -179,7 +179,7 @@
                 }
             });
         });
-    </script>
+    </script> *@
 
 
        <script type="text/javascript" >
@@ -249,38 +249,38 @@
 
         }
 
-        function citychange() {
-            var cityid = $('#city').val();
-            if (cityid.trim() != '') {
-                var ddlarea = $('#area');
+        // function citychange() {
+        //     var cityid = $('#city').val();
+        //     if (cityid.trim() != '') {
+        //         var ddlarea = $('#area');
 
 
-                ddlarea.empty();
+        //         ddlarea.empty();
 
-                $.ajax(
-                    {
-                        url: "/Distributor/GetAreasByCityId",
+        //         $.ajax(
+        //             {
+        //                 url: "/Distributor/GetAreasByCityId",
 
-                        type: 'GET',
-                        dataType: 'json',
-                        data: { cityId: cityid },
+        //                 type: 'GET',
+        //                 dataType: 'json',
+        //                 data: { cityId: cityid },
 
-                        success: function (d) {
+        //                 success: function (d) {
 
-                            ddlarea.append($("<option></option>").val('').html('--SelectArea--'));
-                            $.each(d.items, function (i, areas) {
+        //                     ddlarea.append($("<option></option>").val('').html('--SelectArea--'));
+        //                     $.each(d.items, function (i, areas) {
 
-                                ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
+        //                         ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
 
-                            });
-                        },
-                        error: function () {
-                            alert('Error!');
-                        }
-                    });
-            }
+        //                     });
+        //                 },
+        //                 error: function () {
+        //                     alert('Error!');
+        //                 }
+        //             });
+        //     }
 
-        }
+        // }
     </script>
 
     <script>

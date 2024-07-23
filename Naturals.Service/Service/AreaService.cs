@@ -42,7 +42,16 @@ namespace Naturals.Service.Service
 
             return result;
         }
-        
+        public async Task<AreaModel> GetArea()
+        {
+
+            var result = await _httpClient.GetAsync<AreaModel>($"/Area");
+
+
+            return result;
+        }
+
+
 
 
         public async Task<List<AreaModel>> SearchArea(SearchModel searcharea)

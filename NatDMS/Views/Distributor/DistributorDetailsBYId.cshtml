@@ -78,9 +78,9 @@
 
                         <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.DistributorDetails.City)</dt>
                         <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.DistributorDetails.City)</dd>
-
+@* 
                         <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.DistributorDetails.Area)</dt>
-                        <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.DistributorDetails.Area)</dd>
+                        <dd class="col-sm-3 text-dark">@Html.DisplayFor(model => model.DistributorDetails.Area)</dd> *@
                        
 
                         <dt class="col-sm-3 text-danger">@Html.DisplayNameFor(model => model.DistributorDetails.Latitude)</dt>
@@ -152,7 +152,7 @@
                                 <th class="red-border">MobileNumber</th>
                                 <th class="red-border">State</th>
                                 <th class="red-border">City</th>
-                                <th class="red-border">Area</th>
+                               @*  <th class="red-border">Area</th> *@
                                 <th class="red-border">Delete</th>
                             </tr>
                         </thead>
@@ -165,7 +165,7 @@
                                     <td class="red-border">@retailor.MobileNumber</td>
                                     <td class="red-border">@retailor.State</td>
                                     <td class="red-border">@retailor.City</td>
-                                    <td class="red-border">@retailor.Area</td>
+                                    @* <td class="red-border">@retailor.Area</td> *@
                                     <td>
                                         <!---------------------------- Delete Icon ------------------------------------>
 

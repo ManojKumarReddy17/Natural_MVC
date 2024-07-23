@@ -10,7 +10,7 @@ namespace Natural.Core.IServices
 {
    public interface IAreaService
     {
-
+        Task<AreaModel> GetArea();
         Task<PaginationResult<AreaModel>> GetAreas(int page);
         Task<AreaModel> GetAreaDetailsbyId(string ID);
 

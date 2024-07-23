@@ -17,8 +17,8 @@ namespace Natural.Core.Models
         public string RetailorName { get; set; }
 
         public List<DsrRetailorDrop> Retailorlist { get; set; }
-        public string StartDate { get; set; }
-        public string EndDate { get; set; }
+        public string StartDate { get; set; } = DateTime.Now.ToString("yyyy-MM-dd");
+        public string EndDate { get; set; } = DateTime.Now.ToString("yyyy-MM-dd");
         public List<DistributorSalesReportInput> report { get; set; }
         public List<CityModel> CityList { get; set; }
         public List<StateModel> StateList { get; set; }

@@ -25,39 +25,41 @@ namespace NatDMS.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<DistributorSalesReport>> GetDailySaleReport()
+        public async Task<ActionResult<DistributorSalesReport>> GetDailySaleReport(DistributorSalesReport Search)
         {
 
-            var reportResult = await _distributorSalesService.GetDsreport();
 
 
-            if (reportResult != null)
+            try
             {
-
+                var reportResult = await _distributorSalesService.GetDsreport();
+                var viewmo = await _distributorSalesService.SearchDSR(Search);
                 var statesResult = await _unifiedService.GetStates();
 
                 var CityList = await _unifiedService.GetCities();
 
-                //  var defaultState = "Karnataka";
-                //var defaultCity = "Bengaluru";
+               
 
                 var viewModel = new DistributorSalesReport
                 {
                     StateList = statesResult,
-                    CityList = CityList
-                    // State = defaultState,
-                    // City = defaultCity,
-                    //  Retailorlist = reportResult
+                    CityList = CityList,
+                    report = viewmo
+
+
                 };
 
                 return View(viewModel);
             }
-            else
+            catch (Exception ex)
             {
-
+                // Log or handle exceptions as needed
                 return RedirectToAction("Error", "Home");
+
             }
         }
+            
+        
 
 
         public async Task<JsonResult> GetAreasByCityId(string cityId)

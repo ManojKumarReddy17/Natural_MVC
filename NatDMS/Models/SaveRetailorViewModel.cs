@@ -32,8 +32,8 @@ namespace NatDMS.Models
         [StringLength(50, ErrorMessage = "The address cannot be longer than 50 characters.")]
         public string Address { get; set; }
 
-        [Required(ErrorMessage = "Area is required.")]
-        public string Area { get; set; }
+        //[Required(ErrorMessage = "Area is required.")]
+        ////public string Area { get; set; }
 
         [Required(ErrorMessage = "City is required.")]
         public string City { get; set; }

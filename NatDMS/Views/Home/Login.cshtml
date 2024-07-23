@@ -57,6 +57,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Password Input with Eye Slash Icon</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" integrity="sha384-0evSX huddled7su3WrDjfed1z3FO3CnFNCO6+vXL1qvcB839U9vuOpZJC7zVEe0NvljIWvTtVnQ" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Bootstrap CSS -->
 
@@ -78,13 +81,14 @@
             width: fit-content;
         }
 
-        .fa-eye-slash {
+      /*   .fa-eye-slash {
             position: absolute;
+            width:1px;
             right: 10px;
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
-        }
+        } */
 
         .form-control {
             padding-right: 30px;
@@ -102,11 +106,12 @@
         .login-box {
             width: 100%;
             max-width: 400px;
+            max-height: 450px;
             height: 80vh;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-color: #ffffff;
+            border-radius: 30px;
+            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
         }
 
         .logForm {
@@ -169,6 +174,18 @@
             min-height: 2.5rem;
         }
 
+
+        .login-danger {
+            background-color: #f8d7da; /* Light red background */
+            color: #721c24; /* Dark red text */
+            border: 1px solid #f5c6cb; /* Red border */
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        
+
     </style>
 </head>
 
@@ -204,14 +221,14 @@
                                     <div class="mainwrap">
                                         <ul class="main-menu">
 
-                                            <li class="menu-link parent">
+                                           
                                                 <a href="/GuestProduct/Index11" class="link-title">
                                                     <b>
-                                                        <img src="path/to/home-icon.png" style="width: 24px; height: 24px; margin-right: 10px;">
-                                                        <span class="nav-link">HOME</span>
+
+                                                    <span class="nav-link" style="font-size: 50px;">HOME</span>
                                                     </b>
                                                 </a>
-                                            </li>
+
                                         </ul>
                                     </div>
                                 </div>
@@ -220,13 +237,7 @@
                             <!------------------------------------------menu end-------------------------------------------------------------------->
                             <!----------------------------------------------------------CONTACT NUMBER ICON----------------------------------------------------------------------->
 
-                            <div class="img-hotline">
-                                <div class="image-content">
-                                    <b><span class="hot-l">Contact</span></b>
-                                    <i class="fa fa-phone hot-l"></i>
-                                    <b><span class="text-dark">0123 456 789</span></b>
-                                </div>
-                            </div>
+
 
                         </div>
                     </div>
@@ -236,36 +247,60 @@
     </div>
     <div class="mm-fullscreen-bg"></div>
     <!-------------------------------------------------------------FORM START------------------------------------------------>
+  
     <section class="login-container">
         <div class="login-box">
-            <h3 class="text-center">Sign in</h3>
+            <h3 class="sign" style="text-align: center; color: black;" >Sign in </h3>
+            @if (ViewData.ModelState.Any(x => x.Value.Errors.Count > 0))
+            {
+                <div class="alert alert-danger" role="alert">
+                    Invalid username or password. Please check your details and try again.
+                </div>
+            }
+
             @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "logForm" }))
             {
-                <div class="form-group mb-2">
+               @*  <div class="form-group mb-2">
                     <label for="username">Username or email</label>
                     <input type="text" class="form-control" id="username" name="UserName" placeholder="Username or email" required>
+                    @Html.ValidationMessage("UserName", "", new { @class = "text-danger" })
+                </div> *@
+                <label for="user">
+                   Username or Email
+                </label>
+                <div class="input-group mb-3">
+
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    <input type="text" class="form-control" id="username" name="UserName" placeholder="Username or Email" required>
                 </div>
                 <label for="password">
                     <i class="material-icons">lock</i>
                     Password
                 </label>
 
-                <div class="password-container w-100 mb-2">
+                @* <div class="password-container w-100 mb-2">
                     <input class="form-control " type="password" id="password" name="password" placeholder="Enter Password" pattern=".{6,}" title="Password must be at least 6 characters long" required>
                     <i class="fa fa-eye-slash" id="togglePassword"></i>
-                </div>
-                <div class="form-group23 form-check d-flex justify-content-between mb-5">
-                    <div>
-                        <input type="checkbox" class="form-check-input" id="remember">
-                        <label class="form-check-label" for="remember">Remember</label>
-                    </div>
+                    @Html.ValidationMessage("Password", "", new { @class = "text-danger" })
+                </div> *@
+               @*  <div class="form-group input-group">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" pattern=".{6,}" title="Password must be at least 6 characters long" required />
+                    <a href="#" class="text-dark" id="icon-click">
+                        <i class="fa fa-eye-slash" id="icon"></i>
+                    </a>
+                </div> *@
+                <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                    <input name="password" type="password" value="" class="form-control" id="password" placeholder="Enter Password" pattern=".{6,}" title="Password must be at least 6 characters long" required="true">
+                    <span class="input-group-text" onclick="password_show_hide();">
+                        <i class="fas fa-eye" id="show_eye"></i>
+                        <i class="fas fa-eye-slash d-none" id="hide_eye"></i>
+                    </span>
                 </div>
                 <button type="submit" class="btn btn-danger btn-block">Login</button>
             }
-            <b>@Html.ValidationSummary(false, "", new { @class = "text-danger" })</b>
         </div>
     </section>
-
     <!-------------------------------------------------FORM END--------------------------------------------------->
     <!-- footer copyright start -->
 
@@ -302,16 +337,79 @@
     <!-- custom -->
     <script src="~/js/custom.js"></script>
     <script>
-        const togglePassword = document.querySelector('#togglePassword');
-        const password = document.querySelector('#password');
+        // const togglePassword = document.querySelector('#togglePassword');
+        // const password = document.querySelector('#password');
 
-        togglePassword.addEventListener('click', function (e) {
-            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-            password.setAttribute('type', type);
+        // togglePassword.addEventListener('click', function (e) {
+        //     const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        //     password.setAttribute('type', type);
 
-            this.classList.toggle('fa-eye');
-            this.classList.toggle('fa-eye-slash');
+        //     this.classList.toggle('fa-eye');
+        //     this.classList.toggle('fa-eye-slash');
+        // });
+        // $(document).ready(function () {
+        //     $("#togglePassword").click(function () {
+        //         var passwordField = $("#password"); // Assuming your password field has ID "password"
+        //         if (passwordField.attr("type") === "password") {
+        //             passwordField.attr("type", "type");
+        //             $(this).removeClass("fa-eye-slash").addClass("fa-eye"); // Change icon to "eye"
+        //         } else {
+        //             passwordField.attr("type", "password");
+        //             $(this).removeClass("fa-eye").addClass("fa-eye-slash"); // Change icon back to "eye-slash"
+        //         }
+        //     });
+        // });
+        // $(document).ready(function () {
+
+        //     $("#icon-click").click(function () {
+
+        //         var className = $("#icon").attr('class');
+        //         className = className.indexOf('slash') !== -1 ? 'fa fa-eye' : 'fa fa-eye-slash'
+
+        //         $("#icon").attr('class', className);
+        //         var input = $("#password");
+
+        //         if (input.attr("type") == "text") {
+        //             input.attr("type", "password");
+        //         } else {
+        //             input.attr("type", "text");
+        //         }
+        //     });
+
+        // });
+        function password_show_hide() {
+            var x = document.getElementById("password");
+            var show_eye = document.getElementById("show_eye");
+            var hide_eye = document.getElementById("hide_eye");
+            hide_eye.classList.remove("d-none");
+            if (x.type === "password") {
+                x.type = "text";
+                show_eye.style.display = "none";
+                hide_eye.style.display = "block";
+            } else {
+                x.type = "password";
+                show_eye.style.display = "block";
+                hide_eye.style.display = "none";
+
+            }
+        }
+        $(document).ready(function () {
+            $('#show_password').click(function () {
+                var passwordField = $('#password');
+                var passwordFieldType = passwordField.attr('type');
+                if (passwordFieldType === 'password') {
+                    passwordField.attr('type', 'text');
+                    $(this).html('<i class="fa fa-eye-slash"></i>');
+                } else {
+                    passwordField.attr('type', 'password');
+                    $(this).html('<i class="fa  fa-eye"></i>');
+                }
+            });
         });
     </script>
+  
+
 </body>
 </html>
+
+

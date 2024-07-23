@@ -200,10 +200,10 @@ namespace NatDMS.Controllers
             if (ModelState.IsValid)
             {
                 var distributor = _mapper.Map<ED_CreateViewModel, ExecutiveModel>(distributorModel);
-                distributor.Area = distributorModel.Area.Select(x => new ExecutiveArea
-                {
-                    Area = x
-                }).ToList();
+                //distributor.Area = distributorModel.Area.Select(x => new ExecutiveArea
+                //{
+                //    Area = x
+                //}).ToList();
 
                 await _distributorservice.CreateDistributor(distributor);
 
@@ -229,7 +229,7 @@ namespace NatDMS.Controllers
             viewModel.StateList = await _unifiedservice.GetStates();
             viewModel.CityList = await _unifiedservice.GetCitiesbyStateId(distributor.StateId);
             var area = await _unifiedservice.GetAreasByCityId(distributor.CityId);
-            viewModel.AreaList = area.Items;
+            //viewModel.AreaList = area.Items;
             return View(viewModel);
         }
 
@@ -249,10 +249,10 @@ namespace NatDMS.Controllers
                 var update = _mapper.Map<DistributorEditModel, ExecutiveModel>(viewModel);
                 update.State = viewModel.StateId;
                 update.City = viewModel.CityId;
-                update.Area.Add(new ExecutiveArea
-                {
-                    Area = viewModel.AreaId
-                });
+                //update.Area.Add(new ExecutiveArea
+                //{
+                //    Area = viewModel.AreaId
+                //});
                 //update.Area = viewModel.AreaId.Select(x => new ExecutiveArea
                 //{
                 //    Area = x,
@@ -266,7 +266,7 @@ namespace NatDMS.Controllers
                 viewModel.StateList = await _unifiedservice.GetStates();
                 viewModel.CityList = await _unifiedservice.GetCitiesbyStateId(viewModel.State);
                 var area = await _unifiedservice.GetAreasByCityId(viewModel.CityId);
-                viewModel.AreaList = area.Items;
+                //viewModel.AreaList = area.Items;
                 return View(viewModel);
             }
         }

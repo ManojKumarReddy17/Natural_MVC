@@ -124,6 +124,12 @@
                         $.each(d, function (i, cities) {
                             ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
                         });
+
+                        // Set default city to Bengaluru if Karnataka is selected
+                        if (stid === 'stn1') {
+                            ddlcity.val('ctn1');
+                            citychange()
+                        }
                     },
                     error: function () {
                         alert('Error!');

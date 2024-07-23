@@ -144,7 +144,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-2">
+@*                 <div class="col-md-2">
                     <div class="form-group">
                         <b>                         
                             @Html.LabelFor(model => model.Area)
@@ -155,7 +155,7 @@
                             @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
                         </b>
                     </div>
-                </div>
+                </div> *@
 
                 <!-- Display search results -->
 
@@ -187,7 +187,7 @@
                     <th>MobileNumber</th>
                     <th>State</th>
                     <th>City</th>
-                    <th>Area</th>
+@*                     <th>Area</th> *@
                     <th>ProfileImage</th>
                     <th>Latitude</th>
                     <th>Longitude</th>
@@ -208,7 +208,7 @@
                     <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
                     <td>@Html.DisplayFor(modelItem => item.State)</td>
                     <td>@Html.DisplayFor(modelItem => item.City)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Area)</td>
+                    @* <td>@Html.DisplayFor(modelItem => item.Area)</td> *@
                     <td>
                             @if (!string.IsNullOrEmpty(@item.Image))
                             {
@@ -358,12 +358,12 @@
                 }
             }
            
-            function citychange() {
-                var defaultCityId = '@defaultCityId';
-                var cityid = $('#city').val() == null ? defaultCityId : $('#city').val();
-                if (cityid.trim() != '') {
-                    var ddlarea = $('#area');
-                    ddlarea.empty();
+            // function citychange() {
+            //     var defaultCityId = '@defaultCityId';
+            //     var cityid = $('#city').val() == null ? defaultCityId : $('#city').val();
+            //     if (cityid.trim() != '') {
+            //         var ddlarea = $('#area');
+            //         ddlarea.empty();
 
                     $.ajax(
                         {
