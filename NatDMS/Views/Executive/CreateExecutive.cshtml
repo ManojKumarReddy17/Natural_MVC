@@ -73,18 +73,15 @@
                     </b>
                 </div>
 
-
-
                 <div class="form-group">
-                    @Html.LabelFor(model => model.City, new { @class = "control-label" })
-                    <span style="color:red;">*</span>
-                    @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
-                {
-                new SelectListItem { Text = "", Value = "" },
-                }, "Value", "Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
-                    @*@Html.TextBoxFor(model => model.City, new { @class = "form-control" })*@
-                    @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-                </div>
+    @Html.LabelFor(model => model.City, new { @class = "control-label" })
+    <span style="color:red;">*</span>
+    @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
+    {
+        new SelectListItem { Text = "", Value = "" },
+    }, "Value", "Text"), new { @id = "city", @class = "form-select" })
+    @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+</div>
 
                 <div class="form-group">
                     <b>
@@ -165,11 +162,12 @@
 
 
 
+              
                 <div class="form-group">
                     @Html.LabelFor(model => model.State, new { @class = "control-label" })
                     <span style="color:red;">*</span>
                     @Html.DropDownListFor(model => model.State, new SelectList(Model.States, "Id", "StateName"),
-                "--Select State--", new { @id = "state", onchange = "statechange()", @class = "form-select" })
+                             "--Select State--", new { @id = "state", onchange = "statechange()", @class = "form-select" })
                     @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                 </div>
 
@@ -237,8 +235,8 @@
         </div>
     }
 
-
-
+   
+       
 
     <script src="~/js/jquery-3.6.0.min.js"></script>
     <script>
@@ -284,59 +282,69 @@
     </script>
 
     <script type="text/javascript">
-        function statechange() {
+        $(document).ready(function () {
+            // Initially disable the city dropdown
+            $('#city').prop('disabled', true);
 
-            var stid = $('#state').val();
-            if (stid.trim() != '') {
-
+            $('#state').change(function () {
+                var stid = $(this).val();
                 var ddlcity = $('#city');
-                ddlcity.empty();
 
-                $.ajax(
-                    {
+                if (stid.trim() != '') {
+                    // Enable the city dropdown
+                    ddlcity.prop('disabled', false);
+                    ddlcity.empty(); // Clear existing options
+
+                    $.ajax({
                         url: "/Executive/GetCitiesByStateId",
                         type: 'GET',
                         dataType: 'json',
                         data: { stateId: stid },
                         success: function (d) {
-                            ddlcity.append($("<option></option>").val('').html('--SelectCity--'));
+                            ddlcity.append($("<option></option>").val('').html('--Select City--'));
                             $.each(d, function (i, cities) {
-                                ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
+                                ddlcity.append($("<option></option>").val(cities.id).html(cities.cityName));
                             });
                         },
                         error: function () {
                             alert('Error!');
                         }
                     });
-            }
-        }
+                } else {
+                    // Disable and clear the city dropdown if no state is selected
+                    ddlcity.prop('disabled', true);
+                    ddlcity.empty(); // Clear existing options
+                    ddlcity.append($("<option></option>").val('').html('--Select City--'));
+                }
+            });
 
-        function citychange() {
-
-            var cityid = $('#city').val();
-            if (cityid.trim() != '') {
+            $('#city').change(function () {
+                var cityid = $(this).val();
                 var ddlarea = $('#area');
-                ddlarea.empty();
 
-                $.ajax(
-                    {
+                if (cityid.trim() != '') {
+                    ddlarea.empty(); // Clear existing options
+
+                    $.ajax({
                         url: "/Executive/GetAreasByCityId",
                         type: 'GET',
                         dataType: 'json',
                         data: { cityId: cityid },
                         success: function (d) {
-                            ddlarea.append($("<option></option>").val('').html('--SelectArea--'));
+                            ddlarea.append($("<option></option>").val('').html('--Select Area--'));
                             $.each(d.items, function (i, areas) {
-                                ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
+                                ddlarea.append($("<option></option>").val(areas.id).html(areas.areaName));
                             });
                         },
                         error: function () {
                             alert('Error!');
                         }
                     });
-            }
-        }
+                }
+            });
+        });
     </script>
+
 
     <script>
         function ShowImagePreview(input) {
