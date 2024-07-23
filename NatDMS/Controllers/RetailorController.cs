@@ -142,7 +142,7 @@ namespace NatDMS.Controllers
             viewModel.States = await _unifiedservice.GetStates();
             viewModel.Cities = await _unifiedservice.GetCitiesbyStateId(retailorDetails.StateId);
             var area = await _unifiedservice.GetAreasByCityId(retailorDetails.CityId);
-            viewModel.Areas = area.Items;
+            //viewModel.Areas = area.Items;
             return View(viewModel);
         }
 
@@ -156,7 +156,7 @@ namespace NatDMS.Controllers
             if (ModelState.IsValid)
             {
                 var updatedRetailor = _mapper.Map<RetailorEditViewModel, RetailorModel>(viewModel);
-                updatedRetailor.Area = updatedRetailor.AreaId;
+                //updatedRetailor.Area = updatedRetailor.AreaId;
                 updatedRetailor.City = updatedRetailor.CityId;
                 updatedRetailor.State = updatedRetailor.StateId;
                 await _retailorservice.UpdateRetailor(id, updatedRetailor);
@@ -167,7 +167,7 @@ namespace NatDMS.Controllers
                 viewModel.States = await _unifiedservice.GetStates();
                 viewModel.Cities = await _unifiedservice.GetCitiesbyStateId(viewModel.StateId);
                 var area = await _unifiedservice.GetAreasByCityId(viewModel.CityId);
-                viewModel.Areas = area.Items;
+                //viewModel.Areas = area.Items;
 
                 return View(viewModel);
             }

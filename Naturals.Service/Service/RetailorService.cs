@@ -78,13 +78,13 @@ namespace Naturals.Service.Service
                         filebytes = ms.ToArray();
                     }
                     formData.Add(new StringContent(mdl.FirstName), "FirstName");
-                    formData.Add(new StringContent(mdl.LastName), "LastName");
+                    formData.Add(new StringContent(mdl.LastName ?? ""), "LastName");
                     formData.Add(new StringContent(mdl.Email ?? ""), "Email");
                     formData.Add(new StringContent(mdl.Address?? ""), "Address");
                     formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
                     formData.Add(new StringContent(mdl.State), "State");
                     formData.Add(new StringContent(mdl.City), "City");
-                    formData.Add(new StringContent(mdl.Area), "Area");
+                    //formData.Add(new StringContent(mdl.Area), "Area");
                     formData.Add(new StringContent(mdl.Latitude ?? ""), "Latitude");
                     formData.Add(new StringContent(mdl.Longitude?? ""), "Longitude");
                     formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.ProfileImage.FileName);
@@ -98,13 +98,13 @@ namespace Naturals.Service.Service
                 {
                     
                     formData.Add(new StringContent(mdl.FirstName), "FirstName");
-                    formData.Add(new StringContent(mdl.LastName), "LastName");
+                    formData.Add(new StringContent(mdl.LastName ?? ""), "LastName");
                     formData.Add(new StringContent(mdl.Email ?? ""), "Email");
                     formData.Add(new StringContent(mdl.Address?? ""), "Address");
                     formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
                     formData.Add(new StringContent(mdl.State), "State");
                     formData.Add(new StringContent(mdl.City), "City");
-                    formData.Add(new StringContent(mdl.Area), "Area");
+                    //formData.Add(new StringContent(mdl.Area), "Area");
                     formData.Add(new StringContent(mdl.Latitude ?? ""), "Latitude");
                     formData.Add(new StringContent(mdl.Longitude?? ""), "Longitude");
                     var result = await _HttpCleintWrapper.PostMultipartFormData<RetailorModel>("/Retailor/", formData);
@@ -133,14 +133,14 @@ namespace Naturals.Service.Service
                         filebytes = ms.ToArray();
                     }
                     formData.Add(new StringContent(mdl.FirstName), "FirstName");
-                    formData.Add(new StringContent(mdl.LastName), "LastName");
+                    formData.Add(new StringContent(mdl.LastName ?? ""), "LastName");
                     formData.Add(new StringContent(mdl.Email ?? ""), "Email");
                     formData.Add(new StringContent(mdl.Address ?? ""), "Address");
                     formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
                     
                     formData.Add(new StringContent(mdl.State), "State");
                     formData.Add(new StringContent(mdl.City), "City");
-                    formData.Add(new StringContent(mdl.Area), "Area");
+                    //formData.Add(new StringContent(mdl.Area), "Area");
                     formData.Add(new StringContent(mdl.Latitude ?? ""), "Latitude");
                     formData.Add(new StringContent(mdl.Longitude ?? ""), "Longitude");
                     formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.ProfileImage.FileName);
@@ -154,13 +154,13 @@ namespace Naturals.Service.Service
                 {
 
                     formData.Add(new StringContent(mdl.FirstName), "FirstName");
-                    formData.Add(new StringContent(mdl.LastName), "LastName");
+                    formData.Add(new StringContent(mdl.LastName ?? ""), "LastName");
                     formData.Add(new StringContent(mdl.Email ?? ""), "Email");
                     formData.Add(new StringContent(mdl.Address ?? ""), "Address");
                     formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
                     formData.Add(new StringContent(mdl.State), "State");
                     formData.Add(new StringContent(mdl.City), "City");
-                    formData.Add(new StringContent(mdl.Area), "Area");
+                    //formData.Add(new StringContent(mdl.Area), "Area");
                     formData.Add(new StringContent(mdl.Latitude ?? ""), "Latitude");
                     formData.Add(new StringContent(mdl.Longitude ?? ""), "Longitude");
 

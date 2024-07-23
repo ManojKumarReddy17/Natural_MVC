@@ -30,7 +30,7 @@
                 var SearchResultmodel = {
                     State: $("#Dstate").val(),
                     City: $("#Dcity").val(),
-                    Area: $("#Darea").val(),
+                    // Area: $("#Darea").val(),
                     fullName: $("#FullName").val()
                 };
 
@@ -52,7 +52,7 @@
                                 '<td>' + retailors.address + '</td>' +
                                 '<td>' + retailors.state + '</td>' +
                                 '<td>' + retailors.city + '</td>' +
-                                '<td>' + retailors.area + '</td>' +
+                                // '<td>' + retailors.area + '</td>' +
                                 '<td style="text-align: center;">' +
                                 '<input type="checkbox" class="selectRetailor" data-id="' + retailors.id + '" />' +
                                 '</td>' +
@@ -114,7 +114,7 @@
                 </div>
             </div>
 
-            <div class="col-md-2">
+          @*   <div class="col-md-2">
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Area)
@@ -125,7 +125,7 @@
                         @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
                     </b>
                 </div>
-            </div>
+            </div> *@
 
             <div class="col-md-2">
                 <div class="form-group">
@@ -152,7 +152,7 @@
                     <th>Address</th>
                     <th>State</th>
                     <th>City</th>
-                    <th>Area</th>
+                    @* <th>Area</th> *@
                     <th>Select</th>
                 </tr>
             </thead>
@@ -169,7 +169,7 @@
                         <td>@Html.DisplayFor(modelItem => item.Address)</td>
                         <td>@Html.DisplayFor(modelItem => item.State)</td>
                         <td>@Html.DisplayFor(modelItem => item.City)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Area)</td>
+                        @* <td>@Html.DisplayFor(modelItem => item.Area)</td> *@
                         <td style="text-align: center;">
                             <input type="checkbox" class="selectRetailor" data-id="@item.Id" />
                         </td>
@@ -244,31 +244,31 @@
             }
         }
 
-        function Citychange() {
+        // function Citychange() {
 
-            var cityid = $('#Dcity').val();
-            if (cityid.trim() != '') {
-                var ddlarea = $('#Darea');
-                ddlarea.empty();
+        //     var cityid = $('#Dcity').val();
+        //     if (cityid.trim() != '') {
+        //         var ddlarea = $('#Darea');
+        //         ddlarea.empty();
 
-                $.ajax(
-                    {
-                        url: "/Distributor/GetAreasByCityId",
-                        type: 'GET',
-                        dataType: 'json',
-                        data: { cityId: cityid },
-                        success: function (d) {
-                            ddlarea.append($("<option></option>").val('').html('-SelectArea-'));
-                            $.each(d.items, function (i, areas) {
-                                ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
-                            });
-                        },
-                        error: function () {
-                            alert('Error!');
-                        }
-                    });
-            }
-        }
+        //         $.ajax(
+        //             {
+        //                 url: "/Distributor/GetAreasByCityId",
+        //                 type: 'GET',
+        //                 dataType: 'json',
+        //                 data: { cityId: cityid },
+        //                 success: function (d) {
+        //                     ddlarea.append($("<option></option>").val('').html('-SelectArea-'));
+        //                     $.each(d.items, function (i, areas) {
+        //                         ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
+        //                     });
+        //                 },
+        //                 error: function () {
+        //                     alert('Error!');
+        //                 }
+        //             });
+        //     }
+        // }
     </script>
 </body>
 </html>

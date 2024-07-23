@@ -25,8 +25,8 @@ namespace Natural.Core.Models
         public string StateId { get; set; }
         public string City { get; set; }
         public string CityId { get; set; }
-        public string Area { get; set; }
-        public string AreaId { get; set; }
+        //public string Area { get; set; }
+        //public string AreaId { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public string Latitude { get; set; }

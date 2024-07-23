@@ -70,7 +70,7 @@
 
 
 
-                        <dt class="col-sm-2 text-danger">@Html.DisplayNameFor(model => model.ExecutiveDetails.Area)</dt>
+                      @*   <dt class="col-sm-2 text-danger">@Html.DisplayNameFor(model => model.ExecutiveDetails.Area)</dt>
                         <dd class="col-sm-2 text-dark wrap-text">
                             @if (Model.ExecutiveDetails.Area != null && Model.ExecutiveDetails.Area.Any())
                             {
@@ -85,7 +85,7 @@
                             {
                                 <span>No areas selected</span>
                             }
-                        </dd>
+                        </dd> *@
                        
                         <dt class="col-sm-2 text-danger">@Html.DisplayNameFor(model => model.ExecutiveDetails.Image)</dt>
                         <dd class="col-sm-2 text-dark">
@@ -156,7 +156,7 @@
                                 <th class="red-border">MobileNumber</th>
                                 <th class="red-border">State</th>
                                 <th class="red-border">City</th>
-                                <th class="red-border">Area</th>
+                                @* <th class="red-border">Area</th> *@
                                 <th class="red-border">Delete</th>
                             </tr>
                         </thead>
@@ -169,7 +169,7 @@
                                     <td class="red-border">@distributor.MobileNumber</td>
                                     <td class="red-border">@distributor.State</td>
                                     <td class="red-border">@distributor.City</td>
-                                    <td class="red-border">@distributor.Area</td>
+                                    @* <td class="red-border">@distributor.Area</td> *@
                                     <td>
   <!----------------------------------------------------- Delete Icon ------------------------------------------------------------------->
 

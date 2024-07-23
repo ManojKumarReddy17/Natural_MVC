@@ -65,32 +65,17 @@
                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                     </b>
                 </div>
-
                 <div class="form-group">
                     <b>
-
-                        @Html.LabelFor(model => model.MobileNumber)
-                        @Html.TextBoxFor(model => model.MobileNumber, new
-                            {
-                                @class = "form-control",
-                                placeholder = "Enter MobileNumber",
-                                onfocus = "movePlaceholder(this)"
-                            })
-                        @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
-
+                        @Html.LabelFor(model => model.State)
+                        @Html.DropDownListFor(model => model.State, new SelectList(Model.States, "Id", "StateName"),
+                                 "--Select State--", new { @id = "state", onchange = "statechange()", @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                     </b>
                 </div>
+            
 
-                <div class="form-group">
-                    <b>
-                        @Html.LabelFor(model => model.City)
-                        @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
-                    {
-                    new SelectListItem { Text = "", Value = "select" },
-                    }, "Value", "Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
-                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-                    </b>
-                </div>
+               
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Latitude)
@@ -138,7 +123,7 @@
 
             <div class="col-md-3 style=">
 
-                <div class="form-group">
+             @*    <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.LastName)
                         @Html.TextBoxFor(model => model.LastName, new
@@ -150,7 +135,7 @@
                         @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                     </b>
                 </div>
-
+ *@
                 <div class="form-group emphasized-section">
                     <b>
                         @Html.LabelFor(model => model.Address)
@@ -165,17 +150,32 @@
 
                     </b>
                 </div>
-
                 <div class="form-group">
                     <b>
-                        @Html.LabelFor(model => model.State)
-                        @Html.DropDownListFor(model => model.State, new SelectList(Model.States, "Id", "StateName"),
-                                 "--Select State--", new { @id = "state", onchange = "statechange()", @class = "form-select" })
-                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+
+                        @Html.LabelFor(model => model.MobileNumber)
+                        @Html.TextBoxFor(model => model.MobileNumber, new
+                            {
+                                @class = "form-control",
+                                placeholder = "Enter MobileNumber",
+                                onfocus = "movePlaceholder(this)"
+                            })
+                        @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
+
+                    </b>
+                </div>
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.City)
+                        @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
+                    {
+                    new SelectListItem { Text = "", Value = "select" },
+                    }, "Value", "Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                     </b>
                 </div>
 
-                <div class="form-group">
+               @*  <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Area)
                         @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
@@ -184,7 +184,7 @@
                     }, new { id = "area", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
                     </b>
-                </div>
+                </div> *@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Longitude)
