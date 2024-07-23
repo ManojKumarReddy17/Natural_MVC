@@ -95,7 +95,7 @@ namespace NatDMS.Controllers
         public async Task<IActionResult> DeleteCity(string id)
         {
             await _cityService.DeleteCity(id);
-            return RedirectToAction("DisplayCity", "City");
+            return Json(new { success = true, message = "City deleted successfully." });
         }
 
 

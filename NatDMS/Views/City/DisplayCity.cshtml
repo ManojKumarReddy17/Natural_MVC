@@ -90,18 +90,16 @@
         }
 
         function openDeleteConfirmationModal(id) {
-            // Set the ID to delete to a data attribute on the delete button
             $('#confirmDeleteBtn').data('city-id', id);
-            // Show the delete confirmation modal
             $('#deleteConfirmationModal').modal('show');
         }
 
         $(document).ready(function () {
             getStateCities();
 
-            // Handle click event on the delete confirmation button
+            
             $('#confirmDeleteBtn').click(function () {
-                // Retrieve the city ID from the data attribute
+              
                 var id = $(this).data('city-id');
                 console.log('Deleting city with ID:', id); // Add log
                 // Implement your delete logic here, for example:
