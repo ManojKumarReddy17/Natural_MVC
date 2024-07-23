@@ -281,7 +281,8 @@ namespace NatDMS.Controllers
         {
 
             await _distributorservice.DeleteDistributor(DistributorId);
-            return RedirectToAction("DisplayDistributors", "Distributor");
+            return Json(new { success = true, message = "City deleted successfully." });
+            //return RedirectToAction("DisplayDistributors", "Distributor");
         }
 
         /// <summary>

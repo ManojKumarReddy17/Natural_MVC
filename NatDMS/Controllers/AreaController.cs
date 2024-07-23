@@ -186,7 +186,8 @@ namespace NatDMS.Controllers
         public async Task<IActionResult> DeleteAreas(string Id)
         {
             await _areaService.DeleteArea(Id);
-            return RedirectToAction("DisplayAreas", "Area");
+            return Json(new { success = true, message = "Area deleted successfully." });
+            //return RedirectToAction("DisplayAreas", "Area");
         }
 
         
