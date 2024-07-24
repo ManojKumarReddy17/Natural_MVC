@@ -5,7 +5,8 @@ namespace Natural.Core.Models
 	public class Dsrcreate
 	{
         public List<DsrExecutiveDrop> ExecutiveList { get; set; }
-
+        public string Area { get; set; }
+        public List<AreaModel> AreaList { get; set; }
         public string Executive { get; set; }
 
         public List<DsrDistributorDrop> DistributorList { get; set; }

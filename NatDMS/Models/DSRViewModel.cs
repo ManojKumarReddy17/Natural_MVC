@@ -9,6 +9,7 @@ namespace NatDMS.Models
        
         public List<DsrExecutiveResourse> ExecutiveList { get; set; }
 
+        public List<AreaModel> AreaList { get; set; }
         public string Executive { get; set; }
 
         public string Distributor { get; set; }

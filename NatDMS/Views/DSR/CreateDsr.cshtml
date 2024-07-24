@@ -23,11 +23,39 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 
 
     <script type="text/javascript">
+
+           function areachange() {
+            var areaId = $('#area').val();
+            if (areaId.trim() != '') {
+                var ddlExecutive = $('#executive');
+                ddlExecutive.empty();
+                $.ajax({
+                    url: "/Dsr/GetExecutiveByArea",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { areaId: areaId },
+                    success: function (d) {
+                        ddlExecutive.append($("<option></option>").val(''));
+                        $.each(d, function (i, executive) {
+                            ddlExecutive.append($("<option>" + executive.executive + "</option>").val(executive.id).html(executive.name));
+                        });
+
+                        var selectedAreaName = $('#area option:selected').text();
+                        $('#areaInput').val(selectedAreaName);
+                    },
+                    error: function (error) {
+                        alert('Error ' + error.message);
+                    }
+                });
+            }
+        }
+
         function executivechange() {
             var exid = $('#executive').val();
             if (exid.trim() != '') {
@@ -250,8 +278,30 @@
     </script>
 
 
+<script>
+    $(document).ready(function () {
+        var dropdown = $('#area'); // Cache the dropdown element
 
-    </script>
+        // Create a search input field
+        var searchInput = $('<input type="text" class="form-control" placeholder="Search area...">');
+        dropdown.before(searchInput); // Insert the search input before the dropdown
+
+        // Event handler for input change (search)
+        searchInput.on('input', function () {
+            var searchTerm = $(this).val().toLowerCase(); // Get the search term
+            var options = dropdown.find('option'); // Cache the dropdown options
+
+            // Show/hide options based on the search term
+            options.each(function () {
+                var text = $(this).text().toLowerCase(); // Get option text
+                var visible = text.includes(searchTerm); // Check if text includes search term
+                $(this).toggle(visible); // Toggle option visibility
+            });
+        });
+    });
+</script>
+
+
 </head>
 
 <body>
@@ -281,6 +331,11 @@
               
             </style>
             <div class="form-group">
+                <b>
+                                @Html.LabelFor(model => model.Area)
+                @Html.DropDownListFor(  model => model.Area,new SelectList(ViewBag.AreaList, "Id", "AreaName"), "Select area",new { @id = "area",onchange = "areachange()", @class = "form-select" } )
+            </b>
+
                 <b>
                     @Html.LabelFor(model => model.Executive)
                     @Html.DropDownListFor(model => model.Executive, new SelectList(Model.ExecutiveList, "Id", "Executive"),

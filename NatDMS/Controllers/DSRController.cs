@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.Collections;
+using System.Security.Cryptography;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using NatDMS.Models;
@@ -11,15 +12,19 @@ namespace NatDMS.Controllers
 {
     public class DSRController : Controller
     {
+        private readonly IDistributorSalesService _distributorSalesService;
+        private readonly IAreaService _areaService;
         private readonly IDSRService _dsrservice;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _HttpContextAccessor;
 
-        public DSRController(IDSRService dsrservice,IMapper mapper, IHttpContextAccessor HttpContextAccessor)
+        public DSRController(IDSRService dsrservice,IMapper mapper, IHttpContextAccessor HttpContextAccessor,IAreaService areaService, IDistributorSalesService distributorSalesService)
         {
             _dsrservice = dsrservice;
             _mapper = mapper;
             _HttpContextAccessor = HttpContextAccessor;
+            _areaService = areaService; 
+            _distributorSalesService = distributorSalesService;
         }
 
         public async Task<ActionResult<List<DSRModel>>> DisplayDsrs()
@@ -29,21 +34,28 @@ namespace NatDMS.Controllers
             var dsrlist = dsrResult.dsr;
             var  newexecutivelist  =   _mapper.Map<List<DsrExecutiveDrop>, List<DsrExecutiveResourse>>(executivelist);
             var newdsrlidt = _mapper.Map<List<DSRModel>, List<DsrResourse>>(dsrlist);
-
+            
             DSRViewModel viewmodel = new DSRViewModel
             {
                 ExecutiveList = newexecutivelist,
                 dsr = newdsrlidt
+                
 
             };
             
             return View(viewmodel);
         }
 
+        [HttpGet]
         public async Task<ActionResult<Dsrcreate>> CreateDsr()
         {
 
             var viewmodel = await _dsrservice.CreateDsr();
+            var resultarea = await _areaService.GetAreas(0);
+
+            var lst = _mapper.Map<List<AreaModel>, List<AreaCUmodel>>(resultarea.Items);
+            ViewBag.AreaList = lst;
+
             string dsrjson = JsonConvert.SerializeObject(viewmodel);
             _HttpContextAccessor.HttpContext.Session.SetString("DSR", dsrjson);
 
@@ -53,21 +65,27 @@ namespace NatDMS.Controllers
             return View(deserializedViewModel);
         }
 
+
+
+        public async Task<JsonResult> GetExecutiveByArea(string areaId)
+        {
+            var result = await _distributorSalesService.GetExecutiveByArea(areaId);
+            return Json(result);
+        }
+    
+        [HttpGet]
         public async Task<JsonResult> GetDistributorByExecutiveId(string executiveId)
         {
             var result = await _dsrservice.AssignedDistributorDetailsByExecutiveId(executiveId);
-            
+
             return Json(result);
         }
-
-
+        [HttpGet]
         public async Task<JsonResult> GetRetailorByDistributorId(string distributorId)
         {
             var result = await _dsrservice.GetAssignedRetailorDetailsByDistributorIds(distributorId);
-           
             return Json(result);
         }
-
         public async Task<ActionResult<DsrInsert>> Details(string dsrid)
         {
            var dsr = await _dsrservice.Details(dsrid);
