@@ -281,6 +281,7 @@
                             alert('Error!');
                         }
                     });
+
                 } else {
                     // Disable and clear the city dropdown if no state is selected
                     ddlcity.prop('disabled', true);
@@ -314,6 +315,36 @@
                 }
             });
         });
+
+            }
+        }
+
+
+            // function citychange() {
+            //     var cityid = $('#city').val();
+            //     if (cityid.trim() != '') {
+            //         var ddlarea = $('#area');
+            //         ddlarea.empty();
+
+            //         $.ajax(
+            //             {
+            //                 url: "/Distributor/GetAreasByCityId",
+            //                 type: 'GET',
+            //                 dataType: 'json',
+            //                 data: { cityId: cityid },
+            //                 success: function (d) {
+            //                     ddlarea.append($("<option></option>").val('').html('--Select Area--'));
+            //                     $.each(d.items, function (i, areas) {
+            //                         ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
+            //                     });
+            //                 },
+            //                 error: function () {
+            //                     alert('Error!');
+            //                 }
+            //             });
+            //     }
+            // }
+>>>>>>> Stashed changes
     </script>
 
     <script>

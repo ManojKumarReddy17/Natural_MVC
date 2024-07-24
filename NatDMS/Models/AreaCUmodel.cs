@@ -8,7 +8,7 @@ namespace NatDMS.Models
         public string Area { get; set; }
         public string City { get; set; }
         public List<AreaModel> AreaList { get; set; }
-
+        public string AreaName { get; set; }    
         public string CityId { get; set; }
         public string State { get; set; }
         public string CityName { get; set; }
