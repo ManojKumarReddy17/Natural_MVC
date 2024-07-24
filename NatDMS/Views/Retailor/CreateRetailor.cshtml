@@ -43,6 +43,7 @@
                 <div class="form-group" style="margin-bottom: 9%;">
                     <b>
                         @Html.LabelFor(model => model.ShopName)
+                        <span style="color:red;">*</span>
                         @Html.TextBoxFor(model => model.FirstName, new
                             {
                                 @class = "form-control",
@@ -68,6 +69,7 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.State)
+                        <span style="color:red;">*</span>
                         @Html.DropDownListFor(model => model.State, new SelectList(Model.States, "Id", "StateName"),
                                  "--Select State--", new { @id = "state", onchange = "statechange()", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
@@ -154,6 +156,7 @@
                     <b>
 
                         @Html.LabelFor(model => model.MobileNumber)
+                        <span style="color:red;">*</span>
                         @Html.TextBoxFor(model => model.MobileNumber, new
                             {
                                 @class = "form-control",
@@ -167,6 +170,7 @@
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.City)
+                        <span style="color:red;">*</span>
                         @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
                     {
                     new SelectListItem { Text = "", Value = "select" },
