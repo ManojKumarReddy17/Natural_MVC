@@ -74,7 +74,15 @@ namespace Naturals.Service.Service
         /// <summary>
         /// CREATE EXECUTIVE  //
         /// </summary>
+        public async Task<List<AreaModel>> GetAreaByExecutive(string executiveid)
+        {
 
+
+            var result = await _httpClient.GetByIdAsync<List<AreaModel>>("/Executive/exid?exip=", executiveid);
+
+            return result;
+
+        }
 
 
         public async Task<ProductResponse> CreateExecutive(ExecutiveModel mdl)

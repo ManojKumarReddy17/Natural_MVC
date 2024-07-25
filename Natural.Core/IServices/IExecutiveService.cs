@@ -26,5 +26,7 @@ namespace Natural.Core.IServices
 
         Task<List<DistributorModel>> GetAssignedDistributorsByExecutiveId(string ExecutiveId);
 
+        Task<List<AreaModel>> GetAreaByExecutive(string executiveid);
+
     }
 }
