@@ -1,0 +1,476 @@
+﻿@model Natural.Core.Models.DistributorLoginModel
+
+
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <br />
+    @* <h3>Distributor Reports</h3> *@
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <meta name="description" content="MyHomeStore - Best Online Grocery Shopping." />
+    <meta name="keywords" content="organic food, vegetables, fruits, grocery, shopping, online, store" />
+    <meta name="author" content="MyHomeStore">
+    <!-- favicon -->
+    @* <link rel="shortcut icon" type="image/favicon" href="image/fevicon.png"> *@
+    <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <!-- simple-line icon -->
+
+    <link rel="stylesheet" type="text/css" href="css/simple-line-icons.css">
+    <!-- font-awesome icon -->
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <!-- themify icon -->
+    <link rel="stylesheet" type="text/css" href="css/themify-icons.css">
+    <!-- ion icon -->
+    <link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
+    <!-- owl slider -->
+    <link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" type="text/css" href="css/owl.theme.default.min.css">
+    <!-- swiper -->
+    <link rel="stylesheet" type="text/css" href="css/swiper.min.css">
+    <!-- animation -->
+    <link rel="stylesheet" type="text/css" href="css/animate.css">
+    <!-- style -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/responsive.css">
+    <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha384-GLhlTQ8iN17U487F1dXoWSfR5/2Ipxi1RMEYz4J8r59b6EGGoI1Wwx4F7KsWSktQ" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+
+    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <a href="@Url.Action("DisplayDsreport", "Distributor")"></a>
+
+    <script>
+        function printContent(content) {
+            var AreaName = $('#area').val(); // Fetch the selected AreaName
+            var ExecutiveName = $('#executives').val();
+            var DistributorName = $('#distributor').val(); // Fetch the entered Distributor Name
+            var RetailorName = $('#retailor option:selected').text(); // Fetch the selected Retailor Name
+
+            var header =
+                '<div><b>Area:</b> ' + AreaName + '</div>' +
+                '<div><b>Executive:</b> ' + ExecutiveName + '</div><br>' +
+                '<div><b>Distributor:</b> ' + DistributorName + '</div>' +
+                '<div><b>Retailor:</b> ' + RetailorName + '</div><br>';
+
+            var totalQuantity = 0;
+            var totalSaleAmount = 0;
+
+            // Loop through each row in the table
+            $(content).find('tr').each(function () {
+                // Get quantity and sale amount from each row
+                var quantity = parseFloat($(this).find('td:eq(1)').text()) || 0;
+                var saleAmount = parseFloat($(this).find('td:eq(3)').text()) || 0;
+
+                // Add to totals
+                totalQuantity += quantity;
+                totalSaleAmount += saleAmount;
+            });
+
+            var footer = '<div style="text-align:right;"><b>Total Quantity:</b> ' + totalQuantity.toFixed(2) + '</div>' +
+                '<div style="text-align:right;"><b>Total Sale Amount:</b> ' + totalSaleAmount.toFixed(2) + '</div><br>';
+
+            var printableContent = header + content + footer;
+
+            var originalContent = $('body').html(); // Save original content
+            $('body').html(printableContent); // Replace content with printable version
+            window.print(); // Print the page
+            $('body').html(originalContent); // Restore original content after printing
+        }
+
+        // Function to initiate printing
+        $(document).ready(function () {
+            $('#printBtn').click(function () {
+                var content = $('.result-container').html(); // Get HTML content to print
+                printContent(content); // Call print function with content
+            });
+        });
+
+        function Save() {
+            var modelData = {
+                //Id: $("#id").val(),
+                AreaName: $("#area").val(),
+                Executive: $("#executives").val(),
+                Distributor: $("#id").val(),
+                Retailor: $("#retailor").val(),
+                StartDate: $("#StartDate").val(),
+                EndDate: $("#EndDate").val(),
+            };
+
+            var jsonString = JSON.stringify(modelData);
+
+            $.ajax({
+                url: "/DistributorLoginReports/DisplayDsreport",
+                type: "POST",
+                data: jsonString,
+                processData: false,
+                contentType: "application/json",
+                success: function (response) {
+                    $("#Productlist").empty();
+                    if (response.length === 0) {
+                        // If no data is provided, display a message
+                        $("#Productlist").append('<tr><td colspan="4">No data provided</td></tr>');
+                    } else {
+                        // Otherwise, populate the table with data
+                        $("#Productlist").append('<tr style="font-weight:bold">' +
+                            '<td>Product Name</td>' +
+                            '<td>Quantity</td>' +
+                            '<td>ProductType</td>' +
+                            '<td>Sale Amount</td>' +
+                            '</tr>');
+                        $.each(response, function (i, ds) {
+                            $("#Productlist").append(
+                                '<tr>' +
+                                '<td>' + ds.product_Name + '</td>' +
+                                '<td>' + ds.quantity + '</td>' +
+                                '<td>' + ds.productType + '</td>' +
+                                '<td>' + ds.saleAmount + '</td>' +
+                                '</tr>'
+                            );
+                        });
+                    }
+                },
+                error: function (request, status, error) {
+                    // If there's an error, display an alert
+                    alert('Error fetching data: ' + error);
+                    // Clear the table content
+                    $("#Productlist").empty();
+                    // Display "No data provided" message
+                    $("#Productlist").append('<tr><td colspan="4">No data provided</td></tr>');
+                }
+            });
+        }
+        //date
+        document.getElementById("StartDate").defaultValue = "YYYY-MM-DD";
+        document.getElementById("EndDate").defaultValue = "YYYY-MM-DD";
+    </script>
+    <style>
+
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+        }
+
+            .form-group b {
+                width: 30%;
+                box-sizing: border-box;
+            }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            border-bottom: none;
+            border-top: none;
+            z-index: 99;
+            top: 100%;
+            left: 0;
+            right: 0;
+        }
+
+            .autocomplete-items div {
+                padding: 10px;
+                cursor: pointer;
+                background-color: #fff;
+                border-bottom: 1px solid #d4d4d4;
+            }
+
+                .autocomplete-items div:hover {
+                    background-color: #e9e9e9;
+                }
+
+        .autocomplete-active {
+            background-color: DodgerBlue !important;
+            color: #ffffff;
+        }
+    </style>
+
+    <style>
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+        }
+
+            .form-group b {
+                width: 30%;
+                box-sizing: border-box;
+            }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 5px;
+            text-align: left;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save Data with Loading Indicator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 1px;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        #loadingIndicator {
+            display: none;
+            position: fixed;
+            top: 60%;
+            left: 50%;
+            background-color: #ddd;
+            padding: 20px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            z-index: 1000;
+            text-align: center;
+        }
+
+        #Productlist {
+            margin-top: 20px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            #Productlist th, #Productlist td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+
+            #Productlist th {
+                background-color: #f2f2f2;
+            }
+
+        .textbox {
+            border: 1px solid #ccc; /* Border around the textbox */
+            padding: 5px; /* Add some padding for better usability */
+            font-size: 16px; /* Set the font size */
+            background-color: #fff; /* Set the background color (white) */
+        }
+
+        .datepicker {
+            width: 200px;
+            height: 36px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+        }
+
+            .datepicker:focus {
+                border-color: #66afe9;
+                outline: 0;
+                box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+            }
+    </style>
+</head>
+
+<body>
+    <!----------------------------------------------LOGO AREA START---------------------------------------------->
+    @* <div class="form-group"> *@
+
+    <div class="header-main">
+        <!-- logo start -->
+        <div class="header-element logo img">
+            <a>
+                <img src="~/image/logo1.jpg" alt="logo-image" class="img-fluid">
+                <div style="text-align: right end;">
+                    <strong class="font-lg text-heading" style="font-size: 2em; display: block; margin-top: 10px;">Masala Products</strong>
+                </div>
+            </a>
+            <!-- logo End -->
+        </div>
+    </div>
+
+    <div class="form-group">
+
+            @*<b>
+            @Html.LabelFor(model => model.Area)
+            @Html.TextBoxFor(model => model.Area, new {@id = "area", @class = "form-control",
+            placeholder = "Enter Area",onfocus = "movePlaceholder(this)"})
+
+            </b>*@
+            @* <b>
+            @Html.LabelFor(model => model.AreaName)
+            @Html.TextBoxFor(model => model.AreaName, new {
+            @id = "area",
+            @class = "form-control",
+            placeholder = "Enter Area",
+            onfocus = "movePlaceholder(this)"
+            })
+            </b> *@
+
+            @* <b class="form-control">
+            @if (ViewData["AreaList"] != null)
+            {
+            var areaDetails = (Natural.Core.Models.AreaModel)ViewData["AreaList"];
+            <p>AreaName: @areaDetails.AreaName</p>
+            }
+            </b>*@
+
+            <b>
+
+                @Html.LabelFor(model => model.Area)
+                <div id="area-container" class="scrollable-checkboxes">
+                    @if (Model.Areas != null)
+                    {
+                        @foreach (var item in Model.Areas)
+                        {
+                            
+
+                            <input class="textbox" id="area" name="Area" value="@item.AreaName" />
+                                @* @Html.DisplayFor(modelItem => item.AreaName) *@
+
+
+                        }
+                    }
+                </div>
+                @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+            </b>
+            <b>
+
+                @Html.LabelFor(model => model.executives)
+                @Html.TextBoxFor(model => model.executives, new { @class = "form-control", placeholder = "Enter executives", id = "executives", onfocus = "movePlaceholder(this)" })
+                @Html.HiddenFor(model => model.exeId, new { @class = "form-control", placeholder = "Enter executives", id = "executives", onfocus = "movePlaceholder(this)" })
+
+            </b>
+            <b>
+                @*@Html.LabelFor(model => model.Distributor)
+                @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", placeholder = "Enter Distributor", id = "distributor", onfocus = "movePlaceholder(this)" })
+                *@
+                @Html.LabelFor(model => model.Distributor)
+                @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", placeholder = "Enter Distributor", id = "distributor", onfocus = "movePlaceholder(this)" })
+                @Html.HiddenFor(model => model.Id, new { @class = "form-control", placeholder = "Enter Distributor", id = "id", onfocus = "movePlaceholder(this)" })
+
+            </b>
+
+            <b>
+                @*    @Html.LabelFor(model => model.Retailor)
+                @Html.DropDownListFor(model => model.Retailor, new SelectList(ViewBag.RetailorList, "RetailorId", "Retailor"), new { @id = "retailor", @class = "form-select" })
+                </b> *@
+                @Html.LabelFor(model => model.Retailor)
+                @Html.DropDownListFor(
+                         model => model.Retailor,
+                         new SelectList(ViewBag.RetailorList, "Id", "RetailorName"),
+                         "Select Retailor",
+                         new { @id = "retailor", @class = "form-select" }
+                         )
+            </b>
+            <b>
+
+                @Html.LabelFor(model => model.StartDate)
+                <input type="date" id="StartDate" name="StartDate" class="datepicker">
+                @Html.LabelFor(model => model.EndDate)
+                <input type="date" id="EndDate" name="EndDate" class="datepicker">
+            </b>
+            <b>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <button type="button" class="btn btn-secondary my-4" onclick="Save()">
+                        <i class="material-icons" style="font-size:18px;display:flex;justify-content:center;align-items:center;">search</i>
+                    </button>
+                  
+                </div>
+            </div>
+            </b>
+            <b>
+                <button class="btn btn-secondary my-4" id="printBtn">
+                    <i class="material-icons" style="font-size: 18px; margin-right: 5px;display:flex;justify-content:center;align-items:center;">print</i> Print
+                </button>
+         
+     
+            </b>
+     </div>
+    <div class="result-container" style="overflow-y: auto; max-height: 300px;">
+        <table class="table" id="Productlist">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>ProductType</th>
+                    <th>Sale Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.report != null)
+                {
+                    foreach (var item in Model.report)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Product_Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                            <td>@Html.DisplayFor(modelItem => item.productType)</td>
+                            <td>@Html.DisplayFor(modelItem => item.SaleAmount)</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4">No data available</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -29,6 +29,8 @@ builder.Services.AddTransient<ICityService, CityService>();
 
 builder.Services.AddScoped<IMapService, MapService>();
 builder.Services.AddScoped<IDistributorSalesService, DistributorSalesService>();
+builder.Services.AddScoped<IDistributorLoginService, DistributorLoginService>();
+builder.Services.AddScoped<IDistributorLoginReportsService, DistributorLoginReportsService>();
 
 
 builder.Services.AddScoped<INotificationDistributorService, NotificationDistributorService>();

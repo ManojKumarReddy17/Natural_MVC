@@ -1,0 +1,360 @@
+﻿@model NatDMS.Models.DistributorLoginViewModel
+
+
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--------------- title ------------------->
+
+    <title>NATURAL MASALA'S - Shopping In Comfort</title>
+    <meta name="description" content="MyHomeStore - Best Online Grocery Shopping." />
+    <meta name="keywords" content="organic food, vegetables, fruits, grocery, shopping, online, store" />
+    <meta name="author" content="MyHomeStore">
+    <!-- favicon -->
+    <link rel="shortcut icon" type="image/favicon" href="image/fevicon.png">
+    <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <!-- simple-line icon -->
+
+    <link rel="stylesheet" type="text/css" href="css/simple-line-icons.css">
+    <!-- font-awesome icon -->
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <!-- themify icon -->
+    <link rel="stylesheet" type="text/css" href="css/themify-icons.css">
+    <!-- ion icon -->
+    <link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
+    <!-- owl slider -->
+    <link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" type="text/css" href="css/owl.theme.default.min.css">
+    <!-- swiper -->
+    <link rel="stylesheet" type="text/css" href="css/swiper.min.css">
+    <!-- animation -->
+    <link rel="stylesheet" type="text/css" href="css/animate.css">
+    <!-- style -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/responsive.css">
+    <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha384-GLhlTQ8iN17U487F1dXoWSfR5/2Ipxi1RMEYz4J8r59b6EGGoI1Wwx4F7KsWSktQ" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Password Input with Eye Slash Icon</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" integrity="sha384-0evSX huddled7su3WrDjfed1z3FO3CnFNCO6+vXL1qvcB839U9vuOpZJC7zVEe0NvljIWvTtVnQ" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+
+    <style>
+        .password-wrapper {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .password-container {
+            position: relative;
+            width: fit-content;
+        }
+
+        /*   .fa-eye-slash {
+                    position: absolute;
+                    width:1px;
+                    right: 10px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    cursor: pointer;
+                } */
+
+        .form-control {
+            padding-right: 30px;
+        }
+
+
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f8f9fa;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 400px;
+            max-height: 450px;
+            height: 80vh;
+            padding: 20px;
+            border-radius: 30px;
+            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .logForm {
+            height: 60vh;
+        }
+
+
+        .signup-text a {
+            color: #28a745;
+            text-decoration: none;
+        }
+
+        .img-hotline {
+            position: fixed;
+            top: 10px; /* Adjust as needed */
+            right: 10px; /* Adjust as needed */
+            background-color: white; /* Optional: background color */
+            padding: 10px; /* Optional: padding */
+            border: 1px solid #ccc; /* Optional: border styling */
+            border-radius: 5px; /* Optional: rounded corners */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: shadow effect */
+            z-index: 1000; /* Ensure it is on top of other elements */
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .logo {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+            margin-top: 10px;
+        }
+
+        .form-group {
+            margin-top: 2rem;
+        }
+
+        .form-control {
+            max-width: 350px;
+            height: 3rem;
+        }
+
+        form-group23 {
+            height: 10px;
+            width: 20px
+        }
+
+        .form-gruop {
+            margin-bottom: 2rem;
+        }
+
+        .form-check {
+            min-height: 2.5rem;
+        }
+
+
+        .login-danger {
+            background-color: #f8d7da; /* Light red background */
+            color: #721c24; /* Dark red text */
+            border: 1px solid #f5c6cb; /* Red border */
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+    </style>
+</head>
+
+<body class="home-1 back">
+    <!----------------------------------------------LOGO AREA START---------------------------------------------->
+
+
+    <div class="header-main">
+        <!-- logo start -->
+        <div class="header-element logo img">
+            <a>
+                <img src="~/image/logo1.jpg" alt="logo-image" class="img-fluid">
+                <div style="text-align: right end;">
+                    <strong class="font-lg text-heading" style="font-size: 2em; display: block; margin-top: 10px;">Masala Products</strong>
+                </div>
+            </a>
+            <!-- logo End -->
+        </div>
+    </div>
+
+    <!---------------------------------------------- LOGO AREA END --------------------------------------------------------->
+    <!-----------------------Header Bottom Area------------------------------>
+    <div class="header-bottom-area">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="main-menu-area">
+                        <div class="main-navigation navbar-expand-xl">
+                            <!-------------------------------------------------- menu start --------------------------------------------------->
+
+                            <div class="navbar-collapse" id="navbarContent">
+                                <div class="megamenu-content">
+                                    <div class="mainwrap">
+                                        <ul class="main-menu">
+
+
+                                            <a href="/GuestProduct/Index11" class="link-title">
+                                                <b>
+
+                                                    <span class="nav-link" style="font-size: 50px;">HOME</span>
+                                                </b>
+                                            </a>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!------------------------------------------menu end-------------------------------------------------------------------->
+                            <!----------------------------------------------------------CONTACT NUMBER ICON----------------------------------------------------------------------->
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mm-fullscreen-bg"></div>
+    <!-------------------------------------------------------------FORM START------------------------------------------------>
+
+    <section class="login-container">
+        <div class="login-box">
+            <h3 class="sign" style="text-align: center; color: black;">Sign in </h3>
+            @if (ViewData.ModelState.Any(x => x.Value.Errors.Count > 0))
+            {
+                <div class="alert alert-danger" role="alert">
+                    Invalid username or password. Please check your details and try again.
+                </div>
+            }
+
+            @using (Html.BeginForm("DistributorLogins", "DistributorLogin", FormMethod.Post, new { @class = "logForm" }))
+            {
+          
+                <label for="user">
+                    Username or Email
+                </label>
+                <div class="input-group mb-3">
+
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    <input type="text" class="form-control" id="username" name="UserName" placeholder="Username or Email" required>
+                </div>
+                <label for="password">
+                    @* <i class="material-icons">lock</i> *@
+                    Password
+                </label>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                    <input name="password" type="password" value="" class="form-control" id="password" placeholder="Enter Password" pattern=".{6,}" title="Password must be at least 6 characters long" required="true">
+                    <span class="input-group-text" onclick="password_show_hide();">
+                        <i class="fas fa-eye" id="show_eye"></i>
+                        <i class="fas fa-eye-slash d-none" id="hide_eye"></i>
+                    </span>
+                </div>
+                <button type="submit" class="btn btn-danger btn-block">Destributor Login</button>
+            }
+        </div>
+    </section>
+    <!-------------------------------------------------FORM END--------------------------------------------------->
+    <!-- footer copyright start -->
+
+    <section class="footer-copyright" positon="fixed" style="height: 10vh;">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <ul class="f-bottom">
+                        <li class="f-c f-copyright">
+                            <p>Copyright <i class="fa fa-copyright"></i> 2023 Natural</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- footer copyright End -->
+
+
+    <script src="~/js/modernizr-2.8.3.min.js"></script>
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+    <!-- bootstrap -->
+    <script src="~/js/bootstrap.min.js"></script>
+    <!-- popper -->
+    <script src="~/js/popper.min.js"></script>
+    <!-- fontawesome -->
+    <script src="~/js/fontawesome.min.js"></script>
+    <!-- owl carousal -->
+    <script src="~/js/owl.carousel.min.js"></script>
+    <!-- swiper -->
+    <script src="~/js/swiper.min.js"></script>
+    <!-- custom -->
+    <script src="~/js/custom.js"></script>
+    <script>
+
+      
+        function password_show_hide() {
+            var x = document.getElementById("password");
+            var show_eye = document.getElementById("show_eye");
+            var hide_eye = document.getElementById("hide_eye");
+            hide_eye.classList.remove("d-none");
+            if (x.type === "password") {
+                x.type = "text";
+                show_eye.style.display = "none";
+                hide_eye.style.display = "block";
+            } else {
+                x.type = "password";
+                show_eye.style.display = "block";
+                hide_eye.style.display = "none";
+
+            }
+        }
+        $(document).ready(function () {
+            $('#show_password').click(function () {
+                var passwordField = $('#password');
+                var passwordFieldType = passwordField.attr('type');
+                if (passwordFieldType === 'password') {
+                    passwordField.attr('type', 'text');
+                    $(this).html('<i class="fa fa-eye-slash"></i>');
+                } else {
+                    passwordField.attr('type', 'password');
+                    $(this).html('<i class="fa  fa-eye"></i>');
+                }
+            });
+        });
+    </script>
+
+
+</body>
+</html>
+
+
