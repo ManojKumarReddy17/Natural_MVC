@@ -35,13 +35,13 @@ namespace NatDMS.Controllers
                 var create = _mapper.Map<DistributorLoginViewModel,DistributorLoginModel>(loginViewModel);
                 var contents = await _IDistributorLoginServiceervice.DistributorLogin(create);
 
-                if (contents.FirstName != null && contents.LastName != null)
+                if (contents.FirstName != null)
                 {
                     // Claims Collecting //
                     var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Surname, contents.FirstName),
-                new Claim(ClaimTypes.Name, contents.LastName)
+                //new Claim(ClaimTypes.Name, contents.LastName)
             };
 
                     var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
