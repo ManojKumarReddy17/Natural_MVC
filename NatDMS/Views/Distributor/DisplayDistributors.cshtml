@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "DisplayDistributor";
     string defaultStateId = "stn1";
-    string defaultCityId = "ctn1";
+    string defaultCityId = "ctn84179";
 }
 @using System.Security.Claims
 
@@ -189,8 +189,8 @@
                     <th>City</th>
 @*                     <th>Area</th> *@
                     <th>ProfileImage</th>
-                    <th>Latitude</th>
-                    <th>Longitude</th>
+                    @* <th>Latitude</th>
+                    <th>Longitude</th> *@
                     <th>Edit</th>
                     <th>Delete</th>
                     <th>Details</th>
@@ -226,9 +226,9 @@
 
                     </td>
 
-                    <td>@Html.DisplayFor(modelItem => item.Latitude)</td>
+                  @*   <td>@Html.DisplayFor(modelItem => item.Latitude)</td>
                     <td>@Html.DisplayFor(modelItem => item.Longitude)</td>
-
+ *@
 
                     <!-----------------------------------------------EDIT ACTION LINK------------------------------------------------------------------------>
 
@@ -342,7 +342,7 @@
                             dataType: 'json',
                             data: { stateId: stid },
                             success: function (d) {
-                                ddlcity.append($("<option></option>").val('').html('-SelectCity-'));
+                                ddlcity.append($("<option></option>").val('').html('-Select City-'));
                                 $.each(d, function (i, cities) {
                                     ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
                                 });
@@ -365,24 +365,24 @@
             //         var ddlarea = $('#area');
             //         ddlarea.empty();
 
-                    $.ajax(
-                        {
-                            url: "/Executive/GetAreasByCityId",
-                            type: 'GET',
-                            dataType: 'json',
-                            data: { cityId: cityid },
-                            success: function (d) {
-                                ddlarea.append($("<option></option>").val('').html('-SelectArea-'));
-                                $.each(d.items, function (i, areas) {
-                                    ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
-                                });
-                            },
-                            error: function () {
-                                alert('Error!');
-                            }
-                        });
-                }
-            }
+            //         $.ajax(
+            //             {
+            //                 url: "/Executive/GetAreasByCityId",
+            //                 type: 'GET',
+            //                 dataType: 'json',
+            //                 data: { cityId: cityid },
+            //                 success: function (d) {
+            //                     ddlarea.append($("<option></option>").val('').html('-SelectArea-'));
+            //                     $.each(d.items, function (i, areas) {
+            //                         ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
+            //                     });
+            //                 },
+            //                 error: function () {
+            //                     alert('Error!');
+            //                 }
+            //             });
+            //     }
+            // }
         // function showDeleteModal(distributorId) {
         //     $('#deleteConfirmationModal_' + distributorId).modal('show');
         // }

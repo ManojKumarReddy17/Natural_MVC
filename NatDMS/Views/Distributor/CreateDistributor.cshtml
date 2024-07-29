@@ -77,14 +77,14 @@
                         @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                     </b>
                 </div>
-                <div class="form-group">
+            @*     <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Latitude)
                         @Html.TextBoxFor(model => model.Latitude, new { @class = "form-control",
                     placeholder = "Enter Latitude", onfocus = "movePlaceholder(this)"})
                         @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" })
                     </b>
-                </div>
+                </div> *@
                 <div class="form-group">
                     @Html.LabelFor(model => model.ProfileImage, "Profile image")
                     @Html.TextBoxFor(model => model.ProfileImage, new
@@ -175,14 +175,14 @@
                         @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
                     </b>
                 </div> *@
-                <div class="form-group">
+                @* <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Longitude)
                         @Html.TextBoxFor(model => model.Longitude, new { @class = "form-control",
                     placeholder = "Enter Longitude", onfocus = "movePlaceholder(this)"})
                         @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" })
                     </b>
-                </div>
+                </div> *@
                 @* Preview image panel *@
                 <div class="form-group">
                     <div class="col-md-4" id="imagePreviewContainer" style="display:none;">
@@ -252,6 +252,8 @@
                 });
             });
     </script>
+ 
+
     <script type="text/javascript">
         $(document).ready(function () {
             // Initially disable the city dropdown
@@ -267,7 +269,7 @@
                     ddlcity.empty(); // Clear existing options
 
                     $.ajax({
-                        url: "/Distributor/GetCitiesbyStateId",
+                        url: "/Retailor/GetCitiesbyStateId",
                         type: 'GET',
                         dataType: 'json',
                         data: { stateId: stid },
@@ -281,7 +283,6 @@
                             alert('Error!');
                         }
                     });
-
                 } else {
                     // Disable and clear the city dropdown if no state is selected
                     ddlcity.prop('disabled', true);
@@ -290,62 +291,33 @@
                 }
             });
 
-            $('#city').change(function () {
-                var cityid = $(this).val();
-                var ddlarea = $('#area');
+            // $('#city').change(function () {
+            //     var cityid = $(this).val();
+            //     var ddlarea = $('#area');
 
-                if (cityid.trim() != '') {
-                    ddlarea.empty(); // Clear existing options
-
-                    $.ajax({
-                        url: "/Distributor/GetAreasByCityId",
-                        type: 'GET',
-                        dataType: 'json',
-                        data: { cityId: cityid },
-                        success: function (d) {
-                            ddlarea.append($("<option></option>").val('').html('--Select Area--'));
-                            $.each(d.items, function (i, areas) {
-                                ddlarea.append($("<option></option>").val(areas.id).html(areas.areaName));
-                            });
-                        },
-                        error: function () {
-                            alert('Error!');
-                        }
-                    });
-                }
-            });
-        });
-
-            }
-        }
-
-
-            // function citychange() {
-            //     var cityid = $('#city').val();
             //     if (cityid.trim() != '') {
-            //         var ddlarea = $('#area');
-            //         ddlarea.empty();
+            //         ddlarea.empty(); // Clear existing options
 
-            //         $.ajax(
-            //             {
-            //                 url: "/Distributor/GetAreasByCityId",
-            //                 type: 'GET',
-            //                 dataType: 'json',
-            //                 data: { cityId: cityid },
-            //                 success: function (d) {
-            //                     ddlarea.append($("<option></option>").val('').html('--Select Area--'));
-            //                     $.each(d.items, function (i, areas) {
-            //                         ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
-            //                     });
-            //                 },
-            //                 error: function () {
-            //                     alert('Error!');
-            //                 }
-            //             });
+            //         $.ajax({
+            //             url: "/Retailor/GetAreasByCityId",
+            //             type: 'GET',
+            //             dataType: 'json',
+            //             data: { cityId: cityid },
+            //             success: function (d) {
+            //                 ddlarea.append($("<option></option>").val('').html('--Select Area--'));
+            //                 $.each(d.items, function (i, areas) {
+            //                     ddlarea.append($("<option></option>").val(areas.id).html(areas.areaName));
+            //                 });
+            //             },
+            //             error: function () {
+            //                 alert('Error!');
+            //             }
+            //         });
             //     }
-            // }
->>>>>>> Stashed changes
+            // });
+        });
     </script>
+
 
     <script>
         function ShowImagePreview(input) {
