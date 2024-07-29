@@ -11,6 +11,7 @@ namespace NatDMS.Models
 
     public class ED_CreateViewModel
     {
+        public List<CityModel> CityList { get; set; }
         public string Id { get; set; }
 
         [Required(ErrorMessage = "FirstName is Required")]

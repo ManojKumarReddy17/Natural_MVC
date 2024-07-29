@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "DisplayExecutive";
     string defaultStateId = "stn1";
-    string defaultCityId = "ctn1";
+    string defaultCityId = "ctn84179";
 }
 
 @using System.Security.Claims
@@ -201,8 +201,8 @@
                     <th>City</th>
                     <th>Area</th>
                     <th>ProfileImage</th>
-                    <th>Latitude</th>
-                    <th>Longitude</th>
+                   @*  <th>Latitude</th>
+                    <th>Longitude</th> *@
                     <th>Edit</th>
                     <th>Delete</th>
                     <th>Details</th>
@@ -243,8 +243,8 @@
 
 
                         </td>
-                        <td>@Html.DisplayFor(modelItem => item.Latitude)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Longitude)</td>
+                    @*     <td>@Html.DisplayFor(modelItem => item.Latitude)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Longitude)</td> *@
                  
                        
 
