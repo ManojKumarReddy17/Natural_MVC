@@ -60,7 +60,15 @@ namespace NatDMS.Controllers
 
             return View(loginViewModel);
         }
+        //[HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            //return Json(new { success = true });
+            return RedirectToAction("Index11", "GuestProduct");
+            //return Ok();
 
+        }
 
     }
 }

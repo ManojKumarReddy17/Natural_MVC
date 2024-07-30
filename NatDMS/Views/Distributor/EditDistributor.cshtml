@@ -214,40 +214,37 @@
                     }
                 });
             });
-    
-
         function statechange() {
             var stid = $('#state').val();
-            if (stid.trim() != '') {
-                var ddlcity = $('#city');
+            var ddlcity = $('#city');
 
+            if (stid.trim() !== '') {
+                // Enable the city dropdown and clear existing options
+                ddlcity.prop('disabled', false).empty();
 
-                ddlcity.empty();
-
-                $.ajax(
-                    {
-                        url: "/Distributor/GetCitiesbyStateId",
-
-                        type: 'GET',
-                        dataType: 'json',
-                        data: { stateId: stid },
-
-                        success: function (d) {
-
-                            ddlcity.append($("<option></option>").val('').html('--SelectCity--'));
-                            $.each(d, function (i, cities) {
-
-                                ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
-
-                            });
-                        },
-                        error: function () {
-                            alert('Error!');
-                        }
-                    });
+                $.ajax({
+                    url: "/Distributor/GetCitiesbyStateId",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { stateId: stid },
+                    success: function (d) {
+                        ddlcity.append($("<option></option>").val('').html('--Select City--'));
+                        $.each(d, function (i, city) {
+                            ddlcity.append($("<option></option>").val(city.id).html(city.cityName));
+                        });
+                    },
+                    error: function () {
+                        alert('Error fetching cities!');
+                    }
+                });
+            } else {
+                // Disable the city dropdown and clear existing options
+                ddlcity.prop('disabled', true).empty().append($("<option></option>").val('').html('--Select City--'));
             }
-
         }
+
+
+       
 
         // function citychange() {
         //     var cityid = $('#city').val();

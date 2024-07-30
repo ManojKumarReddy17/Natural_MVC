@@ -14,11 +14,11 @@ namespace Natural.Core.Models
         public string Distributor { get; set; }
 
         public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string FullName
-        {
-            get { return $"{FirstName} {LastName}"; }
-        }
+        //public string LastName { get; set; }
+        //public string FullName
+        //{
+        //    get { return $"{FirstName} {LastName}"; }
+        //}
         public string exeId { get; set; }
         public string executives { get; set; }
         public string Retailor { get; set; }
