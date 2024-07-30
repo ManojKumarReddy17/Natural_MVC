@@ -177,58 +177,86 @@
     <script src="~/js/jquery-3.6.0.min.js"></script>
 
     <script type="text/javascript">
-        function statechange() {
-            var stid = $('#state').val();
+        $(document).ready(function () {
+            // Initially disable the city dropdown
+            $('#city').prop('disabled', false);
+            $('#area-container').empty().hide(); // Hide the area container initially
 
-            if (stid.trim() !== '') {
+            $('#state').change(function () {
+                var stid = $(this).val();
                 var ddlcity = $('#city');
-                ddlcity.empty();
 
-                $.ajax({
-                    url: "/Retailor/GetCitiesByStateId",
-                    type: 'GET',
-                    dataType: 'json',
-                    data: { stateId: stid },
-                    success: function (cities) {
-                        console.log('Cities:', cities);
-                        ddlcity.append($("<option></option>").val('').html('--Select City--'));
-                        $.each(cities, function (i, city) {
-                            ddlcity.append($("<option></option>").val(city.id).html(city.cityName));
-                        });
-                    },
-                    error: function () {
-                        alert('Error fetching cities!');
-                    }
-                });
-            }
-        }
+                if (stid.trim() !== '') {
+                    ddlcity.empty().prop('disabled', false); // Enable the city dropdown
 
-        // function citychange() {
-        //     var cityid = $('#city').val();
-        //     if (cityid.trim() !== '') {
-        //         var ddlarea = $('#area');
-        //         ddlarea.empty();
+                    $.ajax({
+                        url: "/Retailor/GetCitiesByStateId",
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { stateId: stid },
+                        success: function (cities) {
+                            console.log('Cities:', cities);
+                            ddlcity.append($("<option></option>").val('').html('--Select City--'));
+                            $.each(cities, function (i, city) {
+                                ddlcity.append($("<option></option>").val(city.id).html(city.cityName));
+                            });
+                        },
+                        error: function () {
+                            alert('Error fetching cities!');
+                        }
+                    });
+                } else {
+                    // Disable and clear the city dropdown if no state is selected
+                    ddlcity.prop('disabled', true).empty().append($("<option></option>").val('').html('--Select City--'));
+                    $('#area-container').empty().hide(); // Hide the area container
+                }
+            });
 
-        //         $.ajax({
-        //             url: "/Retailor/GetAreasByCityId",
-        //             type: 'GET',
-        //             dataType: 'json',
-        //             data: { cityId: cityid },
-        //             success: function (d) {
-                        
-        //                 ddlarea.append($("<option></option>").val('').html('--Select Area--'));
-        //                 $.each(d.items, function (i, area) {
-        //                     ddlarea.append($("<option>"+area.areaName</option>").val(area.id).html(area.areaName));
-        //                 });
-        //             },
-        //             error: function () {
-        //                 alert('Error fetching areas!');
-        //             }
-        //         });
-        //     }
-        // }
+            // $('#city').change(function () {
+            //     var cityid = $(this).val();
+            //     var areaContainer = $('#area-container');
 
+            //     if (cityid.trim() !== '') {
+            //         areaContainer.empty().show(); // Show the area container
+
+            //         $.ajax({
+            //             url: "/Retailor/GetAreasByCityId",
+            //             type: 'GET',
+            //             dataType: 'json',
+            //             data: { cityId: cityid },
+            //             success: function (areas) {
+            //                 console.log('Areas:', areas);
+            //                 $.each(areas, function (i, area) {
+            //                     var checkbox = $("<div class='form-check'>")
+            //                         .append($("<input>", {
+            //                             type: "checkbox",
+            //                             id: "area_" + area.id,
+            //                             name: "Area",
+            //                             value: area.id,
+            //                             class: "form-check-input"
+            //                         }))
+            //                         .append($("<label>", {
+            //                             for: "area_" + area.id,
+            //                             class: "form-check-label"
+            //                         }).text(area.areaName));
+
+            //                     areaContainer.append(checkbox);
+            //                 });
+            //             },
+            //             error: function () {
+            //                 alert('Error fetching areas!');
+            //             }
+            //         });
+            //     } else {
+            //         // Hide the area container if no city is selected
+            //         areaContainer.empty().hide();
+            //     }
+            // });
+        });
     </script>
+
+
+    
     <script>
         // Function to handle file input change event
         function handleFileInputChange(event) {

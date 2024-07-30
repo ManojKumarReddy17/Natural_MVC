@@ -197,7 +197,7 @@ namespace NatDMS.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateDistributor(ED_CreateViewModel distributorModel)
         {
-            if (ModelState.IsValid)
+            if (distributorModel !=null)
             {
                 var distributor = _mapper.Map<ED_CreateViewModel, ExecutiveModel>(distributorModel);
                 //distributor.Area = distributorModel.Area.Select(x => new ExecutiveArea
@@ -212,6 +212,7 @@ namespace NatDMS.Controllers
             else
             {
                 ModelState.AddModelError(string.Empty, "Form submission failed. Please check the provided data");
+               
                 return View(distributorModel);
             }
 

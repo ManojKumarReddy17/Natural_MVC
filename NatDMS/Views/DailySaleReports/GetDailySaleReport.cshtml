@@ -96,71 +96,98 @@
             citychange();
         });
 
+      
         function statechange() {
             var defaultStateId = '@defaultStateId';
             var defaultCityId = '@defaultCityId';
             var stid = $('#state').val() == null ? defaultStateId : $('#state').val();
+            var ddlcity = $('#city');
+
+            // Disable all dependent dropdowns initially
+            ddlcity.prop('disabled', true).empty();
+            $('#area').prop('disabled', true).empty();
+            // $('#areaInput').prop('disabled', true).empty();
+            $('#executive').prop('disabled', true).empty();
+            $('#distributor').prop('disabled', true).empty();
+            $('#retailor').prop('disabled', true).empty();
+
             if (stid.trim() != '') {
-                var ddlcity = $('#city');
-                ddlcity.empty();
-                $("executive").empty();
-                $("distributor").empty();
-                $("retialor").empty();
-               
-                $.ajax(
-                    {
-                        url: '/Executive/GetCitiesByStateId',
-                        type: 'GET',
-                        dataType: 'json',
-                        data: { stateId: stid },
-                        success: function (d) {
-                            ddlcity.append($("<option></option>").val('').html('-SelectCity-'));
-                            $.each(d, function (i, cities) {
-                                ddlcity.append($("<option>" + cities.cityName + "</option>").val(cities.id).html(cities.cityName));
-                            });
-                            if (stid == defaultStateId) {
-                                $('#city').val(defaultCityId);
-                                citychange();
-                            }
-                        },
-                        error: function () {
-                            alert('Error!');
+                $.ajax({
+                    url: '/Executive/GetCitiesByStateId',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { stateId: stid },
+                    success: function (d) {
+                        ddlcity.append($("<option></option>").val('').html('--Select City--'));
+                        $.each(d, function (i, city) {
+                            ddlcity.append($("<option></option>").val(city.id).html(city.cityName));
+                        });
+
+                        // If default state is selected, also set the default city
+                        if (stid == defaultStateId) {
+                            ddlcity.val(defaultCityId).change(); // Trigger change to populate areas
                         }
-                    });
+
+                        ddlcity.prop('disabled', false); // Enable the city dropdown
+                    },
+                    error: function () {
+                        alert('Error fetching cities!');
+                    }
+                });
             }
         }
 
         function citychange() {
             var defaultCityId = '@defaultCityId';
             var cityid = $('#city').val() == null ? defaultCityId : $('#city').val();
-            if (cityid.trim() != '') {
-                var ddlarea = $('#area');
-                ddlarea.empty();
+            var ddlarea = $('#area');
 
-                $.ajax(
-                    {
-                        url: "/Executive/GetAreasByCityId",
-                        type: 'GET',
-                        dataType: 'json',
-                        data: { cityId: cityid },
-                        success: function (d) {
-                            ddlarea.append($("<option></option>").val(''));
-                            $.each(d.items, function (i, areas) {
-                                ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
-                            });
-                        },
-                        error: function () {
-                            alert('Error!');
-                        }
-                    });
+            // Disable all dependent dropdowns initially
+            ddlarea.prop('disabled', true).empty();
+            $('#executive').prop('disabled', true).empty();
+            $('#distributor').prop('disabled', true).empty();
+            $('#retailor').prop('disabled', true).empty();
+
+            if (cityid.trim() != '') {
+                $.ajax({
+                    url: "/Executive/GetAreasByCityId",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { cityId: cityid },
+                    success: function (d) {
+                        ddlarea.append($("<option></option>").val('').html('--Select Area--'));
+                        $.each(d.items, function (i, area) {
+                            ddlarea.append($("<option></option>").val(area.id).html(area.areaName));
+                        });
+
+                        ddlarea.prop('disabled', false); // Enable the area dropdown
+                    },
+                    error: function () {
+                        alert('Error fetching areas!');
+                    }
+                });
             }
-        }
+            // else {
+            //     $('#executive').empty().append($("<option></option>").val('').html('--Select executive--')).prop('disabled', true);
+            //     $('#distributor').empty().append($("<option></option>").val('').html('--Select distributor--')).prop('disabled', true);
+            //     $('#retailor').empty().append($("<option></option>").val('').html('--Select retailor--')).prop('disabled', true);
+
+            // }      
+            }
+
+       
 
         function areachange() {
             var areaId = $('#area').val();
             if (areaId.trim() != '') {
                 var ddlExecutive = $('#executive');
-                ddlExecutive.empty();
+                // ddlExecutive.empty();
+                // $("distributor").empty();
+                // $("retialor").empty();
+                // Disable all dependent dropdowns initially
+                ddlExecutive.prop('disabled', true).empty();
+                $('#distributor').prop('disabled', true).empty();
+                $('#retailor').prop('disabled', true).empty();
                 $.ajax({
                     url: "/DailySaleReports/GetAExecutiveByArea",
                     type: 'GET',
@@ -172,6 +199,7 @@
                             ddlExecutive.append($("<option>" + executive.executive + "</option>").val(executive.id).html(executive.name));
                         });
 
+                        ddlExecutive.prop('disabled', false); // Enable the executive dropdown
                         var selectedAreaName = $('#area option:selected').text();
                         $('#areaInput').val(selectedAreaName);
                     },
@@ -180,56 +208,66 @@
                     }
                 });
             }
+            else {
+                $('#executive').empty().append($("<option></option>").val('').html('--Select executive--')).prop('disabled', true);
+                $('#distributor').empty().append($("<option></option>").val('').html('--Select distributor--')).prop('disabled', true);
+                $('#retailor').empty().append($("<option></option>").val('').html('--Select retailor--')).prop('disabled', true);
+            }
         }
-
-
         function executivechange() {
-            debugger;
             var exid = $('#executive').val();
+            var ddldis = $('#distributor');
+
+            // Disable all dependent dropdowns initially
+            ddldis.prop('disabled', true).empty();
+            $('#retailor').prop('disabled', true).empty();
+
             if (exid.trim() != '') {
-                var ddldis = $('#distributor');
-                ddldis.empty();
-                $.ajax(
-                    {
-                        url: "/DailySaleReports/GetDistributorByExecutiveId",
-                        type: 'GET',
-                        dataType: 'json',
-                        data: { executiveId: exid },
-                        success: function (d) {
-                            ddldis.append($("<option></option>").val(''));
-                            $.each(d, function (i, distributors) {
-                                ddldis.append($("<option>" + distributors.distributorName + "</option>").val(distributors.id).html(distributors.distributorName));
-                            });
-                        },
-                        error: function () {
-                            alert('Error!');
-                        }
-                    });
+                $.ajax({
+                    url: "/DailySaleReports/GetDistributorByExecutiveId",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { executiveId: exid },
+                    success: function (d) {
+                        ddldis.append($("<option></option>").val('').html('--Select Distributor--'));
+                        $.each(d, function (i, distributor) {
+                            ddldis.append($("<option></option>").val(distributor.id).html(distributor.distributorName));
+                        });
+
+                        ddldis.prop('disabled', false); // Enable the distributor dropdown
+                    },
+                    error: function () {
+                        alert('Error fetching distributors!');
+                    }
+                });
             }
         }
 
         function distributorchange() {
-            debugger;
             var disid = $('#distributor').val();
+            var ddlret = $('#retailor');
+
+            // Disable the retailor dropdown initially
+            ddlret.prop('disabled', true).empty();
+
             if (disid.trim() != '') {
-                var ddlret = $('#retailor');
-                ddlret.empty();
-                $.ajax(
-                    {
-                        url: "/DailySaleReports/GetRetailorByDistributorId",
-                        type: 'GET',
-                        dataType: 'json',
-                        data: { distributorId: disid },
-                        success: function (d) {
-                            ddlret.append($("<option></option>").val(''));
-                            $.each(d, function (i, retailors) {
-                                ddlret.append($("<option>" + retailors.retailorName + "</option>").val(retailors.id).html(retailors.retailorName));
-                            });
-                        },
-                        error: function () {
-                            alert('Error!');
-                        }
-                    });
+                $.ajax({
+                    url: "/DailySaleReports/GetRetailorByDistributorId",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { distributorId: disid },
+                    success: function (d) {
+                        ddlret.append($("<option></option>").val('').html('--Select Retailor--'));
+                        $.each(d, function (i, retailor) {
+                            ddlret.append($("<option></option>").val(retailor.id).html(retailor.retailorName));
+                        });
+
+                        ddlret.prop('disabled', false); // Enable the retailor dropdown
+                    },
+                    error: function () {
+                        alert('Error fetching retailors!');
+                    }
+                });
             }
         }
 
@@ -245,21 +283,46 @@
             });
             $("#currentDate").text(currentDate);
             // Event handler for Save button click
+       
             $("#saveButton").click(function () {
+                // Clear previous error messages
+                $("#StartDateError").text("");
+                $("#EndDateError").text("");
+
                 // Show loading indicator
                 $("#loadingIndicator").show();
 
+                // Get form values
+                var startDate = $("#StartDate").val();
+                var endDate = $("#EndDate").val();
+                var isValid = true;
+
+                // Validate required fields
+                if (!startDate) {
+                    $("#StartDateError").text("Start Date is required.");
+                    isValid = false;
+                }
+
+                if (!endDate) {
+                    $("#EndDateError").text("End Date is required.");
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    $("#loadingIndicator").hide(); // Hide loading indicator
+                    return; // Stop the function execution if validation fails
+                }
+
                 // Prepare data to send
                 var modelData = {
-                            State: $("#state").val(),
-                            City: $("#city").val(),
-                            Area: $("#area").val(),
-                            Executive: $("#executive").val(),
-                            Distributor: $("#distributor").val(),
-                            Retailor: $("#retailor").val(),
-                    // Add more fields as needed
-                    StartDate: $("#StartDate").val(),
-                    EndDate: $("#EndDate").val()
+                    State: $("#state").val(),
+                    City: $("#city").val(),
+                    Area: $("#area").val(),
+                    Executive: $("#executive").val(),
+                    Distributor: $("#distributor").val(),
+                    Retailor: $("#retailor").val(),
+                    StartDate: startDate,
+                    EndDate: endDate
                 };
 
                 // Convert data to JSON string
@@ -295,7 +358,6 @@
                         }
                     },
                     error: function (request, status, error) {
-                    //     alert('Error fetching data: ' + error);
                         $("#Productlist").empty();
                         $("#Productlist").append('<tr><td colspan="4">No data provided</td></tr>');
                     },
@@ -306,8 +368,6 @@
                 });
             });
         });
-
-
 
 
         function autocomplete(inp, select) {
@@ -414,7 +474,7 @@
 
 
     </script>
-
+ 
     <style>
         .form-group {
             display: flex;
@@ -564,7 +624,7 @@
             <div id="areaPopup" class="popup">
                 @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
                 {
-                new SelectListItem {Text = "-Select Area-", Value = ""}
+                new SelectListItem {Text = "", Value = ""}
                 // Add other SelectListItem items dynamically if needed
                 }, new { @id = "area", @onchange = "areachange()", @class = "form-select", style = "flex-grow: 1; max-height: 100px; overflow-y: auto;", required = "required" })
             </div>
@@ -583,6 +643,7 @@
                 function resetOtherDropdowns() {
                     cityDropdown.value = "";
                     areaDropdown.value = "";
+                    areaInput.value = "";
                     document.getElementById("areaPopup").style.display = "";
                     executiveDropdown.value = "";
                     distributorDropdown.value = "";
@@ -645,7 +706,7 @@
             @Html.LabelFor(model => model.Executive)
             @Html.DropDownListFor(model => model.Executive, new List<SelectListItem>
             {
-            new SelectListItem { Text = "", Value = "" }
+            new SelectListItem { Text = "--Select executive--", Value = "" }
             }, new { @id = "executive", @onchange = "executivechange()", @class = "form-select", required = "required" })
 
         </b>
@@ -671,9 +732,11 @@
         <b>
 
             @Html.LabelFor(model => model.StartDate)
-            <input type="date" id="StartDate" name="StartDate" class="datepicker" style="padding: 8px;">
+            <input type="date" id="StartDate" name="StartDate" class="datepicker" style="padding: 8px;" required>
+            <div id="StartDateError" class="error-message" style="color: red;"></div>
             @Html.LabelFor(model => model.EndDate)
-            <input type="date" id="EndDate" name="EndDate" class="datepicker" style="padding: 8px;">
+            <input type="date" id="EndDate" name="EndDate" class="datepicker" style="padding: 8px;" required>
+            <div id="EndDateError" class="error-message" style="color: red;"></div>
         </b>
         <div class="col-md-2">
             <div class="form-group">

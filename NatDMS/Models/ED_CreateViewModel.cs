@@ -36,7 +36,7 @@ namespace NatDMS.Models
         public string MobileNumber { get; set; }
 
        
-        [Required(ErrorMessage = "Address cannot be more than 100 characters.")]
+        //[Required(ErrorMessage = "Address cannot be more than 100 characters.")]
 
         public string Address { get; set; }
         [Required(ErrorMessage ="City is required.")]
@@ -57,10 +57,10 @@ namespace NatDMS.Models
         public string Image { get; set; }
         public IFormFile ProfileImage { get; set; }
         public List<StateModel> States { get; set;} 
-        public string Latitude { get; set; }
+        //public string Latitude { get; set; }
 
-        public string Longitude { get; set; }
-
+        //public string Longitude { get; set; }
+        [Required(ErrorMessage = "area is required.")]
         public List<string> Area { get; set; }
 
         public string PresignedUrl { get; set; }

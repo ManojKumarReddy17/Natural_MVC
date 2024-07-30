@@ -99,7 +99,7 @@ namespace Naturals.Service.Service
                         filebytes = ms.ToArray();
                     }
                     formData.Add(new StringContent(mdl.FirstName), "FirstName");
-                    formData.Add(new StringContent(mdl.LastName), "LastName");
+                    formData.Add(new StringContent(mdl.LastName ?? ""), "LastName");
                     formData.Add(new StringContent(mdl.Email ?? ""), "Email");
                     formData.Add(new StringContent(mdl.Address ?? ""), "Address");
                     formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
@@ -130,7 +130,7 @@ namespace Naturals.Service.Service
                 {
 
                     formData.Add(new StringContent(mdl.FirstName), "FirstName");
-                    formData.Add(new StringContent(mdl.LastName), "LastName");
+                    formData.Add(new StringContent(mdl.LastName ?? ""), "LastName");
                     formData.Add(new StringContent(mdl.Email ?? ""), "Email");
                     formData.Add(new StringContent(mdl.Address ?? ""), "Address");
                     formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
@@ -173,7 +173,7 @@ namespace Naturals.Service.Service
                     }
                     formData.Add(new StringContent(Id), "Id");
                     formData.Add(new StringContent(mdl.FirstName), "FirstName");
-                    formData.Add(new StringContent(mdl.LastName), "LastName");
+                    formData.Add(new StringContent(mdl.LastName ?? ""), "LastName");
                     formData.Add(new StringContent(mdl.Email ?? ""), "Email");
                     formData.Add(new StringContent(mdl.Address ?? ""), "Address");
                     formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
@@ -201,7 +201,7 @@ namespace Naturals.Service.Service
                 {
                     formData.Add(new StringContent(Id), "Id");
                     formData.Add(new StringContent(mdl.FirstName), "FirstName");
-                    formData.Add(new StringContent(mdl.LastName), "LastName");
+                    formData.Add(new StringContent(mdl.LastName ?? ""), "LastName");
                     formData.Add(new StringContent(mdl.Email ?? ""), "Email");
                     formData.Add(new StringContent(mdl.Address ?? ""), "Address");
                     formData.Add(new StringContent(mdl.MobileNumber), "MobileNumber");
