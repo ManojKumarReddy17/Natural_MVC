@@ -649,12 +649,24 @@
                     distributorDropdown.value = "";
                     retailorDropdown.value = "";
                 }
+                // Function to reset other dropdowns and close popup
+                function resetOtherDropdown() {
 
+                    areaDropdown.value = "";
+                    areaInput.value = "";
+                    document.getElementById("areaPopup").style.display = "";
+                    executiveDropdown.value = "";
+                    distributorDropdown.value = "";
+                    retailorDropdown.value = "";
+                }
                 // State dropdown change event
                 stateDropdown.addEventListener("change", function () {
                     resetOtherDropdowns();
                 });
+                cityDropdown.addEventListener("change", function () {
+                    resetOtherDropdown();
 
+                });
                 // Area dropdown change event
                 areaDropdown.addEventListener("change", function () {
                     var selectedOption = areaDropdown.options[areaDropdown.selectedIndex];

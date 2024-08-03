@@ -126,7 +126,7 @@
 
     <!----------------------------------------------------DISPLAY RETAILOR LIST-------------------------------------------------------------->
 
-        <div class="table-responsive" style="overflow-x: hidden;">
+       @*  <div class="table-responsive" style="overflow-x: hidden;">
              @if (Model.product != null && Model.product.Any())
             {
 
@@ -221,14 +221,10 @@
                         
 
             </tbody>
-        </table>
-            <nav id="hidePagination" aria-label="Page navigation">
+        </table> *@
+         @*    <nav id="hidePagination" aria-label="Page navigation">
                 <ul class="pagination">
-                    @*   <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
-                    <a class="page-link" href="@Url.Action("DisplayRetailors", new { page = Model.CurrentPage - 1 })" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    </a>
-                    </li> *@
+              
                     <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
                         @if (Model.CurrentPage > 1)
                         {
@@ -266,7 +262,7 @@
             }
 
 
-        </div>
+        </div> *@
         <!-------------------------------------------------------------Pagination------------------------------------------------------------------->
     @*     <div class="text-center">
             @if (ViewBag.Pages != null && ViewBag.Pages.TotalPages > 0)
@@ -294,6 +290,135 @@
                     </ul>
                 </div>
             } *@
+        <div class="table-responsive" style="overflow-x: hidden;">
+            @if (Model.product != null && Model.product.Any())
+            {
+                <table class="table table-bordered table-striped custom-table" id="Productlist">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Weight</th>
+                            <th>Image</th>
+                            <th>ProductType</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.product)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Category)</td>
+                                <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Weight)</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.Image))
+                                    {
+                                        <img src="@item.Image" alt="Product Image" class="no-image" id="image" />
+                                    }
+                                    else
+                                    {
+                                        <img class="no-image" src="~/image/no-image-placeholder.svg" alt="No Image">
+                                    }
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.ProductType)</td>
+                                <td>
+                                    <a href="@Url.Action("EditProduct", new { id = item.Id })" style="text-decoration: none; display: inline-block; color: orange;">
+                                        <i class="material-icons">edit</i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <div style="display: flex; justify-content: center; align-items: center;">
+                                        <i onclick="confirmDelete('@item.Id', true)" class="material-icons" style="color: red; cursor: pointer;">delete</i>
+                                    </div>
+                                    <div id="deleteConfirmationModal_@item.Id" class="modal" style="display:none">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Delete Confirmation</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Are you sure you want to delete this item?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" onclick="confirmDelete('@item.Id', false)">No</button>
+                                                    @using (Html.BeginForm("DeleteProduct", "Product", new { ProductId = item.Id }, FormMethod.Post))
+                                                    {
+                                                        <button type="submit" class="btn btn-danger">Yes</button>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Details", new { id = item.Id })" style="text-decoration: none; display: inline-block; color: green;">
+                                        <i class="material-icons">info</i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                @if (Model.TotalPageCount > 1)
+                {
+                    <nav id="pagination" aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                                @if (Model.CurrentPage > 1)
+                                {
+                                    <a class="page-link" href="@Url.Action("DisplayProduct", new { page = Model.CurrentPage - 1 })" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="page-link" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                }
+                            </li>
+                            @for (int i = 1; i <= Model.TotalPageCount; i++)
+                            {
+                                <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action("DisplayProduct", new { page = i })">@i</a>
+                                </li>
+                            }
+                            <li class="page-item @(Model.CurrentPage == Model.TotalPageCount ? "disabled" : "")">
+                                @if (Model.CurrentPage < Model.TotalPageCount)
+                                {
+                                    <a class="page-link" href="@Url.Action("DisplayProduct", new { page = Model.CurrentPage + 1 })" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="page-link" href="#" aria-label="Next" tabindex="-1" aria-disabled="true">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                }
+                            </li>
+                        </ul>
+                    </nav>
+                }
+            }
+            else
+            {
+                <div class="alert alert-warning" style="color: red;">
+                    No products found.
+                </div>
+            }
+        </div>
 
       
         </div>

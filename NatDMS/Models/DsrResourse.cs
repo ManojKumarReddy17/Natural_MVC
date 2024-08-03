@@ -5,6 +5,7 @@ namespace NatDMS.Models
 	public class DsrResourse
 	{
         public string Id { get; set; }
+        public string Area { get; set; }
         public string Executive { get; set; }
         public string Distributor { get; set; }
         public string Retailor { get; set; }

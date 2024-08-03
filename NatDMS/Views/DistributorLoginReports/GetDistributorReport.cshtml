@@ -116,15 +116,96 @@
             });
         });
 
+        // function Save() {
+        //     var modelData = {
+        //         //Id: $("#id").val(),
+        //         AreaName: $("#area").val(),
+        //         Executive: $("#executives").val(),
+        //         Distributor: $("#id").val(),
+        //         Retailor: $("#retailor").val(),
+        //         StartDate: $("#StartDate").val(),
+        //         EndDate: $("#EndDate").val(),
+        //     };
+
+        //     var jsonString = JSON.stringify(modelData);
+
+        //     $.ajax({
+        //         url: "/DistributorLoginReports/DisplayDsreport",
+        //         type: "POST",
+        //         data: jsonString,
+        //         processData: false,
+        //         contentType: "application/json",
+        //         success: function (response) {
+        //             $("#Productlist").empty();
+        //             if (response.length === 0) {
+        //                 // If no data is provided, display a message
+        //                 $("#Productlist").append('<tr><td colspan="4">No data provided</td></tr>');
+        //             } else {
+        //                 // Otherwise, populate the table with data
+        //                 $("#Productlist").append('<tr style="font-weight:bold">' +
+        //                     '<td>Product Name</td>' +
+        //                     '<td>Quantity</td>' +
+        //                     '<td>ProductType</td>' +
+        //                     '<td>Sale Amount</td>' +
+        //                     '</tr>');
+        //                 $.each(response, function (i, ds) {
+        //                     $("#Productlist").append(
+        //                         '<tr>' +
+        //                         '<td>' + ds.product_Name + '</td>' +
+        //                         '<td>' + ds.quantity + '</td>' +
+        //                         '<td>' + ds.productType + '</td>' +
+        //                         '<td>' + ds.saleAmount + '</td>' +
+        //                         '</tr>'
+        //                     );
+        //                 });
+        //             }
+        //         },
+        //         error: function (request, status, error) {
+        //             // If there's an error, display an alert
+        //             alert('Error fetching data: ' + error);
+        //             // Clear the table content
+        //             $("#Productlist").empty();
+        //             // Display "No data provided" message
+        //             $("#Productlist").append('<tr><td colspan="4">No data provided</td></tr>');
+        //         }
+        //     });
+        // }
+        //date
+        // document.getElementById("StartDate").defaultValue = "YYYY-MM-DD";
+        // document.getElementById("EndDate").defaultValue = "YYYY-MM-DD";
         function Save() {
+            // Clear previous error messages
+            $("#startdateError").text('');
+            $("#enddateError").text(''); // Assuming you also have an enddateError span
+
+            // Get input values
+            var startDate = $("#StartDate").val();
+            var endDate = $("#EndDate").val();
+
+            // Validate that both StartDate and EndDate are provided
+            // if (!startDate && !endDate) {
+            //     $("#startdateError").text('Please provide both Start Date and End Date.');
+            //     $("#enddateError").text('Please provide both Start Date and End Date.');
+            //     return; // Exit the function if validation fails
+            // }
+
+            if (!startDate) {
+                $("#startdateError").text('Start Date is required.');
+                return; // Exit the function if validation fails
+            }
+
+            if (!endDate) {
+                $("#enddateError").text('End Date is required.');
+                return; // Exit the function if validation fails
+            }
+
             var modelData = {
-                //Id: $("#id").val(),
                 AreaName: $("#area").val(),
                 Executive: $("#executives").val(),
                 Distributor: $("#id").val(),
                 Retailor: $("#retailor").val(),
-                StartDate: $("#StartDate").val(),
-                EndDate: $("#EndDate").val(),
+                StartDate: startDate,
+                EndDate: endDate,
             };
 
             var jsonString = JSON.stringify(modelData);
@@ -145,7 +226,7 @@
                         $("#Productlist").append('<tr style="font-weight:bold">' +
                             '<td>Product Name</td>' +
                             '<td>Quantity</td>' +
-                            '<td>ProductType</td>' +
+                            '<td>Product Type</td>' +
                             '<td>Sale Amount</td>' +
                             '</tr>');
                         $.each(response, function (i, ds) {
@@ -161,18 +242,14 @@
                     }
                 },
                 error: function (request, status, error) {
-                    // If there's an error, display an alert
-                    alert('Error fetching data: ' + error);
-                    // Clear the table content
+                    // If there's an error, display an alert and clear the table content
+                    // alert('Error fetching data: ' + error);
                     $("#Productlist").empty();
-                    // Display "No data provided" message
                     $("#Productlist").append('<tr><td colspan="4">No data provided</td></tr>');
                 }
             });
         }
-        //date
-        document.getElementById("StartDate").defaultValue = "YYYY-MM-DD";
-        document.getElementById("EndDate").defaultValue = "YYYY-MM-DD";
+
     </script>
     <style>
 
@@ -250,6 +327,8 @@
             padding: 5px;
             text-align: left;
         }
+
+        
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -300,6 +379,12 @@
             font-size: 16px; /* Set the font size */
             background-color: #fff; /* Set the background color (white) */
         }
+        /* Custom styling for error messages */
+        #startdateError, #enddateError {
+            color: red; /* Red color for error text */
+            font-size: 14px; /* Adjust font size as needed */
+            font-weight: bold; /* Make the text bold */
+        }
 
         .datepicker {
             width: 200px;
@@ -320,6 +405,7 @@
                 outline: 0;
                 box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
             }
+
     </style>
 </head>
 
@@ -328,6 +414,8 @@
     @* <div class="form-group"> *@
 
     <div class="header-main">
+        <a href="/Home/Logout" style="text-align: right; float: right;">Logout</a>
+
         <!-- logo start -->
         <div class="header-element logo img">
             <a>
@@ -338,6 +426,7 @@
             </a>
             <!-- logo End -->
         </div>
+        
     </div>
 
     <div class="form-group">
@@ -414,20 +503,20 @@
                          new { @id = "retailor", @class = "form-select" }
                          )
             </b>
-            <b>
-
-                @Html.LabelFor(model => model.StartDate)
-                <input type="date" id="StartDate" name="StartDate" class="datepicker">
-                @Html.LabelFor(model => model.EndDate)
-                <input type="date" id="EndDate" name="EndDate" class="datepicker">
-            </b>
+        <b>
+            @Html.LabelFor(model => model.StartDate)
+            <input type="date" id="StartDate" name="StartDate" class="datepicker">
+            <span id="startdateError" class="text-danger"></span> <!-- Error message for Start Date -->
+            @Html.LabelFor(model => model.EndDate)
+            <input type="date" id="EndDate" name="EndDate" class="datepicker">
+            <span id="enddateError" class="text-danger"></span> <!-- Error message for End Date -->
+        </b>
             <b>
             <div class="col-md-2">
                 <div class="form-group">
                     <button type="button" class="btn btn-secondary my-4" onclick="Save()">
                         <i class="material-icons" style="font-size:18px;display:flex;justify-content:center;align-items:center;">search</i>
                     </button>
-                  
                 </div>
             </div>
             </b>

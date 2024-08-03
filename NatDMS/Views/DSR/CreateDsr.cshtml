@@ -30,11 +30,96 @@
 
     <script type="text/javascript">
 
-           function areachange() {
+
+
+        function statechange() {
+            // var defaultStateId = 'defaultStateId';
+            // var defaultCityId = 'defaultCityId';
+            var stid = $('#state').val() == null ? defaultStateId : $('#state').val();
+            var ddlcity = $('#city');
+
+            // Disable all dependent dropdowns initially
+            ddlcity.prop('disabled', true).empty();
+            $('#area').prop('disabled', true).empty();
+            // $('#areaInput').prop('disabled', true).empty();
+            $('#executive').prop('disabled', true).empty();
+            $('#distributor').prop('disabled', true).empty();
+            $('#retailor').prop('disabled', true).empty();
+
+            if (stid.trim() != '') {
+                $.ajax({
+                    url: '/DSR/GetCitiesByStateId',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { stateId: stid },
+                    success: function (d) {
+                        ddlcity.append($("<option></option>").val('').html('--Select City--'));
+                        $.each(d, function (i, city) {
+                            ddlcity.append($("<option></option>").val(city.id).html(city.cityName));
+                        });
+
+                        // If default state is selected, also set the default city
+                        // if (stid == defaultStateId) {
+                        //     ddlcity.val(defaultCityId).change(); // Trigger change to populate areas
+                        // }
+
+                        ddlcity.prop('disabled', false); // Enable the city dropdown
+                    },
+                    error: function () {
+                        alert('Error fetching cities!');
+                    }
+                });
+            }
+        }
+
+        function citychange() {
+            // var defaultCityId = 'defaultCityId';
+            var cityid = $('#city').val() == null ? defaultCityId : $('#city').val();
+            var ddlarea = $('#area');
+            //ddlarea.empty;
+            // Disable all dependent dropdowns initially
+            ddlarea.prop('disabled', true).empty();
+            $('#executive').prop('disabled', true).empty();
+            $('#distributor').prop('disabled', true).empty();
+            $('#retailor').prop('disabled', true).empty();
+
+            if (cityid.trim() != '') {
+                $.ajax({
+                    url: "/DSR/GetAreasByCityId",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { cityId: cityid },
+                    success: function (d) {
+                        ddlarea.append($("<option></option>").val('').html('--Select Area--'));
+                        $.each(d.items, function (i, area) {
+                            ddlarea.append($("<option></option>").val(area.id).html(area.areaName));
+                        });
+
+                        ddlarea.prop('disabled', false); // Enable the area dropdown
+                    },
+                    error: function () {
+                        alert('Error fetching areas!');
+                    }
+                });
+            }
+            // else {
+            //     $('#executive').empty().append($("<option></option>").val('').html('--Select executive--')).prop('disabled', true);
+            //     $('#distributor').empty().append($("<option></option>").val('').html('--Select distributor--')).prop('disabled', true);
+            //     $('#retailor').empty().append($("<option></option>").val('').html('--Select retailor--')).prop('disabled', true);
+
+            // }      
+            }
+            function areachange() {
             var areaId = $('#area').val();
             if (areaId.trim() != '') {
                 var ddlExecutive = $('#executive');
-                ddlExecutive.empty();
+                // ddlExecutive.empty();
+                // $("distributor").empty();
+                // $("retialor").empty();
+                // Disable all dependent dropdowns initially
+                ddlExecutive.prop('disabled', true).empty();
+                $('#distributor').prop('disabled', true).empty();
+                $('#retailor').prop('disabled', true).empty();
                 $.ajax({
                     url: "/Dsr/GetExecutiveByArea",
                     type: 'GET',
@@ -46,6 +131,7 @@
                             ddlExecutive.append($("<option>" + executive.executive + "</option>").val(executive.id).html(executive.name));
                         });
 
+                        ddlExecutive.prop('disabled', false); // Enable the executive dropdown
                         var selectedAreaName = $('#area option:selected').text();
                         $('#areaInput').val(selectedAreaName);
                     },
@@ -54,62 +140,149 @@
                     }
                 });
             }
+            else {
+                $('#executive').empty().append($("<option></option>").val('').html('--Select executive--')).prop('disabled', true);
+                $('#distributor').empty().append($("<option></option>").val('').html('--Select distributor--')).prop('disabled', true);
+                $('#retailor').empty().append($("<option></option>").val('').html('--Select retailor--')).prop('disabled', true);
+            }
         }
-
         function executivechange() {
             var exid = $('#executive').val();
+            var ddldis = $('#distributor');
+
+            // Disable all dependent dropdowns initially
+            ddldis.prop('disabled', true).empty();
+            $('#retailor').prop('disabled', true).empty();
+
             if (exid.trim() != '') {
-                var ddldis = $('#distributor');
-                ddldis.empty();
+                $.ajax({
+                    url: "/Dsr/GetDistributorByExecutiveId",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { executiveId: exid },
+                    success: function (d) {
+                        ddldis.append($("<option></option>").val('').html('--Select Distributor--'));
+                        $.each(d, function (i, distributor) {
+                            ddldis.append($("<option></option>").val(distributor.id).html(distributor.distributorName));
+                        });
 
-                $.ajax(
-                    {
-                        url: "/Dsr/GetDistributorByExecutiveId",
-                        type: 'GET',
-                        dataType: 'json',
-
-                        data: { executiveId: exid },
-
-                        success: function (d) {
-                            ddldis.append($("<option></option>").val('').html('--Select Distributor--'));
-                            $.each(d, function (i, distributors) {
-                                ddldis.append($("<option>" + distributors.distributorName + "</option>").val(distributors.id).html(distributors.distributorName));
-                            });
-                        },
-                        error: function () {
-                            alert('Error!');
-                        }
-                    });
+                        ddldis.prop('disabled', false); // Enable the distributor dropdown
+                    },
+                    error: function () {
+                        alert('Error fetching distributors!');
+                    }
+                });
             }
         }
-
 
         function distributorchange() {
-
             var disid = $('#distributor').val();
+            var ddlret = $('#retailor');
+
+            // Disable the retailor dropdown initially
+            ddlret.prop('disabled', true).empty();
+
             if (disid.trim() != '') {
-                var ddlret = $('#retailor');
-              ddlret.empty();
+                $.ajax({
+                    url: "/DSR/GetRetailorByDistributorId",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { distributorId: disid },
+                    success: function (d) {
+                        ddlret.append($("<option></option>").val('').html('--Select Retailor--'));
+                        $.each(d, function (i, retailor) {
+                            ddlret.append($("<option></option>").val(retailor.id).html(retailor.retailorName));
+                        });
 
-                $.ajax(
-                    {
-                        url: "/DSR/GetRetailorByDistributorId",
-                        type: 'GET',
-                        dataType: 'json',
-                        data: { distributorId: disid },
-                        success: function (d) {
-                            ddlret.append($("<option></option>").val('').html('--Select Retailors--'));
-                            $.each(d, function (i, retailors) {
-
-                                ddlret.append($("<option>" + retailors.retailorName + "</option>").val(retailors.id).html(retailors.retailorName));
-                            });
-                        },
-                        error: function () {
-                            alert('Error!');
-                        }
-                    });
+                        ddlret.prop('disabled', false); // Enable the retailor dropdown
+                    },
+                    error: function () {
+                        alert('Error fetching retailors!');
+                    }
+                });
             }
         }
+       
+        //    function areachange() {
+        //     var areaId = $('#area').val();
+        //     if (areaId.trim() != '') {
+        //         var ddlExecutive = $('#executive');
+        //         ddlExecutive.empty();
+        //         $.ajax({
+        //             url: "/Dsr/GetExecutiveByArea",
+        //             type: 'GET',
+        //             dataType: 'json',
+        //             data: { areaId: areaId },
+        //             success: function (d) {
+        //                 ddlExecutive.append($("<option></option>").val(''));
+        //                 $.each(d, function (i, executive) {
+        //                     ddlExecutive.append($("<option>" + executive.executive + "</option>").val(executive.id).html(executive.name));
+        //                 });
+
+        //                 var selectedAreaName = $('#area option:selected').text();
+        //                 $('#areaInput').val(selectedAreaName);
+        //             },
+        //             error: function (error) {
+        //                 alert('Error ' + error.message);
+        //             }
+        //         });
+        //     }
+        // }
+
+        // function executivechange() {
+        //     var exid = $('#executive').val();
+        //     if (exid.trim() != '') {
+        //         var ddldis = $('#distributor');
+        //         ddldis.empty();
+
+        //         $.ajax(
+        //             {
+        //                 url: "/Dsr/GetDistributorByExecutiveId",
+        //                 type: 'GET',
+        //                 dataType: 'json',
+
+        //                 data: { executiveId: exid },
+
+        //                 success: function (d) {
+        //                     ddldis.append($("<option></option>").val('').html('--Select Distributor--'));
+        //                     $.each(d, function (i, distributors) {
+        //                         ddldis.append($("<option>" + distributors.distributorName + "</option>").val(distributors.id).html(distributors.distributorName));
+        //                     });
+        //                 },
+        //                 error: function () {
+        //                     alert('Error!');
+        //                 }
+        //             });
+        //     }
+        // }
+
+
+        // function distributorchange() {
+
+        //     var disid = $('#distributor').val();
+        //     if (disid.trim() != '') {
+        //         var ddlret = $('#retailor');
+        //       ddlret.empty();
+
+        //         $.ajax(
+        //             {
+        //                 url: "/DSR/GetRetailorByDistributorId",
+        //                 type: 'GET',
+        //                 dataType: 'json',
+        //                 data: { distributorId: disid },
+        //                 success: function (d) {
+        //                     ddlret.append($("<option></option>").val('').html('--Select Retailors--'));
+        //                     $.each(d, function (i, retailors) {
+
+        //                         ddlret.append($("<option>" + retailors.retailorName + "</option>").val(retailors.id).html(retailors.retailorName));
+        //                     });
+        //                 },
+        //                 error: function () {
+        //                     alert('Error!');
+        //                 }
+        //             });
+        //     }
+        // }
 
 
 
@@ -219,66 +392,229 @@
 
     // creste dsr ajax
 
-        function Insert() {
+        // function Insert() {
 
-            var modelData = {
-                Executive: $("#executive").val(),
-                Retailor: $("#retailor").val(),
-                Distributor: $("#distributor").val(),
-                Category: $("#Category").val(),
-                Product: $("#Product").val(),
-                CreatedDate: $("#StartDate").val(),
-                ProductList: []
-            };
-            $("#Productlist TBODY TR").each(function () {
-                var rowData = {
-                    Category: $(this).find("td:eq(0)").text().trim(),
-                    ProductName: $(this).find("td:eq(1)").text().trim(),
-                    Quantity: $(this).find(".quantity").val() || null, // Use null if value is falsy
-                    Price: $(this).find(".price").val() || null, // Use null if value is falsy
-                    Weight: $(this).find("td:eq(4)").text().trim(),
-                    Total: $(this).find("td:eq(5)").text().trim() || null, // Use null if value is falsy
+        //     var modelData = {
+        //         Executive: $("#executive").val(),
+        //         Retailor: $("#retailor").val(),
+        //         Distributor: $("#distributor").val(),
+        //         Category: $("#Category").val(),
+        //         Product: $("#Product").val(),
+        //         CreatedDate: $("#StartDate").val(),
+        //         ProductList: []
+        //     };
+        //     $("#Productlist TBODY TR").each(function () {
+        //         var rowData = {
+        //             Category: $(this).find("td:eq(0)").text().trim(),
+        //             ProductName: $(this).find("td:eq(1)").text().trim(),
+        //             Quantity: $(this).find(".quantity").val() || null, // Use null if value is falsy
+        //             Price: $(this).find(".price").val() || null, // Use null if value is falsy
+        //             Weight: $(this).find("td:eq(4)").text().trim(),
+        //             Total: $(this).find("td:eq(5)").text().trim() || null, // Use null if value is falsy
                    
-                    Id: $(this).find("input[type=hidden][name$='.Id']").val()
+        //             Id: $(this).find("input[type=hidden][name$='.Id']").val()
 
-                };
-                modelData.ProductList.push(rowData);
-            });
-
-
-            var jsonString = JSON.stringify(modelData, function (key, value) {
-                // Include null values
-                return value === undefined ? null : value;
-            });
+        //         };
+        //         modelData.ProductList.push(rowData);
+        //     });
 
 
-            $.ajax({
-                url: "/DSR/CreateDsr",
-                type: "POST",
-                data: jsonString,
-                contentType: "application/json",
-                success: function (response) {
-                    alert("Succesfuly Inserted");
-                    var id = response.id;
-                    var url = '@Url.Action("Details", "DSR")' +'?dsrid='+id;
-                                window.location.href = url;
-                    // Calculate total amounts for newly added rows
-                    //calculateTotalAmounts();
-                },
-                error: function (request, status, error) {
-                    alert(request.responseText);
-                }
-            });
+        //     var jsonString = JSON.stringify(modelData, function (key, value) {
+        //         // Include null values
+        //         return value === undefined ? null : value;
+        //     });
+
+
+        //     $.ajax({
+        //         url: "/DSR/CreateDsr",
+        //         type: "POST",
+        //         data: jsonString,
+        //         contentType: "application/json",
+        //         success: function (response) {
+        //             alert("Succesfuly Inserted");
+        //             var id = response.id;
+        //             var url = '@Url.Action("Details", "DSR")' +'?dsrid='+id;
+        //                         window.location.href = url;
+        //             // Calculate total amounts for newly added rows
+        //             //calculateTotalAmounts();
+        //         },
+        //         error: function (request, status, error) {
+        //             alert(request.responseText);
+        //         }
+        //     });
+        // }
+
+        // //date
+        // document.getElementById("StartDate").defaultValue = "YYYY-MM-DD";
+        $(document).ready(function() {
+    // Function to validate form and toggle button visibility
+    function validateForm() {
+        var isValid = true;
+
+        // Clear previous error messages
+        $(".error").text("");
+
+        // Retrieve values from input fields
+        var executive = $("#executive").val();
+        var retailor = $("#retailor").val();
+        var distributor = $("#distributor").val();
+        var category = $("#Category").val();
+        var product = $("#Product").val();
+        var createdDate = $("#StartDate").val();
+
+        // Validate required fields
+        if (!executive) {
+            $("#ExecutiveError").text("Executive is required.");
+            isValid = false;
+        }
+        if (!retailor) {
+            $("#RetailorError").text("Retailor is required.");
+            isValid = false;
+        }
+        if (!distributor) {
+            $("#DistributorError").text("Distributor is required.");
+            isValid = false;
+        }
+        // Uncomment these lines if you need category and product validation
+        // if (!category) {
+        //     $("#CategoryError").text("Category is required.");
+        //     isValid = false;
+        // }
+        // if (!product) {
+        //     $("#ProductError").text("Product is required.");
+        //     isValid = false;
+        // }
+        if (!createdDate) {
+            $("#StartDateError").text("Start Date is required.");
+            isValid = false;
         }
 
-        //date
-        document.getElementById("StartDate").defaultValue = "YYYY-MM-DD";
+        // Show or hide the submit button based on validation
+        if (isValid) {
+            $("#submitButton").show(); // Show submit button if valid
+        } else {
+            $("#submitButton").hide(); // Hide submit button if invalid
+        }
+    }
+
+    // Bind validation function to input field changes
+    $("#executive, #retailor, #distributor, #Category, #Product, #StartDate").on('input change', function() {
+        validateForm();
+    });
+
+    // Bind Insert function to the button click event
+    $("#submitButton").click(function() {
+        Insert();
+    });
+
+    // Function to handle form submission via AJAX
+    function Insert() {
+        var isValid = true;
+
+        // Clear previous error messages
+        $(".error").text("");
+
+        // Retrieve values from input fields
+         var area = $("#area").val();
+        var executive = $("#executive").val();
+        var retailor = $("#retailor").val();
+        var distributor = $("#distributor").val();
+        var category = $("#Category").val();
+        var product = $("#Product").val();
+        var createdDate = $("#StartDate").val();
+
+        // Validate required fields
+        if (!executive) {
+            $("#ExecutiveError").text("Executive is required.");
+            isValid = false;
+        }
+        if (!retailor) {
+            $("#RetailorError").text("Retailor is required.");
+            isValid = false;
+        }
+        if (!distributor) {
+            $("#DistributorError").text("Distributor is required.");
+            isValid = false;
+        }
+        // Uncomment these lines if you need category and product validation
+        // if (!category) {
+        //     $("#CategoryError").text("Category is required.");
+        //     isValid = false;
+        // }
+        // if (!product) {
+        //     $("#ProductError").text("Product is required.");
+        //     isValid = false;
+        // }
+        if (!createdDate) {
+            $("#StartDateError").text("Start Date is required.");
+            isValid = false;
+        }
+
+        if (!isValid) {
+            $("#loadingIndicator").hide(); // Hide loading indicator if validation fails
+            return; // Stop the function execution if validation fails
+        }
+
+        // Create model data
+        var modelData = {
+         area:area,
+            Executive: executive,
+            Retailor: retailor,
+            Distributor: distributor,
+            Category: category,
+            Product: product,
+            CreatedDate: createdDate,
+            ProductList: []
+        };
+
+        // Iterate over each row in the table to build the ProductList
+        $("#Productlist TBODY TR").each(function () {
+            var rowData = {
+                Category: $(this).find("td:eq(0)").text().trim(),
+                ProductName: $(this).find("td:eq(1)").text().trim(),
+                Quantity: $(this).find(".quantity").val() || null,
+                Price: $(this).find(".price").val() || null,
+                Weight: $(this).find("td:eq(4)").text().trim(),
+                Total: $(this).find("td:eq(5)").text().trim() || null,
+                Id: $(this).find("input[type=hidden][name$='.Id']").val()
+            };
+            modelData.ProductList.push(rowData);
+        });
+
+        // Convert model data to JSON string
+        var jsonString = JSON.stringify(modelData, function (key, value) {
+            return value === undefined ? null : value;
+        });
+
+        // Show loading indicator
+        $("#loadingIndicator").show();
+
+        // Make AJAX request
+        $.ajax({
+            url: "/DSR/CreateDsr",
+            type: "POST",
+            data: jsonString,
+            contentType: "application/json",
+            success: function (response) {
+                $("#loadingIndicator").hide(); // Hide loading indicator
+                alert("Successfully Inserted");
+                var id = response.id;
+                var url = '@Url.Action("Details", "DSR")' + '?dsrid=' + id;
+                window.location.href = url;
+            },
+            error: function (request, status, error) {
+                $("#loadingIndicator").hide(); // Hide loading indicator
+                alert("An error occurred: " + request.responseText);
+            }
+        });
+    }
+});
 
       
     </script>
 
 
-<script>
+@* <script>
     $(document).ready(function () {
         var dropdown = $('#area'); // Cache the dropdown element
 
@@ -299,7 +635,7 @@
             });
         });
     });
-</script>
+</script> *@
 
 
 </head>
@@ -331,19 +667,130 @@
               
             </style>
             <div class="form-group">
-                <b>
-                                @Html.LabelFor(model => model.Area)
-                @Html.DropDownListFor(  model => model.Area,new SelectList(ViewBag.AreaList, "Id", "AreaName"), "Select area",new { @id = "area",onchange = "areachange()", @class = "form-select" } )
+                     <b>
+        
+
+            @Html.LabelFor(model => model.State )
+            @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"), "--Select State--"
+                    , new { @id = "state", onchange = "statechange()", @class = "form-select", required = "required" })
+
+
+        </b>
+     
+
+        <b>
+            @Html.LabelFor(model => model.City)
+            @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
+            {
+            new SelectListItem { Text = "", Value ="" },
+            }, "Value", "Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select", required = "required" })
+       </b> 
+           <div>
+            <b>
+                @Html.LabelFor(model => model.Area)
+                <input type="text" id="areaInput" oninput="filterAreas()" placeholder="Search for Area">
             </b>
+            <div id="areaPopup" class="popup">
+                @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
+                {
+                new SelectListItem {Text = "", Value = ""}
+                // Add other SelectListItem items dynamically if needed
+                }, new { @id = "area", @onchange = "areachange()", @class = "form-select", style = "flex-grow: 1; max-height: 100px; overflow-y: auto;", required = "required" })
+            </div>
+        </div>
+           <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var stateDropdown = document.getElementById("state");
+                var cityDropdown = document.getElementById("city");
+                var areaDropdown = document.getElementById("area");
+                var executiveDropdown = document.getElementById("executive");
+                var distributorDropdown = document.getElementById("distributor");
+                var retailorDropdown = document.getElementById("retailor");
 
-                <b>
-                    @Html.LabelFor(model => model.Executive)
-                    @Html.DropDownListFor(model => model.Executive, new SelectList(Model.ExecutiveList, "Id", "Executive"),
-                                                       "--Select Executive--", new { @id = "executive", onchange = "executivechange()", @class = "form-select" })
+                // Function to reset other dropdowns and close popup
+                function resetOtherDropdowns() {
+                    cityDropdown.value = "";
+                    areaDropdown.value = "";
+                    areaInput.value = "";
+                    document.getElementById("areaPopup").style.display = "";
+                    executiveDropdown.value = "";
+                    distributorDropdown.value = "";
+                    retailorDropdown.value = "";
+                }
+                  // Function to reset other dropdowns and close popup
+                function resetOtherDropdown() {
+                    
+                    areaDropdown.value = "";
+                    areaInput.value = "";
+                    document.getElementById("areaPopup").style.display = "";
+                    executiveDropdown.value = "";
+                    distributorDropdown.value = "";
+                    retailorDropdown.value = "";
+                }
+                // State dropdown change event
+                stateDropdown.addEventListener("change", function () {
+                    resetOtherDropdowns();
+                });
+                cityDropdown.addEventListener("change", function () {
+                resetOtherDropdown();
 
-                    @Html.HiddenFor(model => model.ExecutiveList, new { id = "executiveListHidden" })
+            });
+                // Area dropdown change event
+                areaDropdown.addEventListener("change", function () {
+                    var selectedOption = areaDropdown.options[areaDropdown.selectedIndex];
+                    if (selectedOption.value !== "") {
+                        document.getElementById("areaInput").value = selectedOption.textContent.trim();
+                        document.getElementById("areaPopup").style.display = "none";
+                    }
+                });
 
-                </b>
+                // Area input click event to show popup
+                document.getElementById("areaInput").addEventListener("click", function () {
+                    document.getElementById("areaPopup").style.display = "block";
+                });
+
+                // Close area popup when clicking outside
+                document.addEventListener("click", function (e) {
+                    if (!document.getElementById("areaInput").contains(e.target) && !areaDropdown.contains(e.target)) {
+                        document.getElementById("areaPopup").style.display = "none";
+                    }
+                });
+
+                // Function to filter area options based on input
+                function filterAreas() {
+                    var input = document.getElementById("areaInput");
+                    var filter = input.value.toUpperCase();
+                    var options = areaDropdown.getElementsByTagName("option");
+
+                    for (var i = 0; i < options.length; i++) {
+                        var txtValue = options[i].textContent || options[i].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            options[i].style.display = "";
+                        } else {
+                            options[i].style.display = "none";
+                        }
+                    }
+
+                    areaDropdown.size = options.length;
+                }
+
+                // Area input keyup event for filtering
+                document.getElementById("areaInput").addEventListener("keyup", function () {
+                    filterAreas();
+                });
+            });
+        </script>
+
+
+                
+        <b>
+            @Html.LabelFor(model => model.Executive)
+            @Html.DropDownListFor(model => model.Executive, new List<SelectListItem>
+            {
+            new SelectListItem { Text = "", Value = "" }
+            }, new { @id = "executive", @onchange = "executivechange()", @class = "form-select", required = "required" })
+
+        </b>
                 <b>
                     @Html.LabelFor(model => model.Distributor)
                     @Html.DropDownListFor(model => model.Distributor, new List<SelectListItem>
@@ -452,11 +899,13 @@
                     </div>
                 </div>
             </div>
+               <div class="form-group">
+        <input type="submit" id="submitButton" value="Create" class="btn btn-primary" style="display:none;" />
+    </div>
 
-
-            <div class="form-group">
+         @*    <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" onclick="Insert()" />
-            </div>
+            </div> *@
 
         </div>
 

@@ -10,6 +10,7 @@ namespace Natural.Core.Models
     public class DSRModel
     {
         public string Id { get; set; }
+        public string Area { get; set; }
         public string Executive { get; set; }
         public string Distributor { get; set; }
         public string Retailor { get; set; }

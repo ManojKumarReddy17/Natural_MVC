@@ -3,6 +3,7 @@ namespace Natural.Core.Models
 {
 	public class Dsrview
 	{
+        public string Area { get; set; }
 
         public string Executive { get; set; }
 
