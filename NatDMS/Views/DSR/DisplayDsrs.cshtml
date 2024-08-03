@@ -2,6 +2,9 @@
 
 @{
     ViewData["Title"] = "DisplayDsrs";
+    ;
+    string defaultStateId = "stn1";
+    string defaultCityId = "ctn84179";
 }
 
 <!DOCTYPE html>
@@ -31,66 +34,189 @@
 
 
 
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
 
 
 
-    <script type="text/javascript">function executivechange() {
-            var exid = $('#executive').val();
-            if (exid.trim() != '') {
-                var ddldis = $('#distributor');
+    <script type="text/javascript">
+     
+ 
+        
+        var defaultStateId = '@defaultStateId';
+        var defaultCityId = '@defaultCityId';
 
-                ddldis.empty();
+        $(document).ready(function () {
+            // Initialize state dropdown
+            $('#state').val(defaultStateId).trigger('change'); // Set default state and trigger change
 
-                $.ajax(
-                    {
-                        url: "/Dsr/GetDistributorByExecutiveId",
-                        type: 'GET',
-                        dataType: 'json',
+            // Initialize city dropdown if default city is required
+            $('#city').val(defaultCityId).trigger('change'); // Set default city and trigger change
+        });
 
-                        data: { executiveId: exid },
+        function statechange() {
+            var stid = $('#state').val() || defaultStateId;
+            var ddlcity = $('#city');
 
-                        success: function (d) {
-                            ddldis.append($("<option></option>").val('').html('--Select Distributor--'));
-                            $.each(d, function (i, distributors) {
-                                ddldis.append($("<option>" + distributors.distributorName + "</option>").val(distributors.id).html(distributors.distributorName));
-                            });
-                        },
-                        error: function () {
-                            alert('Error!');
+            // Disable and clear dropdowns
+            ddlcity.prop('disabled', true).empty();
+            $('#area').prop('disabled', true).empty();
+            $('#executive').prop('disabled', true).empty();
+            $('#distributor').prop('disabled', true).empty();
+            $('#retailor').prop('disabled', true).empty();
+
+            if (stid.trim() !== '') {
+                $.ajax({
+                    url: '/DSR/GetCitiesByStateId',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { stateId: stid },
+                    success: function (d) {
+                        ddlcity.append($("<option></option>").val('').html('--Select City--'));
+                        $.each(d, function (i, city) {
+                            ddlcity.append($("<option></option>").val(city.id).html(city.cityName));
+                        });
+
+                        ddlcity.prop('disabled', false); // Enable the city dropdown
+
+                        // Trigger citychange if default city exists
+                        if (defaultCityId) {
+                            ddlcity.val(defaultCityId).trigger('change'); // Set default city and trigger change
                         }
-                    });
+                    },
+                    error: function () {
+                        alert('Error fetching cities!');
+                    }
+                });
             }
         }
 
+        function citychange() {
+            var cityid = $('#city').val() || defaultCityId;
+            var ddlarea = $('#area');
+
+            // Disable and clear dropdowns
+            ddlarea.prop('disabled', true).empty();
+            $('#executive').prop('disabled', true).empty();
+            $('#distributor').prop('disabled', true).empty();
+            $('#retailor').prop('disabled', true).empty();
+
+            if (cityid.trim() !== '') {
+                $.ajax({
+                    url: "/DSR/GetAreasByCityId",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { cityId: cityid },
+                    success: function (d) {
+                        ddlarea.append($("<option></option>").val('').html('--Select Area--'));
+                        $.each(d.items, function (i, area) {
+                            ddlarea.append($("<option></option>").val(area.id).html(area.areaName));
+                        });
+
+                        ddlarea.prop('disabled', false); // Enable the area dropdown
+                    },
+                    error: function () {
+                        alert('Error fetching areas!');
+                    }
+                });
+            }
+        }
+        function areachange() {
+            var areaId = $('#area').val();
+            if (areaId.trim() != '') {
+                var ddlExecutive = $('#executive');
+                // ddlExecutive.empty();
+                // $("distributor").empty();
+                // $("retialor").empty();
+                // Disable all dependent dropdowns initially
+                ddlExecutive.prop('disabled', true).empty();
+                $('#distributor').prop('disabled', true).empty();
+                $('#retailor').prop('disabled', true).empty();
+                $.ajax({
+                    url: "/Dsr/GetExecutiveByArea",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { areaId: areaId },
+                    success: function (d) {
+                        ddlExecutive.append($("<option></option>").val(''));
+                        $.each(d, function (i, executive) {
+                            ddlExecutive.append($("<option>" + executive.executive + "</option>").val(executive.id).html(executive.name));
+                        });
+
+                        ddlExecutive.prop('disabled', false); // Enable the executive dropdown
+                        var selectedAreaName = $('#area option:selected').text();
+                        $('#areaInput').val(selectedAreaName);
+                    },
+                    error: function (error) {
+                        alert('Error ' + error.message);
+                    }
+                });
+            }
+            else {
+                $('#executive').empty().append($("<option></option>").val('').html('--Select executive--')).prop('disabled', true);
+                $('#distributor').empty().append($("<option></option>").val('').html('--Select distributor--')).prop('disabled', true);
+                $('#retailor').empty().append($("<option></option>").val('').html('--Select retailor--')).prop('disabled', true);
+            }
+        }
+        function executivechange() {
+            var exid = $('#executive').val();
+            var ddldis = $('#distributor');
+
+            // Disable all dependent dropdowns initially
+            ddldis.prop('disabled', true).empty();
+            $('#retailor').prop('disabled', true).empty();
+
+            if (exid.trim() != '') {
+                $.ajax({
+                    url: "/Dsr/GetDistributorByExecutiveId",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { executiveId: exid },
+                    success: function (d) {
+                        ddldis.append($("<option></option>").val('').html('--Select Distributor--'));
+                        $.each(d, function (i, distributor) {
+                            ddldis.append($("<option></option>").val(distributor.id).html(distributor.distributorName));
+                        });
+
+                        ddldis.prop('disabled', false); // Enable the distributor dropdown
+                    },
+                    error: function () {
+                        alert('Error fetching distributors!');
+                    }
+                });
+            }
+        }
 
         function distributorchange() {
-
             var disid = $('#distributor').val();
+            var ddlret = $('#retailor');
+
+            // Disable the retailor dropdown initially
+            ddlret.prop('disabled', true).empty();
+
             if (disid.trim() != '') {
-                var ddlret = $('#retailor');
-                
-                ddlret.empty();
+                $.ajax({
+                    url: "/DSR/GetRetailorByDistributorId",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { distributorId: disid },
+                    success: function (d) {
+                        ddlret.append($("<option></option>").val('').html('--Select Retailor--'));
+                        $.each(d, function (i, retailor) {
+                            ddlret.append($("<option></option>").val(retailor.id).html(retailor.retailorName));
+                        });
 
-                $.ajax(
-                    {
-                        url: "/DSR/GetRetailorByDistributorId",
-                        type: 'GET',
-                        dataType: 'json',
-                        data: { distributorId: disid },
-                        success: function (d) {
-                            ddlret.append($("<option></option>").val('').html('--Select Retailors--'));
-                            $.each(d, function (i, retailors) {
-
-                                ddlret.append($("<option>" + retailors.retailorName + "</option>").val(retailors.id).html(retailors.retailorName));
-                            });
-                        },
-                        error: function () {
-                            alert('Error!');
-                        }
-                    });
+                        ddlret.prop('disabled', false); // Enable the retailor dropdown
+                    },
+                    error: function () {
+                        alert('Error fetching retailors!');
+                    }
+                });
             }
         }
-
 
 
 
@@ -103,12 +229,38 @@
         document.getElementById("EndDate").defaultValue = "YYYY-MM-DD";
 
 
+        function validateForm() {
+            var isValid = true;
 
+            // Clear previous error messages
+            $(".error").text("");
+            // Retrieve values from input fields
+            var area = $("#area").val();
+            var executive = $("#executive").val();
+            var retailor = $("#retailor").val();
+            var distributor = $("#distributor").val();
+            var startDate = $("#StartDate").val();
+            var endDate = $("#EndDate").val();
+
+            var createdDate = $("#CreatedDate").val();
+            if (!endDate) {
+                $("#EndDateError").text("End Date is required.");
+                isValid = false;
+            }
+            if (!startDate) {
+                $("#CreatedDateError").text("StartDate is required.");
+                isValid = false;
+            }
+            return isValid;
+        }
 
         function Save() {
-            
+            if (!validateForm()) {
+                return; // Stop if validation fails
+            }
 
             var modelData = {
+                Area: $("#area").val(),
                 Executive: $("#executive").val(),
                 Retailor: $("#retailor").val(),
                 Distributor: $("#distributor").val(),
@@ -116,7 +268,7 @@
                 EndDate: $("#EndDate").val(),
 
             };
-
+         
 
 
             // Custom replacer function to include null values
@@ -189,6 +341,7 @@
 
                         $("#Productlist").append(
                             '<tr>' +
+                            '<td>' + ds.area + '</td>' +
                             '<td>' + ds.executive + '</td>' +
                             '<td>' + ds.distributor + '</td>' +
                             '<td>' + ds.retailor + '</td>' +
@@ -279,7 +432,122 @@
                     box-sizing: border-box;
                 }
         </style>
+        <b>
 
+
+            @Html.LabelFor(model => model.State)
+            @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName", defaultStateId),
+                     new { @id = "state", onchange = "statechange()", @class = "form-select", required = "required" })
+
+
+        </b>
+        <b>
+            @Html.LabelFor(model => model.City)
+            @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
+            {
+            new SelectListItem { Text = "", Value ="" },
+            }, "Value", "Text"), new { @id = "city", @onchange = "citychange()", @class = "form-select", required = "required" })
+
+
+        </b>
+
+        <div>
+            <b>
+                @Html.LabelFor(model => model.Area)
+                <input type="text" id="areaInput" oninput="filterAreas()" placeholder="Search for Area">
+            </b>
+            <div id="areaPopup" class="popup">
+                @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
+                {
+                new SelectListItem {Text = "", Value = ""}
+                // Add other SelectListItem items dynamically if needed
+                }, new { @id = "area", @onchange = "areachange()", @class = "form-select", style = "flex-grow: 1; max-height: 100px; overflow-y: auto;", required = "required" })
+            </div>
+        </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var stateDropdown = document.getElementById("state");
+                var cityDropdown = document.getElementById("city");
+                var areaDropdown = document.getElementById("area");
+                var executiveDropdown = document.getElementById("executive");
+                var distributorDropdown = document.getElementById("distributor");
+                var retailorDropdown = document.getElementById("retailor");
+
+                // Function to reset other dropdowns and close popup
+                function resetOtherDropdowns() {
+                    cityDropdown.value = "";
+                    areaDropdown.value = "";
+                    areaInput.value = "";
+                    document.getElementById("areaPopup").style.display = "";
+                    executiveDropdown.value = "";
+                    distributorDropdown.value = "";
+                    retailorDropdown.value = "";
+                }
+                function resetOtherDropdown() {
+                    
+                    areaDropdown.value = "";
+                    areaInput.value = "";
+                    document.getElementById("areaPopup").style.display = "";
+                    executiveDropdown.value = "";
+                    distributorDropdown.value = "";
+                    retailorDropdown.value = "";
+                }
+
+                // State dropdown change event
+                stateDropdown.addEventListener("change", function () {
+                    resetOtherDropdowns();
+
+                });
+                cityDropdown.addEventListener("change", function () {
+                    resetOtherDropdown();
+
+                });
+
+                // Area dropdown change event
+                areaDropdown.addEventListener("change", function () {
+                    var selectedOption = areaDropdown.options[areaDropdown.selectedIndex];
+                    if (selectedOption.value !== "") {
+                        document.getElementById("areaInput").value = selectedOption.textContent.trim();
+                        document.getElementById("areaPopup").style.display = "none";
+                    }
+                });
+
+                // Area input click event to show popup
+                document.getElementById("areaInput").addEventListener("click", function () {
+                    document.getElementById("areaPopup").style.display = "block";
+                });
+
+                // Close area popup when clicking outside
+                document.addEventListener("click", function (e) {
+                    if (!document.getElementById("areaInput").contains(e.target) && !areaDropdown.contains(e.target)) {
+                        document.getElementById("areaPopup").style.display = "none";
+                    }
+                });
+
+                // Function to filter area options based on input
+                function filterAreas() {
+                    var input = document.getElementById("areaInput");
+                    var filter = input.value.toUpperCase();
+                    var options = areaDropdown.getElementsByTagName("option");
+
+                    for (var i = 0; i < options.length; i++) {
+                        var txtValue = options[i].textContent || options[i].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            options[i].style.display = "";
+                        } else {
+                            options[i].style.display = "none";
+                        }
+                    }
+
+                    areaDropdown.size = options.length;
+                }
+
+                // Area input keyup event for filtering
+                document.getElementById("areaInput").addEventListener("keyup", function () {
+                    filterAreas();
+                });
+            });
+        </script>
         <b>
             @Html.LabelFor(model => model.Executive)
             @Html.DropDownListFor(model => model.Executive, new SelectList(Model.ExecutiveList, "Id", "Executive"),
@@ -308,10 +576,13 @@
 
         <b>
             @Html.LabelFor(model => model.StartDate)
-            <input type="date" id="StartDate" name="StartDate" class="datepicker">
-            @Html.LabelFor(model => model.EndDate)
-            <input type="date" id="EndDate" name="EndDate" class="datepicker">
+            <input type="date" id="StartDate" name="StartDate" class="datepicker" required>
+            <span id="CreatedDateError" class="error"></span>
 
+            @Html.LabelFor(model => model.EndDate)
+            <input type="date" id="EndDate" name="EndDate" class="datepicker" required>
+            <span id="EndDateError" class="error"></span>
+       
         </b>
         <div class="col-md-2">
             <div class="form-group">
@@ -330,7 +601,7 @@
         
         <thead class="table-light">
             <tr>
-
+                <th>Area</th>
                 <th>Executive</th>
                 <th>Distributor</th>
                 <th>Retailor</th>
@@ -346,7 +617,9 @@
             @foreach (var item in Model.dsr)
             {
                 <tr>
-
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Area, new { @id = "area" })
+                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Executive, new { @id = "executive" })
                     </td>

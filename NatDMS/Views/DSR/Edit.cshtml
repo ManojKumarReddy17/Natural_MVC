@@ -22,65 +22,164 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 
-
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
 
     <script type="text/javascript">
-        function executivechange() {
-      
-            var exid = $('#executive').val();
-            if (exid.trim() != '') {
-                var ddldis = $('#distributor');
-                
-                ddldis.empty();
 
-                $.ajax(
-                    {
-                        url: "/Dsr/GetDistributorByExecutiveId",
-                        type: 'GET',
-                        dataType: 'json',
 
-                        data: { executiveId: exid },
+        function areachange() {
+            var areaId = $('#area').val();
+            if (areaId.trim() != '') {
+                var ddlExecutive = $('#executive');
+                // ddlExecutive.empty();
+                // $("distributor").empty();
+                // $("retialor").empty();
+                // Disable all dependent dropdowns initially
+                ddlExecutive.prop('disabled', true).empty();
+                $('#distributor').prop('disabled', true).empty();
+                $('#retailor').prop('disabled', true).empty();
+                $.ajax({
+                    url: "/Dsr/GetExecutiveByArea",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { areaId: areaId },
+                    success: function (d) {
+                        ddlExecutive.append($("<option></option>").val(''));
+                        $.each(d, function (i, executive) {
+                            ddlExecutive.append($("<option>" + executive.executive + "</option>").val(executive.id).html(executive.name));
+                        });
 
-                        success: function (d) {
-                            ddldis.append($("<option></option>").val('').html('--Select Distributor--'));
-                            $.each(d, function (i, distributors) {
-                                ddldis.append($("<option>" + distributors.distributorName + "</option>").val(distributors.id).html(distributors.distributorName));
-                            });
-                        },
-                        error: function () {
-                            alert('Error!');
-                        }
-                    });
+                        ddlExecutive.prop('disabled', false); // Enable the executive dropdown
+                        var selectedAreaName = $('#area option:selected').text();
+                        $('#areaInput').val(selectedAreaName);
+                    },
+                    error: function (error) {
+                        alert('Error ' + error.message);
+                    }
+                });
+            }
+            else {
+                $('#executive').empty().append($("<option></option>").val('').html('--Select executive--')).prop('disabled', true);
+                $('#distributor').empty().append($("<option></option>").val('').html('--Select distributor--')).prop('disabled', true);
+                $('#retailor').empty().append($("<option></option>").val('').html('--Select retailor--')).prop('disabled', true);
             }
         }
+        function executivechange() {
+            var exid = $('#executive').val();
+            var ddldis = $('#distributor');
 
+            // Disable all dependent dropdowns initially
+            ddldis.prop('disabled', true).empty();
+            $('#retailor').prop('disabled', true).empty();
+
+            if (exid.trim() != '') {
+                $.ajax({
+                    url: "/Dsr/GetDistributorByExecutiveId",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { executiveId: exid },
+                    success: function (d) {
+                        ddldis.append($("<option></option>").val('').html('--Select Distributor--'));
+                        $.each(d, function (i, distributor) {
+                            ddldis.append($("<option></option>").val(distributor.id).html(distributor.distributorName));
+                        });
+
+                        ddldis.prop('disabled', false); // Enable the distributor dropdown
+                    },
+                    error: function () {
+                        alert('Error fetching distributors!');
+                    }
+                });
+            }
+        }
 
         function distributorchange() {
-            debugger; var disid = $('#distributor').val();
+            var disid = $('#distributor').val();
+            var ddlret = $('#retailor');
+
+            // Disable the retailor dropdown initially
+            ddlret.prop('disabled', true).empty();
+
             if (disid.trim() != '') {
-                var ddlret = $('#retailor');
-                
-                ddlret.empty();
+                $.ajax({
+                    url: "/DSR/GetRetailorByDistributorId",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { distributorId: disid },
+                    success: function (d) {
+                        ddlret.append($("<option></option>").val('').html('--Select Retailor--'));
+                        $.each(d, function (i, retailor) {
+                            ddlret.append($("<option></option>").val(retailor.id).html(retailor.retailorName));
+                        });
 
-                $.ajax(
-                    {
-                        url: "/DSR/GetRetailorByDistributorId",
-                        type: 'GET',
-                        dataType: 'json',
-                        data: { distributorId: disid },
-                        success: function (d) {
-                            ddlret.append($("<option></option>").val('').html('--Select Retailors--'));
-                            $.each(d, function (i, retailors) {
-
-                                ddlret.append($("<option>" + retailors.retailorName + "</option>").val(retailors.id).html(retailors.retailorName));
-                            });
-                        },
-                        error: function () {
-                            alert('Error!');
-                        }
-                    });
+                        ddlret.prop('disabled', false); // Enable the retailor dropdown
+                    },
+                    error: function () {
+                        alert('Error fetching retailors!');
+                    }
+                });
             }
         }
+        // function executivechange() {
+      
+        //     var exid = $('#executive').val();
+        //     if (exid.trim() != '') {
+        //         var ddldis = $('#distributor');
+                
+        //         ddldis.empty();
+
+        //         $.ajax(
+        //             {
+        //                 url: "/Dsr/GetDistributorByExecutiveId",
+        //                 type: 'GET',
+        //                 dataType: 'json',
+
+        //                 data: { executiveId: exid },
+
+        //                 success: function (d) {
+        //                     ddldis.append($("<option></option>").val('').html('--Select Distributor--'));
+        //                     $.each(d, function (i, distributors) {
+        //                         ddldis.append($("<option>" + distributors.distributorName + "</option>").val(distributors.id).html(distributors.distributorName));
+        //                     });
+        //                 },
+        //                 error: function () {
+        //                     alert('Error!');
+        //                 }
+        //             });
+        //     }
+        // }
+
+
+        // function distributorchange() {
+        //     debugger; var disid = $('#distributor').val();
+        //     if (disid.trim() != '') {
+        //         var ddlret = $('#retailor');
+                
+        //         ddlret.empty();
+
+        //         $.ajax(
+        //             {
+        //                 url: "/DSR/GetRetailorByDistributorId",
+        //                 type: 'GET',
+        //                 dataType: 'json',
+        //                 data: { distributorId: disid },
+        //                 success: function (d) {
+        //                     ddlret.append($("<option></option>").val('').html('--Select Retailors--'));
+        //                     $.each(d, function (i, retailors) {
+
+        //                         ddlret.append($("<option>" + retailors.retailorName + "</option>").val(retailors.id).html(retailors.retailorName));
+        //                     });
+        //                 },
+        //                 error: function () {
+        //                     alert('Error!');
+        //                 }
+        //             });
+        //     }
+        // }
 
 
 
@@ -120,6 +219,7 @@
         
 
             var modelData = {
+                Area: $("#area").val(),
                 Executive: $("#executive").val(),
                 Retailor: $("#retailor").val(),
                 Distributor: $("#distributor").val(),
@@ -191,10 +291,108 @@
 
     // creste dsr ajax
 
+    //     function Insert() {
+    //         debugger;
+
+    //         var modelData = {
+    //             Area: $("#area").val(),
+    //             Executive: $("#executive").val(),
+    //             Retailor: $("#retailor").val(),
+    //             Distributor: $("#distributor").val(),
+    //             Category: $("#Category").val(),
+    //             Product: $("#Product").val(),
+    //             CreatedDate: $("#CreatedDate").val(),
+    //             ProductList: []
+    //         };
+    //         $("#Productlist TBODY TR").each(function () {
+    //             var rowData = {
+    //                 Category: $(this).find("td:eq(0)").text().trim(),
+    //                 ProductName: $(this).find("td:eq(1)").text().trim(),
+    //                 Quantity: $(this).find(".quantity").val() || null, // Use null if value is falsy
+    //                 Price: $(this).find(".price").val() || null, // Use null if value is falsy
+    //                 Weight: $(this).find("td:eq(4)").text().trim(),
+    //                 Total: $(this).find("td:eq(5)").text().trim() || null, // Use null if value is falsy
+
+    //                 Id: $(this).find("input[type=hidden][name$='.Id']").val()
+
+    //             };
+    //             modelData.ProductList.push(rowData);
+    //         });
+
+
+    //         var jsonString = JSON.stringify(modelData, function (key, value) {
+    //             // Include null values
+    //             return value === undefined ? null : value;
+    //         });
+
+
+    //         $.ajax({
+    //             url: "/DSR/EditDsr",
+    //             type: "POST",
+    //             data: jsonString,
+    //             contentType: "application/json",
+    //             success: function (response) {
+    //                 alert("Succesfuly Inserted");
+    //                 var id = response.id;
+    //                 var url = '@Url.Action("Details", "DSR")' +'?dsrid='+id;
+    //                             window.location.href = url;
+    //                 // Calculate total amounts for newly added rows
+    //                 //calculateTotalAmounts();
+
+    //             },
+    //             error: function (request, status, error) {
+    //                 alert(request.responseText);
+    //             }
+    //         });
+    //     }
+
+    //
+        
+        function validateForm() {
+            var isValid = true;
+
+            // Clear previous error messages
+            $(".error").text("");
+
+            // Retrieve values from input fields
+            var area = $("#area").val();
+            var executive = $("#executive").val();
+            var retailor = $("#retailor").val();
+            var distributor = $("#distributor").val();
+            var createdDate = $("#CreatedDate").val();
+
+            // Validate required fields
+            if (!area) {
+                $("#AreaError").text("Area is required.");
+                isValid = false;
+            }
+            if (!executive) {
+                $("#ExecutiveError").text("Executive is required.");
+                isValid = false;
+            }
+            if (!retailor) {
+                $("#RetailorError").text("Retailor is required.");
+                isValid = false;
+            }
+            if (!distributor) {
+                $("#DistributorError").text("Distributor is required.");
+                isValid = false;
+            }
+            if (!createdDate) {
+                $("#CreatedDateError").text("Created Date is required.");
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
         function Insert() {
-            debugger;
+            if (!validateForm()) {
+                return; // Stop if validation fails
+            }
 
             var modelData = {
+                Area: $("#area").val(),
                 Executive: $("#executive").val(),
                 Retailor: $("#retailor").val(),
                 Distributor: $("#distributor").val(),
@@ -203,27 +401,26 @@
                 CreatedDate: $("#CreatedDate").val(),
                 ProductList: []
             };
+
             $("#Productlist TBODY TR").each(function () {
                 var rowData = {
                     Category: $(this).find("td:eq(0)").text().trim(),
                     ProductName: $(this).find("td:eq(1)").text().trim(),
-                    Quantity: $(this).find(".quantity").val() || null, // Use null if value is falsy
-                    Price: $(this).find(".price").val() || null, // Use null if value is falsy
+                    Quantity: $(this).find(".quantity").val() || null,
+                    Price: $(this).find(".price").val() || null,
                     Weight: $(this).find("td:eq(4)").text().trim(),
-                    Total: $(this).find("td:eq(5)").text().trim() || null, // Use null if value is falsy
-
+                    Total: $(this).find("td:eq(5)").text().trim() || null,
                     Id: $(this).find("input[type=hidden][name$='.Id']").val()
-
                 };
                 modelData.ProductList.push(rowData);
             });
 
-
             var jsonString = JSON.stringify(modelData, function (key, value) {
-                // Include null values
                 return value === undefined ? null : value;
             });
 
+            // Show loading indicator
+            $("#loadingIndicator").show();
 
             $.ajax({
                 url: "/DSR/EditDsr",
@@ -231,20 +428,45 @@
                 data: jsonString,
                 contentType: "application/json",
                 success: function (response) {
-                    alert("Succesfuly Inserted");
+                    $("#loadingIndicator").hide(); // Hide loading indicator
+                    alert("Successfully Inserted");
                     var id = response.id;
-                    var url = '@Url.Action("Details", "DSR")' +'?dsrid='+id;
-                                window.location.href = url;
-                    // Calculate total amounts for newly added rows
-                    //calculateTotalAmounts();
-
+                    var url = '@Url.Action("Details", "DSR")' + '?dsrid=' + id;
+                    window.location.href = url;
                 },
                 error: function (request, status, error) {
-                    alert(request.responseText);
+                    $("#loadingIndicator").hide(); // Hide loading indicator
+                    alert("Error: " + request.responseText);
                 }
             });
         }
 
+        // Bind validation function to input field changes
+        $("#area, #executive, #retailor, #distributor, #CreatedDate").on('input change', function () {
+            validateForm();
+        });
+     </script>
+    <script>
+        $(document).ready(function () {
+            var dropdown = $('#area'); // Cache the dropdown element
+
+            // Create a search input field
+            var searchInput = $('<input type="text" class="form-control" placeholder="Search area...">');
+            dropdown.before(searchInput); // Insert the search input before the dropdown
+
+            // Event handler for input change (search)
+            searchInput.on('input', function () {
+                var searchTerm = $(this).val().toLowerCase(); // Get the search term
+                var options = dropdown.find('option'); // Cache the dropdown options
+
+                // Show/hide options based on the search term
+                options.each(function () {
+                    var text = $(this).text().toLowerCase(); // Get option text
+                    var visible = text.includes(searchTerm); // Check if text includes search term
+                    $(this).toggle(visible); // Toggle option visibility
+                });
+            });
+        });
     </script>
 </head>
 
@@ -272,14 +494,23 @@
                 }
             </style>
             <div class="form-group">
+
+                <b>
+                @Html.LabelFor(model => model.Area)
+                @Html.DropDownListFor(model => model.Area, new SelectList(ViewBag.AreaList, "Id", "AreaName"), "Select area", new { @id = "area", onchange = "areachange()", @class = "form-select" })
+                    <span id="AreaError" class="error"></span>
+            </b>
+           
                 <b>
                     @Html.LabelFor(model => model.Executive)
                     @Html.DropDownListFor(model => model.Executive, new SelectList(Model.ExecutiveList, "Id", "Executive"),
-                                                       "--Select Executive--", new { @id = "executive", onchange = "executivechange()", @class = "form-select" })
+                             "--Select Executive--", new { @id = "executive", onchange = "executivechange()", @class = "form-select" })
 
                     @Html.HiddenFor(model => model.ExecutiveList, new { id = "executiveListHidden" })
-
+                    <span id="ExecutiveError" class="error"></span>
                 </b>
+
+               
                 <b>
                     @Html.LabelFor(model => model.Distributor)
 
@@ -291,7 +522,7 @@
           "--Select distributor--", new { @id = "distributor", onchange = "distributorchange()", @class = "form-select" })
 
 
-
+                    <span id="DistributorError" class="error"></span>
                 </b>
                 <b>
                     @Html.LabelFor(model => model.Retailor)
@@ -304,14 +535,15 @@
                      "--Select reatilor--",
 
               new { @id = "retailor", @class = "form-select" })
-
-
+                   
+                    <span id="RetailorError" class="error"></span>
 
                 </b>
 
                 <b>
                     @Html.LabelFor(model => model.CreatedDate)
                     @Html.EditorFor(model => model.CreatedDate, new { @class = "datepicker", @id = "StarDate" })
+                    <span id="CreatedDateError" class="error"></span>
                 </b>
 
             </div>
@@ -412,10 +644,13 @@
                 </div>
             </div>
         </div>
-
+       @*  <div class="form-group">
+            <input type="button" id="submitButton" value="Submit" class="btn btn-primary" style="display:none;" />
+        </div> *@
 
         <div class="form-group">
-            <input type="submit" value="Edit" class="btn btn-primary" onclick="Insert()" />
+            <input type="button" value="Submit" class="btn btn-primary" onclick="Insert()" />
+            
         </div>
 
     </div>

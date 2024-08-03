@@ -108,9 +108,15 @@ namespace Naturals.Service.Service
                 Weight = c.Weight
 
             }).ToList();
+            var statesResult = await _unifiedService.GetStates();
+
+            var CityLists = await _unifiedService.GetCities();
+
 
             Dsrcreate viewmodel = new Dsrcreate()
             {
+                StateList = statesResult,
+                CityList = CityLists,
                 ExecutiveList = executiveList,
                 CategoryList = categories,
                 ProductList = create
@@ -175,6 +181,7 @@ namespace Naturals.Service.Service
 
                 Dsrcreate updatemodel = new Dsrcreate()
                 {
+                    Area= UpadeSession.Area,
                     ExecutiveList = ExistingSession.ExecutiveList,
                     CategoryList = ExistingSession.CategoryList,
                     Executive = UpadeSession.Executive,
@@ -271,9 +278,9 @@ namespace Naturals.Service.Service
                                                                     Price = s.Price
                                                                 })
                                                                 .ToList();
-
+            
             var inserter = _mapper.Map<Dsrcreate, DsrInsert>(ExistingSession);
-
+            ExistingSession.Area = inserter.Area;
             inserter.product = differentProducts;
             inserter.dsrid = ExistingSession.dsrid;
             inserter.TotalAmount = Total;
@@ -371,6 +378,7 @@ namespace Naturals.Service.Service
             dsrempty.DistributorList = _mapper.Map<List<DsrDistributor>, List<DsrDistributorDrop>>(resu);
             var rstaile = await GetAssignedRetailorDetailsByDistributorIds(dsrids.Distributor);
             dsrempty.RetailorList = _mapper.Map<List<DsrRetailor>, List<DsrRetailorDrop>>(rstaile);
+            dsrempty.Area= dsrids.Area;
             dsrempty.Executive = dsrids.Executive;
             dsrempty.Distributor = dsrids.Distributor;
             dsrempty.Retailor = dsrids.Retailor;

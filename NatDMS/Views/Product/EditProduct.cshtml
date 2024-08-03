@@ -21,145 +21,375 @@
 </head>
 
 <body>
-
-    @using (Html.BeginForm("EditProduct", "Product", FormMethod.Post, new { @class = "needs-validation", enctype = "multipart/form-data", novalidate = "novalidate" }))
+    @*
+    @using (Html.BeginForm("EditProduct", "Product", FormMethod.Post, new { @class = "needs-validation", enctype = "multipart/form-data", novalidate = "novalidate", id = "productForm" }))
     {
-        <div class="row justify-content-center">
-            <div class="col-md-4">
-                @Html.Hidden("Id", Model.Id)
+    <div class="row justify-content-center">
+    <div class="col-md-4">
+    @Html.Hidden("Id", Model.Id)
 
+    <div class="form-group">
+    <b>
+    @Html.LabelFor(model => model.Category, new { @class = "control-label" })
+    @Html.DropDownListFor(model => model.CategoryId, new SelectList(Model.Categorylist, "Id", "CategoryName"),
+    "--Select category--", new { @id = "category", @class = "form-select" })
+    @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+    </b>
+    </div>
 
-                <div class="form-group">
-                    <b>
-                        @Html.LabelFor(model => model.Category, new { @class = "control-label" })
-                        @Html.DropDownListFor(model => model.CategoryId, new SelectList(Model.Categorylist, "Id", "CategoryName"),
-                    "--Select category--", new { @id = "category", @class = "form-select" })
+    <div class="form-group">
+    <b>
+    @Html.LabelFor(model => model.ProductName, new { @class = "control-label" })
+    @Html.TextBoxFor(model => model.ProductName, new { @id = "productName", @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+    </b>
+    </div>
 
-                    </b>
-                </div>
+    <div class="form-group">
+    <b>
+    @Html.LabelFor(model => model.Price, new { @class = "control-label" })
+    @Html.TextBoxFor(model => model.Price, new { @id = "price", @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+    </b>
+    </div>
 
-                <div class="form-group">
-                    <b>
-                        @Html.LabelFor(model => model.ProductName, new { @class = "control-label" })
-                        @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control" })
+    <div class="form-group">
+    <b>
+    @Html.LabelFor(model => model.Quantity, new { @class = "control-label" })
+    @Html.TextBoxFor(model => model.Quantity, new { @id = "quantity", @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+    </b>
+    </div>
 
-                    </b>
-                </div>
-                <div class="form-group">
-                    <b>
-                        @Html.LabelFor(model => model.Price, new { @class = "control-label" })
-                        @Html.TextBoxFor(model => model.Price, new { @class = "form-control" })
+    <div class="form-group">
+    <b>
+    @Html.LabelFor(model => model.Weight, new { @class = "control-label" })
+    @Html.TextBoxFor(model => model.Weight, new { @id = "weight", @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Weight, "", new { @class = "text-danger" })
+    </b>
+    </div>
 
-                    </b>
-                </div>
-                <div class="form-group">
-                    <b>
-                        @Html.LabelFor(model => model.Quantity, new { @class = "control-label" })
-                        @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control" })
+    <div class="form-group">
+    <label for="productType" class="control-label">Product Type</label>
+    @Html.DropDownListFor(model => model.ProductType, Enumerable.Empty<SelectListItem>(),
+    "-- Select ProductType --", new { @id = "productType", @class = "form-select" })
+    @Html.ValidationMessageFor(model => model.ProductType, "", new { @class = "text-danger" })
+    </div>
 
-                    </b>
-                </div>
+    <div class="form-group">
+    <label for="image" class="control-label" style="font-weight: bold;">Image</label>
+    @if (!string.IsNullOrEmpty(Model.Image))
+    {
+    <img src="@Model.Image" alt="ProfileImage" width="200" height="200" class="img-responsive" id="presignedurl">
+    }
+    else
+    {
+    <img class="img-responsive" src="~/image/no-image-placeholder.svg" alt="ProfileImage" width="200" height="200" id="presignedurl">
+    }
+    <i class="bi bi-image"></i>
+    </div>
 
-                <div class="form-group">
-                    <b>
-                        @Html.LabelFor(model => model.Weight, new { @class = "control-label" })
-                        @Html.TextBoxFor(model => model.Weight, new { @class = "form-control" })
-                    </b>
-                </div>
+    <div class="form-group" id="fileInputContainer">
+    <label for="fileInput" class="control-label">Choose image</label>
+    <input asp-for="UploadImage" class="form-control custom-file-input" type="file" id="fileInput" onchange="ShowImagePreview(this)">
+    </div>
 
+    <div class="col-md-4" id="imagePreviewContainer" style="display:none;">
+    <img src="#" alt="preview" id="imagePreview" style="border: 1px solid red; height: 169px; width: 176px; margin: auto; display: block;" />
+    </div>
 
+    <div id="deleteConfirmationModal_@Model.Id" class="modal" style="display:none">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    <div class="modal-header">
+    <h5 class="modal-title">Delete Confirmation</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+    @if (!string.IsNullOrEmpty(Model.Image))
+    {
+    <img src="@Model.Image" alt="ProfileImage" width="200" height="200" class="img-responsive">
+    }
+    else
+    {
+    <img class="img-responsive" src="~/image/no-image-placeholder.svg" alt="ProfileImage" width="200" height="200">
+    }
+    <p>Are you sure you want to delete this item?</p>
+    </div>
+    <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" onclick="cancelDelete('@Model.Id', true)">No</button>
+    <button type="button" class="btn btn-danger" onclick="deleteItem('@Model.Id')">Yes</button>
+    </div>
+    </div>
+    </div>
+    </div>
 
-                <div class="form-group">
-                    <label asp-for="ProductType" class="control-label"></label>
-                    @Html.DropDownListFor(model => model.ProductType, Enumerable.Empty<SelectListItem>(), "-- Select ProductType --", new { @id = "productType", @class = "form-select" })
-                </div>
+    <div class="form-group d-flex justify-content-center" style="margin-top: 10px;">
+    <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
+    </div>
 
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    var form = document.getElementById('productForm');
 
+    form.addEventListener('submit', function (e) {
+    e.preventDefault(); // Prevent default form submission
 
-                <div class="form-group">
+    var isValid = true;
+    var requiredFields = ["category", "productName", "price", "quantity", "weight"];
 
+    // Clear previous errors
+    requiredFields.forEach(function (fieldId) {
+    var errorElement = document.getElementById(fieldId + "Error");
+    if (errorElement) {
+    errorElement.textContent = "";
+    }
+    });
 
-                    <label for="presignedurl-label" class="control-label" id="image" style="font-weight: bold;"> Image  </label>
+    // Validate fields
+    requiredFields.forEach(function (fieldId) {
+    var field = document.getElementById(fieldId);
+    if (field) {
+    var value = field.value.trim();
+    var errorElement = document.getElementById(fieldId + "Error");
+    if (!value) {
+    if (errorElement) {
+    errorElement.textContent = "This field is required.";
+    }
+    isValid = false;
+    }
+    else if (fieldId === "price" || fieldId === "weight") {
+    if (isNaN(value)) {
+    if (errorElement) {
+    errorElement.textContent = "Please enter a valid number.";
+    }
+    isValid = false;
+    }
+    }
+    else if (fieldId === "quantity") {
+    if (!/^\d+$/.test(value)) {
+    if (errorElement) {
+    errorElement.textContent = "Please enter a valid quantity.";
+    }
+    isValid = false;
+    }
+    }
+    }
+    });
 
+    // Submit form if valid
+    if (isValid) {
+    form.submit();
+    }
+    });
 
-                    @if (!string.IsNullOrEmpty(@Model.Image))
-                    {
+    // Show image preview
+    function ShowImagePreview(input) {
+    if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+    document.getElementById('imagePreview').src = e.target.result;
+    document.getElementById('imagePreviewContainer').style.display = 'block';
+    }
+    reader.readAsDataURL(input.files[0]);
+    }
+    }
+    });
+    </script>
+    </div>
+    </div>
+    }
+    *@
+   
 
-                        <img src="@Model.Image" alt="ProfileImage" width="200" height="200" class="img-responsive" onclick="confirmDelete('@Model.Id', true)" id="presignedurl" enabled>
+@using (Html.BeginForm("EditProduct", "Product", FormMethod.Post, new { @class = "needs-validation", enctype = "multipart/form-data", novalidate = "novalidate", id = "productForm" }))
+{
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            @Html.Hidden("Id", Model.Id)
 
-                    }
-                    else
-                    {
-                        <!-- Display a default "no image" placeholder -->
-                        <img class="img-responsive" src="~/image/no-image-placeholder.svg" alt="ProfileImage" width="200" height="200" class="img-responsive" onclick="confirmDelete('@Model.Id', true)" id="presignedurl" enabled>
-                    }
+            <div class="form-group">
+                <b>
+                    @Html.LabelFor(model => model.Category, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.CategoryId, new SelectList(Model.Categorylist, "Id", "CategoryName"),
+                        "--Select category--", new { @id = "category", @class = "form-select" })
+                    <span id="categoryError" class="text-danger"></span>
+                </b>
+            </div>
 
+            <div class="form-group">
+                <b>
+                    @Html.LabelFor(model => model.ProductName, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.ProductName, new { @id = "productName", @class = "form-control" })
+                    <span id="productNameError" class="text-danger"></span>
+                </b>
+            </div>
 
+            <div class="form-group">
+                <b>
+                    @Html.LabelFor(model => model.Price, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Price, new { @id = "price", @class = "form-control" })
+                    <span id="priceError" class="text-danger"></span>
+                </b>
+            </div>
 
-                    <i class="bi bi-image"></i>
-                </div>
+            <div class="form-group">
+                <b>
+                    @Html.LabelFor(model => model.Quantity, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Quantity, new { @id = "quantity", @class = "form-control" })
+                    <span id="quantityError" class="text-danger"></span>
+                </b>
+            </div>
 
-                <div class="form-group" id="fileInputContainer">
-                    <label asp-for="UploadImage" class="control-label">Choose image</label>
-                    <input asp-for="UploadImage" class="form-control custom-file-input" type="file" id="fileInput" disabled onchange="ShowImagePreview(this)">
+            <div class="form-group">
+                <b>
+                    @Html.LabelFor(model => model.Weight, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Weight, new { @id = "weight", @class = "form-control" })
+                    <span id="weightError" class="text-danger"></span>
+                </b>
+            </div>
 
-                </div>
-                <div class="col-md-4" id="imagePreviewContainer" style="display:none;">
+            <div class="form-group">
+                <label for="productType" class="control-label">Product Type</label>
+                @Html.DropDownListFor(model => model.ProductType, Enumerable.Empty<SelectListItem>(),
+                    "-- Select ProductType --", new { @id = "productType", @class = "form-select" })
+                <span id="productTypeError" class="text-danger"></span>
+            </div>
 
-                    <img src="#" alt="preview" id="imagePreview" style="border: 1px solid red; height: 169px; width: 176px; margin: auto; display: block;" />
+            <div class="form-group">
+                <label for="image" class="control-label" style="font-weight: bold;">Image</label>
+                @if (!string.IsNullOrEmpty(Model.Image))
+                {
+                    <img src="@Model.Image" alt="ProfileImage" width="200" height="200" class="img-responsive" id="presignedurl">
+                }
+                else
+                {
+                    <img class="img-responsive" src="~/image/no-image-placeholder.svg" alt="ProfileImage" width="200" height="200" id="presignedurl">
+                }
+                <i class="bi bi-image"></i>
+            </div>
 
+            <div class="form-group" id="fileInputContainer">
+                <label for="fileInput" class="control-label">Choose image</label>
+                <input asp-for="UploadImage" class="form-control custom-file-input" type="file" id="fileInput" onchange="ShowImagePreview(this)">
+            </div>
 
-                </div>
+            <div class="col-md-4" id="imagePreviewContainer" style="display:none;">
+                <img src="#" alt="preview" id="imagePreview" style="border: 1px solid red; height: 169px; width: 176px; margin: auto; display: block;" />
+            </div>
 
-
-
-
-
-                <div id="deleteConfirmationModal_@Model.Id" class="modal" style="display:none">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Delete Confirmation</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-
-
-                                @if (!string.IsNullOrEmpty(@Model.Image))
-                                {
-
-                                    <img src="@Model.Image" alt="ProfileImage" width="200" height="200" class="img-responsive" onclick="confirmDelete('@Model.Id', true)" id="presignedurl" enabled>
-
-                                }
-                                else
-                                {
-                                    <!-- Display a default "no image" placeholder -->
-                                    <img class="img-responsive" src="~/image/no-image-placeholder.svg" alt="ProfileImage" width="200" height="200" class="img-responsive" onclick="confirmDelete('@Model.Id', true)" id="presignedurl" enabled>
-                                }
-
-                                <p>Are you sure you want to delete this item?</p>
-                            </div>
-                            <div class="modal-footer">
-
-
-                                <button type="button" class="btn btn-secondary" onclick="cancelDelete('@Model.Id', true)">No</button>
-
-                                <button type="button" class="btn btn-danger" onclick="deleteItem('@Model.Id')">Yes</button>
-                            </div>
+            <div id="deleteConfirmationModal_@Model.Id" class="modal" style="display:none">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Delete Confirmation</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            @if (!string.IsNullOrEmpty(Model.Image))
+                            {
+                                <img src="@Model.Image" alt="ProfileImage" width="200" height="200" class="img-responsive">
+                            }
+                            else
+                            {
+                                <img class="img-responsive" src="~/image/no-image-placeholder.svg" alt="ProfileImage" width="200" height="200">
+                            }
+                            <p>Are you sure you want to delete this item?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" onclick="cancelDelete('@Model.Id', true)">No</button>
+                            <button type="button" class="btn btn-danger" onclick="deleteItem('@Model.Id')">Yes</button>
                         </div>
                     </div>
                 </div>
-             </div>
+            </div>
+
             <div class="form-group d-flex justify-content-center" style="margin-top: 10px;">
                 <button type="submit" class="btn btn-outline-danger">SUBMIT</button>
             </div>
-
-
         </div>
+    </div>
+}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var form = document.getElementById('productForm');
 
-    }
+            form.addEventListener('submit', function (e) {
+                e.preventDefault(); // Prevent default form submission
+
+                var isValid = true;
+                var requiredFields = ["category", "productName", "price", "quantity", "weight"];
+
+                // Clear previous errors
+                requiredFields.forEach(function (fieldId) {
+                    var errorElement = document.getElementById(fieldId + "Error");
+                    if (errorElement) {
+                        errorElement.textContent = "";
+                    }
+                });
+
+                // Validate fields
+                requiredFields.forEach(function (fieldId) {
+                    var field = document.getElementById(fieldId);
+                    if (field) {
+                        var value = field.value.trim();
+                        var errorElement = document.getElementById(fieldId + "Error");
+                        if (!value) {
+                            if (errorElement) {
+                                errorElement.textContent = "This field is required.";
+                            }
+                            isValid = false;
+                        } else if (fieldId === "price" || fieldId === "weight") {
+                            if (isNaN(value)) {
+                                if (errorElement) {
+                                    errorElement.textContent = "Please enter a valid number.";
+                                }
+                                isValid = false;
+                            }
+                        } else if (fieldId === "quantity") {
+                            if (!/^\d+$/.test(value)) {
+                                if (errorElement) {
+                                    errorElement.textContent = "Please enter a valid quantity.";
+                                }
+                                isValid = false;
+                            }
+                        }
+                    }
+                });
+
+                // Validate ProductType (if needed)
+                var productType = document.getElementById('productType');
+                var productTypeError = document.getElementById('productTypeError');
+                if (productType && productType.value.trim() === "-- Select ProductType --") {
+                    if (productTypeError) {
+                        productTypeError.textContent = "Please select a product type.";
+                    }
+                    isValid = false;
+                }
+
+                // Submit form if valid
+                if (isValid) {
+                    form.submit();
+                }
+            });
+
+            // Show image preview
+            function ShowImagePreview(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        document.getElementById('imagePreview').src = e.target.result;
+                        document.getElementById('imagePreviewContainer').style.display = 'block';
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        });
+    </script>
 
 
     <div class="row">
@@ -341,6 +571,5 @@
     </div>
 </body>
 </html>
-
 
 
