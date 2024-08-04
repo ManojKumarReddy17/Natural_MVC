@@ -261,7 +261,7 @@
                 data: { distributorId: distributorId, executiveId: executiveId },
                 dataType: 'json',
                 success: function (data) {
-                    alert("Delete Successful");
+                     // alert("Delete Successful");
 
                     // Redirect to executivedetailsbyid page with executiveId
                     window.location.href = '/Executive/ExecutiveDetailsById/' + executiveId;
@@ -313,7 +313,7 @@
                                 selectedDistributorIds: selectedDistributorIds
                             },
                             success: function (result) {
-                                alert("Assigned Successfully");
+                                 // alert("Assigned Successfully");
                                 var url = '@Url.Action("ExecutiveDetailsById","Executive")';
                                 window.location.href = url;
                             },
