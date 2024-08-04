@@ -185,7 +185,7 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p>Are you sure you want to delete this retailor?</p>-[w-b2r]
+                                                        <p>Are you sure you want to delete this retailor?</p>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" onclick="confirmDelete('@retailor.Id', false)">No</button>
@@ -258,7 +258,7 @@
                 data: { retailorId: retailorId, distributorId: distributorId },
                 dataType: 'json',
                 success: function (data) {
-                    alert("Delete Successful");
+                    // alert("Delete Successful");
 
                     // Redirect to distributordetailsbyid page with executiveId
                     window.location.href = '/Distributor/DistributorDetailsBYId/' + distributorId;
@@ -306,7 +306,7 @@
                                 selectedRetailorIds: selectedRetailorIds
                             },
                             success: function (result) {
-                                alert("Assigned Successfully");
+                                // alert("Assigned Successfully");
                                 var url = '@Url.Action("DistributorDetailsBYId","Distributor")';
                                 window.location.href = url;
                             },
