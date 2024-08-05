@@ -689,11 +689,11 @@
            <div>
             <b>
                 @Html.LabelFor(model => model.Area)
-<<<<<<< Updated upstream
+
                 <input style="padding: 0.375rem 2.25rem 0.375rem 0.75rem;" type="text" id="areaInput" oninput="filterAreas()" placeholder="Search for Area">
-=======
-                <input type="text" id="areaInput" oninput="filterAreas()" placeholder="Search for Area">
->>>>>>> Stashed changes
+
+                @* <input type="text" id="areaInput" oninput="filterAreas()" placeholder="Search for Area"> *@
+
             </b>
             <div id="areaPopup" class="popup">
                 @Html.DropDownListFor(model => model.Area, new List<SelectListItem>
