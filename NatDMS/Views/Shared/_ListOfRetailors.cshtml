@@ -5,56 +5,292 @@
 }
 
 <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>GetDistributor</title>
+    @* <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css"> *@
+    <link rel="stylesheet" type="text/css" href="/css/dm-project-style.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btnSubmit").click(function () {
+                var searchResultmodel = {
+                    State: $("#Dstate").val(),
+                    City: $("#Dcity").val(),
+                    FullName: $("#FullName").val()
+                };
+
+                console.log("Search Model:", searchResultmodel); 
+
+                $.ajax({
+                    url: "/Executive/SearchNonAssignedDistributors",
+                    type: 'POST',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify(searchResultmodel),
+                    success: function (response) {
+                        console.log("Response:", response); 
+                        $("#Distributorlist").empty();
+                        if (response.distributorList && response.distributorList.length > 0) {
+                            $.each(response.distributorList, function (i, distributor) {
+                                $("#Distributorlist").append('<tr>' +
+                                    '<td>' + distributor.firstName + '</td>' +
+                                    '<td>' + distributor.email + '</td>' +
+                                    '<td>' + distributor.mobileNumber + '</td>' +
+                                    '<td>' + distributor.address + '</td>' +
+                                    '<td>' + distributor.state + '</td>' +
+                                    '<td>' + distributor.city + '</td>' +
+                                    '<td style="text-align: center;">' +
+                                    '<input type="checkbox" class="selectDistributor" data-id="' + distributor.id + '"/>' +
+                                    '</td>' +
+                                    '</tr>');
+                            });
+                        } else {
+                            $("#Distributorlist").append('<tr>' +
+                                '<td colspan="7" style="color: red; font-weight: bold; font-size: 18px; text-align: center;">No data found</td>' +
+                                '</tr>');
+                        }
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+
+            // Load cities based on state selection
+            $("#Dstate").change(function () {
+                var stid = $(this).val();
+                if (stid.trim() !== '') {
+                    var ddlcity = $('#Dcity');
+                    ddlcity.empty();
+                    $.ajax({
+                        url: "/Executive/GetCitiesbyStateId",
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { stateId: stid },
+                        success: function (cities) {
+                            ddlcity.append($("<option></option>").val('').html('-SelectCity-'));
+                            $.each(cities, function (i, city) {
+                                ddlcity.append($("<option></option>").val(city.id).html(city.cityName));
+                            });
+                        },
+                        error: function () {
+                            alert('Error loading cities!');
+                        }
+                    });
+                } else {
+                    $('#Dcity').empty().append($("<option></option>").val('').html('-SelectCity-'));
+                }
+            });
+
+            // Load areas based on city selection
+            // $("#Dcity").change(function () {
+            //     var cityid = $(this).val();
+            //     if (cityid.trim() !== '') {
+            //         var ddlarea = $('#Darea');
+            //         ddlarea.empty();
+            //         $.ajax({
+            //             url: "/Executive/GetAreasByCityId",
+            //             type: 'GET',
+            //             dataType: 'json',
+            //             data: { cityId: cityid },
+            //             success: function (response) {
+            //                 var areas = response.items;
+            //                 ddlarea.append($("<option></option>").val('').html('-SelectArea-'));
+            //                 $.each(areas, function (i, area) {
+            //                     ddlarea.append($("<option></option>").val(area.id).html(area.areaName));
+            //                 });
+            //             },
+            //             error: function () {
+            //                 alert('Error loading areas!');
+            //             }
+            //         });
+            //     } else {
+            //         $('#Darea').empty().append($("<option></option>").val('').html('-SelectArea-'));
+            //     }
+            // });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <b>
+                        @Html.Label("CompanyName", "Search by CompanyName")
+                        @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Search By CompanyName", @id = "FullName" })
+                    </b>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.State)
+                        @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"), "-SelectState-", new { @id = "Dstate", @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.City)
+                        @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem> { new SelectListItem { Text = "", Value = "" } }, "Value", "Text"), new { @id = "Dcity", @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <b>
+                        @Html.LabelFor(model => model.Area)
+                        @Html.DropDownListFor(model => model.Area, new List<SelectListItem> { new SelectListItem { Text = "", Value = "" } }, new { @id = "Darea", @class = "form-select" })
+                        @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+                    </b>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <button id="btnSubmit" class="btn btn-secondary my-4">
+                        <i class="material-icons" style="font-size:20px; display:flex; justify-content:center; align-items:center;">search</i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive" style="overflow-x: scroll;">
+            <table class="table table-bordered table-striped custom-table">
+                <thead>
+                    <tr>
+                        <th>CompanyName</th>
+                        <th>Email</th>
+                        <th>MobileNumber</th>
+                        <th>Address</th>
+                        <th>State</th>
+                        <th>City</th>
+                        <th>Select</th>
+                    </tr>
+                </thead>
+                <tbody id="Distributorlist">
+                    @if (Model.DistributorList.Any())
+                    {
+                        @foreach (var item in Model.DistributorList)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                                <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Address)</td>
+                                <td>@Html.DisplayFor(modelItem => item.State)</td>
+                                <td>@Html.DisplayFor(modelItem => item.City)</td>
+                                <td style="text-align: center;">
+                                    <input type="checkbox" class="selectDistributor" data-id="@item.Id" />
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" style="color: red; font-weight: bold; font-size: 18px; text-align: center;">No data found</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="text-center">
+        @if (ViewBag.Pages != null && ViewBag.Pages.TotalPages > 0)
+        {
+            <b>Page @ViewBag.Pages.CurrentPage of @ViewBag.Pages.TotalPages</b>
+            <div class="d-flex justify-content-between">
+                <ul class="pagination">
+                    <li class="page-item @(ViewBag.Pages.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="page-link text-black" href="@Url.Action("ListOfDistributors", new { page = ViewBag.Pages.CurrentPage - 1 })" style="font-weight: bold; background-color: transparent; border: none;">
+                            <span aria-hidden="true">&laquo;</span>
+                            Previous
+                        </a>
+                    </li>
+                </ul>
+                <ul class="pagination">
+                    <li class="page-item @(ViewBag.Pages.CurrentPage == ViewBag.Pages.TotalPages ? "disabled" : "")">
+                        <a class="page-link text-black" href="@Url.Action("ListOfDistributors", new { page = ViewBag.Pages.CurrentPage + 1 })" style="font-weight: bold; background-color: transparent; border: none;">
+                            Next
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        }
+    </div>
+</body>
+
+</html>
+
+
+
+@*
+                    @model NatDMS.Models.EDR_DisplayViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
 
 <html lang="en">
 
 <head>
-
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>GetDistributor</title>
+
     <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-
-
     <script type="text/javascript">
 
         //-------------SCRIPT FOR SEARCH------------//
 
- 
         $(function () {
             $("#btnSubmit").click(function () {
-                var SearchResultmodel = {
-                    State: $("#Dstate").val(),
-                    City: $("#Dcity").val(),
-                    // Area: $("#Darea").val(),
-                    fullName: $("#FullName").val()
-                };
-
+                debugger;
+                var searchResultmodel = new Object();
+                searchResultmodel.State = $("#Dstate").val();
+                searchResultmodel.City = $("#Dcity").val();
+                // searchResultmodel.Area = $("#Darea").val();
+                searchResultmodel.FullName = $("#FullName").val();
                 $.ajax({
-                    url: "/Distributor/SearchNonAssignedRetailors",
+                    url: "/Executive/SearchNonAssignedDistributors",
                     type: 'POST',
-                    contentType: "application/json; charset=utf-8",
+                    content: "application/json; charset=utf-8",
                     dataType: "json",
-                    data: JSON.stringify(SearchResultmodel),
+                    data: searchResultmodel,
                     success: function (response) {
-                        console.log('Success:', response);
-                        $("#Retailorlist").empty();
-                        $.each(response.retailorList, function (i, retailors) {
-                            $("#Retailorlist").append('<tr>' +
- 
-                                '<td>' + retailors.fullName + '</td>' +
-                                '<td>' + retailors.email + '</td>' +
-                                '<td>' + retailors.mobileNumber + '</td>' +
-                                '<td>' + retailors.address + '</td>' +
-                                '<td>' + retailors.state + '</td>' +
-                                '<td>' + retailors.city + '</td>' +
-                                // '<td>' + retailors.area + '</td>' +
+                        let result = JSON.stringify(response.distributorList);
+                        $("#Distributorlist").empty();
+                        $.each(response.distributorList, function (i, distributors) {
+                            let result1 = distributors;
+                            $("#Distributorlist").append('<tr>' + '<td>' + distributors.firstName + '</td>  <td>' + distributors.email + '</td> <td>' +
+                                distributors.mobileNumber + '</td> <td>' + distributors.address + '</td> <td>' +
+                                distributors.state + '</td> <td>' + distributors.city +
                                 '<td style="text-align: center;">' +
-                                '<input type="checkbox" class="selectRetailor" data-id="' + retailors.id + '" />' +
+                                '<input type="checkbox" class="selectDistributor" data-id="' + distributors.id + '"/>' +
                                 '</td>' +
                                 '</tr>');
                         });
@@ -65,9 +301,6 @@
                 });
             });
         });
-
-
-
     </script>
 
 </head>
@@ -78,13 +311,13 @@
 
     <!-----------------------------------------------SEARCH DISTRIBUTOR----------------------------------------------------->
 
-    <div class="container my-4">
+    <div class="container my-4" >
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
                     <b>
-                        @Html.Label("ShopName", "Search by ShopName")
-                        @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Search By ShopName" })
+                        @Html.Label("CompanyName", "Search by CompanyName")
+                        @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Search By CompanyName", @id = "FullName" })
                     </b>
                 </div>
             </div>
@@ -94,7 +327,7 @@
                     <b>
                         @Html.LabelFor(model => model.State)
                         @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"),
-                                 "-SelectState-", new { @id = "Dstate", onchange = "Statechange()", @class = "form-select" })
+                        "-SelectState-", new { @id = "Dstate", onchange = "Statechange()", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                     </b>
                 </div>
@@ -108,13 +341,13 @@
                         @Html.DropDownListFor(model => model.City, new SelectList(new List<SelectListItem>
                         {
                         new SelectListItem { Text = "", Value =""},
-                        }, "Value", "Text"), new { @id = "Dcity", @onchange = "Citychange()", @class = "form-select" })
+                        }, "Value","Text"), new { @id = "Dcity", @onchange = "Citychange()", @class = "form-select" })
                         @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
                     </b>
                 </div>
             </div>
-
-          @*   <div class="col-md-2">
+@*
+            <div class="col-md-2">
                 <div class="form-group">
                     <b>
                         @Html.LabelFor(model => model.Area)
@@ -127,62 +360,72 @@
                 </div>
             </div> *@
 
-            <div class="col-md-2">
+@* <div class="col-md-2">
                 <div class="form-group">
-                    <button id="btnSubmit" class="search-button">
+                    <button id="btnSubmit" class="btn btn-secondary my-4">
                         <i class="material-icons" style="font-size:20px;display:flex;justify-content:center;
-                                align-items:center;">search</i>
+                             align-items:center;">search</i>
                     </button>
                 </div>
             </div>
         </div>
 
 
-    </div>
 
-    <!----------------------------------------------------DISPLAY RETAILOR LIST-------------------------------------------------------------->
+        <!----------------------------------------------------DISPLAY RETAILOR LIST-------------------------------------------------------------->
 
-    <div class="table-responsive" style="overflow-x: scroll;">
-        <table>
-            <thead>
-                <tr>
-                    <th>ShopName</th>
-                    <th>Email</th>
-                    <th>MobileNumber</th>
-                    <th>Address</th>
-                    <th>State</th>
-                    <th>City</th>
-                    @* <th>Area</th> *@
-                    <th>Select</th>
-                </tr>
-            </thead>
-            <tbody id="Retailorlist">
+        <div class="table-responsive" style="overflow-x: scroll;">
 
-
-
-                @foreach (var item in Model.RetailorList)
-                {
+            <table class="table table-bordered table-striped custom-table">
+                <thead>
                     <tr>
-                        <td>@Html.DisplayFor(modelItem => item.FullName)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                        <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Address)</td>
-                        <td>@Html.DisplayFor(modelItem => item.State)</td>
-                        <td>@Html.DisplayFor(modelItem => item.City)</td>
-                        @* <td>@Html.DisplayFor(modelItem => item.Area)</td> *@
-                        <td style="text-align: center;">
-                            <input type="checkbox" class="selectRetailor" data-id="@item.Id" />
-                        </td>
+                        <th>CompanyName</th>
+                        <th>Email</th>
+                        <th>MobileNumber</th>
+                        <th>Address</th>
+                        <th>State</th>
+                        <th>City</th>
+                        @* <th>Area</th> *@
+@* <th>Select</th>
                     </tr>
-                }
+                </thead>
+                <tbody id="Distributorlist">
+                    @if (Model.DistributorList.Any())
+                {
+                    @foreach (var item in Model.DistributorList)
+                    {
+                        <tr>
 
-            </tbody>
-        </table>
+                            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Address)</td>
+                            <td>@Html.DisplayFor(modelItem => item.State)</td>
+                            <td>@Html.DisplayFor(modelItem => item.City)</td>
+                            @* <td>@Html.DisplayFor(modelItem => item.Area)</td> *@
+@* <td style="text-align: center;">
+                                <input type="checkbox" class="selectDistributor" data-id="@item.Id" />
+                            </td>
+                        </tr>
 
-    </div>
 
-    <!-------------------------------------------------------------Pagination------------------------------------------------------------------->
+                        }
+                        }
+                    else
+                    {
+                        <tr>
+                            <td colspan="14" style="color: red; font-weight: bold; font-size: 18px; text-align: center;">No data found</td>
+                        </tr>
 
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div> *@
+
+<!-------------------------------------------------------------Pagination------------------------------------------------------------------->
+@*
     <div class="text-center">
         @if (ViewBag.Pages != null && ViewBag.Pages.TotalPages > 0)
         {
@@ -191,7 +434,7 @@
             <div class="d-flex justify-content-between">
                 <ul class="pagination">
                     <li class="page-item @(ViewBag.Pages.CurrentPage == 1 ? "disabled" : "")">
-                        <a class="page-link text-black" href="@Url.Action("ListOfRetailors", new { page = ViewBag.Pages.CurrentPage - 1 })" style="font-weight: bold; background-color: transparent; border: none;">
+                        <a class="page-link text-black" href="@Url.Action("ListOfDistributors", new { page = ViewBag.Pages.CurrentPage - 1 })" style="font-weight: bold; background-color: transparent; border: none;">
                             <span aria-hidden="true">&laquo;</span>
                             Previous
                         </a>
@@ -200,7 +443,7 @@
 
                 <ul class="pagination">
                     <li class="page-item @(ViewBag.Pages.CurrentPage == ViewBag.Pages.TotalPages ? "disabled" : "")">
-                        <a class="page-link text-black" href="@Url.Action("ListOfRetailors", new { page = ViewBag.Pages.CurrentPage + 1 })" style="font-weight: bold; background-color: transparent; border: none;">
+                        <a class="page-link text-black" href="@Url.Action("ListOfDistributors", new { page = ViewBag.Pages.CurrentPage + 1 })" style="font-weight: bold; background-color: transparent; border: none;">
                             Next
                             <span aria-hidden="true">&raquo;</span>
                         </a>
@@ -210,6 +453,9 @@
         }
     </div>
 
+
+
+    <!-------------------------------------------------------------Pagination------------------------------------------------------------------->
 
 
     <!---------------------------------------------------------AJAX CODE FOR CITY CHANGE AND AREA-------------------------------------------------->
@@ -227,7 +473,7 @@
                 ddlarea.empty();
                 $.ajax(
                     {
-                        url: "/Distributor/GetCitiesbyStateId",
+                        url: "/Executive/GetCitiesbyStateId",
                         type: 'GET',
                         dataType: 'json',
                         data: { stateId: stid },
@@ -244,31 +490,31 @@
             }
         }
 
-        // function Citychange() {
+        function Citychange() {
 
-        //     var cityid = $('#Dcity').val();
-        //     if (cityid.trim() != '') {
-        //         var ddlarea = $('#Darea');
-        //         ddlarea.empty();
+            var cityid = $('#Dcity').val();
+            if (cityid.trim() != '') {
+                var ddlarea = $('#Darea');
+                ddlarea.empty();
 
-        //         $.ajax(
-        //             {
-        //                 url: "/Distributor/GetAreasByCityId",
-        //                 type: 'GET',
-        //                 dataType: 'json',
-        //                 data: { cityId: cityid },
-        //                 success: function (d) {
-        //                     ddlarea.append($("<option></option>").val('').html('-SelectArea-'));
-        //                     $.each(d.items, function (i, areas) {
-        //                         ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
-        //                     });
-        //                 },
-        //                 error: function () {
-        //                     alert('Error!');
-        //                 }
-        //             });
-        //     }
-        // }
+                $.ajax(
+                    {
+                        url: "/Executive/GetAreasByCityId",
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { cityId: cityid },
+                        success: function (d) {
+                            ddlarea.append($("<option></option>").val('').html('-SelectArea-'));
+                            $.each(d.items, function (i, areas) {
+                                ddlarea.append($("<option>" + areas.areaName + "</option>").val(areas.id).html(areas.areaName));
+                            });
+                        },
+                        error: function () {
+                            alert('Error!');
+                        }
+                    });
+            }
+        }
     </script>
 </body>
-</html>
+</html> *@
