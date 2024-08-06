@@ -3,15 +3,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  @*   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-r5ID+CgK5ba4ZL3a39OXhMWSktQOp6cJS7wePqOx6bSSUnQlmh/jQ9vS9z5+X68+H" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-r5ID+CgK5ba4ZL3a39OXhMWSktQOp6cJS7wePqOx6bSSUnQlmh/jQ9vS9z5+X68+H" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> *@
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-r5ID+CgK5ba4ZL3a39OXhMWSktQOp6cJS7wePqOx6bSSUnQlmh/jQ9vS9z5+X68+H" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         .red-border {
             border: 2px solid black;
@@ -115,7 +113,7 @@
 
                     <!-------------------------------------------------------ASSIGN DISTRIBUTOR POPUP --------------------------------------------------->
 
-                    <h4 class="text-danger">Assigned Retailors</h4>
+                @*     <h4 class="text-danger">Assigned Retailors</h4>
                     <div data-bs-toggle="modal" data-bs-target="#exampleModal_@Model.DistributorDetails.Id">
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-fullscreen-xxl-down">
@@ -132,6 +130,24 @@
                                         <button type="button" class="btn btn-outline-danger" onclick="redirectToDisplayDistributors()">Close</button>
                                     </div>
                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div> *@
+                    <h4 class="text-danger">Assigned Retailors</h4>
+                    <div class="modal fade" id="exampleModal_@Model.DistributorDetails.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-fullscreen-xxl-down">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Retailors</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" id="modalBody">
+                                    <!-- Modal body content goes here -->
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-outline-primary" id="assignRetailorsBtn">Assign</button>
+                                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>
@@ -225,7 +241,7 @@
 
     <!------------------------------------SCRIPTS FOR THIS PAGE------------------------------------------------------->
 
-
+   @*  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> *@
     <script>
 
         //---------------------------------------------SCRIPT FOR DELETE POPUP--------------------------------------
@@ -278,21 +294,71 @@
 
         //----------------------SCRIPT FOR ASSIGN POPUP--------------------------------------
 
-        function loadDisplayRetailorsPopup(DistributorId, page = 1) {
+        // function loadDisplayRetailorsPopup(DistributorId, page = 1) {
+        //     var modalBody = $('#modalBody');
+        //     var url = '/Distributor/ListOfRetailors/' + DistributorId + '?page=' + page;
+        //     $.ajax({
+        //         url: url,
+        //         type: 'GET',
+        //         success: function (data) {
+        //             modalBody.html(data);
+        //             $('#exampleModal').modal('show');
+
+        //             // Handle pagination links inside the modal
+        //             $(document).on('click', '.pagination a', function (e) {
+        //                 e.preventDefault();
+        //                 var clickedPage = $(this).attr('href').split('page=')[1];
+        //                 loadDisplayRetailorsPopup(DistributorId, clickedPage);
+        //             });
+
+        //             // Handle assigning distributors
+        //             $('#assignRetailorsBtn').on('click', function () {
+        //                 var selectedRetailorIds = [];
+        //                 // Loop through checkboxes and collect selected distributor IDs
+        //                 $('.selectRetailor:checked').each(function () {
+        //                     selectedRetailorIds.push($(this).data('id'));
+        //                 });
+        //                 $.ajax({
+        //                     url: '/AssignRetailorToDistributor/AssignRetailors',
+        //                     type: 'POST',
+        //                     content: "application/json; charset=utf-8",
+        //                     dataType: "json",
+        //                     data: {
+        //                         distributorId: DistributorId,
+        //                         selectedRetailorIds: selectedRetailorIds
+        //                     },
+        //                     success: function (result) {
+        //                         // alert("Assigned Successfully");
+        //                         var url = '@Url.Action("DistributorDetailsBYId","Distributor")';
+        //                         window.location.href = url;
+        //                     },
+        //                     error: function (error) {
+        //                         alert("This retailor is Already Assigned");
+        //                         console.error('Error assigning retailors:', error);
+        //                     }
+        //                 });
+        //             });
+        //         },
+        //         error: function (error) {
+        //             console.error('Error loading retailors:', error);
+        //         }
+        //     });
+        // }
+        function loadDisplayRetailorsPopup(distributorId, page = 1) {
             var modalBody = $('#modalBody');
-            var url = '/Distributor/ListOfRetailors/' + DistributorId + '?page=' + page;
+            var url = '/Distributor/ListOfRetailors/' + distributorId + '?page=' + page;
             $.ajax({
                 url: url,
                 type: 'GET',
                 success: function (data) {
                     modalBody.html(data);
-                    $('#exampleModal').modal('show');
+                    $('#exampleModal_' + distributorId).modal('show');
 
                     // Handle pagination links inside the modal
                     $(document).on('click', '.pagination a', function (e) {
                         e.preventDefault();
                         var clickedPage = $(this).attr('href').split('page=')[1];
-                        loadDisplayRetailorsPopup(DistributorId, clickedPage);
+                        loadDisplayRetailorsPopup(distributorId, clickedPage);
                     });
 
                     // Handle assigning distributors
@@ -305,16 +371,15 @@
                         $.ajax({
                             url: '/AssignRetailorToDistributor/AssignRetailors',
                             type: 'POST',
-                            content: "application/json; charset=utf-8",
+                            contentType: "application/json; charset=utf-8",
                             dataType: "json",
-                            data: {
-                                distributorId: DistributorId,
+                            data: JSON.stringify({
+                                distributorId: distributorId,
                                 selectedRetailorIds: selectedRetailorIds
-                            },
+                            }),
                             success: function (result) {
-                                // alert("Assigned Successfully");
-                                var url = '@Url.Action("DistributorDetailsBYId","Distributor")';
-                                window.location.href = url;
+                                // Redirect to distributordetailsbyid page with executiveId
+                                window.location.href = '/Distributor/DistributorDetailsBYId/' + distributorId;
                             },
                             error: function (error) {
                                 alert("This retailor is Already Assigned");
