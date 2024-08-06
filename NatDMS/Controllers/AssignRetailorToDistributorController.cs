@@ -57,27 +57,27 @@ namespace NatDMS.Controllers
                     {
                         // Log success
                         Console.WriteLine("AssignRetailorToDistributor Service called successfully");
-                        return Json(assignedResult.StatusCode);
+                        return View(assignedResult.StatusCode);
                     }
                     else
                     {
                         // Log null result
                         Console.WriteLine("Assigned result is null");
-                        return Json("Error: Assigned result is null");
+                        return View("Error: Assigned result is null");
                     }
                 }
                 else
                 {
                     // Log invalid model state
                     Console.WriteLine("Model state is invalid");
-                    return Json("Error: Model state is invalid");
+                    return View("Error: Model state is invalid");
                 }
             }
             catch (Exception ex)
             {
                 // Log exception
                 Console.WriteLine("Exception occurred: " + ex.Message);
-                return Json("Error: Exception occurred");
+                return View("Error: Exception occurred");
             }
         }
 
