@@ -28,7 +28,6 @@
             white-space: nowrap; /* Ensure items don't break into multiple lines */
             margin: 1px; /* Minimal margin to control spacing */
         }
-       
     </style>
 </head>
 <body>
@@ -37,7 +36,7 @@
         <div class="row">
             <div class="col-md-10">
 
- <!-------------------------------------------------------EDIT ICON LINK--------------------------------------------------------------->
+                <!-------------------------------------------------------EDIT ICON LINK--------------------------------------------------------------->
 
                 <div class="text-center position-relative">
                     <a href="@Url.Action("EditExecutive", new { id = Model.ExecutiveDetails.Id })" class="d-flex align-items-center position-absolute" style="top: 0; right: 0;">
@@ -46,7 +45,7 @@
                     </a>
                 </div>
 
- <!------------------------------------------------------EXECUTIVE DETAILS------------------------------------------------------------>
+                <!------------------------------------------------------EXECUTIVE DETAILS------------------------------------------------------------>
 
                 <div class="container my-4">
                     <dl class="row">
@@ -70,23 +69,23 @@
 
 
 
-                      @*   <dt class="col-sm-2 text-danger">@Html.DisplayNameFor(model => model.ExecutiveDetails.Area)</dt>
+                        @*   <dt class="col-sm-2 text-danger">@Html.DisplayNameFor(model => model.ExecutiveDetails.Area)</dt>
                         <dd class="col-sm-2 text-dark wrap-text">
-                            @if (Model.ExecutiveDetails.Area != null && Model.ExecutiveDetails.Area.Any())
-                            {
-                                <div class="area-container">
-                                    @foreach (var area in Model.ExecutiveDetails.Area)
-                                    {
-                                        <span class="area-item">@area</span>
-                                    }
-                                </div>
-                            }
-                            else
-                            {
-                                <span>No areas selected</span>
-                            }
+                        @if (Model.ExecutiveDetails.Area != null && Model.ExecutiveDetails.Area.Any())
+                        {
+                        <div class="area-container">
+                        @foreach (var area in Model.ExecutiveDetails.Area)
+                        {
+                        <span class="area-item">@area</span>
+                        }
+                        </div>
+                        }
+                        else
+                        {
+                        <span>No areas selected</span>
+                        }
                         </dd> *@
-                       
+
                         <dt class="col-sm-2 text-danger">@Html.DisplayNameFor(model => model.ExecutiveDetails.Image)</dt>
                         <dd class="col-sm-2 text-dark">
                             @if (!string.IsNullOrEmpty(Model.ExecutiveDetails.Image))
@@ -100,7 +99,7 @@
                                 <img class="card-img-top img-fluid" src="~/image/no-image-placeholder.svg" alt="No Image">
                             }
                         </dd>
-@*                         
+                        @*
                         <dt class="col-sm-2 text-danger">@Html.DisplayNameFor(model => model.ExecutiveDetails.Latitude)</dt>
                         <dd class="col-sm-2 text-dark">@Html.DisplayFor(model => model.ExecutiveDetails.Latitude)</dd>
 
@@ -111,10 +110,10 @@
 
                     </dl>
 
- <!-------------------------------------------------- ASSIGN DISTRIBUTOR POPUP ---------------------------------------------------------->
-                
-                  <h4 class="text-danger">Assigned Distributors</h4>
-                    @* <div data-bs-toggle="modal" data-bs-target="#exampleModal_@Model.ExecutiveDetails.Id">
+                    <!-------------------------------------------------- ASSIGN DISTRIBUTOR POPUP ---------------------------------------------------------->
+
+                    <h4 class="text-danger">Assigned Distributors</h4>
+                    <div data-bs-toggle="modal" data-bs-target="#exampleModal_@Model.ExecutiveDetails.Id">
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-fullscreen-xxl-down">
                                 <div class="modal-content">
@@ -132,42 +131,23 @@
                                 </div>
                             </div>
                         </div>
-                    </div> *@
-                    <!-- Assign Distributors Modal -->
-                    <div class="modal fade" id="exampleModal_@Model.ExecutiveDetails.Id" tabindex="-1" aria-labelledby="exampleModalLabel_@Model.ExecutiveDetails.Id" aria-hidden="true">
-                        <div class="modal-dialog modal-fullscreen-xxl-down">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel_@Model.ExecutiveDetails.Id">Distributors</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body" id="modalBody">
-                                    <!-- Modal body content goes here -->
-                                </div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-outline-primary" id="assignDistributorsBtn">Assign</button>
-                                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
+                    <!------------------------------------------------ASSIGN DISTRIBUTOR ICON LINK --------------------------------------------------------->
 
-<!------------------------------------------------ASSIGN DISTRIBUTOR ICON LINK --------------------------------------------------------->
-
-                    <div class="text-end position-relative d-flex justify-content-end"> 
+                    <div class="text-end position-relative d-flex justify-content-end">
                         <a href="#" onclick="loadDisplayDistributorsPopup('@Model.ExecutiveDetails.Id',true)">
                             <span style="display: inline-block;">
                                 <i class="material-icons" style="vertical-align:middle;">supervisor_account</i>
                                 <span class="ml-2" style="font-weight:bold; vertical-align:middle;">Assign</span>
                             </span>
                         </a>
-                     </div>
+                    </div>
 
- <!----------------------------------------------LIST OF ASSIGNED DISTIRBUTORS--------------------------------------------------------->
-                  
- 
-                      <table class="table red-border" style="border-collapse:collapse;">
+                    <!----------------------------------------------LIST OF ASSIGNED DISTIRBUTORS--------------------------------------------------------->
+
+
+                    <table class="table red-border" style="border-collapse:collapse;">
                         <thead>
                             <tr class="red-border">
                                 <th class="red-border">CompanyName</th>
@@ -190,13 +170,13 @@
                                     <td class="red-border">@distributor.City</td>
                                     @* <td class="red-border">@distributor.Area</td> *@
                                     <td>
-  <!----------------------------------------------------- Delete Icon ------------------------------------------------------------------->
+                                        <!----------------------------------------------------- Delete Icon ------------------------------------------------------------------->
 
                                         <div style="display: flex; justify-content: center; align-items: center;">
                                             <i onclick="confirmDelete('@distributor.Id', true)" class="material-icons" style="color: red;cursor: pointer;">delete</i>
                                         </div>
 
-  <!--------------------------------------------- Delete Confirmation Modal ------------------------------------------------------------->
+                                        <!--------------------------------------------- Delete Confirmation Modal ------------------------------------------------------------->
 
                                         <div id="deleteConfirmationModal_@distributor.Id" class="modal" role="dialog">
                                             <div class="modal-dialog">
@@ -228,7 +208,7 @@
         </div>
     </div>
 
-<!------------------------------------------------------BACK TO LIST ICON LINK----------------------------------------------------------->
+    <!------------------------------------------------------BACK TO LIST ICON LINK----------------------------------------------------------->
 
     <div class="text-center py-1">
         <a href="@Url.Action("DisplayExecutives")" class="d-flex align-items-center">
@@ -238,13 +218,13 @@
     </div>
 
 
- <!------------------------------------------------------SCRIPTS FOR THIS PAGE------------------------------------------------------------>
+    <!------------------------------------------------------SCRIPTS FOR THIS PAGE------------------------------------------------------------>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
 
-//----------------------------------------------------SCRIPT FOR DELETE POPUP------------------------------------------------------------>
+        //----------------------------------------------------SCRIPT FOR DELETE POPUP------------------------------------------------------------>
 
         function confirmDelete(uniqueId, isTrue) {
             var deleteSpan = 'deleteSpan_' + uniqueId;
@@ -271,16 +251,16 @@
             modal.modal('hide');
         }
 
-     //--------------------------------------------SCRIPT FOR DELETE ASSIGNED DISTIRBUTOR --------------------------------------
+        //--------------------------------------------SCRIPT FOR DELETE ASSIGNED DISTIRBUTOR --------------------------------------
 
-        function deleteDistributor(distributorId, executiveId){
+        function deleteDistributor(distributorId, executiveId) {
             $.ajax({
                 url: '/Executive/DeleteAssignedDistributor',
                 type: 'POST',
                 data: { distributorId: distributorId, executiveId: executiveId },
                 dataType: 'json',
                 success: function (data) {
-                     // alert("Delete Successful");
+                    // alert("Delete Successful");
 
                     // Redirect to executivedetailsbyid page with executiveId
                     window.location.href = '/Executive/ExecutiveDetailsById/' + executiveId;
@@ -293,63 +273,7 @@
 
         //----------------------SCRIPT FOR ASSIGN POPUP--------------------------------------
 
-        
-        // function loadDisplayDistributorsPopup(ExecutiveId, page = 1) {
-        //     var modalBody = $('#modalBody');
-        //     var url = '/Executive/ListOfDistributors/' + ExecutiveId + '?page=' + page;
-        //     $.ajax({
-        //         url: url,
-        //         type: 'GET',
-        //         success: function (data) {
-        //             modalBody.html(data);
-        //             $('#exampleModal').modal('show');
 
-        //             // Handle pagination links inside the modal
-
-        //             $(document).on('click', '.pagination a', function (e) {
-        //                 e.preventDefault();
-        //                 var clickedPage = $(this).attr('href').split('page=')[1];
-        //                 loadDisplayDistributorsPopup(ExecutiveId, clickedPage);
-        //             });
-
-        //             // Handle assigning distributors
-
-        //             $('#assignDistributorsBtn').on('click', function () {
-        //                 var selectedDistributorIds = [];
-
-        //                 // Loop through checkboxes and collect selected distributor IDs
-
-        //                 $('.selectDistributor:checked').each(function () {
-        //                     selectedDistributorIds.push($(this).data('id'));
-        //                 });
-        //                 $.ajax({
-        //                     url: '/AssignDistirbutorToExecutive/AssignDistributors',
-        //                     type: 'POST',
-        //                     content: "application/json; charset=utf-8",
-        //                     dataType: "json",
-        //                     data: {
-        //                         executiveId: ExecutiveId,
-        //                         selectedDistributorIds: selectedDistributorIds
-        //                     },
-        //                     success: function (result) {
-        //                          // alert("Assigned Successfully");
-        //                         var url = '@Url.Action("ExecutiveDetailsById","Executive")';
-        //                         window.location.href = url;
-        //                     },
-        //                     error: function (error) {
-        //                         alert("This Distributor is Already Assigned");
-        //                         console.error('Error assigning distributors:', error);
-        //                     }
-        //                 });
-        //             });
-        //         },
-        //         error: function (error) {
-        //             console.error('Error loading distributors:', error);
-        //         }
-
-        //     });
-
-        // }
         function loadDisplayDistributorsPopup(ExecutiveId, page = 1) {
             var modalBody = $('#modalBody');
             var url = '/Executive/ListOfDistributors/' + ExecutiveId + '?page=' + page;
@@ -358,10 +282,10 @@
                 type: 'GET',
                 success: function (data) {
                     modalBody.html(data);
-                    var modal = new bootstrap.Modal(document.getElementById('exampleModal_' + ExecutiveId));
-                    modal.show();
+                    $('#exampleModal').modal('show');
 
                     // Handle pagination links inside the modal
+
                     $(document).on('click', '.pagination a', function (e) {
                         e.preventDefault();
                         var clickedPage = $(this).attr('href').split('page=')[1];
@@ -369,49 +293,73 @@
                     });
 
                     // Handle assigning distributors
+
                     $('#assignDistributorsBtn').on('click', function () {
                         var selectedDistributorIds = [];
+
+                        // Loop through checkboxes and collect selected distributor IDs
+
                         $('.selectDistributor:checked').each(function () {
                             selectedDistributorIds.push($(this).data('id'));
                         });
+                        // $.ajax({
+                        //     url: '/AssignDistirbutorToExecutive/AssignDistributors',
+                        //     type: 'POST',
+                        //     // content: "application/json; charset=utf-8",
+                        //     // dataType: "json",
+                        //     // data: {
+                        //     //     executiveId: ExecutiveId,
+                        //     //     selectedDistributorIds: selectedDistributorIds
+                        //     // },
+                        //     contentType: "application/json; charset=utf-8",
+                        //     dataType: "json",
+                        //     data: JSON.stringify({
+                        //         executiveId: ExecutiveId,
+                        //         selectedDistributorIds: selectedDistributorIds
+                        //     }),
+                        //     success: function (result) {
+                        //         // alert("Assigned Successfully");
+                        //         var url = '@Url.Action("ExecutiveDetailsById", "Executive")';
+                        //         window.location.href = url;
+                        //     },
+                        //     error: function (error) {
+                        //         alert("This Distributor is Already Assigned");
+                        //         console.error('Error assigning distributors:', error);
+                        //     }
+                        // });
                         $.ajax({
                             url: '/AssignDistirbutorToExecutive/AssignDistributors',
                             type: 'POST',
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            data: JSON.stringify({
+                            contentType: "application/x-www-form-urlencoded", // Important change
+                            data: {
                                 executiveId: ExecutiveId,
-                                selectedDistributorIds: selectedDistributorIds
-                            }),
-
-                            // content: "application/json; charset=utf-8",
-                            //                     dataType: "json",
-                            //                     data: {
-                            //                         executiveId: ExecutiveId,
-                            //                         selectedDistributorIds: selectedDistributorIds
-                            //                     },
-                            success: function (result) {
-
-                                var url = '@Url.Action("ExecutiveDetailsById", "Executive")';
-                                window.location.href = url;
+                                selectedDistributorIds: selectedDistributorIds.join(',') // Convert array to comma-separated string
                             },
-                            error: function (error) {
-                                alert("This Distributor is Already Assigned");
-                                console.error('Error assigning distributors:', error);
-                            }
+                                success: function (result) {
+                                    // alert("Assigned Successfully");
+                                    var url = '@Url.Action("ExecutiveDetailsById", "Executive")';
+                                    window.location.href = url;
+                                },
+                                error: function (error) {
+                                    alert("This Distributor is Already Assigned");
+                                    console.error('Error assigning distributors:', error);
+                                }
                         });
+
                     });
                 },
                 error: function (error) {
                     console.error('Error loading distributors:', error);
                 }
+
             });
+
         }
 
         //-------------------------------------CLOSE POPUP MODEL--------------------------------------//
 
         function redirectToDisplayExecutives() {
-            var url = '@Url.Action("ExecutiveDetailsById","Executive")';
+            var url = '@Url.Action("ExecutiveDetailsById", "Executive")';
             console.log('Redirect URL:', url);
             window.location.href = url;
         }
