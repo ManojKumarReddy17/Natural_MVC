@@ -39,7 +39,7 @@ namespace NatDMS.Controllers
         //    }
         //    return Json(null);
         //}
-        public async Task<ActionResult> AssignRetailors(string distributorId, List<string> selectedRetailorIds)
+        public async Task<ActionResult> AssignRetailors([FromBody] RetailorToDistributorForAssign lst)
         {
             try
             {
@@ -47,8 +47,8 @@ namespace NatDMS.Controllers
                 {
                     var assignRetailorModel = new RetailorToDistributor
                     {
-                        DistributorId = distributorId,
-                        RetailorIds = selectedRetailorIds
+                        DistributorId = lst.distributorId,
+                        RetailorIds = lst.selectedRetailorIds
                     };
 
                     var assignedResult = await _AssignRetailorToDistributorService.AssignRetailorToDistributor(assignRetailorModel);
@@ -57,29 +57,29 @@ namespace NatDMS.Controllers
                     {
                         // Log success
                         Console.WriteLine("AssignRetailorToDistributor Service called successfully");
-                        return View(assignedResult.StatusCode);
+                        return Json(assignedResult.StatusCode);
                     }
                     else
                     {
                         // Log null result
                         Console.WriteLine("Assigned result is null");
-                        return View("Error: Assigned result is null");
+                        return Json("Error: Assigned result is null");
                     }
                 }
                 else
                 {
                     // Log invalid model state
                     Console.WriteLine("Model state is invalid");
-                    return View("Error: Model state is invalid");
+                    return Json("Error: Model state is invalid");
                 }
             }
             catch (Exception ex)
             {
                 // Log exception
                 Console.WriteLine("Exception occurred: " + ex.Message);
-                return View("Error: Exception occurred");
+                return Json("Error: Exception occurred");
             }
         }
-
+        
     }
 }
