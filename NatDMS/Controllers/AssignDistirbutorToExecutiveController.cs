@@ -22,14 +22,15 @@ namespace NatDMS.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> AssignDistributors(string executiveId, List<string> selectedDistributorIds)
+        public async Task<ActionResult> AssignDistributors([FromBody] DistributorToExecutivesForAssign lst)
         {
             if (ModelState.IsValid)
             {
                 var assignDistributorModel = new DistributorToExecutive
                 {
-                    ExecutiveId = executiveId,
-                    DistributorIds = selectedDistributorIds
+                   
+                    ExecutiveId = lst.executiveId,
+                    DistributorIds = lst.selectedDistributorIds
                 };
 
                 var assignedResult = await _assignDistributorToExecutiveService.AssignDsitributorToExecutive(assignDistributorModel);
@@ -39,7 +40,8 @@ namespace NatDMS.Controllers
             return Json(null);
 
         }
-      
+
+
     }
 }
    

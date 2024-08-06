@@ -294,79 +294,21 @@
 
         //----------------------SCRIPT FOR ASSIGN POPUP--------------------------------------
 
-        function loadDisplayRetailorsPopup(DistributorId, page = 1) {
-            var modalBody = $('#modalBody');
-            var url = '/Distributor/ListOfRetailors/' + DistributorId + '?page=' + page;
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function (data) {
-                    modalBody.html(data);
-                    $('#exampleModal').modal('show');
-
-                    // Handle pagination links inside the modal
-                    $(document).on('click', '.pagination a', function (e) {
-                        e.preventDefault();
-                        var clickedPage = $(this).attr('href').split('page=')[1];
-                        loadDisplayRetailorsPopup(DistributorId, clickedPage);
-                    });
-
-                    // Handle assigning distributors
-                    $('#assignRetailorsBtn').on('click', function () {
-                        var selectedRetailorIds = [];
-                        // Loop through checkboxes and collect selected distributor IDs
-                        $('.selectRetailor:checked').each(function () {
-                            selectedRetailorIds.push($(this).data('id'));
-                        });
-                        // $.ajax({
-                        //     url: '/AssignRetailorToDistributor/AssignRetailors',
-                        //     type: 'POST',
-                        //     content: "application/json; charset=utf-8",
-                        //     // dataType: "json",
-                        //     data: {
-                        //         distributorId: DistributorId,
-                        //         selectedRetailorIds: selectedRetailorIds
-                        //     },
-                        $.ajax({
-                            url: '/AssignDistirbutorToExecutive/AssignDistributors',
-                            type: 'POST',
-                            contentType: "application/x-www-form-urlencoded", // Important change
-                            data: {
-                                executiveId: ExecutiveId,
-                                selectedDistributorIds: selectedDistributorIds.join(',') // Convert array to comma-separated string
-                            },
-                            success: function (result) {
-                                // alert("Assigned Successfully");
-                                var url = '@Url.Action("DistributorDetailsBYId","Distributor")';
-                                window.location.href = url;
-                            },
-                            error: function (error) {
-                                alert("This retailor is Already Assigned");
-                                console.error('Error assigning retailors:', error);
-                            }
-                        });
-                    });
-                },
-                error: function (error) {
-                    console.error('Error loading retailors:', error);
-                }
-            });
-        }
-        // function loadDisplayRetailorsPopup(distributorId, page = 1) {
+        // function loadDisplayRetailorsPopup(DistributorId, page = 1) {
         //     var modalBody = $('#modalBody');
-        //     var url = '/Distributor/ListOfRetailors/' + distributorId + '?page=' + page;
+        //     var url = '/Distributor/ListOfRetailors/' + DistributorId + '?page=' + page;
         //     $.ajax({
         //         url: url,
         //         type: 'GET',
         //         success: function (data) {
         //             modalBody.html(data);
-        //             $('#exampleModal_' + distributorId).modal('show');
+        //             $('#exampleModal').modal('show');
 
         //             // Handle pagination links inside the modal
         //             $(document).on('click', '.pagination a', function (e) {
         //                 e.preventDefault();
         //                 var clickedPage = $(this).attr('href').split('page=')[1];
-        //                 loadDisplayRetailorsPopup(distributorId, clickedPage);
+        //                 loadDisplayRetailorsPopup(DistributorId, clickedPage);
         //             });
 
         //             // Handle assigning distributors
@@ -379,15 +321,16 @@
         //                 $.ajax({
         //                     url: '/AssignRetailorToDistributor/AssignRetailors',
         //                     type: 'POST',
-        //                     contentType: "application/json; charset=utf-8",
+        //                     content: "application/json; charset=utf-8",
         //                     dataType: "json",
-        //                     data: JSON.stringify({
-        //                         distributorId: distributorId,
+        //                     data: {
+        //                         distributorId: DistributorId,
         //                         selectedRetailorIds: selectedRetailorIds
-        //                     }),
+        //                     },
         //                     success: function (result) {
-        //                         // Redirect to distributordetailsbyid page with executiveId
-        //                         window.location.href = '/Distributor/DistributorDetailsBYId/' + distributorId;
+        //                         // alert("Assigned Successfully");
+        //                         var url = '@Url.Action("DistributorDetailsBYId","Distributor")';
+        //                         window.location.href = url;
         //                     },
         //                     error: function (error) {
         //                         alert("This retailor is Already Assigned");
@@ -401,6 +344,55 @@
         //         }
         //     });
         // }
+        function loadDisplayRetailorsPopup(distributorId, page = 1) {
+            var modalBody = $('#modalBody');
+            var url = '/Distributor/ListOfRetailors/' + distributorId + '?page=' + page;
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (data) {
+                    modalBody.html(data);
+                    $('#exampleModal_' + distributorId).modal('show');
+
+                    // Handle pagination links inside the modal
+                    $(document).on('click', '.pagination a', function (e) {
+                        e.preventDefault();
+                        var clickedPage = $(this).attr('href').split('page=')[1];
+                        loadDisplayRetailorsPopup(distributorId, clickedPage);
+                    });
+
+                    // Handle assigning distributors
+                    $('#assignRetailorsBtn').on('click', function () {
+                        var selectedRetailorIds = [];
+                        // Loop through checkboxes and collect selected distributor IDs
+                        $('.selectRetailor:checked').each(function () {
+                            selectedRetailorIds.push($(this).data('id'));
+                        });
+                        $.ajax({
+                            url: '/AssignRetailorToDistributor/AssignRetailors',
+                            type: 'POST',
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            data: JSON.stringify({
+                                distributorId: distributorId,
+                                selectedRetailorIds: selectedRetailorIds
+                            }),
+                            success: function (result) {
+                                // Redirect to distributordetailsbyid page with executiveId
+                                window.location.href = '/Distributor/DistributorDetailsBYId/' + distributorId;
+                            },
+                            error: function (error) {
+                                alert("This retailor is Already Assigned");
+                                console.error('Error assigning retailors:', error);
+                            }
+                        });
+                    });
+                },
+                error: function (error) {
+                    console.error('Error loading retailors:', error);
+                }
+            });
+        }
 
         //-------------------------------------CLOSE POPUP MODEL--------------------------------------
 

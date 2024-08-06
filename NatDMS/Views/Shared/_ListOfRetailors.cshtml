@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>GetDistributor</title>
     <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css">
-    @* <link rel="stylesheet" type="text/css" href="~/css/dm-project-style.css"> *@
+   
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -27,6 +27,46 @@
         //-------------SCRIPT FOR SEARCH------------//
 
 
+        // $(function () {
+        //     $("#btnSubmit").click(function () {
+        //         var SearchResultmodel = {
+        //             State: $("#Dstate").val(),
+        //             City: $("#Dcity").val(),
+        //             // Area: $("#Darea").val(),
+        //             fullName: $("#FullName").val()
+        //         };
+
+        //         $.ajax({
+        //             url: "/Distributor/SearchNonAssignedRetailors",
+        //             type: 'POST',
+        //             contentType: "application/json; charset=utf-8",
+        //             dataType: "json",
+        //             data: JSON.stringify(SearchResultmodel),
+        //             success: function (response) {
+        //                 console.log('Success:', response);
+        //                 $("#Retailorlist").empty();
+        //                 $.each(response.retailorList, function (i, retailors) {
+        //                     $("#Retailorlist").append('<tr>' +
+
+        //                         '<td>' + retailors.fullName + '</td>' +
+        //                         '<td>' + retailors.email + '</td>' +
+        //                         '<td>' + retailors.mobileNumber + '</td>' +
+        //                         '<td>' + retailors.address + '</td>' +
+        //                         '<td>' + retailors.state + '</td>' +
+        //                         '<td>' + retailors.city + '</td>' +
+        //                         // '<td>' + retailors.area + '</td>' +
+        //                         '<td style="text-align: center;">' +
+        //                         '<input type="checkbox" class="selectRetailor" data-id="' + retailors.id + '" />' +
+        //                         '</td>' +
+        //                         '</tr>');
+        //                 });
+        //             },
+        //             error: function (error) {
+        //                 console.error('Error:', error);
+        //             }
+        //         });
+        //     });
+        // });
         $(function () {
             $("#btnSubmit").click(function () {
                 var SearchResultmodel = {
@@ -36,6 +76,8 @@
                     fullName: $("#FullName").val()
                 };
 
+                console.log('Sending data:', SearchResultmodel);  // Log data being sent
+
                 $.ajax({
                     url: "/Distributor/SearchNonAssignedRetailors",
                     type: 'POST',
@@ -43,26 +85,30 @@
                     dataType: "json",
                     data: JSON.stringify(SearchResultmodel),
                     success: function (response) {
-                        console.log('Success:', response);
-                        $("#Retailorlist").empty();
-                        $.each(response.retailorList, function (i, retailors) {
-                            $("#Retailorlist").append('<tr>' +
-
-                                '<td>' + retailors.fullName + '</td>' +
-                                '<td>' + retailors.email + '</td>' +
-                                '<td>' + retailors.mobileNumber + '</td>' +
-                                '<td>' + retailors.address + '</td>' +
-                                '<td>' + retailors.state + '</td>' +
-                                '<td>' + retailors.city + '</td>' +
-                                // '<td>' + retailors.area + '</td>' +
-                                '<td style="text-align: center;">' +
-                                '<input type="checkbox" class="selectRetailor" data-id="' + retailors.id + '" />' +
-                                '</td>' +
-                                '</tr>');
-                        });
+                        console.log('Response:', response);  // Log the response
+                        if (response.retailorList && response.retailorList.length > 0) {
+                            $("#Retailorlist").empty();
+                            $.each(response.retailorList, function (i, retailors) {
+                                $("#Retailorlist").append('<tr>' +
+                                    '<td>' + retailors.fullName + '</td>' +
+                                    '<td>' + retailors.email + '</td>' +
+                                    '<td>' + retailors.mobileNumber + '</td>' +
+                                    '<td>' + retailors.address + '</td>' +
+                                    '<td>' + retailors.state + '</td>' +
+                                    '<td>' + retailors.city + '</td>' +
+                                    // '<td>' + retailors.area + '</td>' +
+                                    '<td style="text-align: center;">' +
+                                    '<input type="checkbox" class="selectRetailor" data-id="' + retailors.id + '" />' +
+                                    '</td>' +
+                                    '</tr>');
+                            });
+                        } else {
+                            $("#Retailorlist").empty().append('<tr><td colspan="7">No data found</td></tr>');
+                        }
                     },
-                    error: function (error) {
-                        console.error('Error:', error);
+                    error: function (xhr, status, error) {
+                        console.error('Error:', status, error);
+                        console.log('Response Text:', xhr.responseText);
                     }
                 });
             });

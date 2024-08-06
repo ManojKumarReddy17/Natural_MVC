@@ -1,4 +1,5 @@
-﻿  @model NatDMS.Models.EDR_DisplayViewModel
+﻿
+  @model NatDMS.Models.EDR_DisplayViewModel
 
 @{
     Layout = null;
@@ -26,40 +27,85 @@
 
         //-------------SCRIPT FOR SEARCH------------//
 
+        // $(function () {
+        //     $("#btnSubmit").click(function () {
+        //         debugger;
+        //         var searchResultmodel = new Object();
+        //         searchResultmodel.State = $("#Dstate").val();
+        //         searchResultmodel.City = $("#Dcity").val();
+        //         // searchResultmodel.Area = $("#Darea").val();
+        //         searchResultmodel.FullName = $("#FullName").val();
+        //         $.ajax({
+        //             url: "/Executive/SearchNonAssignedDistributors",
+        //             type: 'POST',
+        //             content: "application/json; charset=utf-8",
+        //             dataType: "json",
+        //             data: searchResultmodel,
+        //             success: function (response) {
+        //                 let result = JSON.stringify(response.distributorList);
+        //                 $("#Distributorlist").empty();
+        //                 $.each(response.distributorList, function (i, distributors) {
+        //                     let result1 = distributors;
+        //                     $("#Distributorlist").append('<tr>' + '<td>' + distributors.firstName + '</td>  <td>' + distributors.email + '</td> <td>' +
+        //                         distributors.mobileNumber + '</td> <td>' + distributors.address + '</td> <td>' +
+        //                         distributors.state + '</td> <td>' + distributors.city + 
+        //                         '<td style="text-align: center;">' +
+        //                         '<input type="checkbox" class="selectDistributor" data-id="' + distributors.id + '"/>' +
+        //                         '</td>' +
+        //                         '</tr>');
+        //                 });            
+        //             },
+        //             error: function (error) {
+        //                 console.error('Error:', error);
+        //             }
+        //         });
+        //     });
+        // });
         $(function () {
             $("#btnSubmit").click(function () {
                 debugger;
-                var searchResultmodel = new Object();
-                searchResultmodel.State = $("#Dstate").val();
-                searchResultmodel.City = $("#Dcity").val();
-                // searchResultmodel.Area = $("#Darea").val();
-                searchResultmodel.FullName = $("#FullName").val();
+                var searchResultmodel = {
+                    State: $("#Dstate").val(),
+                    City: $("#Dcity").val(),
+                    FullName: $("#FullName").val()
+                };
+
                 $.ajax({
                     url: "/Executive/SearchNonAssignedDistributors",
                     type: 'POST',
-                    content: "application/json; charset=utf-8",
+                    contentType: "application/json; charset=utf-8", // Correct property name
                     dataType: "json",
-                    data: searchResultmodel,
+                    data: JSON.stringify(searchResultmodel), // Serialize the data to JSON
                     success: function (response) {
-                        let result = JSON.stringify(response.distributorList);
-                        $("#Distributorlist").empty();
-                        $.each(response.distributorList, function (i, distributors) {
-                            let result1 = distributors;
-                            $("#Distributorlist").append('<tr>' + '<td>' + distributors.firstName + '</td>  <td>' + distributors.email + '</td> <td>' +
-                                distributors.mobileNumber + '</td> <td>' + distributors.address + '</td> <td>' +
-                                distributors.state + '</td> <td>' + distributors.city + 
-                                '<td style="text-align: center;">' +
-                                '<input type="checkbox" class="selectDistributor" data-id="' + distributors.id + '"/>' +
-                                '</td>' +
-                                '</tr>');
-                        });            
+                        if (response.distributorList && response.distributorList.length > 0) {
+                            $("#Distributorlist").empty();
+                            $.each(response.distributorList, function (i, distributor) {
+                                $("#Distributorlist").append(
+                                    '<tr>' +
+                                    '<td>' + distributor.firstName + '</td>' +
+                                    '<td>' + distributor.email + '</td>' +
+                                    '<td>' + distributor.mobileNumber + '</td>' +
+                                    '<td>' + distributor.address + '</td>' +
+                                    '<td>' + distributor.state + '</td>' +
+                                    '<td>' + distributor.city + '</td>' +
+                                    '<td style="text-align: center;">' +
+                                    '<input type="checkbox" class="selectDistributor" data-id="' + distributor.id + '"/>' +
+                                    '</td>' +
+                                    '</tr>'
+                                );
+                            });
+                        } else {
+                            $("#Distributorlist").empty().append('<tr><td colspan="7">No data found</td></tr>');
+                        }
                     },
                     error: function (error) {
                         console.error('Error:', error);
+                        $("#Distributorlist").empty().append('<tr><td colspan="7">An error occurred. Please try again.</td></tr>');
                     }
                 });
             });
         });
+
     </script>
 
 </head>

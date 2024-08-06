@@ -258,7 +258,7 @@ namespace NatDMS.Controllers
 
 
         [HttpPost]
-        public async Task<JsonResult> SearchNonAssignedDistributors(EDR_DisplayViewModel SearchResultmodel, int page = 1)
+        public async Task<JsonResult> SearchNonAssignedDistributors([FromBody] EDR_DisplayViewModel SearchResultmodel, int page = 1)
         {
             var search = _mapper.Map<EDR_DisplayViewModel, SearchModel>(SearchResultmodel);
             var searchResult = await _ExecutiveService.SearchNonAssignedDistributors(search);

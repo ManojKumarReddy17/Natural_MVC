@@ -249,7 +249,7 @@ namespace Naturals.Service.Service
         {
             var nonAssign = true;
             SearchModel search = new SearchModel();
-            var getexes = await _HttpCleintWrapper.SearchAsync<PaginationResult<RetailorModel>>($"/Retailor?nonAssig=", search, nonAssign);
+            var getexes = await _HttpCleintWrapper.SearchAsync<PaginationResult<RetailorModel>>("/Retailor?nonAssign=", search, nonAssign);
             return getexes;
 
 
