@@ -364,7 +364,7 @@
                 // Validate ProductType (if needed)
                 var productType = document.getElementById('productType');
                 var productTypeError = document.getElementById('productTypeError');
-                if (productType && productType.value.trim() === "-- Select ProductType --") {
+                if (productType && productType.value.trim() === "") {
                     if (productTypeError) {
                         productTypeError.textContent = "Please select a product type.";
                     }
