@@ -36,7 +36,8 @@
 
                 <div class="form-group">
                     <b>
-                        @Html.LabelFor(model => model.ShopName, new { @class = "control-label" })
+                        <label for="RetailerName" class="control-label">ShopName</label>
+                        @* @Html.LabelFor(model => model.RetailerName,  new { @class = "control-label" }) *@
                         @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                     </b>
