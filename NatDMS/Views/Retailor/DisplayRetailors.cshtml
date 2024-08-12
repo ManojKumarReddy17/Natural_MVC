@@ -2,8 +2,8 @@
 
 @{
     ViewData["Title"] = "DisplayRetailor";
-    string defaultStateId = "stn1";
-    string defaultCityId = "ctn84179";
+    // string defaultStateId = "stn1";
+    // string defaultCityId = "ctn84179";
 }
 
 
@@ -156,7 +156,7 @@
                     <div class="form-group">
                         <b>
                             @Html.LabelFor(model => model.State)
-                            @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName",defaultStateId),
+                            @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"),
                                      "-SelectState-", new { @id = "state", onchange = "statechange()", @class = "form-select" })
                             @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                         </b>
@@ -214,6 +214,7 @@
                         <th>Address</th>
                         <th>State</th>
                         <th>City</th>
+                        <th>AssignDisributor</th>
                         <th>ProfileImage</th>
                         <th>Latitude</th>
                         <th>Longitude</th>
@@ -235,6 +236,7 @@
                             <td>@Html.DisplayFor(modelItem => item.State)
                             </td>
                             <td>@Html.DisplayFor(modelItem => item.City)
+                            <td>@Html.DisplayFor(modelItem => item.Distributor)
                                 
                             </td>
                             <td>
@@ -415,8 +417,8 @@
         });
 
         function statechange() {
-            var defaultStateId = '@defaultStateId';
-            var defaultCityId = '@defaultCityId';
+            // var defaultStateId = 'defaultStateId';
+            // var defaultCityId = 'defaultCityId';
             var stid = $('#state').val() == null ? defaultStateId : $('#state').val();
             if (stid.trim() != '') {
                 var ddlcity = $('#city');
@@ -445,7 +447,7 @@
         }
 
         // function citychange() {
-        //     var defaultCityId = '@defaultCityId';
+        //     var defaultCityId = 'defaultCityId';
         //     var cityid = $('#city').val() == null ? defaultCityId : $('#city').val();
 
         //     if (cityid.trim() != '') {
