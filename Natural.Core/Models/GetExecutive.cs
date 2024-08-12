@@ -26,5 +26,6 @@ namespace Natural.Core.Models
         public string Image { get; set; }
         public int TotalItems { get; set; }
         public int TotalPageCount { set; get; }
+        public string Executive { get; set; }
     }
 }

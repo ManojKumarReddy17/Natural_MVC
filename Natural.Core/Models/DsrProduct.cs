@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 #nullable disable
 
 namespace Natural.Core.Models
@@ -10,8 +11,11 @@ namespace Natural.Core.Models
         public string ProductName { get; set; }
         public decimal Price { get; set; }
         public decimal? Total { get; set; }
+        [Range(0, 999, ErrorMessage = "Quantity must be between 0 and 999.")]
         public int? Quantity { get; set; }
         public decimal? Weight { get; set; }
     }
+   
+
 }
 

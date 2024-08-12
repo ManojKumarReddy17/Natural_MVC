@@ -329,7 +329,7 @@
             border: none;
             outline: none;
             font-size: 16px;
-            width: 350px;
+            width: auto;
         }
 
         .search-container select {
@@ -760,10 +760,10 @@
                         </div>
                 }
                 </div>
-                <div class="d-inline-block ml-3">
+                @* <div class="d-inline-block ml-3">
                     <img src="https://img.icons8.com/ios-filled/50/000000/phone.png" alt="Phone" style="vertical-align: middle; margin-left: auto;">
                     <span style="color: #e74c3c; font-size: 1.5em; font-weight: bold;">1900 - 6666</span>
-                </div>
+                </div> *@
             </div>
             <div class="ml-auto">
                 <!-- Right-side elements like login links can go here if needed -->
@@ -825,8 +825,8 @@
 
                         <div class="card-body text-center">
 
-                            <h5 class="card-title" data-toggle="tooltip" title="@product.ProductType">@product.ProductType</h5>
-                            <p class="card-text">@product.ProductName</p>
+                            <h5 class="card-title" data-toggle="tooltip" title="@product.ProductName">@product.ProductName</h5>
+                            <p class="card-text">@product.ProductType</p>
                             <p class="card-title inside-border" data-toggle="tooltip">
                                 Weight: @product.Weight gms - Price: ₹@product.Price
                             </p>

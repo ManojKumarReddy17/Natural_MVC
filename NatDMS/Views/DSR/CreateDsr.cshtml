@@ -446,6 +446,16 @@
 
         // //date
         // document.getElementById("StartDate").defaultValue = "YYYY-MM-DD";
+        document.querySelectorAll('.quantity').forEach(input => {
+    input.addEventListener('input', function() {
+        let value = parseInt(this.value, 10);
+        if (isNaN(value) || value < 0) {
+            this.value = 0;
+        } else if (value > 999) {
+            this.value = 999;
+        }
+    });
+});
         $(document).ready(function() {
     // Function to validate form and toggle button visibility
     function validateForm() {
@@ -572,7 +582,7 @@
             var rowData = {
                 Category: $(this).find("td:eq(0)").text().trim(),
                 ProductName: $(this).find("td:eq(1)").text().trim(),
-                Quantity: $(this).find(".quantity").val() || null,
+                Quantity: ($(this).closest('tr').find(".quantity").val(), 999) || null;
                 Price: $(this).find(".price").val() || null,
                 Weight: $(this).find("td:eq(4)").text().trim(),
                 Total: $(this).find("td:eq(5)").text().trim() || null,
@@ -609,6 +619,7 @@
         });
     }
 });
+
 
       
     </script>
@@ -885,8 +896,17 @@
                                             <td>@Html.DisplayFor(modelItem => item.Category)</td>
                                             <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
                                             <td>
-                                                <input type="number" class="form-control quantity" style="width: 100px" value="@item.Quantity" />
-
+                                                @* <input type="number" class="form-control quantity" style="width: 100px" value="@item.Quantity" />
+ *@
+ <input 
+        type="number" 
+        class="form-control quantity" 
+        style="width: 100px" 
+        value="@item.Quantity" 
+        min="0" 
+        max="999" 
+        step="1"
+    />
                                             </td>
                                             <td>
                                                 <input type="number" class="form-control price" style="width: 100px" value="@item.Price" />
