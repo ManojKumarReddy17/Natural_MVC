@@ -28,7 +28,7 @@ namespace Natural.Core.Models
         public List<DsrRetailorDrop> Retailorlist { get; set; }
         public string SelectedDistributorId { get; set; }
         public string SelectedRetailorId { get; set; }
-        public DateTime StartDate { get; set; } = DateTime.Now.AddDays(-1).Date;
+        public DateTime StartDate { get; set; } = DateTime.Now.Date;
         public DateTime EndDate { get; set; } = DateTime.Now.Date;
 
         public List<DistributorSalesReportInput> report { get; set; }
