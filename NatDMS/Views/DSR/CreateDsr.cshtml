@@ -371,7 +371,7 @@
                             '<tr>' +
                             '<td>' + ds.category + '</td>' +
                             '<td>' + ds.productName + '</td>' +
-                            '<td>' + '<input type="number" name="quantity" class="form-control quantity" style="width: 100px" value="' + ds.quantity + '"/>' + '</td>' +
+                            '<td>' + '<input type="number" name="quantity" class="form-control quantity" style="width: 100px" value="0" min="0" max="999" />' +
                             '<td>' + inputField + '</td>' +
                             '<td>' + ds.weight + '</td>' +
 
@@ -387,6 +387,36 @@
             });
         }
 
+// $(document).on('input', '.quantity', function() {
+//     var min = 1;
+//     var max = 999;
+//     var value = parseInt($(this).val(), 10);
+    
+//     // Ensure value is within bounds
+//     if (isNaN(value) || value < min) {
+//         $(this).val(min);
+//     } else if (value > max) {
+//         $(this).val(max);
+//     }
+// });
+$(document).on('input', '.quantity', function() {
+    var max = 999;
+    var value = $(this).val();
+    
+    // Allow only numbers with up to three digits
+    if (/^\d{0,3}$/.test(value)) {
+        var numberValue = parseInt(value, 10);
+        if (isNaN(numberValue)) {
+            $(this).val('');
+        } else if (numberValue > max) {
+            $(this).val(max);
+        } else {
+            $(this).val(numberValue);
+        }
+    } else {
+        $(this).val($(this).val().slice(0, -1));
+    }
+});
 
 
 
@@ -446,16 +476,6 @@
 
         // //date
         // document.getElementById("StartDate").defaultValue = "YYYY-MM-DD";
-        document.querySelectorAll('.quantity').forEach(input => {
-    input.addEventListener('input', function() {
-        let value = parseInt(this.value, 10);
-        if (isNaN(value) || value < 0) {
-            this.value = 0;
-        } else if (value > 999) {
-            this.value = 999;
-        }
-    });
-});
         $(document).ready(function() {
     // Function to validate form and toggle button visibility
     function validateForm() {
@@ -582,7 +602,7 @@
             var rowData = {
                 Category: $(this).find("td:eq(0)").text().trim(),
                 ProductName: $(this).find("td:eq(1)").text().trim(),
-                Quantity: ($(this).closest('tr').find(".quantity").val(), 999) || null;
+                Quantity: $(this).find(".quantity").val() || null,
                 Price: $(this).find(".price").val() || null,
                 Weight: $(this).find("td:eq(4)").text().trim(),
                 Total: $(this).find("td:eq(5)").text().trim() || null,
@@ -619,7 +639,6 @@
         });
     }
 });
-
 
       
     </script>
@@ -896,17 +915,8 @@
                                             <td>@Html.DisplayFor(modelItem => item.Category)</td>
                                             <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
                                             <td>
-                                                @* <input type="number" class="form-control quantity" style="width: 100px" value="@item.Quantity" />
- *@
- <input 
-        type="number" 
-        class="form-control quantity" 
-        style="width: 100px" 
-        value="@item.Quantity" 
-        min="0" 
-        max="999" 
-        step="1"
-    />
+                                                <input type="number" class="form-control quantity" style="width: 100px" value="@item.Quantity" />
+
                                             </td>
                                             <td>
                                                 <input type="number" class="form-control price" style="width: 100px" value="@item.Price" />
