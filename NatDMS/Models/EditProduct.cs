@@ -21,6 +21,9 @@ namespace NatDMS.Models
         [Range(0.01, double.MaxValue, ErrorMessage = "Price must be a positive number.")]
         public decimal Price { get; set; }
         //public string PresignedUrl { get; set; }
+
+        public decimal DisplayPrice { get; set; }
+
         public string Image { get;set; }
         public IFormFile UploadImage { get; set; }
         [Required(ErrorMessage = "Quantity is required.")]

@@ -12,6 +12,7 @@ namespace Natural.Core.Models
         public int Quantity { get; set; }
         public decimal Weight { get; set; }
         public string Image { get; set; }
+        public decimal DisplayPrice { get; set; }
         public string ProductType { get; set; }
 
         // public string PresignedUrl { get; set; }
