@@ -88,6 +88,7 @@ namespace Naturals.Service.Service
                     formData.Add(new StringContent(mdl.Weight.ToString()), "Weight");
                     formData.Add(new StringContent(mdl.ProductType.ToString()), "ProductType");
                     formData.Add(new StringContent(mdl.Price.ToString()), "Price");
+                    formData.Add(new StringContent(mdl.DisplayPrice.ToString()), "DisplayPrice");
                     formData.Add(new ByteArrayContent(filebytes), "UploadImage", mdl.UploadImage.FileName);
 
                     var result = await _httpClient.PostMultipartFormData<ProductResponse>("/Product/", formData);
@@ -108,8 +109,9 @@ namespace Naturals.Service.Service
                     formData.Add(new StringContent(mdl.Weight.ToString()), "Weight");
                     formData.Add(new StringContent(mdl.ProductType.ToString()), "ProductType");
                     formData.Add(new StringContent(mdl.Price.ToString()), "Price");
+                    formData.Add(new StringContent(mdl.DisplayPrice.ToString()), "DisplayPrice");
 
-                    
+
                     var response = await _httpClient.PostMultipartFormData<ProductResponse>("/Product/", formData);
                     return response;
 
@@ -181,6 +183,7 @@ namespace Naturals.Service.Service
                 formData.Add(new StringContent(mdl.Quantity.ToString()), "Quantity");
                 formData.Add(new StringContent(mdl.Weight.ToString()), "Weight");
                 formData.Add(new StringContent(mdl.Price.ToString()), "Price");
+                formData.Add(new StringContent(mdl.DisplayPrice.ToString()), "DisplayPrice");
                 formData.Add(new StringContent(mdl.ProductType?.ToString() ?? string.Empty), "ProductType");
                 if (mdl.UploadImage != null)
                 {

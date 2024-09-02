@@ -23,6 +23,8 @@ namespace NatDMS.Models
         [RegularExpression(@"^\d*\.?\d+$", ErrorMessage = " Numbers and decimals are allowed & Words and special characters are not allowed.")]
         [Required(ErrorMessage = "Price is required.")]
         public decimal? Price { get; set; }
+        public decimal DisplayPrice { get; set; }
+
         public IFormFile UploadImage { get; set; }
         [Required(ErrorMessage = "Quantity is required.")]
         [RegularExpression(@"^\d+$", ErrorMessage = "Numbers and decimals are allowed & Words and special characters are not allowed.")]

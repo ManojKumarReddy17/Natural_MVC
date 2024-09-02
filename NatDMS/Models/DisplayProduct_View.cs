@@ -14,6 +14,8 @@ namespace NatDMS.Models
         public string ProductName { get; set; }
         public int CurrentPage { get; set; }
         public int TotalPageCount { get; set; }
+        public decimal DisplayPrice { get; set; }
+
 
 
         // public int TotalPages { get; set; }
